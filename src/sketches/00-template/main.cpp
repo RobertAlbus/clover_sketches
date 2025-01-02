@@ -9,8 +9,8 @@
 #include "clover/io/system_audio.hpp"
 #include "clover/math.hpp"
 
-bool PLAYBACK = false;
-bool RENDER   = true;
+bool PLAYBACK = true;
+bool RENDER   = false;
 
 using namespace clover;
 using namespace dsp;
