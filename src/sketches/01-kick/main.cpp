@@ -12,7 +12,7 @@
 bool PLAYBACK = true;
 bool RENDER   = false;
 
-std::string render_name{"00_template.wav"};
+std::string render_name{"01_kick.wav"};
 
 using namespace clover;
 using namespace dsp;

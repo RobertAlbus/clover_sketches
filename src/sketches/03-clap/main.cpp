@@ -12,7 +12,7 @@
 bool PLAYBACK = true;
 bool RENDER   = false;
 
-std::string render_name{"00_template.wav"};
+std::string render_name{"03_clap.wav"};
 
 using namespace clover;
 using namespace dsp;
@@ -73,6 +73,6 @@ int main(int argc, char *argv[]) {
     if (RENDER) {
         audio_state_init();
         audio_buffer render = exec_callback(audio_callback, channel_count_out, fs_i, duration);
-        audio_file::write(render_name, render, audio_file_settings::wav_441_16);
+        audio_file::write("test.wav", render, audio_file_settings::wav_441_16);
     }
 }
