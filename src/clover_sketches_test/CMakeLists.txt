@@ -12,7 +12,7 @@ file(GLOB_RECURSE CLOVER_SKETCHES_SOURCE_CPP
 )
 
 add_executable(clover_sketches_test ${CLOVER_SKETCHES_SOURCE_CPP})
-target_link_libraries(clover_sketches_test PRIVATE libclover_sketches GTest::gtest GTest::gtest_main)
+target_link_libraries(clover_sketches_test PRIVATE clover_sketches GTest::gtest GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(clover_sketches_test)
