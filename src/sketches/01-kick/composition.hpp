@@ -3,7 +3,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
-#include <string>
 
 #include "clover/dsp/env_adsr.hpp"
 #include "clover/dsp/filter.hpp"
@@ -18,7 +17,6 @@ using namespace dsp;
 using namespace io;
 
 struct composition {
-    std::string render_name{"01_kick.wav"};
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
     int duration          = 4 * 60 * fs_i;
