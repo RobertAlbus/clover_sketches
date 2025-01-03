@@ -52,8 +52,8 @@ struct composition {
     ;
 
     clover_float harmonic_mix = db_to_linear(-12);
-    clover_float noise_mix    = db_to_linear(-6);
-    clover_float gain         = db_to_linear(-6);
+    clover_float mix_noise    = db_to_linear(-6);
+    clover_float mix_gain     = db_to_linear(-6);
 
     int_fast64_t counter = 0;
 
@@ -116,7 +116,7 @@ struct composition {
 
         clover_float noise_filtered = noise_filter.tick(noise_signal * noise_gain);
 
-        clover_float pre_eq = gain * ((noise_filtered * noise_mix) + (harmonics_signal * harmonic_mix));
+        clover_float pre_eq = mix_gain * ((noise_filtered * mix_noise) + (harmonics_signal * harmonic_mix));
 
         L = equalizer[0].tick(equalizer[1].tick(pre_eq));
         R = L;

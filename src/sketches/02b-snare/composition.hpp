@@ -12,6 +12,7 @@
 #include "clover/io/audio_callback.hpp"
 #include "clover/math.hpp"
 
+#include "composition_kick.hpp"
 #include "composition_snare_body.hpp"
 #include "util/math.hpp"
 
@@ -42,17 +43,19 @@ struct composition {
 
     filter_2 equalizer[2]{};
 
-    clover_float body_mix  = db_to_linear(-12);
-    clover_float noise_mix = db_to_linear(-6);
-    clover_float gain      = db_to_linear(-3);
+    clover_float mix_body  = db_to_linear(-12);
+    clover_float mix_noise = db_to_linear(-6);
+    clover_float mix_kick  = db_to_linear(-10);
+    clover_float mix_gain  = db_to_linear(-3);
 
     int_fast64_t counter       = 0;
     int_fast64_t snare_key_on  = 24500;
     int_fast64_t snare_key_off = 29000;
 
+    kick_drum kick;
     snare_body::ctor_args snare_body_args = {
-            .pitch_fundamental  = 150,
-            .pitch_peak         = 400,
+            .pitch_fundamental  = kick.kick_osc_pitch_fundamental * 2.5f,
+            .pitch_peak         = kick.kick_osc_pitch_fundamental * 10.f,
             .cutoff_fundamental = 150,
             .cutoff_peak        = 400,
             .adsr_mult          = 0.8,
@@ -77,7 +80,10 @@ struct composition {
         float &L = *(data.output);
         float &R = *(data.output + 1);
 
-        if (counter == snare_key_on + 30) {
+        clover_float kick_signal = kick.tick(counter) * mix_kick;
+        clover_float snare_body  = body.tick(counter) * mix_body;
+
+        if (counter == snare_key_on - 50) {
             noise_cutoff_adsr.key_on();
             noise_Q_adsr.key_on();
             noise_gain_adsr.key_on();
@@ -93,8 +99,8 @@ struct composition {
         }
 
         clover_float noise_gain     = noise_gain_adsr.tick();
-        clover_float noise_signal_L = noise.tick() * noise_gain * noise_mix;
-        clover_float noise_signal_R = noise.tick() * noise_gain * noise_mix;
+        clover_float noise_signal_L = noise.tick() * noise_gain * mix_noise;
+        clover_float noise_signal_R = noise.tick() * noise_gain * mix_noise;
 
         clover_float noise_cutoff = frequency_by_octave_difference(
                 noise_filter_f0, noise_filter_octaves * noise_cutoff_adsr.tick());
@@ -104,16 +110,14 @@ struct composition {
 
         auto [noise_filtered_L, noise_filtered_R] = noise_filter.tick(noise_signal_L, noise_signal_R);
 
-        clover_float snare_body = body.tick(counter) * body_mix;
-
-        clover_float pre_eq_L = gain * (noise_filtered_L + snare_body);
-        clover_float pre_eq_R = gain * (noise_filtered_R + snare_body);
+        clover_float pre_eq_L = mix_gain * (noise_filtered_L + snare_body);
+        clover_float pre_eq_R = mix_gain * (noise_filtered_R + snare_body);
 
         auto [eq_L, eq_R]    = equalizer[0].tick(pre_eq_L, pre_eq_R);
         std::tie(eq_L, eq_R) = equalizer[1].tick(eq_L, eq_R);
 
-        L = eq_L;
-        R = eq_R;
+        L = eq_L + kick_signal;
+        R = eq_R + kick_signal;
 
         if (data.clock_time == duration) {
             return callback_status::end;
