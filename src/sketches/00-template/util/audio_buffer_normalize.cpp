@@ -2,7 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "01-kick/audio_buffer_normalize.hpp"
+#include "util/audio_buffer_normalize.hpp"
 
 using namespace clover;
 

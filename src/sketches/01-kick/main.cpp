@@ -7,11 +7,10 @@
 
 #include "clover/io/audio_callback.hpp"
 #include "clover/io/audio_file.hpp"
-// #include "clover/io/stream.hpp"
 #include "clover/io/system_audio.hpp"
 
-#include "01-kick/audio_buffer_normalize.hpp"
-#include "01-kick/stream_v2.hpp"
+#include "util/audio_buffer_normalize.hpp"
+#include "util/stream_v2.hpp"
 
 #include "composition.hpp"
 
@@ -42,7 +41,6 @@ int main(int argc, char *argv[]) {
         composition comp;
 
         system_audio_config system;
-        // system.print();
         stream_v2 stream;
         stream.audio_callback = comp.audio_callback;
 

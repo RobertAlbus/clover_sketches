@@ -11,7 +11,7 @@
 #include "clover/io/audio_callback.hpp"
 #include "clover/math.hpp"
 
-#include "01-kick/math.hpp"
+#include "util/math.hpp"
 
 using namespace clover;
 using namespace dsp;

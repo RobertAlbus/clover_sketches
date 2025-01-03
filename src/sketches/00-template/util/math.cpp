@@ -6,7 +6,7 @@
 
 #include "clover/float.hpp"
 
-#include "math.hpp"
+#include "util/math.hpp"
 
 namespace sketch {
 auto octave_difference_by_frequency(clover_float base_freq, clover_float target_freq) -> clover_float {

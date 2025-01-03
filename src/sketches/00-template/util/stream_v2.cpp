@@ -12,7 +12,7 @@
 #include "clover/io/audio_callback.hpp"
 #include "clover/io/detail/pa_util.hpp"
 
-#include "stream_v2.hpp"
+#include "util/stream_v2.hpp"
 
 namespace {
 
