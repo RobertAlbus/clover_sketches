@@ -36,15 +36,16 @@ struct composition {
     oscillator noise{fs};
     env_adsr noise_gain_adsr;
 
-    filter noise_bp;
-    clover_float noise_bp_f0      = 880;
-    clover_float noise_bp_f1      = 4000;
-    clover_float noise_bp_octaves = sketch::octave_difference_by_frequency(noise_bp_f0, noise_bp_f1);
+    filter noise_filter;
+    clover_float noise_filter_f0 = 880;
+    clover_float noise_filter_f1 = 4000;
+    clover_float noise_filter_octaves =
+            sketch::octave_difference_by_frequency(noise_filter_f0, noise_filter_f1);
 
     env_adsr noise_cutoff_adsr;
-    clover_float noise_bp_Q1      = 1.5;
-    clover_float noise_bp_Q2      = 2;
-    clover_float noise_bp_Q_delta = noise_bp_Q2 - noise_bp_Q1;
+    clover_float noise_filter_Q1      = 1.5;
+    clover_float noise_filter_Q2      = 2;
+    clover_float noise_filter_Q_delta = noise_filter_Q2 - noise_filter_Q1;
     env_adsr noise_Q_adsr;
 
     filter equalizer[2]{};
@@ -58,7 +59,7 @@ struct composition {
 
     composition() {
         noise.waveform        = wave_noise;
-        noise_bp.m_coeffs     = bpf(fs, noise_bp_f0, noise_bp_Q1);
+        noise_filter.m_coeffs = bpf(fs, noise_filter_f0, noise_filter_Q1);
         equalizer[0].m_coeffs = eq(fs, 120, 3, db_to_linear(2));
         equalizer[1].m_coeffs = eq(fs, 12000, 3, db_to_linear(6));
 
@@ -108,12 +109,12 @@ struct composition {
         clover_float noise_signal = noise.tick();
         clover_float noise_gain   = noise_gain_adsr.tick();
 
-        clover_float noise_cutoff =
-                frequency_by_octave_difference(noise_bp_f0, noise_bp_octaves * noise_cutoff_adsr.tick());
-        clover_float noise_Q = noise_bp_Q1 + (noise_bp_Q_delta * noise_Q_adsr.tick());
-        noise_bp.m_coeffs    = bpf(fs, noise_cutoff, noise_Q);
+        clover_float noise_cutoff = frequency_by_octave_difference(
+                noise_filter_f0, noise_filter_octaves * noise_cutoff_adsr.tick());
+        clover_float noise_Q  = noise_filter_Q1 + (noise_filter_Q_delta * noise_Q_adsr.tick());
+        noise_filter.m_coeffs = bpf(fs, noise_cutoff, noise_Q);
 
-        clover_float noise_filtered = noise_bp.tick(noise_signal * noise_gain);
+        clover_float noise_filtered = noise_filter.tick(noise_signal * noise_gain);
 
         clover_float pre_eq = gain * ((noise_filtered * noise_mix) + (harmonics_signal * harmonic_mix));
 
