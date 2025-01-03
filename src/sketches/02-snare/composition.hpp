@@ -21,7 +21,7 @@ using namespace io;
 struct composition {
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
-    int duration          = 20 * 60 * fs_i;
+    int duration          = 4 * 60 * fs_i;
     int channel_count_out = 2;
 
     oscillator harmonic_osc[3]{{fs}, {fs}, {fs}};
@@ -73,7 +73,7 @@ struct composition {
         float &L = *(data.output);
         float &R = *(data.output + 1);
 
-        if (counter == 0) {
+        if (counter == 24000) {
             for (auto i : std::views::iota(0, 3))
                 harmonic_osc[i].phase(0);
 
@@ -83,7 +83,7 @@ struct composition {
             noise_Q_adsr.key_on();
             noise_gain_adsr.key_on();
 
-        } else if (counter == 5000) {
+        } else if (counter == 29000) {
             harmonic_pitch_adsr.key_off();
             harmonic_gain_adsr.key_off();
             noise_cutoff_adsr.key_off();
@@ -91,7 +91,7 @@ struct composition {
             noise_gain_adsr.key_off();
         }
 
-        if (++counter == 24000) {
+        if (++counter == 48000) {
             counter = 0;
         }
 

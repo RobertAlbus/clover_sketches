@@ -21,7 +21,7 @@ struct composition {
     std::string render_name{"01_kick.wav"};
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
-    int duration          = 60 * 60 * fs_i;
+    int duration          = 4 * 60 * fs_i;
     int channel_count_out = 2;
 
     oscillator kick_osc;
