@@ -15,7 +15,7 @@
 #include "composition.hpp"
 
 bool PLAYBACK = true;
-bool RENDER   = true;
+bool RENDER   = false;
 
 std::string render_name{"03_clap.wav"};
 
@@ -54,6 +54,7 @@ int main(int argc, char *argv[]) {
         stream.start();
         stream.wait_to_complete();
     }
+
     if (render_thread.joinable()) {
         std::cout << "joining render_thread." << std::endl;
         render_thread.join();
