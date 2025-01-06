@@ -5,9 +5,7 @@
 #include <cmath>
 
 #include "clap_env.hpp"
-#include "clover/circular_buffer.hpp"
 #include "clover/dsp/filter.hpp"
-#include "clover/dsp/fractional_delay.hpp"
 #include "clover/dsp/oscillator.hpp"
 #include "clover/dsp/wave.hpp"
 #include "clover/io/audio_callback.hpp"
@@ -19,12 +17,6 @@
 using namespace clover;
 using namespace dsp;
 using namespace io;
-
-struct delay {
-    std::vector<clover_float> delay_underlying{24000, 0};
-    circular_buffer_2 delay_buff{delay_underlying};
-    fdl_lagrange_2 delay{delay_buff};
-};
 
 struct composition {
     float fs              = 48000;
