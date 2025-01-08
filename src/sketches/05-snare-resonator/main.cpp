@@ -16,7 +16,7 @@
 bool PLAYBACK = true;
 bool RENDER   = true;
 
-std::string render_name{"00_template.wav"};
+std::string render_name{"05_snare_resonator.wav"};
 
 using namespace clover;
 using namespace io;
