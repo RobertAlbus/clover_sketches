@@ -18,6 +18,20 @@ using namespace clover;
 using namespace dsp;
 using namespace io;
 
+/*
+transient strike
+    - white noise burst - add randomization to this to "humanize"
+    - square wave for body
+- resonators (delay and filtering) represent the drum head and runing
+    - lp/hp or bp, plus a dip with eq to tune the overtones
+- pitch of the square in the transient is the resonance of the body
+- white noise with bump at 2k to simulate snare wires
+    - lower pitch drum would have longer duration snare vibration
+- mix to taste
+- add "the room" aka reverb
+- a bit of distortion over top of all things
+*/
+
 struct composition {
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
@@ -61,18 +75,18 @@ struct composition {
     };
 
     float resonator_gains[num_resonators]{
-            db_to_linear(fundamental_gain_db - 0),  //
-            db_to_linear(fundamental_gain_db - 3),
-            db_to_linear(fundamental_gain_db - 6),
-            db_to_linear(fundamental_gain_db - 10),
-            db_to_linear(fundamental_gain_db - 15),
+            db_to_linear(-3),  // db_to_linear(fundamental_gain_db - 0),  //
+            db_to_linear(-2),  // db_to_linear(fundamental_gain_db - 3),
+            db_to_linear(-3),  // db_to_linear(fundamental_gain_db - 6),
+            db_to_linear(-3),  // db_to_linear(fundamental_gain_db - 10),
+            db_to_linear(-3),  // db_to_linear(fundamental_gain_db - 15),
     };
     float resonator_decay_coeffs[num_resonators]{
             0.959f,
             0.950f,
             0.96f,
             0.951f,
-            0 * 0.81f,
+            0.95f,
     };
 
     filter feedback_filters[3 * num_resonators];
