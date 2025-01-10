@@ -76,12 +76,13 @@ struct composition {
     };
 
     float resonator_gains[num_resonators]{
-            db_to_linear(-3),  // db_to_linear(fundamental_gain_db - 0),  //
-            db_to_linear(-2),  // db_to_linear(fundamental_gain_db - 3),
-            db_to_linear(-3),  // db_to_linear(fundamental_gain_db - 6),
-            db_to_linear(-3),  // db_to_linear(fundamental_gain_db - 10),
-            db_to_linear(-3),  // db_to_linear(fundamental_gain_db - 15),
+            db_to_linear(fundamental_gain_db - 0),  //
+            db_to_linear(fundamental_gain_db - 3),
+            db_to_linear(fundamental_gain_db - 6),
+            db_to_linear(fundamental_gain_db - 10),
+            db_to_linear(fundamental_gain_db - 15),
     };
+    float global_decay_damper = 1;
     float resonator_decay_coeffs[num_resonators]{
             0.959f,
             0.950f,
@@ -90,17 +91,16 @@ struct composition {
             0.95f,
     };
 
-    filter feedback_filters[3 * num_resonators];
+    filter feedback_filters[2 * num_resonators];
 
     composition() : trigger_bottom(fs), trigger_noise(fs) {
         trigger_bottom.freq(resonator_freqs[0] * 1.999f);
         trigger_bottom.waveform = wave_square;
         trigger_noise.waveform  = wave_noise;
 
-        for (auto i : std::views::iota(0, 2 * num_resonators)) {
-            feedback_filters[i].m_coeffs     = lpf(fs, resonator_freqs[i] * 5.5225f, .707);
-            feedback_filters[i + 1].m_coeffs = lpf(fs, resonator_freqs[i] * 5.5225f, .707);
-            feedback_filters[i + 2].m_coeffs = hpf(fs, 10, .707);
+        for (auto i : std::views::iota(0, num_resonators)) {
+            feedback_filters[(2 * i)].m_coeffs     = lpf(fs, resonator_freqs[i] * 10.f, .707);
+            feedback_filters[(2 * i) + 1].m_coeffs = hpf(fs, 20, .707);
         }
     }
 
@@ -136,17 +136,20 @@ struct composition {
 
         float output = 0;
         for (auto i : std::views::iota(0, num_resonators)) {
-            float resonator_tap = resonators[i].at(resonator_idx[i]) * resonator_decay_coeffs[i];
+            // if (i > 0)
+            //     break;
+
+            float resonator_tap = resonators[i].at(resonator_idx[i]);
 
             output += resonator_tap * resonator_gains[i];
 
-            float feedback = feedback_filters[2 * i].tick(resonator_tap);
-            feedback       = feedback_filters[(2 * i) + 1].tick(resonator_tap);
-            feedback       = feedback_filters[(2 * i) + 2].tick(resonator_tap);
+            // resonator_tap *= ;
 
-            resonators[i].tick(trigger_signal + feedback);
-            if (i > 2)
-                break;
+            float feedback = resonator_tap;
+            feedback       = feedback_filters[(2 * i) + 0].tick(feedback);
+            feedback       = feedback_filters[(2 * i) + 1].tick(feedback);
+
+            resonators[i].tick(trigger_signal + (feedback * resonator_decay_coeffs[i] * global_decay_damper));
         }
 
         L = output;
