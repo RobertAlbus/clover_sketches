@@ -1,14 +1,10 @@
-set(CLOVER_SKETCHES_FETCH_GOOGLE_TEST_VERSION "1.15.2")
-set(CLOVER_SKETCHES_FETCH_GOOGLE_TEST_VERSION_TAG "v${CLOVER_SKETCHES_FETCH_GOOGLE_TEST_VERSION}")
-
 if(CLOVER_SKETCHES_FETCH_DEPENDENCIES AND CLOVER_SKETCHES_FETCH_GOOGLE_TEST)
-    include(FetchContent)
-
-    message("\n-- Google Test (${CLOVER_SKETCHES_FETCH_GOOGLE_TEST_VERSION} via FetchContent)")
+    set(CLOVER_SKETCHES_FETCH_GOOGLE_TEST_VERSION_TAG "v1.15.2")
 
     set(BUILD_GMOCK   OFF)
     set(INSTALL_GTEST OFF)
 
+    include(FetchContent)
     FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
