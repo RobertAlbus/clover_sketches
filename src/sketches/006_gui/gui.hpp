@@ -6,6 +6,7 @@
 
 #include "hello_imgui/hello_imgui.h"
 
+#include "implot_example.h"
 #include "shared_props.hpp"
 #include <numbers>
 
@@ -16,6 +17,8 @@ void GUI(shared_props& props) {
 
     float freq  = props.composition->osc.freq();
     float phase = props.composition->osc.phase();
+
+    ImPlot::CreateContext();
 
     props.gui_ready.release();
 
@@ -32,6 +35,8 @@ void GUI(shared_props& props) {
         }
 
         ImGui::PopItemWidth();
+
+        demo_realtime_implot();
 
         if (ImGui::Button("Bye!")) {
             HelloImGui::GetRunnerParams()->appShallExit = true;
