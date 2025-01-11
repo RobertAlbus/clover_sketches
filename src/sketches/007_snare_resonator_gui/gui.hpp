@@ -23,11 +23,11 @@ void GUI(shared_props& props) {
                 std::format("global decay").c_str(), &props.composition->global_decay_damper, 0.f, 1);
 
         for (auto i : std::views::iota(0, props.composition->num_resonators)) {
-            ImGui::SliderFloat(
-                    std::format("fdl size {}", i).c_str(),
-                    &props.composition->resonator_idx[i],
-                    4.f,
-                    float(props.composition->fdl_length));
+            // ImGui::SliderFloat(
+            //         std::format("fdl size {}", i).c_str(),
+            //         &props.composition->resonator_idx[i],
+            //         4.f,
+            //         float(props.composition->fdl_length));
 
             ImGui::SliderFloat(
                     std::format("fdl fdbk {}", i).c_str(),

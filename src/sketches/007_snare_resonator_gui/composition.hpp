@@ -33,6 +33,63 @@ transient strike
 - a bit of distortion over top of all things
 */
 
+struct resonator_section {
+    float m_fs       = 0;
+    float m_freq     = 0;
+    float m_index    = 0;
+    float m_gain_out = 0;
+    float m_gain_fb  = 0;
+
+    float m_lpf_cut = 0;
+    float m_lpf_q   = 0.707;
+    float m_hpf_cut = 0;
+    float m_hpf_q   = 0.707;
+
+    fdl_lagrange m_resonator;
+    filter m_lpf_fb_filt;
+    filter m_hpf_fb_filt;
+
+    resonator_section(float fs, size_t max_size) : m_fs{fs}, m_resonator{max_size} {
+    }
+
+    float tick(float in) {
+        float resonator_tap = m_resonator.at(m_index);
+        float output        = resonator_tap * m_gain_out;
+        float feedback      = resonator_tap;
+        feedback            = m_lpf_fb_filt.tick(feedback);
+        feedback            = m_hpf_fb_filt.tick(feedback);
+
+        m_resonator.tick(in + (feedback * m_gain_fb));
+
+        return output;
+    }
+
+    void freq(float fhz) {
+        m_freq  = fhz;
+        m_index = m_fs / fhz;
+    }
+
+    void lpf_set(float cut, float q) {
+        m_lpf_cut              = cut;
+        m_lpf_q                = q;
+        m_lpf_fb_filt.m_coeffs = lpf(m_fs, cut, q);
+    }
+    void lpf_cut(float cut) {
+        m_lpf_cut              = cut;
+        m_lpf_fb_filt.m_coeffs = lpf(m_fs, cut, m_lpf_q);
+    }
+
+    void hpf_set(float cut, float q) {
+        m_hpf_cut              = cut;
+        m_hpf_q                = q;
+        m_hpf_fb_filt.m_coeffs = hpf(m_fs, cut, q);
+    }
+    void hpf_cut(float cut) {
+        m_hpf_cut              = cut;
+        m_hpf_fb_filt.m_coeffs = hpf(m_fs, cut, m_hpf_q);
+    }
+};
+
 struct composition {
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
@@ -58,21 +115,12 @@ struct composition {
     float fundamental_gain_db = -3;   // db
 
     const static int num_resonators = 5;
-    fdl_lagrange resonators[num_resonators]{
-            {fdl_length}, {fdl_length}, {fdl_length}, {fdl_length}, {fdl_length}};
     float resonator_freqs[num_resonators]{
             fundamental * 1.00f,  //
             fundamental * 1.59f,
             fundamental * 2.14f,
             fundamental * 2.30f,
             fundamental * 2.65f,
-    };
-    float resonator_idx[num_resonators]{
-            fs / resonator_freqs[0],  //
-            fs / resonator_freqs[1],
-            fs / resonator_freqs[2],
-            fs / resonator_freqs[3],
-            fs / resonator_freqs[4],
     };
 
     float resonator_gains[num_resonators]{
@@ -82,7 +130,6 @@ struct composition {
             db_to_linear(fundamental_gain_db - 10),
             db_to_linear(fundamental_gain_db - 15),
     };
-    float global_decay_damper = 1;
     float resonator_decay_coeffs[num_resonators]{
             0.959f,
             0.950f,
@@ -90,8 +137,9 @@ struct composition {
             0.951f,
             0.95f,
     };
+    float global_decay_damper = 1;
 
-    filter feedback_filters[2 * num_resonators];
+    resonator_section resonators[num_resonators]{{fs, 4800}, {fs, 4800}, {fs, 4800}, {fs, 4800}, {fs, 4800}};
 
     composition() : trigger_bottom(fs), trigger_noise(fs) {
         trigger_bottom.freq(resonator_freqs[0] * 1.999f);
@@ -99,8 +147,9 @@ struct composition {
         trigger_noise.waveform  = wave_noise;
 
         for (auto i : std::views::iota(0, num_resonators)) {
-            feedback_filters[(2 * i)].m_coeffs     = lpf(fs, resonator_freqs[i] * 10.f, .707);
-            feedback_filters[(2 * i) + 1].m_coeffs = hpf(fs, 20, .707);
+            resonators[i].lpf_set(resonator_freqs[i] * 5, 0.707);
+            resonators[i].hpf_set(30, 0.707);
+            resonators[i].freq(resonator_freqs[i]);
         }
     }
 
@@ -136,20 +185,7 @@ struct composition {
 
         float output = 0;
         for (auto i : std::views::iota(0, num_resonators)) {
-            // if (i > 0)
-            //     break;
-
-            float resonator_tap = resonators[i].at(resonator_idx[i]);
-
-            output += resonator_tap * resonator_gains[i];
-
-            // resonator_tap *= ;
-
-            float feedback = resonator_tap;
-            feedback       = feedback_filters[(2 * i) + 0].tick(feedback);
-            feedback       = feedback_filters[(2 * i) + 1].tick(feedback);
-
-            resonators[i].tick(trigger_signal + (feedback * resonator_decay_coeffs[i] * global_decay_damper));
+            output += resonators[i].tick(trigger_signal);
         }
 
         L = output;
