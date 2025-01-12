@@ -59,6 +59,10 @@ bool range_slider(
         return false;
     }
 
+    // Visualize the outer bounding box (bb) in red
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+    draw_list->AddRect(bb.Min, bb.Max, IM_COL32(255, 0, 0, 255), 0.0f, 0, 3.0f);
+
     if (!vertical) {
         ImGui::RenderText(ImVec2(bb.Min.x, bb.Min.y + (bb.GetHeight() - label_size.y) * 0.5f), label);
     } else {
@@ -73,9 +77,11 @@ bool range_slider(
         slider_bb.Min.y += slider_offset;
     }
 
-    ImDrawList* draw_list = ImGui::GetWindowDrawList();
-    float thickness       = 3.0f;
-    float handle_radius   = 6.0f;
+    // Visualize the slider bounding box (slider_bb) in yellow
+    draw_list->AddRect(slider_bb.Min, slider_bb.Max, IM_COL32(255, 255, 0, 255), 0.0f, 0, 1.0f);
+
+    float thickness     = 3.0f;
+    float handle_radius = 6.0f;
 
     // Convert current [min_value..max_value] to [0..1] for rendering
     float range = max_possible - min_possible;
@@ -177,5 +183,8 @@ bool range_slider(
     draw_list->AddCircle(pos_max, handle_radius, IM_COL32(0, 0, 0, 255));
 
     ImGui::PopID();
+
+    ImGui::SetCursorScreenPos(ImVec2(bb.Min.x, bb.Max.y));
+
     return value_changed;
 }
