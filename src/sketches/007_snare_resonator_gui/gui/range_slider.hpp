@@ -36,34 +36,35 @@ bool range_slider(
     ImGuiID id = window->GetID(label);
     ImGui::PushID(label);
 
-    // calculate a default size if size not provided
+    // Compute item size if caller didn’t specify
     ImVec2 label_size  = ImGui::CalcTextSize(label, nullptr, true);
     float frame_height = ImGui::GetFrameHeight();
-    if (size.x == 0.0f && !vertical)
+
+    if (!vertical && size.x <= 0.0f)
         size.x = ImGui::CalcItemWidth();
-    if (size.y == 0.0f && vertical)
+    if (vertical && size.y <= 0.0f)
         size.y = ImGui::CalcItemWidth();
-    if (!vertical && size.y == 0.0f)
+
+    if (!vertical && size.y <= 0.0f)
         size.y = frame_height;
-    if (vertical && size.x == 0.0f)
+    if (vertical && size.x <= 0.0f)
         size.x = frame_height;
 
     ImRect bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + size.x, window->DC.CursorPos.y + size.y));
     ImGui::ItemSize(bb, ImGui::GetStyle().FramePadding.y);
+
+    // If we're clipped or inactive, just pop and return
     if (!ImGui::ItemAdd(bb, id)) {
         ImGui::PopID();
         return false;
     }
 
-    float range = max_possible - min_possible;
-
-    // draw label to the left (or top) of the slider
-    if (!vertical)
+    if (!vertical) {
         ImGui::RenderText(ImVec2(bb.Min.x, bb.Min.y + (bb.GetHeight() - label_size.y) * 0.5f), label);
-    else
+    } else {
         ImGui::RenderText(ImVec2(bb.Min.x + (bb.GetWidth() - label_size.x) * 0.5f, bb.Min.y), label);
+    }
 
-    // adjust slider rect after the label
     float slider_offset = (!vertical ? label_size.x + 4.0f : label_size.y + 4.0f);
     ImRect slider_bb    = bb;
     if (!vertical) {
@@ -76,18 +77,14 @@ bool range_slider(
     float thickness       = 3.0f;
     float handle_radius   = 6.0f;
 
-    // track the state of which handle is active/hovered
-    static ImGuiID active_handle_id = 0;
-    static bool dragging_min_handle = false;
-    static bool dragging_max_handle = false;
-
-    // map the [min_value, max_value] to [0.0, 1.0]
+    // Convert current [min_value..max_value] to [0..1] for rendering
+    float range = max_possible - min_possible;
     float t_min = (*min_value - min_possible) / range;
     float t_max = (*max_value - min_possible) / range;
     t_min       = ImClamp(t_min, 0.0f, 1.0f);
     t_max       = ImClamp(t_max, 0.0f, 1.0f);
 
-    // find pixel positions for each handle
+    // Compute handle positions
     auto get_handle_pos = [&](float t) {
         if (!vertical) {
             float x = ImLerp(slider_bb.Min.x, slider_bb.Max.x, t);
@@ -102,88 +99,77 @@ bool range_slider(
     ImVec2 pos_min = get_handle_pos(t_min);
     ImVec2 pos_max = get_handle_pos(t_max);
 
-    // draw the full slider track
-    if (!vertical)
+    // Draw the slider track
+    if (!vertical) {
         draw_list->AddLine(
                 ImVec2(slider_bb.Min.x, slider_bb.GetCenter().y),
                 ImVec2(slider_bb.Max.x, slider_bb.GetCenter().y),
                 IM_COL32(180, 180, 180, 255),
                 thickness);
-    else
+    } else {
         draw_list->AddLine(
                 ImVec2(slider_bb.GetCenter().x, slider_bb.Min.y),
                 ImVec2(slider_bb.GetCenter().x, slider_bb.Max.y),
                 IM_COL32(180, 180, 180, 255),
                 thickness);
+    }
 
-    // draw the range line between handles
+    // draw the thicker range line between handles
     draw_list->AddLine(pos_min, pos_max, IM_COL32(100, 170, 250, 255), thickness * 2.0f);
 
-    auto handle_interaction =
-            [&](ImVec2 handle_pos, float* value_ptr, bool& dragging_flag, bool is_min) -> void {
-        ImRect handle_rect(
+    auto handle_interaction = [&](ImVec2 handle_pos, float* value_ptr, bool is_min) {
+        ImRect handle_bounding_box(
                 ImVec2(handle_pos.x - handle_radius, handle_pos.y - handle_radius),
                 ImVec2(handle_pos.x + handle_radius, handle_pos.y + handle_radius));
 
-        // set cursor to top-left corner of the handle region
-        ImGui::SetCursorScreenPos(handle_rect.Min);
+        ImGui::SetCursorScreenPos(handle_bounding_box.Min);
 
-        // push an ID so min/max handle don't collide
-        ImGui::PushID(is_min ? 0 : 1);
-        ImGui::InvisibleButton("##handle", handle_rect.GetSize());
-        ImGui::PopID();
+        ImGui::PushID(is_min ? "min_handle" : "max_handle");
 
-        bool hovered    = ImGui::IsItemHovered();
-        bool mouse_down = ImGui::IsMouseDown(ImGuiMouseButton_Left);
+        // ImGuiButtonFlags_AllowOverlap: item remains active if mouse moves off bounding box while dragging
+        ImGui::InvisibleButton("##handle", handle_bounding_box.GetSize(), ImGuiButtonFlags_AllowOverlap);
 
-        // if we haven't started dragging, check if user clicks
-        if (!dragging_flag && hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-            active_handle_id = ImGui::GetActiveID();
-            dragging_flag    = true;
+        bool is_active  = ImGui::IsItemActive();
+        bool is_hovered = ImGui::IsItemHovered();
+
+        if (is_active && ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
+            ImVec2 mouse_pos  = ImGui::GetIO().MousePos;
+            float new_t_value = 0.0f;
+
+            if (!vertical) {
+                float fraction = (mouse_pos.x - slider_bb.Min.x) / (slider_bb.Max.x - slider_bb.Min.x);
+                new_t_value    = ImClamp(fraction, 0.0f, 1.0f);
+            } else {
+                float fraction = (mouse_pos.y - slider_bb.Min.y) / (slider_bb.Max.y - slider_bb.Min.y);
+                new_t_value    = ImClamp(fraction, 0.0f, 1.0f);
+            }
+
+            float new_value = min_possible + new_t_value * range;
+
+            if (is_min) {
+                if (new_value > *max_value)
+                    new_value = *max_value;
+            } else {
+                if (new_value < *min_value)
+                    new_value = *min_value;
+            }
+
+            if (*value_ptr != new_value) {
+                *value_ptr    = new_value;
+                value_changed = true;
+            }
+
+            ImGui::BeginTooltip();
+            ImGui::Text("%.3f", new_value);
+            ImGui::EndTooltip();
         }
 
-        if (dragging_flag && (active_handle_id == ImGui::GetActiveID())) {
-            if (mouse_down) {
-                ImVec2 mouse_pos = ImGui::GetIO().MousePos;
-                float new_t      = 0.0f;
-
-                if (!vertical) {
-                    float fraction = (mouse_pos.x - slider_bb.Min.x) / (slider_bb.Max.x - slider_bb.Min.x);
-                    new_t          = ImClamp(fraction, 0.0f, 1.0f);
-                } else {
-                    float fraction = (mouse_pos.y - slider_bb.Min.y) / (slider_bb.Max.y - slider_bb.Min.y);
-                    new_t          = ImClamp(fraction, 0.0f, 1.0f);
-                }
-                float new_value = min_possible + new_t * range;
-
-                if (is_min) {
-                    if (new_value > *max_value)
-                        new_value = *max_value;
-                } else {
-                    if (new_value < *min_value)
-                        new_value = *min_value;
-                }
-
-                if (*value_ptr != new_value) {
-                    *value_ptr    = new_value;
-                    value_changed = true;
-                }
-
-                ImGui::BeginTooltip();
-                ImGui::Text("%.3f", new_value);
-                ImGui::EndTooltip();
-            } else {
-                dragging_flag    = false;
-                active_handle_id = 0;
-            }
-        } 
+        ImGui::PopID();
     };
 
-    // handle interactions for both handles
-    handle_interaction(pos_min, min_value, dragging_min_handle, true);
-    handle_interaction(pos_max, max_value, dragging_max_handle, false);
+    handle_interaction(pos_min, min_value, true);
+    handle_interaction(pos_max, max_value, false);
 
-    // draw the handles
     draw_list->AddCircleFilled(pos_min, handle_radius, IM_COL32(255, 255, 255, 255));
     draw_list->AddCircle(pos_min, handle_radius, IM_COL32(0, 0, 0, 255));
 
