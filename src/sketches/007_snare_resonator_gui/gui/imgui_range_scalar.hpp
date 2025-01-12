@@ -26,17 +26,6 @@ bool RangeScalar(
     if (window->SkipItems)
         return false;
 
-    // Ensure min <= max by swapping if reversed
-    {
-        float v_min = (data_type == ImGuiDataType_Float) ? *(float*)p_min_value : (float)*(int*)p_min_value;
-        float v_max = (data_type == ImGuiDataType_Float) ? *(float*)p_max_value : (float)*(int*)p_max_value;
-        if (v_min > v_max) {
-            float temp           = *(float*)p_min_value;
-            *(float*)p_min_value = *(float*)p_max_value;
-            *(float*)p_max_value = temp;
-        }
-    }
-
     ImGuiContext& g         = *GImGui;
     const ImGuiStyle& style = g.Style;
     const ImGuiID id        = window->GetID(label);
@@ -97,6 +86,12 @@ bool RangeScalar(
                 *(float*)p_min_value = ImLerp(*(float*)p_min, *(float*)p_max, mouse_t);
                 *(float*)p_min_value = ImClamp(*(float*)p_min_value, *(float*)p_min, *(float*)p_max);
                 value_changed_min    = true;
+
+                // Check for crossover and swap
+                if (*(float*)p_min_value > *(float*)p_max_value) {
+                    ImSwap(*(float*)p_min_value, *(float*)p_max_value);
+                    SetActiveID(max_id, window);  // Swap control to max
+                }
             }
             if (!IsMouseDown(0)) {
                 ClearActiveID();
@@ -116,6 +111,12 @@ bool RangeScalar(
                 *(float*)p_max_value = ImLerp(*(float*)p_min, *(float*)p_max, mouse_t);
                 *(float*)p_max_value = ImClamp(*(float*)p_max_value, *(float*)p_min, *(float*)p_max);
                 value_changed_max    = true;
+
+                // Check for crossover and swap
+                if (*(float*)p_max_value < *(float*)p_min_value) {
+                    ImSwap(*(float*)p_max_value, *(float*)p_min_value);
+                    SetActiveID(min_id, window);  // Swap control to min
+                }
             }
             if (!IsMouseDown(0)) {
                 ClearActiveID();
