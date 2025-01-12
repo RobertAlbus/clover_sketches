@@ -3,6 +3,8 @@
 // Sketches with Clover Audio Framework
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
+
+
 #include "imgui.h"
 #include "imgui_internal.h"
 
@@ -29,7 +31,11 @@ bool range_slider(
     }
 
     ImGuiWindow* window = ImGui::GetCurrentWindow();
-    ImGuiID id          = window->GetID(label);
+    if (!window)
+        return false;
+
+    ImGuiID id = window->GetID(label);
+    ImGui::PushID(label);
 
     // calculate a default size if size not provided
     ImVec2 label_size  = ImGui::CalcTextSize(label, nullptr, true);
@@ -45,8 +51,10 @@ bool range_slider(
 
     ImRect bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + size.x, window->DC.CursorPos.y + size.y));
     ImGui::ItemSize(bb, ImGui::GetStyle().FramePadding.y);
-    if (!ImGui::ItemAdd(bb, id))
+    if (!ImGui::ItemAdd(bb, id)) {
+        ImGui::PopID();
         return false;
+    }
 
     float range = max_possible - min_possible;
 
@@ -115,14 +123,18 @@ bool range_slider(
     // helper to check interaction with a handle
     auto handle_interaction =
             [&](ImVec2 handle_pos, float* value_ptr, bool& dragging_flag, bool is_min) -> void {
-        ImRect handle_rect =
-                ImRect(ImVec2(handle_pos.x - handle_radius, handle_pos.y - handle_radius),
-                       ImVec2(handle_pos.x + handle_radius, handle_pos.y + handle_radius));
+        ImRect handle_rect(
+                ImVec2(handle_pos.x - handle_radius, handle_pos.y - handle_radius),
+                ImVec2(handle_pos.x + handle_radius, handle_pos.y + handle_radius));
 
+        // set cursor to top-left corner of the handle region
         ImGui::SetCursorScreenPos(handle_rect.Min);
-        ImGui::InvisibleButton(is_min ? "min_handle" : "max_handle", handle_rect.GetSize());
 
-        // check if this handle is active or hovered
+        // push an ID so min/max handle don't collide
+        ImGui::PushID(is_min ? 0 : 1);
+        ImGui::InvisibleButton("##handle", handle_rect.GetSize());
+        ImGui::PopID();
+
         bool hovered = ImGui::IsItemHovered();
         bool held    = ImGui::IsItemActive();
 
@@ -180,5 +192,6 @@ bool range_slider(
     draw_list->AddCircleFilled(pos_max, handle_radius, IM_COL32(255, 255, 255, 255));
     draw_list->AddCircle(pos_max, handle_radius, IM_COL32(0, 0, 0, 255));
 
+    ImGui::PopID();
     return value_changed;
 }
