@@ -7,8 +7,6 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 
-#include "imgui.h"
-
 bool range_slider(
         const char* label,
         float* min_value,
@@ -40,9 +38,9 @@ bool range_slider(
     ImVec2 label_size  = ImGui::CalcTextSize(label, nullptr, true);
     float frame_height = ImGui::GetFrameHeight();
 
-    if (!vertical && size.x <= 0.0f)
+    if (!vertical && size.x < 0.0f)
         size.x = ImGui::CalcItemWidth();
-    if (vertical && size.y <= 0.0f)
+    if (vertical && size.y < 0.0f)
         size.y = ImGui::CalcItemWidth();
 
     if (!vertical && size.y <= 0.0f)
@@ -59,28 +57,24 @@ bool range_slider(
         return false;
     }
 
-    // Visualize the outer bounding box (bb) in red
-    ImDrawList* draw_list = ImGui::GetWindowDrawList();
-    draw_list->AddRect(bb.Min, bb.Max, IM_COL32(255, 0, 0, 255), 0.0f, 0, 3.0f);
-
     if (!vertical) {
         ImGui::RenderText(ImVec2(bb.Min.x, bb.Min.y + (bb.GetHeight() - label_size.y) * 0.5f), label);
     } else {
         ImGui::RenderText(ImVec2(bb.Min.x + (bb.GetWidth() - label_size.x) * 0.5f, bb.Min.y), label);
     }
 
-    float slider_offset = (!vertical ? label_size.x + 4.0f : label_size.y + 4.0f);
-    ImRect slider_bb    = bb;
+    ImRect slider_bb = bb;
     if (!vertical) {
-        slider_bb.Min.x += slider_offset;
+        auto min  = ImVec2(bb.Min.x + (bb.GetSize().x * 0.02f), bb.Min.y);
+        auto max  = ImVec2(bb.Max.x + (bb.GetSize().x - (bb.GetSize().x * 0.02f)), bb.Max.y);
+        slider_bb = ImRect(min, max);
     } else {
-        slider_bb.Min.y += slider_offset;
+        auto min  = ImVec2(bb.Min.x, bb.Min.y + (bb.GetSize().y * 0.02f));
+        auto max  = ImVec2(bb.Max.x, bb.Max.y - (bb.GetSize().y * 0.02f));
+        slider_bb = ImRect(min, max);
     }
 
-    // Visualize the slider bounding box (slider_bb) in yellow
-    draw_list->AddRect(slider_bb.Min, slider_bb.Max, IM_COL32(255, 255, 0, 255), 0.0f, 0, 1.0f);
-
-    float thickness     = 3.0f;
+    float thickness     = 1.0f;
     float handle_radius = 6.0f;
 
     // Convert current [min_value..max_value] to [0..1] for rendering
@@ -106,6 +100,8 @@ bool range_slider(
     ImVec2 pos_max = get_handle_pos(t_max);
 
     // Draw the slider track
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
     if (!vertical) {
         draw_list->AddLine(
                 ImVec2(slider_bb.Min.x, slider_bb.GetCenter().y),
@@ -184,7 +180,12 @@ bool range_slider(
 
     ImGui::PopID();
 
-    ImGui::SetCursorScreenPos(ImVec2(bb.Min.x, bb.Max.y));
+    // if (vertical) {
+    //     ImGui::SetCursorScreenPos(ImVec2(bb.Max.x, bb.Min.y));
+    // } else {
+    // }
+    ImGui::SetCursorScreenPos(bb.Min);
+    ImGui::ItemSize(bb, ImGui::GetStyle().FramePadding.y);
 
     return value_changed;
 }

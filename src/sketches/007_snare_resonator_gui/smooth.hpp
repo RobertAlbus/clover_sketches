@@ -9,14 +9,20 @@
 #include "clover/dsp/env_linear.hpp"
 
 struct smooth {
-    float m_smooth_duration = 480;
+    float m_smooth_duration = 10;
     float m_previous        = 0;
+    float m_next            = 0;
+    bool m_was_updated      = false;
+
     clover::dsp::env_linear m_env;
 
-    std::function<void(float)> callback = [](float) {};
+    std::function<void(float)> callback = [](float in) {};
 
     void set(float value) {
-        m_env.set(value, m_smooth_duration);
+        if (value != m_previous) {
+            m_was_updated = true;
+            m_next        = value;
+        }
     }
 
     void init(float value) {
@@ -29,8 +35,13 @@ struct smooth {
         return m_previous;
     }
     float tick() {
+        if (m_was_updated) {
+            m_env.set(m_next, m_smooth_duration);
+            m_was_updated = false;
+        }
+
         float env_value = m_env.tick();
-        if (env_value != m_previous) {
+        if (m_previous != env_value) {
             m_previous = env_value;
             callback(env_value);
         }

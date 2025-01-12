@@ -5,7 +5,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 #include <ranges>
 
 #include "clover/dsp/env_linear.hpp"
@@ -70,10 +69,10 @@ struct composition {
 
     float resonator_gains[num_resonators]{
             db_to_linear(fundamental_gain_db - 0),  //
-            0,                                      // db_to_linear(fundamental_gain_db - 3),
-            0,                                      // db_to_linear(fundamental_gain_db - 6),
-            0,                                      // db_to_linear(fundamental_gain_db - 10),
-            0,                                      // db_to_linear(fundamental_gain_db - 15),
+            db_to_linear(fundamental_gain_db - 3),
+            db_to_linear(fundamental_gain_db - 6),
+            db_to_linear(fundamental_gain_db - 10),
+            db_to_linear(fundamental_gain_db - 15),
     };
     float resonator_decay_coeffs[num_resonators]{
             0.959f,
@@ -114,19 +113,19 @@ struct composition {
             resonators[i].lpf_set(resonator_freqs[i] * 5, 0.707);
             resonators[i].hpf_set(30, 0.707);
 
-            smoother[i].cutoff_lpf.callback = [&](float val) { resonators[i].lpf_cut(val); };
+            smoother[i].cutoff_lpf.callback = [this, i](float val) { this->resonators[i].lpf_cut(val); };
             smoother[i].cutoff_lpf.init(resonator_freqs[i] * 5);
 
-            smoother[i].cutoff_hpf.callback = [&](float val) { resonators[i].hpf_cut(val); };
+            smoother[i].cutoff_hpf.callback = [this, i](float val) { resonators[i].hpf_cut(val); };
             smoother[i].cutoff_hpf.init(30);
 
-            smoother[i].freq.callback = [&](float val) { resonators[i].freq(val); };
+            smoother[i].freq.callback = [this, i](float val) { resonators[i].freq(val); };
             smoother[i].freq.init(resonator_freqs[i]);
 
-            smoother[i].gain_fb.callback = [&](float val) { resonators[i].m_gain_fb = val; };
+            smoother[i].gain_fb.callback = [this, i](float val) { resonators[i].m_gain_fb = val; };
             smoother[i].gain_fb.init(resonator_decay_coeffs[i]);
 
-            smoother[i].gain_out.callback = [&](float val) { resonators[i].m_gain_out = val; };
+            smoother[i].gain_out.callback = [this, i](float val) { resonators[i].m_gain_out = val; };
             smoother[i].gain_out.init(resonator_gains[i]);
         }
     }
@@ -163,21 +162,10 @@ struct composition {
 
         float output = 0;
 
-        smoother[0].tick();
-        output += resonators[0].tick(trigger_signal);
-        // std::cout << output << " " <<               //
-        //         resonators[0].m_fs << " " <<        //
-        //         resonators[0].m_freq << " " <<      //
-        //         resonators[0].m_gain_fb << " " <<   //
-        //         resonators[0].m_gain_out << " " <<  //
-        //         resonators[0].m_lpf_cut << " " <<   //
-        //         resonators[0].m_hpf_cut << " " <<   //
-        //         std::endl;
-
-        // for (auto i : std::views::iota(0, num_resonators)) {
-        //     smoother[i].tick();
-        //     output += resonators[i].tick(trigger_signal);
-        // }
+        for (auto i : std::views::iota(0, num_resonators)) {
+            smoother[i].tick();
+            output += resonators[i].tick(trigger_signal);
+        }
 
         L = output;
         R = L;
