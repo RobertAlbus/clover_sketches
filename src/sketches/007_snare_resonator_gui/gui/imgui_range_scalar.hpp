@@ -84,11 +84,11 @@ bool RangeScalar(
     bool value_changed_min = false;
     bool value_changed_max = false;
 
-    if (ItemAdd(grab_bb_min, min_id) && IsMouseHoveringRect(grab_bb_min.Min, grab_bb_min.Max)) {
-        if (IsMouseClicked(0)) {
+    if (ItemAdd(grab_bb_min, min_id)) {
+        if (IsMouseHoveringRect(grab_bb_min.Min, grab_bb_min.Max) && IsMouseClicked(0)) {
             SetActiveID(min_id, window);
         }
-        if (IsItemActive() && IsMouseDragging(0)) {
+        if (g.ActiveId == min_id && IsMouseDragging(0)) {
             float mouse_t =
                     ImSaturate((GetIO().MousePos.x - frame_bb.Min.x) / (frame_bb.Max.x - frame_bb.Min.x));
             *(float*)p_min_value = ImLerp(*(float*)p_min, *(float*)p_max, mouse_t);
@@ -98,11 +98,11 @@ bool RangeScalar(
     }
 
     // Handle interactions for the max handle
-    if (ItemAdd(grab_bb_max, max_id) && IsMouseHoveringRect(grab_bb_max.Min, grab_bb_max.Max)) {
-        if (IsMouseClicked(0)) {
+    if (ItemAdd(grab_bb_max, max_id)) {
+        if (IsMouseHoveringRect(grab_bb_max.Min, grab_bb_max.Max) && IsMouseClicked(0)) {
             SetActiveID(max_id, window);
         }
-        if (IsItemActive() && IsMouseDragging(0)) {
+        if (g.ActiveId == max_id && IsMouseDragging(0)) {
             float mouse_t =
                     ImSaturate((GetIO().MousePos.x - frame_bb.Min.x) / (frame_bb.Max.x - frame_bb.Min.x));
             *(float*)p_max_value = ImLerp(*(float*)p_min, *(float*)p_max, mouse_t);
