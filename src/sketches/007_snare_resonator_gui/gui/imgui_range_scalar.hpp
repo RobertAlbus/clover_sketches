@@ -143,8 +143,13 @@ bool RangeScalar(
             style.GrabRounding);
 
     // Display the current range as text
+    char value_buf_min[64];
+    char value_buf_max[64];
+    DataTypeFormatString(value_buf_min, sizeof(value_buf_min), data_type, p_min_value, format);
+    DataTypeFormatString(value_buf_max, sizeof(value_buf_max), data_type, p_max_value, format);
+
     char value_buf[128];
-    snprintf(value_buf, sizeof(value_buf), format, *(float*)p_min_value, *(float*)p_max_value);
+    snprintf(value_buf, sizeof(value_buf), "%s - %s", value_buf_min, value_buf_max);
     RenderTextClipped(frame_bb.Min, frame_bb.Max, value_buf, nullptr, nullptr, ImVec2(0.5f, 0.5f));
 
     return value_changed_min || value_changed_max;
