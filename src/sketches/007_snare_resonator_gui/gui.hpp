@@ -70,15 +70,14 @@ void GUI(shared_props& props) {
 
         static float verticals[6] = {25, 25, 25, 75, 75, 75};
         for (int i = 0; i < 3; ++i) {
-            ImGui::SameLine();
-            if (range_slider(
+            if (RangeFloat(
                         std::format("##vert_slider{}", i + 1).c_str(),
                         &(verticals[i]),
                         &(verticals[3 + i]),
-                        0.0f,
-                        100.0f,
-                        ImVec2(0, 200),
-                        true)) {
+                        0.f,
+                        100.f,
+                        "%2.f",
+                        ImGuiSliderFlags_Vertical)) {
             }
         }
 

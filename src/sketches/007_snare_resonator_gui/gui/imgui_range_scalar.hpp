@@ -64,9 +64,11 @@ bool RangeScalar(
     const ImU32 frame_col = GetColorU32(ImGuiCol_FrameBg);
     RenderFrame(frame_bb.Min, frame_bb.Max, frame_col, true, style.FrameRounding);
 
-    // Create IDs for the min and max handles
-    const ImGuiID min_id = window->GetID("##min_handle");
-    const ImGuiID max_id = window->GetID("##max_handle");
+    // Create IDs for the min and max handles with unique scope
+    PushID(label);
+    const ImGuiID min_id = GetID("##min_handle");
+    const ImGuiID max_id = GetID("##max_handle");
+    PopID();
 
     // Normalized positions for the handles
     float t_min = (*(float*)p_min_value - *(float*)p_min) / (*(float*)p_max - *(float*)p_min);
@@ -88,12 +90,17 @@ bool RangeScalar(
         if (IsMouseHoveringRect(grab_bb_min.Min, grab_bb_min.Max) && IsMouseClicked(0)) {
             SetActiveID(min_id, window);
         }
-        if (g.ActiveId == min_id && IsMouseDragging(0)) {
-            float mouse_t =
-                    ImSaturate((GetIO().MousePos.x - frame_bb.Min.x) / (frame_bb.Max.x - frame_bb.Min.x));
-            *(float*)p_min_value = ImLerp(*(float*)p_min, *(float*)p_max, mouse_t);
-            *(float*)p_min_value = ImClamp(*(float*)p_min_value, *(float*)p_min, *(float*)p_max);
-            value_changed_min    = true;
+        if (g.ActiveId == min_id) {
+            if (IsMouseDragging(0)) {
+                float mouse_t =
+                        ImSaturate((GetIO().MousePos.x - frame_bb.Min.x) / (frame_bb.Max.x - frame_bb.Min.x));
+                *(float*)p_min_value = ImLerp(*(float*)p_min, *(float*)p_max, mouse_t);
+                *(float*)p_min_value = ImClamp(*(float*)p_min_value, *(float*)p_min, *(float*)p_max);
+                value_changed_min    = true;
+            }
+            if (!IsMouseDown(0)) {
+                ClearActiveID();
+            }
         }
     }
 
@@ -102,12 +109,17 @@ bool RangeScalar(
         if (IsMouseHoveringRect(grab_bb_max.Min, grab_bb_max.Max) && IsMouseClicked(0)) {
             SetActiveID(max_id, window);
         }
-        if (g.ActiveId == max_id && IsMouseDragging(0)) {
-            float mouse_t =
-                    ImSaturate((GetIO().MousePos.x - frame_bb.Min.x) / (frame_bb.Max.x - frame_bb.Min.x));
-            *(float*)p_max_value = ImLerp(*(float*)p_min, *(float*)p_max, mouse_t);
-            *(float*)p_max_value = ImClamp(*(float*)p_max_value, *(float*)p_min, *(float*)p_max);
-            value_changed_max    = true;
+        if (g.ActiveId == max_id) {
+            if (IsMouseDragging(0)) {
+                float mouse_t =
+                        ImSaturate((GetIO().MousePos.x - frame_bb.Min.x) / (frame_bb.Max.x - frame_bb.Min.x));
+                *(float*)p_max_value = ImLerp(*(float*)p_min, *(float*)p_max, mouse_t);
+                *(float*)p_max_value = ImClamp(*(float*)p_max_value, *(float*)p_min, *(float*)p_max);
+                value_changed_max    = true;
+            }
+            if (!IsMouseDown(0)) {
+                ClearActiveID();
+            }
         }
     }
 
