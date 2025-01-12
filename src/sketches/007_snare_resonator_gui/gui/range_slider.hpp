@@ -4,7 +4,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-
 #include "imgui.h"
 #include "imgui_internal.h"
 
@@ -120,7 +119,6 @@ bool range_slider(
     // draw the range line between handles
     draw_list->AddLine(pos_min, pos_max, IM_COL32(100, 170, 250, 255), thickness * 2.0f);
 
-    // helper to check interaction with a handle
     auto handle_interaction =
             [&](ImVec2 handle_pos, float* value_ptr, bool& dragging_flag, bool is_min) -> void {
         ImRect handle_rect(
@@ -135,50 +133,50 @@ bool range_slider(
         ImGui::InvisibleButton("##handle", handle_rect.GetSize());
         ImGui::PopID();
 
-        bool hovered = ImGui::IsItemHovered();
-        bool held    = ImGui::IsItemActive();
+        bool hovered    = ImGui::IsItemHovered();
+        bool mouse_down = ImGui::IsMouseDown(ImGuiMouseButton_Left);
 
-        // start dragging
-        if (hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+        // if we haven't started dragging, check if user clicks
+        if (!dragging_flag && hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
             active_handle_id = ImGui::GetActiveID();
             dragging_flag    = true;
         }
 
-        // update value if dragging
-        if (dragging_flag && active_handle_id == ImGui::GetActiveID() && held) {
-            ImVec2 mouse_pos = ImGui::GetIO().MousePos;
-            float new_t      = 0.0f;
-            if (!vertical) {
-                float fraction = (mouse_pos.x - slider_bb.Min.x) / (slider_bb.Max.x - slider_bb.Min.x);
-                new_t          = ImClamp(fraction, 0.0f, 1.0f);
+        if (dragging_flag && (active_handle_id == ImGui::GetActiveID())) {
+            if (mouse_down) {
+                ImVec2 mouse_pos = ImGui::GetIO().MousePos;
+                float new_t      = 0.0f;
+
+                if (!vertical) {
+                    float fraction = (mouse_pos.x - slider_bb.Min.x) / (slider_bb.Max.x - slider_bb.Min.x);
+                    new_t          = ImClamp(fraction, 0.0f, 1.0f);
+                } else {
+                    float fraction = (mouse_pos.y - slider_bb.Min.y) / (slider_bb.Max.y - slider_bb.Min.y);
+                    new_t          = ImClamp(fraction, 0.0f, 1.0f);
+                }
+                float new_value = min_possible + new_t * range;
+
+                if (is_min) {
+                    if (new_value > *max_value)
+                        new_value = *max_value;
+                } else {
+                    if (new_value < *min_value)
+                        new_value = *min_value;
+                }
+
+                if (*value_ptr != new_value) {
+                    *value_ptr    = new_value;
+                    value_changed = true;
+                }
+
+                ImGui::BeginTooltip();
+                ImGui::Text("%.3f", new_value);
+                ImGui::EndTooltip();
             } else {
-                float fraction = (mouse_pos.y - slider_bb.Min.y) / (slider_bb.Max.y - slider_bb.Min.y);
-                new_t          = ImClamp(fraction, 0.0f, 1.0f);
+                dragging_flag    = false;
+                active_handle_id = 0;
             }
-            float new_value = min_possible + new_t * range;
-
-            // keep min <= max
-            if (is_min) {
-                if (new_value > *max_value)
-                    new_value = *max_value;
-            } else {
-                if (new_value < *min_value)
-                    new_value = *min_value;
-            }
-
-            if (*value_ptr != new_value) {
-                *value_ptr    = new_value;
-                value_changed = true;
-            }
-
-            // show tooltip when dragging
-            ImGui::BeginTooltip();
-            ImGui::Text("%.3f", new_value);
-            ImGui::EndTooltip();
-        } else if (!held && dragging_flag) {
-            dragging_flag    = false;
-            active_handle_id = 0;
-        }
+        } 
     };
 
     // handle interactions for both handles
