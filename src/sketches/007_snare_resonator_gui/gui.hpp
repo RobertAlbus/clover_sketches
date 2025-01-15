@@ -80,7 +80,7 @@ void GUI(shared_props& props) {
                         0.f,
                         100.f,
                         "%2.f",
-                        ImGuiSliderFlags_Vertical)) {
+                        ImGuiSliderFlags_None)) {
             }
         }
 
