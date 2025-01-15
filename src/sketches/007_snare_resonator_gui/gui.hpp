@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 #include <format>
 
+#include "composition.hpp"
 #include "gui/imgui_range_scalar.hpp"
 #include "gui/range_slider.hpp"
 #include "hello_imgui/hello_imgui.h"
@@ -39,24 +40,24 @@ void GUI(shared_props& props) {
         //     // do something with the updated range_min and range_max
         // }
 
-        static float horizontals[6] = {25, 25, 25, 75, 75, 75};
-        float min                   = 0;
-        float max                   = 100;
-        for (int i = 0; i < 3; ++i) {
-            // ImGui::DragFloatRange2(
-            //         std::format("##horiz_slider{}", i + 1).c_str(), &(horizontals[i]), &(horizontals[3 +
-            //         i])
-
-            // );
-            // ImGui::SameLine();
+        for (auto i : std::views::iota(0, props.composition->num_resonators)) {
             if (RangeFloat(
-                        std::format("##horiz_slider{}", i + 1).c_str(),
-                        &(horizontals[i]),
-                        &(horizontals[3 + i]),
-                        0.f,
-                        100.f,
+                        std::format("##horiz_slider_{}", i + 1).c_str(),
+                        &resonator_values[(i * 5) + 1],
+                        &resonator_values[(i * 5) + 0],
+                        10.f,
+                        20000.f,
                         "%2.f",
                         ImGuiSliderFlags_None)) {
+            }
+            if (SliderFloat(
+                        std::format("##horiz_slider_{}", i + 1).c_str(),
+                        &resonator_values[(i * 5) + 2],
+                        10.f,
+                        20000.f,
+                        "%2.f",
+                        ImGuiSliderFlags_None)) {
+                props.composition->smoother[i].freq.set(resonator_values[(i * 5) + 2]);
             }
         }
         // 0.0f,
@@ -70,8 +71,10 @@ void GUI(shared_props& props) {
 
         static float verticals[6] = {25, 25, 25, 75, 75, 75};
         for (int i = 0; i < 3; ++i) {
+            ImGui::SameLine();
+
             if (RangeFloat(
-                        std::format("##vert_slider{}", i + 1).c_str(),
+                        std::format("##vert_slider_{}", i + 1).c_str(),
                         &(verticals[i]),
                         &(verticals[3 + i]),
                         0.f,
