@@ -8,12 +8,13 @@
 #include <ranges>
 
 #include "clover/dsp/env_linear.hpp"
-#include "clover/dsp/filter.hpp"
-#include "clover/dsp/fractional_delay.hpp"
 #include "clover/dsp/oscillator.hpp"
 #include "clover/dsp/wave.hpp"
 #include "clover/io/audio_callback.hpp"
 #include "clover/math.hpp"
+
+#include "resonator_section.hpp"
+#include "smooth.hpp"
 
 using namespace clover;
 using namespace dsp;
@@ -33,23 +34,23 @@ transient strike
 - a bit of distortion over top of all things
 */
 
+/*
+| Mode               | freq ratio | decay ratio   | decay (ms) | rel amp (dB)   |
+|--------------------|------------|---------------|------------|----------------|
+| 0th          (0,1) | 1.00       | 1.00          | 300–800    |  0              |
+| 1st Overtone (1,1) | 1.59       | 0.67 – 0.83   | 200–500    | -3 to -10      |
+| 2nd Overtone (2,1) | 2.14       | 0.50 – 0.67   | 150–400    | -6 to -15      |
+| 3rd Overtone (0,2) | 2.30       | 0.40 – 0.58   | 120–350    | -10 to -20     |
+| 4th Overtone (3,1) | 2.65       | 0.33 – 0.50   | 100–300    | -15 to -25     |
+
+
+*/
 struct composition {
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
     int duration          = 60 * 60 * fs_i;
     int channel_count_out = 2;
 
-    /*
-    | Mode               | freq ratio | decay ratio   | decay (ms) | rel amp (dB)   |
-    |--------------------|------------|---------------|------------|----------------|
-    | 0th          (0,1) | 1.00       | 1.00          | 300–800    |  0              |
-    | 1st Overtone (1,1) | 1.59       | 0.67 – 0.83   | 200–500    | -3 to -10      |
-    | 2nd Overtone (2,1) | 2.14       | 0.50 – 0.67   | 150–400    | -6 to -15      |
-    | 3rd Overtone (0,2) | 2.30       | 0.40 – 0.58   | 120–350    | -10 to -20     |
-    | 4th Overtone (3,1) | 2.65       | 0.33 – 0.50   | 100–300    | -15 to -25     |
-
-
-    */
     float fdl_length_f = fs / 100;
     size_t fdl_length  = size_t(fdl_length_f + 1);
 
@@ -58,21 +59,12 @@ struct composition {
     float fundamental_gain_db = -3;   // db
 
     const static int num_resonators = 5;
-    fdl_lagrange resonators[num_resonators]{
-            {fdl_length}, {fdl_length}, {fdl_length}, {fdl_length}, {fdl_length}};
     float resonator_freqs[num_resonators]{
             fundamental * 1.00f,  //
             fundamental * 1.59f,
             fundamental * 2.14f,
             fundamental * 2.30f,
             fundamental * 2.65f,
-    };
-    float resonator_idx[num_resonators]{
-            fs / resonator_freqs[0],  //
-            fs / resonator_freqs[1],
-            fs / resonator_freqs[2],
-            fs / resonator_freqs[3],
-            fs / resonator_freqs[4],
     };
 
     float resonator_gains[num_resonators]{
@@ -82,7 +74,6 @@ struct composition {
             db_to_linear(fundamental_gain_db - 10),
             db_to_linear(fundamental_gain_db - 15),
     };
-    float global_decay_damper = 1;
     float resonator_decay_coeffs[num_resonators]{
             0.959f,
             0.950f,
@@ -90,8 +81,28 @@ struct composition {
             0.951f,
             0.95f,
     };
+    float global_decay_damper = 1;
 
-    filter feedback_filters[2 * num_resonators];
+    resonator_section resonators[num_resonators]{
+            {fs, 48000}, {fs, 48000}, {fs, 48000}, {fs, 48000}, {fs, 48000}};
+
+    struct resonator_smooth {
+        smooth cutoff_lpf;
+        smooth cutoff_hpf;
+        smooth freq;
+        smooth gain_fb;
+        smooth gain_out;
+
+        void tick() {
+            cutoff_lpf.tick();
+            cutoff_hpf.tick();
+            freq.tick();
+            gain_fb.tick();
+            gain_out.tick();
+        }
+    };
+
+    resonator_smooth smoother[num_resonators];
 
     composition() : trigger_bottom(fs), trigger_noise(fs) {
         trigger_bottom.freq(resonator_freqs[0] * 1.999f);
@@ -99,8 +110,23 @@ struct composition {
         trigger_noise.waveform  = wave_noise;
 
         for (auto i : std::views::iota(0, num_resonators)) {
-            feedback_filters[(2 * i)].m_coeffs     = lpf(fs, resonator_freqs[i] * 10.f, .707);
-            feedback_filters[(2 * i) + 1].m_coeffs = hpf(fs, 20, .707);
+            resonators[i].lpf_set(resonator_freqs[i] * 5, 0.707);
+            resonators[i].hpf_set(30, 0.707);
+
+            smoother[i].cutoff_lpf.callback = [this, i](float val) { this->resonators[i].lpf_cut(val); };
+            smoother[i].cutoff_lpf.init(resonator_freqs[i] * 5);
+
+            smoother[i].cutoff_hpf.callback = [this, i](float val) { resonators[i].hpf_cut(val); };
+            smoother[i].cutoff_hpf.init(30);
+
+            smoother[i].freq.callback = [this, i](float val) { resonators[i].freq(val); };
+            smoother[i].freq.init(resonator_freqs[i]);
+
+            smoother[i].gain_fb.callback = [this, i](float val) { resonators[i].m_gain_fb = val; };
+            smoother[i].gain_fb.init(resonator_decay_coeffs[i]);
+
+            smoother[i].gain_out.callback = [this, i](float val) { resonators[i].m_gain_out = val; };
+            smoother[i].gain_out.init(resonator_gains[i]);
         }
     }
 
@@ -135,21 +161,10 @@ struct composition {
         }
 
         float output = 0;
+
         for (auto i : std::views::iota(0, num_resonators)) {
-            // if (i > 0)
-            //     break;
-
-            float resonator_tap = resonators[i].at(resonator_idx[i]);
-
-            output += resonator_tap * resonator_gains[i];
-
-            // resonator_tap *= ;
-
-            float feedback = resonator_tap;
-            feedback       = feedback_filters[(2 * i) + 0].tick(feedback);
-            feedback       = feedback_filters[(2 * i) + 1].tick(feedback);
-
-            resonators[i].tick(trigger_signal + (feedback * resonator_decay_coeffs[i] * global_decay_damper));
+            smoother[i].tick();
+            output += resonators[i].tick(trigger_signal);
         }
 
         L = output;
