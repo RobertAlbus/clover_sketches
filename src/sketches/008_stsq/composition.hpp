@@ -8,6 +8,7 @@
 
 #include "clover/io/audio_callback.hpp"
 
+#import "composition_clap.hpp"
 #import "composition_cymbal.hpp"
 #import "composition_kick.hpp"
 
@@ -22,6 +23,7 @@ struct composition {
 
     kick_drum kick;
     cymbal hh;
+    hand_clap clap;
 
     composition() = default;
 
@@ -29,8 +31,12 @@ struct composition {
         float &L = *(data.output);
         float &R = *(data.output + 1);
 
-        L = kick.tick() + hh.tick();
-        R = L;
+        float signal_kick     = kick.tick();
+        float signal_hat      = hh.tick();
+        auto [clap_L, clap_R] = clap.tick();
+
+        L = signal_kick + signal_hat + clap_L;
+        R = signal_kick + signal_hat + clap_R;
 
         if (data.clock_time == duration) {
             return callback_status::end;
