@@ -1,3 +1,5 @@
+#pragma once
+
 // Sketches with Clover Audio Framework
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
@@ -31,16 +33,16 @@ struct cymbal {
     float hpf_f0 = 1000;
     float hpf_f1 = 4000;
     float hpf_Q  = 2;
-    float bpf_f0 = 4000;
+    float bpf_f0 = 6000;
     float bpf_Q  = 1.3;
 
     float amp_a = 1;
-    float amp_d = 48 * 20;
+    float amp_d = 48 * 200;
     float amp_s = 0;
     float amp_r = 1;
 
     float cut_a = 1;
-    float cut_d = 48 * 20;
+    float cut_d = 48 * 200;
     float cut_s = 0;
     float cut_r = 1;
 
@@ -63,7 +65,7 @@ struct cymbal {
         if (counter == 12000) {
             adsr_amp.key_on();
             adsr_cut.key_on();
-        } else if (counter == 14000) {
+        } else if (counter == 22000) {
             adsr_amp.key_off();
             adsr_cut.key_off();
         } else if (counter == 24000 - 1) {
