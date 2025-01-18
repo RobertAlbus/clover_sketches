@@ -31,16 +31,13 @@ struct composition {
         float &L = *(data.output);
         float &R = *(data.output + 1);
 
-        float signal_kick     = kick.tick();
-        float signal_hat      = hh.tick();
-        auto [clap_L, clap_R] = clap.tick();
-
-        L = signal_kick + signal_hat + clap_L;
-        R = signal_kick + signal_hat + clap_R;
+        std::tie(L, R) = tick();
 
         if (data.clock_time == duration) {
             return callback_status::end;
         }
         return callback_status::cont;
     };
+
+    std::pair<clover_float, clover_float> tick();
 };
