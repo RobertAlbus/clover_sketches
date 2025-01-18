@@ -15,7 +15,8 @@
 using namespace clover;
 using namespace dsp;
 
-cymbal::cymbal() {
+cymbal::cymbal(clover_float fs)
+    : fs(fs), osc{{fs}, {fs}, {fs}, {fs}, {fs}, {fs}}, osc_freq{199, 215, 253, 307, 329, 405} {
     high_pass.m_coeffs = hpf(fs, hpf_f0, hpf_Q);
     band_pass.m_coeffs = bpf(fs, bpf_f0, bpf_Q);
 
@@ -29,18 +30,15 @@ cymbal::cymbal() {
     }
 }
 
+void cymbal::key_on() {
+    adsr_amp.key_on();
+    adsr_cut.key_on();
+}
+void cymbal::key_off() {
+    adsr_amp.key_off();
+    adsr_cut.key_off();
+}
 clover_float cymbal::tick() {
-    if (counter == 12000) {
-        adsr_amp.key_on();
-        adsr_cut.key_on();
-    } else if (counter == 22000) {
-        adsr_amp.key_off();
-        adsr_cut.key_off();
-    } else if (counter == 24000 - 1) {
-        counter = -1;
-    }
-    ++counter;
-
     float amp_env = adsr_amp.tick();
     float cut_env = adsr_cut.tick();
 
@@ -52,5 +50,11 @@ clover_float cymbal::tick() {
 
     harmonics *= 0.125f;
 
-    return band_pass.tick(high_pass.tick(harmonics * amp_env));
+    // filter results here are NAN
+    float hp = high_pass.tick(harmonics * amp_env);
+    float bp = band_pass.tick(hp);
+
+    // std::cout << amp_env << " " << cut_env << " " << hp << " " << bp << std::endl;
+
+    return bp;
 };

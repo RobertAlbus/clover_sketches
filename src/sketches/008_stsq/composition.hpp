@@ -8,24 +8,35 @@
 
 #include "clover/io/audio_callback.hpp"
 
-#import "composition/clap.hpp"
-#import "composition/cymbal.hpp"
-#import "composition/kick.hpp"
+#include "clover/math.hpp"
+#include "composition/clap.hpp"
+#include "composition/cymbal.hpp"
+#include "composition/kick.hpp"
+
+#include "composition/sequencers.hpp"
 
 using namespace clover;
 using namespace io;
 
 struct composition {
+    std::pair<clover_float, clover_float> tick();
+
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
     int duration          = 4 * 60 * fs_i;
     int channel_count_out = 2;
 
-    kick_drum kick;
-    cymbal hh;
-    hand_clap clap;
+    kick_drum kick{fs};
+    cymbal hhat{fs};
+    hand_clap clap{fs};
+
+    sequencers stsqs{fs, 160, kick, clap, hhat};
 
     composition() = default;
+
+    float mix_kick = db_to_linear(-8);
+    float mix_clap = db_to_linear(-6);
+    float mix_hhat = db_to_linear(0);
 
     io::callback audio_callback = [&](callback_args data) {
         float &L = *(data.output);
@@ -38,6 +49,4 @@ struct composition {
         }
         return callback_status::cont;
     };
-
-    std::pair<clover_float, clover_float> tick();
 };

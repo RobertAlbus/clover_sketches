@@ -9,6 +9,10 @@
 
 namespace pattern {
 
+const int X = 2;
+const int x = 1;
+const int _ = 0;
+
 extern std::vector<int> kick_pattern;
 extern std::vector<int> hhat_pattern;
 extern std::vector<int> clap_pattern;

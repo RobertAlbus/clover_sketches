@@ -5,7 +5,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
-#include <cstdint>
 
 #include "clover/dsp/env_adsr.hpp"
 #include "clover/dsp/filter.hpp"
@@ -15,12 +14,17 @@ using namespace clover;
 using namespace dsp;
 
 struct cymbal {
-    float fs = 48000.f;
-    int fs_i = int(fs);
+    clover_float fs = 0;
+
+    cymbal(clover_float fs);
+    void key_on();
+    void key_off();
+
+    clover_float tick();
 
     static const int num_oscs = 6;
-    oscillator osc[num_oscs]  = {{fs}, {fs}, {fs}, {fs}, {fs}, {fs}};
-    float osc_freq[num_oscs]  = {199, 215, 253, 307, 329, 405};
+    oscillator osc[num_oscs];
+    float osc_freq[num_oscs];
 
     env_adsr adsr_amp;
     env_adsr adsr_cut;
@@ -43,9 +47,4 @@ struct cymbal {
     float cut_d = 48 * 200;
     float cut_s = 0;
     float cut_r = 1;
-
-    cymbal();
-
-    int_fast64_t counter = 0;
-    clover_float tick();
 };

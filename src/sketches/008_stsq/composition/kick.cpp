@@ -14,7 +14,7 @@
 using namespace clover;
 using namespace dsp;
 
-kick_drum::kick_drum() : kick_osc(fs) {
+kick_drum::kick_drum(clover_float fs) : fs(fs), kick_osc(fs) {
     kick_osc.freq(kick_osc_pitch_fundamental);
     kick_osc.phase(0);
 
@@ -25,22 +25,19 @@ kick_drum::kick_drum() : kick_osc(fs) {
     filt.m_coeffs = lpf(fs, kick_osc_cutoff_fundamental, 1);
 }
 
+void kick_drum::key_on() {
+    kick_osc.phase(0);
+    kick_adsr_cutoff.key_on();
+    kick_adsr_pitch.key_on();
+    kick_adsr_gain.key_on();
+}
+void kick_drum::key_off() {
+    kick_adsr_cutoff.key_off();
+    kick_adsr_pitch.key_off();
+    kick_adsr_gain.key_off();
+}
+
 clover_float kick_drum::tick() {
-    if (counter == 0) {
-        kick_osc.phase(0);
-        kick_adsr_cutoff.key_on();
-        kick_adsr_pitch.key_on();
-        kick_adsr_gain.key_on();
-
-    } else if (counter == 10000) {
-        kick_adsr_cutoff.key_off();
-        kick_adsr_pitch.key_off();
-        kick_adsr_gain.key_off();
-    } else if (counter == 24000 - 1) {
-        counter = -1;
-    }
-    ++counter;
-
     clover_float kick_osc_signal = kick_osc.tick();
     clover_float kick_cutoff_env = kick_adsr_cutoff.tick();
     clover_float kick_gain_env   = kick_adsr_gain.tick();

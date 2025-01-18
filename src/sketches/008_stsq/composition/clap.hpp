@@ -9,7 +9,6 @@
 
 #include "clover/dsp/env_linear.hpp"
 #include "clover/dsp/filter.hpp"
-#include "clover/dsp/fractional_delay.hpp"
 #include "clover/dsp/oscillator.hpp"
 
 using namespace clover;
@@ -33,24 +32,16 @@ struct clap_envelope {
 };
 
 struct hand_clap {
-    float fs              = 48000;
-    int fs_i              = static_cast<int>(fs);
-    int duration          = 4 * 60 * fs_i;
-    int channel_count_out = 2;
+    hand_clap(clover_float fs);
+    std::pair<clover_float, clover_float> tick();
+    void key_on();
+    void key_off();
+
+    float gain = 1;
 
     oscillator noise_generator;
-
     filter_2 eqs[3];
 
-    fdl_lagrange_2 delay{96000};
-
-    int_fast64_t counter       = 0;
-    int_fast64_t snare_key_on  = 24000;
-    int_fast64_t snare_key_off = 33000;
-
+    int duration;
     clap_envelope clap_env;
-
-    hand_clap();
-
-    std::pair<clover_float, clover_float> tick();
 };

@@ -35,12 +35,19 @@ void clap_envelope::trigger() {
     count = 0;
 }
 
-hand_clap::hand_clap() : noise_generator(fs), clap_env(5, 48 * 15, 48 * 5, 48 * 50) {
+hand_clap::hand_clap(clover_float fs)
+    : duration(4 * 60 * int(fs)), noise_generator(fs), clap_env(5, 48 * 15, 48 * 5, 48 * 50) {
     noise_generator.waveform = wave_noise;
     eqs[0].m_coeffs          = eq(fs, 400, 0.5, 10);
     eqs[1].m_coeffs          = eq(fs, 2500, 1.4, 2);
     eqs[2].m_coeffs          = lpf(fs, 4000, 1.4);
 };
+
+void hand_clap::key_on() {
+    clap_env.trigger();
+}
+void hand_clap::key_off() {
+}
 
 std::pair<clover_float, clover_float> hand_clap::tick() {
     float clap_env_signal = clap_env.tick();
@@ -56,13 +63,8 @@ std::pair<clover_float, clover_float> hand_clap::tick() {
         noise_R           = eq_R;
     }
 
-    if (counter == snare_key_on) {
-        clap_env.trigger();
-    }
+    float L = noise_L * clap_env_signal * gain;
+    float R = noise_R * clap_env_signal * gain;
 
-    if (++counter == 48000) {
-        counter = 0;
-    }
-
-    return {(noise_L * clap_env_signal), (noise_R * clap_env_signal)};
+    return {L, R};
 };

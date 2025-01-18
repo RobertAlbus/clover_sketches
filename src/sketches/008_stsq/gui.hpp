@@ -13,11 +13,16 @@ void GUI(shared_props& props) {
     props.audio_ready.acquire();
 
     // any setup needed  before audio begins
-    auto& hh = props.composition->hh;
+    auto& hh = props.composition->hhat;
 
     props.gui_ready.release();
 
-    auto guiFunction = [&]() {};
+    auto guiFunction = [&]() {
+        if (ImGui::Button("Bye!")) {
+            HelloImGui::GetRunnerParams()->appShallExit = true;
+        }
+        ImGui::Text("Framerate: %.2f", ImGui::GetIO().Framerate);
+    };
 
     HelloImGui::RunnerParams params{};
 
