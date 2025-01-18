@@ -9,7 +9,7 @@
 #include "clover/dsp/oscillator.hpp"
 #include "clover/math.hpp"
 
-#import "composition_kick.hpp"
+#import "kick.hpp"
 
 using namespace clover;
 using namespace dsp;

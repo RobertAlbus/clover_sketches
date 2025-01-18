@@ -11,7 +11,7 @@
 #include "clover/dsp/oscillator.hpp"
 #include "clover/dsp/wave.hpp"
 
-#include "composition_clap.hpp"
+#include "clap.hpp"
 
 using namespace clover;
 using namespace dsp;

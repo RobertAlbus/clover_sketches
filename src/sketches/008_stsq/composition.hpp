@@ -8,9 +8,9 @@
 
 #include "clover/io/audio_callback.hpp"
 
-#import "composition_clap.hpp"
-#import "composition_cymbal.hpp"
-#import "composition_kick.hpp"
+#import "composition/clap.hpp"
+#import "composition/cymbal.hpp"
+#import "composition/kick.hpp"
 
 using namespace clover;
 using namespace io;

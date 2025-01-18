@@ -10,7 +10,7 @@
 #include "clover/dsp/oscillator.hpp"
 #include "clover/dsp/wave.hpp"
 
-#import "composition_cymbal.hpp"
+#import "cymbal.hpp"
 
 using namespace clover;
 using namespace dsp;
