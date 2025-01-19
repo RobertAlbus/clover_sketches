@@ -23,14 +23,14 @@ struct composition {
 
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
-    int duration          = 4 * 60 * fs_i;
+    int_fast64_t duration = 20 * fs_i;
     int channel_count_out = 2;
 
     kick_drum kick{fs};
     cymbal hhat{fs};
     hand_clap clap{fs};
 
-    sequencers stsqs{fs, 160, kick, clap, hhat};
+    sequencers stsqs{fs, 138, kick, clap, hhat};
 
     composition() = default;
 

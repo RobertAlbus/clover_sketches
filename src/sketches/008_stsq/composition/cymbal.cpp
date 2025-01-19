@@ -16,7 +16,9 @@ using namespace clover;
 using namespace dsp;
 
 cymbal::cymbal(clover_float fs)
-    : fs(fs), osc{{fs}, {fs}, {fs}, {fs}, {fs}, {fs}}, osc_freq{199, 215, 253, 307, 329, 405} {
+    : fs(fs),                                  //
+      osc{{fs}, {fs}, {fs}, {fs}, {fs}, {fs}}  //
+{
     high_pass.m_coeffs = hpf(fs, hpf_f0, hpf_Q);
     band_pass.m_coeffs = bpf(fs, bpf_f0, bpf_Q);
 

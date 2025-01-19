@@ -24,7 +24,7 @@ struct cymbal {
 
     static const int num_oscs = 6;
     oscillator osc[num_oscs];
-    float osc_freq[num_oscs];
+    float osc_freq[num_oscs]{199, 215, 253, 307, 329, 405};
 
     env_adsr adsr_amp;
     env_adsr adsr_cut;
@@ -32,8 +32,8 @@ struct cymbal {
     filter high_pass;
     filter band_pass;
 
-    float hpf_f0 = 1000;
-    float hpf_f1 = 4000;
+    float hpf_f0 = 3000;
+    float hpf_f1 = 8000;
     float hpf_Q  = 2;
     float bpf_f0 = 6000;
     float bpf_Q  = 1.3;
@@ -44,7 +44,7 @@ struct cymbal {
     float amp_r = 1;
 
     float cut_a = 1;
-    float cut_d = 48 * 200;
+    float cut_d = 48;
     float cut_s = 0;
     float cut_r = 1;
 };
