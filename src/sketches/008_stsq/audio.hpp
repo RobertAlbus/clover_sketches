@@ -5,17 +5,30 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
+#include <thread>
 
 #include "clover/io/audio_callback.hpp"
+#include "clover/io/audio_file.hpp"
 #include "clover/io/stream.hpp"
 #include "clover/io/system_audio.hpp"
 
 #include "composition.hpp"
 #include "shared_props.hpp"
+#include "util.hpp"
 
-std::string render_name{"06_gui.wav"};
+std::string render_name{"008_stsq.wav"};
 
 void AUDIO(shared_props& props) {
+    std::jthread render_thread = std::jthread([]() {
+        std::cout << "starting render: " << render_name.c_str() << std::endl;
+        composition comp;
+        audio_buffer rendered_audio =
+                exec_callback(comp.audio_callback, comp.channel_count_out, comp.fs_i, comp.duration);
+        sketch_008_convert_sample_rate(rendered_audio, 44100);
+        audio_file::write(render_name, rendered_audio, audio_file_settings::wav_441_16);
+        std::cout << "finished render: " << render_name.c_str() << std::endl;
+    });
+
     composition comp;
     system_audio_config system;
     stream stream;
@@ -39,4 +52,10 @@ void AUDIO(shared_props& props) {
     props.gui_intent_to_exit.acquire();
     stream.stop();
     stream.wait_to_complete();
+
+    if (render_thread.joinable()) {
+        std::cout << "check for render complete." << std::endl;
+        render_thread.join();
+        std::cout << "render complete." << std::endl;
+    }
 }
