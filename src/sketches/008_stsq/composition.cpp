@@ -15,7 +15,7 @@ std::pair<clover_float, clover_float> composition::tick() {
 
     float signal_kick = kick.tick();
     signal_kick *= 1.5f;
-    signal_kick = std::clamp(-0.98f, 0.98f, signal_kick);
+    signal_kick = std::clamp(signal_kick, -0.98f, 0.98f);
     signal_kick *= 0.6f;
 
     float signal_hat = hhat.tick();
