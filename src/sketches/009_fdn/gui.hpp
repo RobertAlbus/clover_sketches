@@ -31,7 +31,7 @@ void GUI(shared_props& props) {
         ImGui::SliderFloat("verb in", &props.composition->verb_in_gain, 0, 1);
         ImGui::SliderFloat("dry", &props.composition->loop_mix, 0, 1);
         ImGui::SliderFloat("wet", &props.composition->reverb_mix, 0, 1);
-        if (ImGui::SliderFloat("fb time", &fb_coeff, 0.7, 1.1)) {
+        if (ImGui::SliderFloat("fb time", &fb_coeff, 0.7, 1.4)) {
             for (auto [L, R] : reverbs) {
                 L.fb_coefficient = fb_coeff;
                 R.fb_coefficient = fb_coeff;

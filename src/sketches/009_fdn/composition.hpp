@@ -9,6 +9,7 @@
 #include "clover/io/audio_callback.hpp"
 #include "clover/math.hpp"
 
+#include "composition/automation.hpp"
 #include "composition/clap.hpp"
 #include "composition/cymbal.hpp"
 #include "composition/kick.hpp"
@@ -23,19 +24,22 @@ struct composition {
 
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
-    int_fast64_t duration = 2000 * fs_i;
     int channel_count_out = 2;
+    float bpm             = 122;
+    int_fast64_t duration = int_fast64_t(((fs * 60.f) / bpm) * 4 * 20);
 
     kick_drum kick{fs};
     cymbal hhat{fs};
     hand_clap clap{fs};
     fdn_4 reverb_L{fs};
     fdn_4 reverb_R{fs};
-    float loop_mix     = 1;
-    float reverb_mix   = 0.8;
+
+    verb_automation automation{fs, bpm};
+    float loop_mix     = 0.842;
+    float reverb_mix   = 1;
     float verb_in_gain = 1;
 
-    sequencers stsqs{fs, 138, kick, clap, hhat};
+    sequencers stsqs{fs, bpm, kick, clap, hhat};
 
     composition() = default;
 

@@ -33,7 +33,7 @@ fdn_4::fdn_4(float fs)
         section.hpf.m_coeffs = dsp::hpf(fs, 1000, 0.707);
         section.lpf.m_coeffs = dsp::lpf(fs, initial_lpf_freq, 0.707);
 
-        section.fb_coefficient = 0.97;
+        section.fb_coefficient = 1.058;
     }
 }
 
