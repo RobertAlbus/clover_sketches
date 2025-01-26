@@ -28,5 +28,9 @@ struct fdn_4 {
     fdn_section sections[4];
     fdn_4(float fs);
 
+    float initial_lpf_freq;
+
     float tick(float x);
+    void lpf_cut(float freq);
+    void hpf_cut(float freq);
 };

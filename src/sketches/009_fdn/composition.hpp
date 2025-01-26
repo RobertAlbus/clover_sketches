@@ -31,7 +31,8 @@ struct composition {
     hand_clap clap{fs};
     fdn_4 reverb_L{fs};
     fdn_4 reverb_R{fs};
-    float reverb_mix   = 0.5;
+    float loop_mix     = 1;
+    float reverb_mix   = 0.8;
     float verb_in_gain = 1;
 
     sequencers stsqs{fs, 138, kick, clap, hhat};

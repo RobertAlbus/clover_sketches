@@ -19,6 +19,7 @@ void GUI(shared_props& props) {
     // gui setup before audio starts
 
     static float fb_coeff = props.composition->reverb_L.sections[0].fb_coefficient;
+    static float lpf_cut  = props.composition->reverb_L.initial_lpf_freq;
 
     // gui setup complete
     props.gui_ready.release();
@@ -27,21 +28,48 @@ void GUI(shared_props& props) {
             std::views::zip(props.composition->reverb_L.sections, props.composition->reverb_R.sections);
 
     auto guiFunction = [&]() {
-        ImGui::SliderFloat("verb_in", &props.composition->verb_in_gain, 0, 1);
-        ImGui::SliderFloat("verb_mix", &props.composition->reverb_mix, 0, 1);
-        if (ImGui::SliderFloat("fb time", &fb_coeff, 0.7, 1)) {
+        ImGui::SliderFloat("verb in", &props.composition->verb_in_gain, 0, 1);
+        ImGui::SliderFloat("dry", &props.composition->loop_mix, 0, 1);
+        ImGui::SliderFloat("wet", &props.composition->reverb_mix, 0, 1);
+        if (ImGui::SliderFloat("fb time", &fb_coeff, 0.7, 1.1)) {
             for (auto [L, R] : reverbs) {
                 L.fb_coefficient = fb_coeff;
                 R.fb_coefficient = fb_coeff;
             }
         }
 
+        ImGui::Separator();
         for (auto [L, R] : reverbs) {
             if (ImGui::SliderFloat(
                         std::format("time##{}", static_cast<const void*>(&L)).c_str(), &L.fdl_tap, 4, 4790)) {
                 R.fdl_tap = L.fdl_tap;
             }
         }
+        ImGui::Separator();
+
+        static float hpf_cut = 1000;
+        if (ImGui::SliderFloat(
+                    "lpf cut",
+                    &lpf_cut,
+                    10,
+                    24000,
+                    "%.3f",
+                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
+            props.composition->reverb_L.lpf_cut(lpf_cut);
+            props.composition->reverb_R.lpf_cut(lpf_cut);
+        }
+        // if (ImGui::SliderFloat(
+        //             "hpf cut",
+        //             &hpf_cut,
+        //             10,
+        //             24000,
+        //             "%.3f",
+        //             ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
+        //     props.composition->reverb_L.hpf_cut(hpf_cut);
+        //     props.composition->reverb_R.hpf_cut(hpf_cut);
+        // }
+
+        ImGui::Separator();
 
         if (ImGui::Button("Bye!")) {
             HelloImGui::GetRunnerParams()->appShallExit = true;
