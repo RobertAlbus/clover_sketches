@@ -25,5 +25,14 @@ std::pair<clover_float, clover_float> composition::tick() {
     clap_L *= 0.2;
     clap_R *= 0.2;
 
-    return {signal_kick + signal_hat + clap_L, signal_kick + signal_hat + clap_R};
+    float loop_L = signal_kick + signal_hat + clap_L;
+    float loop_R = signal_kick + signal_hat + clap_R;
+
+    float verb_output_L = reverb_L.tick(loop_L * verb_in_gain) * reverb_mix;
+    float verb_output_R = reverb_R.tick(loop_R * verb_in_gain) * reverb_mix;
+
+    float out_L = loop_L + verb_output_L;
+    float out_R = loop_R + verb_output_R;
+
+    return {out_L, out_R};
 }

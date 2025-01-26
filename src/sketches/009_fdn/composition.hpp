@@ -7,13 +7,13 @@
 #include <cmath>
 
 #include "clover/io/audio_callback.hpp"
-
 #include "clover/math.hpp"
+
 #include "composition/clap.hpp"
 #include "composition/cymbal.hpp"
 #include "composition/kick.hpp"
-
 #include "composition/sequencers.hpp"
+#include "fdn/fdn.hpp"
 
 using namespace clover;
 using namespace io;
@@ -23,12 +23,16 @@ struct composition {
 
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
-    int_fast64_t duration = 20 * fs_i;
+    int_fast64_t duration = 2000 * fs_i;
     int channel_count_out = 2;
 
     kick_drum kick{fs};
     cymbal hhat{fs};
     hand_clap clap{fs};
+    fdn_4 reverb_L{fs};
+    fdn_4 reverb_R{fs};
+    float reverb_mix   = 0.5;
+    float verb_in_gain = 1;
 
     sequencers stsqs{fs, 138, kick, clap, hhat};
 
