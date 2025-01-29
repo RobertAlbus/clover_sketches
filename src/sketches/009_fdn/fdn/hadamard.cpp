@@ -38,7 +38,6 @@ const float hadamard_8x8[64] = {
 
 // this can be generalized with a template
 // process_hadamard_n<n> for n, where n=2^x for int x
-int count = 0;
 std::array<float, 4> process_hadamard_4(std::array<float, 4>& inputs) {
     std::array<float, 4> inverses;
     auto inverted_view = std::views::all(inputs) | std::views::transform([](float x) { return x * -1.f; });
