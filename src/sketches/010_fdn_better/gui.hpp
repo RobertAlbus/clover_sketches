@@ -20,6 +20,7 @@ void GUI(shared_props& props) {
 
     static float fb_coeff = props.composition->reverb_L.sections[0].fb_coefficient;
     static float lpf_cut  = props.composition->reverb_L.initial_lpf_freq;
+    static float hpf_cut  = props.composition->reverb_L.initial_lpf_freq;
 
     // gui setup complete
     props.gui_ready.release();
@@ -30,7 +31,7 @@ void GUI(shared_props& props) {
     auto guiFunction = [&]() {
         ImGui::SliderFloat("verb in", &props.composition->verb_in_gain, 0, 1);
         ImGui::SliderFloat("dry", &props.composition->loop_mix, 0, 1);
-        ImGui::SliderFloat("wet", &props.composition->reverb_mix, 0, 1);
+        ImGui::SliderFloat("wet", &props.composition->reverb_mix, 0, 2);
         if (ImGui::SliderFloat("fb time", &fb_coeff, 0.7, 1.4)) {
             for (auto [L, R] : reverbs) {
                 L.fb_coefficient = fb_coeff;
@@ -41,13 +42,15 @@ void GUI(shared_props& props) {
         ImGui::Separator();
         for (auto [L, R] : reverbs) {
             if (ImGui::SliderFloat(
-                        std::format("time##{}", static_cast<const void*>(&L)).c_str(), &L.fdl_tap, 4, 4790)) {
+                        std::format("time##{}", static_cast<const void*>(&L)).c_str(),
+                        &L.fdl_tap,
+                        4,
+                        47900)) {
                 R.fdl_tap = L.fdl_tap;
             }
         }
         ImGui::Separator();
 
-        static float hpf_cut = 1000;
         if (ImGui::SliderFloat(
                     "lpf cut",
                     &lpf_cut,

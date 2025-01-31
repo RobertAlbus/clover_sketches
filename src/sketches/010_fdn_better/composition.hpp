@@ -26,13 +26,13 @@ struct composition {
     int fs_i              = static_cast<int>(fs);
     int channel_count_out = 2;
     float bpm             = 122;
-    int_fast64_t duration = int_fast64_t(((fs * 60.f) / bpm) * 4 * 20);
+    int_fast64_t duration = int_fast64_t(((fs * 60.f) / bpm) * 4 * 200);
 
     kick_drum kick{fs};
     cymbal hhat{fs};
     hand_clap clap{fs};
-    fdn_4 reverb_L{fs};
-    fdn_4 reverb_R{fs};
+    fdn<8> reverb_L{fs, 102.75649};
+    fdn<8> reverb_R{fs, 101.72345};
 
     verb_automation automation{fs, bpm};
     float loop_mix     = 0.842;
@@ -45,7 +45,7 @@ struct composition {
 
     float mix_kick = db_to_linear(-8);
     float mix_clap = db_to_linear(-6);
-    float mix_hhat = db_to_linear(0);
+    float mix_hhat = db_to_linear(3);
 
     io::callback audio_callback = [&](callback_args data) {
         float &L = *(data.output);
