@@ -16,7 +16,7 @@
 #include "shared_props.hpp"
 #include "util.hpp"
 
-std::string render_name{"009_fdn.wav"};
+std::string render_name{"010_fdn_beter.wav"};
 
 void AUDIO(shared_props& props) {
     std::jthread render_thread = std::jthread([]() {
