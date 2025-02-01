@@ -62,7 +62,7 @@ std::unordered_map<int, int> clap_map{
 
 /*
 
-- use unordered_map for now so sinplicity in implementation
+- use unordered_map for now to prioritize implementation simplicity.
 - if I need to care about performance, I can always convert to std::vector sorted by key
 
 */
