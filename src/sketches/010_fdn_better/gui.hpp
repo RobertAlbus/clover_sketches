@@ -20,7 +20,6 @@ void GUI(shared_props& props) {
 
     static float fb_coeff = props.composition->reverb_L.sections[0].fb_coefficient;
     static float lpf_cut  = props.composition->reverb_L.initial_lpf_freq;
-    static float hpf_cut  = props.composition->reverb_L.initial_lpf_freq;
 
     // gui setup complete
     props.gui_ready.release();
@@ -51,6 +50,7 @@ void GUI(shared_props& props) {
         }
         ImGui::Separator();
 
+        static float hpf_cut = 1000;
         if (ImGui::SliderFloat(
                     "lpf cut",
                     &lpf_cut,
