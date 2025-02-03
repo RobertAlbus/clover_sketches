@@ -8,29 +8,29 @@
 #include "clover/dsp/env_linear.hpp"
 
 struct settable {
-    float input_previous = 0;
-    float input          = 0;
-
     float output_previous = 0;
     float output          = 0;
+    float input;
+    bool was_set = false;
 
-    float smooth_duration = 10;
+    float smooth_duration = 100;
 
     clover::dsp::env_linear m_env;
 
     settable(settable& other) {
-        input           = other.input;
-        input_previous  = other.input_previous;
         output          = other.output;
         output_previous = other.output_previous;
-        m_env.set(other.input, 0);
+        m_env.set(other.output, 0);
     }
     settable(float value = 0) {
-        input           = value;
-        input_previous  = value;
         output          = value;
         output_previous = value;
         m_env.set(value, 0);
+    }
+
+    void set(float value) {
+        input   = value;
+        was_set = true;
     }
 
     bool has_changed() {
@@ -38,9 +38,9 @@ struct settable {
     }
 
     void tick() {
-        if (input != input_previous) {
-            m_env.set(input, smooth_duration);
-            input_previous = input;
+        if (was_set) {
+            was_set = false;
+            m_env.set(input, 100);
         }
         output_previous = output;
         output          = m_env.tick();

@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
+#include <string>
 
 #include "clover/dsp/env_adsr.hpp"
 #include "clover/dsp/filter.hpp"
@@ -44,6 +45,7 @@ struct kick_props {
     float cut_range;    // computed from two props that are already smoothed
 
     void tick();
+    std::string to_str();
 };
 
 struct kick_state {

@@ -16,6 +16,7 @@ using namespace clover;
 using namespace dsp;
 
 void kick_props::tick() {
+    gain.tick();
     amp_a.tick();
     amp_d.tick();
     amp_s.tick();
@@ -40,12 +41,61 @@ void kick_props::tick() {
         cut_range = clover::octave_difference_by_frequency(cut_fundamental.output, cut_peak.output);
 }
 
+std::string kick_props::to_str() {
+    return std::format(
+            "\
+kick_props patch{{     \n\
+    .gain              = {}, \n\
+    .drive             = {}, \n\
+    .amp_a             = {}, \n\
+    .amp_d             = {}, \n\
+    .amp_s             = {}, \n\
+    .amp_r             = {}, \n\
+    .cut_a             = {}, \n\
+    .cut_d             = {}, \n\
+    .cut_s             = {}, \n\
+    .cut_r             = {}, \n\
+    .filt_q            = {}, \n\
+    .pitch_a           = {}, \n\
+    .pitch_d           = {}, \n\
+    .pitch_s           = {}, \n\
+    .pitch_r           = {}, \n\
+    .pitch_fundamental = {}, \n\
+    .pitch_peak        = {}, \n\
+    .cut_fundamental   = {}, \n\
+    .cut_peak          = {}, \n\
+    .pitch_range       = {}, \n\
+    .cut_range         = {}, \n\
+}};",
+            gain.output,
+            drive.output,
+            amp_a.output,
+            amp_d.output,
+            amp_s.output,
+            amp_r.output,
+            cut_a.output,
+            cut_d.output,
+            cut_s.output,
+            cut_r.output,
+            filt_q.output,
+            pitch_a.output,
+            pitch_d.output,
+            pitch_s.output,
+            pitch_r.output,
+            pitch_fundamental.output,
+            pitch_peak.output,
+            cut_fundamental.output,
+            cut_peak.output,
+            pitch_range,
+            cut_range);
+}
+
 kick_props basic_patch{
-        .gain              = 1,
+        .gain              = 0.5,
         .drive             = 1.4,
-        .amp_a             = 1,
+        .amp_a             = 30,
         .amp_d             = 5000,
-        .amp_s             = 0.1,
+        .amp_s             = 0,
         .amp_r             = 1000,
         .cut_a             = 1,
         .cut_d             = 2000,
@@ -62,6 +112,30 @@ kick_props basic_patch{
         .cut_peak          = 200,
         .pitch_range       = 2,  // dont WANT to set this manually because it's a computed prop;
         .cut_range         = 1,  // dont WANT to set this manually because it's a computed prop;
+};
+
+kick_props example_patch{
+        .gain              = 0.5,
+        .drive             = 1.4,
+        .amp_a             = 30,
+        .amp_d             = 5953.263,
+        .amp_s             = 0.16666669,
+        .amp_r             = 1000,
+        .cut_a             = 1,
+        .cut_d             = 4167.5825,
+        .cut_s             = 0,
+        .cut_r             = 2000,
+        .filt_q            = 1,
+        .pitch_a           = 1,
+        .pitch_d           = 2764,
+        .pitch_s           = 0,
+        .pitch_r           = 77,
+        .pitch_fundamental = 50,
+        .pitch_peak        = 200,
+        .cut_fundamental   = 100,
+        .cut_peak          = 200,
+        .pitch_range       = 2,
+        .cut_range         = 1,
 };
 
 kick_drum::kick_drum(clover_float fs) : fs(fs), kick_osc(fs) {
@@ -81,6 +155,7 @@ void kick_drum::patch(kick_props& new_props) {
 }
 
 void kick_drum::key_on() {
+    key_off();
     kick_osc.phase(0);
     adsr_cut.key_on();
     adsr_pitch.key_on();
@@ -133,7 +208,7 @@ clover_float kick_drum::tick() {
     float gain_env   = adsr_amp.tick();
     float pitch_env  = adsr_pitch.tick();
 
-    float kick_signal = osc_signal * gain_env * props.gain.output;
+    float kick_signal = osc_signal * gain_env;
     kick_signal       = std::tanh(kick_signal * props.drive.output);
     kick_signal       = filt.tick(kick_signal);
 
@@ -147,5 +222,5 @@ clover_float kick_drum::tick() {
 
     props.tick();
     update_state();
-    return kick_signal;
+    return kick_signal * gain_env * props.gain.output;
 };
