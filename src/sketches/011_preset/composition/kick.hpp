@@ -48,11 +48,6 @@ struct kick_props {
     std::string to_str();
 };
 
-struct kick_state {
-    kick_props gui;
-    kick_props audio;
-};
-
 struct kick_drum {
     oscillator kick_osc;
     filter filt;
