@@ -48,14 +48,6 @@ struct fdn {
                   fdn_section{fs, 24000, 17 * base_time},  //
                   fdn_section{fs, 24000, 19 * base_time},  //
                   fdn_section{fs, 24000, 23 * base_time},  //
-                                                           //   fdn_section{fs, 24000, 29 * base_time},  //
-                                                           //   fdn_section{fs, 24000, 31 * base_time},  //
-                                                           //   fdn_section{fs, 24000, 37 * base_time},  //
-                                                           //   fdn_section{fs, 24000, 39 * base_time},  //
-                                                           //   fdn_section{fs, 24000, 41 * base_time},  //
-                                                           //   fdn_section{fs, 24000, 43 * base_time},  //
-                                                           //   fdn_section{fs, 24000, 47 * base_time},  //
-                                                           //   fdn_section{fs, 24000, 51 * base_time},  //
           } {
         for (auto [section, i] : std::views::zip(sections, std::views::iota(0, N))) {
             section.hpf.m_coeffs = dsp::hpf(fs, 100, 0.707);
