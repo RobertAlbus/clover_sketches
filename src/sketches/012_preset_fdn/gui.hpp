@@ -88,25 +88,43 @@ void GUI(shared_props& props) {
     props.gui_ready.release();
 
     auto guiFunction = [&]() {
-        if (ImGui::Button("get kick_drum patch")) {
-            ImGui::SetClipboardText(kick.props.to_str().c_str());
-        }
+        if (ImGui::BeginTabBar("MyTabBar")) {
+            if (ImGui::BeginTabItem("Kick")) {
+                ImGui::Separator();
+                ImGui::BeginTable("##kick_drum_table", 4);
+                ImGui::TableNextColumn();
+                if (ImGui::Button("get kick_drum patch")) {
+                    ImGui::SetClipboardText(kick.props.to_str().c_str());
+                }
+                ImGui::SameLine();
+                if (VSliderFloat("Gain##amp", ImVec2(20, 100), &gain, 0, 1, "%.3f")) {
+                    kick.props.gain.set(gain);
+                }
+                ImGui::TableNextColumn();
+                // clang-format off
+                std::string adsr_id_amp = "amp";
+                ImGui::TextUnformatted(adsr_id_amp.c_str());
+                adsr(adsr_id_amp, adsr_amp, kick.props.amp_a, kick.props.amp_d, kick.props.amp_s, kick.props.amp_r);
+                ImGui::TableNextColumn();
+                std::string adsr_id_cut = "cut";
+                ImGui::TextUnformatted(adsr_id_cut.c_str());
+                adsr(adsr_id_cut, adsr_cut, kick.props.cut_a, kick.props.cut_d, kick.props.cut_s, kick.props.cut_r);
+                ImGui::TableNextColumn();
+                std::string adsr_id_pitch = "pitch";
+                ImGui::TextUnformatted(adsr_id_pitch.c_str());
+                adsr(adsr_id_pitch, adsr_pitch, kick.props.pitch_a, kick.props.pitch_d, kick.props.pitch_s, kick.props.pitch_r);
+                // clang-format on
+                ImGui::EndTable();
 
-        if (VSliderFloat("Gain##amp", ImVec2(20, 100), &gain, 0, 1, "%.3f")) {
-            kick.props.gain.set(gain);
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("Tab 2")) {
+                // Content for Tab 2
+                ImGui::Text("This is Tab 2");
+                ImGui::EndTabItem();
+            }
+            ImGui::EndTabBar();
         }
-
-        // clang-format off
-        ImGui::Separator();
-        std::string adsr_id_amp = "amp";
-        adsr(adsr_id_amp, adsr_amp, kick.props.amp_a, kick.props.amp_d, kick.props.amp_s, kick.props.amp_r);
-        ImGui::Separator();
-        std::string adsr_id_cut = "cut";
-        adsr(adsr_id_cut, adsr_cut, kick.props.cut_a, kick.props.cut_d, kick.props.cut_s, kick.props.cut_r);
-        ImGui::Separator();
-        std::string adsr_id_pitch = "pitch";
-        adsr(adsr_id_pitch, adsr_pitch, kick.props.pitch_a, kick.props.pitch_d, kick.props.pitch_s, kick.props.pitch_r);
-        // clang-format on
 
         if (ImGui::Button("Bye!")) {
             HelloImGui::GetRunnerParams()->appShallExit = true;
