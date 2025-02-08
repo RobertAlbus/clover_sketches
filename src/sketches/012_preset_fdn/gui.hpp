@@ -59,6 +59,27 @@ void adsr(
     ImGui::PopID();
 }
 
+void mixer(float* loop, float* verb_in, float* verb_out) {
+    float width = 30;
+
+    ImGui::PushID("mixer");
+    bool set_a = VSliderFloat("##loop_slider", ImVec2(width, 100), loop, 0, 2, "");
+    ImGui::SameLine();
+    bool set_d = VSliderFloat("##verb_in_slider", ImVec2(width, 100), verb_in, 0, 2, "");
+    ImGui::SameLine();
+    bool set_s = VSliderFloat("##verb_out_slider", ImVec2(width, 100), verb_out, 0, 2, "");
+
+    ImGui::PushItemWidth(width);
+    set_a = set_a || ImGui::DragFloat("##loop_spinner", loop, 0.1f, 0, 2, "%.2f");
+    ImGui::SameLine();
+    set_d = set_d || ImGui::DragFloat("##verb_in_spinner", verb_in, 0.1f, 0, 2, "%.2f");
+    ImGui::SameLine();
+    set_s = set_s || ImGui::DragFloat("##verb_out_spinner", verb_out, 0.1f, 0, 2, "%.2f");
+
+    ImGui::PopItemWidth();
+    ImGui::PopID();
+}
+
 void GUI(shared_props& props) {
     props.audio_ready.acquire();
     // gui setup before audio starts
@@ -89,7 +110,15 @@ void GUI(shared_props& props) {
 
     auto guiFunction = [&]() {
         if (ImGui::BeginTabBar("MyTabBar")) {
-            if (ImGui::BeginTabItem("Kick")) {
+            if (ImGui::BeginTabItem("mix")) {
+                // Content for Tab 2
+                mixer(&(props.composition->loop_mix),
+                      &(props.composition->verb_in_gain),
+                      &(props.composition->reverb_mix));
+
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("kick")) {
                 ImGui::Separator();
                 ImGui::BeginTable("##kick_drum_table", 4);
                 ImGui::TableNextColumn();
@@ -118,11 +147,7 @@ void GUI(shared_props& props) {
 
                 ImGui::EndTabItem();
             }
-            if (ImGui::BeginTabItem("Tab 2")) {
-                // Content for Tab 2
-                ImGui::Text("This is Tab 2");
-                ImGui::EndTabItem();
-            }
+
             ImGui::EndTabBar();
         }
 
