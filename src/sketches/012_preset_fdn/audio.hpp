@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
+#include <print>
 #include <thread>
 
 #include "clover/io/audio_callback.hpp"
@@ -31,7 +32,6 @@ void AUDIO(shared_props& props) {
 
     composition comp;
     system_audio_config system;
-    system.print();
 
     stream stream;
 
@@ -42,6 +42,10 @@ void AUDIO(shared_props& props) {
 
     stream.audio_callback = comp.audio_callback;
 
+    // system.print();
+    std::println("----------------------------------------------------------------");
+    std::println("| no sound? check device_index_out in 012_preset_fdn/audio.hpp |");
+    std::println("----------------------------------------------------------------");
     stream.open(stream::settings{
             .device_index_in  = system.no_device(),
             .chan_count_in    = 0,
