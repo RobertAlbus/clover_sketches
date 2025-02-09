@@ -24,7 +24,7 @@ void fdn_8_props_012::tick() {
     for (auto& fb : fb_gains)
         fb.tick();
 }
-std::string fdn_8_props_012::to_string() {
+std::string fdn_8_props_012::to_str() {
     return std::format(
             "\
 {{\n\

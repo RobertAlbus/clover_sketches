@@ -26,8 +26,8 @@ struct composition {
     int_fast64_t duration = int_fast64_t(((fs * 60.f) / bpm) * 4 * 200);
 
     kick_drum kick{fs};
-    fdn_8_012 reverb_L{fs, {}};
-    fdn_8_012 reverb_R{fs, {}};
+    fdn_8_012 fdn_L{fs, {}};
+    fdn_8_012 fdn_R{fs, {}};
 
     float loop_mix     = 0.842;
     float reverb_mix   = 1;

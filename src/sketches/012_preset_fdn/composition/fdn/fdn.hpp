@@ -18,7 +18,7 @@ struct fdn_8_props_012 {
     settable hpf_res = 0.707;
 
     void tick();
-    std::string to_string();
+    std::string to_str();
 };
 
 struct fdn_8_012 {
