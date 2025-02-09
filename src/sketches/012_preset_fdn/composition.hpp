@@ -9,9 +9,9 @@
 #include "clover/io/audio_callback.hpp"
 #include "clover/math.hpp"
 
+#include "composition/fdn/fdn.hpp"
 #include "composition/kick.hpp"
 #include "composition/sequencers.hpp"
-#include "fdn/fdn.hpp"
 
 using namespace clover;
 using namespace io;
@@ -26,8 +26,8 @@ struct composition {
     int_fast64_t duration = int_fast64_t(((fs * 60.f) / bpm) * 4 * 200);
 
     kick_drum kick{fs};
-    fdn<8> reverb_L{fs, 102.75649};
-    fdn<8> reverb_R{fs, 101.72345};
+    fdn_8_012 fdn_L{fs, fdn_patch};
+    fdn_8_012 fdn_R{fs, fdn_patch};
 
     float loop_mix     = 0.842;
     float reverb_mix   = 1;

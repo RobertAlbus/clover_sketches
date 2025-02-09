@@ -35,10 +35,14 @@ void kick_props::tick() {
     cut_peak.tick();
 
     if (pitch_fundamental.has_changed() || pitch_peak.has_changed())
-        pitch_range = clover::octave_difference_by_frequency(pitch_fundamental.output, pitch_peak.output);
+        pitch_range = clover::octave_difference_by_frequency(
+                pitch_fundamental.output.load(std::memory_order_acquire),
+                pitch_peak.output.load(std::memory_order_acquire));
 
     if (cut_fundamental.has_changed() || cut_peak.has_changed())
-        cut_range = clover::octave_difference_by_frequency(cut_fundamental.output, cut_peak.output);
+        cut_range = clover::octave_difference_by_frequency(
+                cut_fundamental.output.load(std::memory_order_acquire),
+                cut_peak.output.load(std::memory_order_acquire));
 }
 
 std::string kick_props::to_str() {
@@ -67,25 +71,25 @@ kick_props patch{{     \n\
     .pitch_range       = {}, \n\
     .cut_range         = {}, \n\
 }};",
-            gain.output,
-            drive.output,
-            amp_a.output,
-            amp_d.output,
-            amp_s.output,
-            amp_r.output,
-            cut_a.output,
-            cut_d.output,
-            cut_s.output,
-            cut_r.output,
-            filt_q.output,
-            pitch_a.output,
-            pitch_d.output,
-            pitch_s.output,
-            pitch_r.output,
-            pitch_fundamental.output,
-            pitch_peak.output,
-            cut_fundamental.output,
-            cut_peak.output,
+            gain.output.load(std::memory_order_acquire),
+            drive.output.load(std::memory_order_acquire),
+            amp_a.output.load(std::memory_order_acquire),
+            amp_d.output.load(std::memory_order_acquire),
+            amp_s.output.load(std::memory_order_acquire),
+            amp_r.output.load(std::memory_order_acquire),
+            cut_a.output.load(std::memory_order_acquire),
+            cut_d.output.load(std::memory_order_acquire),
+            cut_s.output.load(std::memory_order_acquire),
+            cut_r.output.load(std::memory_order_acquire),
+            filt_q.output.load(std::memory_order_acquire),
+            pitch_a.output.load(std::memory_order_acquire),
+            pitch_d.output.load(std::memory_order_acquire),
+            pitch_s.output.load(std::memory_order_acquire),
+            pitch_r.output.load(std::memory_order_acquire),
+            pitch_fundamental.output.load(std::memory_order_acquire),
+            pitch_peak.output.load(std::memory_order_acquire),
+            cut_fundamental.output.load(std::memory_order_acquire),
+            cut_peak.output.load(std::memory_order_acquire),
             pitch_range,
             cut_range);
 }
@@ -143,15 +147,27 @@ kick_drum::kick_drum(clover_float fs) : fs(fs), kick_osc(fs) {
 }
 
 void kick_drum::patch(kick_props& new_props) {
-    props = new_props;
-    kick_osc.freq(props.pitch_fundamental.output);
+    props = std::move(new_props);
+    kick_osc.freq(props.pitch_fundamental.output.load(std::memory_order_acquire));
     kick_osc.phase(0);
 
-    adsr_cut.set(props.cut_a.output, props.cut_d.output, props.cut_s.output, props.cut_r.output);
-    adsr_pitch.set(props.pitch_a.output, props.pitch_d.output, props.pitch_s.output, props.pitch_r.output);
-    adsr_amp.set(props.amp_a.output, props.amp_d.output, props.amp_s.output, props.amp_r.output);
+    adsr_cut.set(
+            props.cut_a.output.load(std::memory_order_acquire),
+            props.cut_d.output.load(std::memory_order_acquire),
+            props.cut_s.output.load(std::memory_order_acquire),
+            props.cut_r.output.load(std::memory_order_acquire));
+    adsr_pitch.set(
+            props.pitch_a.output.load(std::memory_order_acquire),
+            props.pitch_d.output.load(std::memory_order_acquire),
+            props.pitch_s.output.load(std::memory_order_acquire),
+            props.pitch_r.output.load(std::memory_order_acquire));
+    adsr_amp.set(
+            props.amp_a.output.load(std::memory_order_acquire),
+            props.amp_d.output.load(std::memory_order_acquire),
+            props.amp_s.output.load(std::memory_order_acquire),
+            props.amp_r.output.load(std::memory_order_acquire));
 
-    filt.m_coeffs = lpf(fs, props.cut_fundamental.output, 1);
+    filt.m_coeffs = lpf(fs, props.cut_fundamental.output.load(std::memory_order_acquire), 1);
 }
 
 void kick_drum::key_on() {
@@ -174,30 +190,30 @@ void kick_drum::update_state() {
         props.amp_s.has_changed() ||
         props.amp_r.has_changed()) {
         adsr_amp.set(
-            props.amp_a.output,
-            props.amp_d.output,
-            props.amp_s.output,
-            props.amp_r.output);
+            props.amp_a.output.load(std::memory_order_acquire),
+            props.amp_d.output.load(std::memory_order_acquire),
+            props.amp_s.output.load(std::memory_order_acquire),
+            props.amp_r.output.load(std::memory_order_acquire));
     }
     if (props.cut_a.has_changed() ||
         props.cut_d.has_changed() ||
         props.cut_s.has_changed() ||
         props.cut_r.has_changed()) {
         adsr_cut.set(
-            props.cut_a.output,
-            props.cut_d.output,
-            props.cut_s.output,
-            props.cut_r.output);
+            props.cut_a.output.load(std::memory_order_acquire),
+            props.cut_d.output.load(std::memory_order_acquire),
+            props.cut_s.output.load(std::memory_order_acquire),
+            props.cut_r.output.load(std::memory_order_acquire));
     }
     if (props.pitch_a.has_changed() ||
         props.pitch_d.has_changed() ||
         props.pitch_s.has_changed() ||
         props.pitch_r.has_changed()) {
         adsr_pitch.set(
-            props.pitch_a.output,
-            props.pitch_d.output,
-            props.pitch_s.output,
-            props.pitch_r.output);
+            props.pitch_a.output.load(std::memory_order_acquire),
+            props.pitch_d.output.load(std::memory_order_acquire),
+            props.pitch_s.output.load(std::memory_order_acquire),
+            props.pitch_r.output.load(std::memory_order_acquire));
     }
 }
 // clang-format on
@@ -208,19 +224,23 @@ clover_float kick_drum::tick() {
     float gain_env   = adsr_amp.tick();
     float pitch_env  = adsr_pitch.tick();
 
+    // std::println("kick signal {} - {}", kick_osc.freq(),
+    // props.pitch_fundamental.output.load(std::memory_order_acquire));
+
     float kick_signal = osc_signal * gain_env;
-    kick_signal       = std::tanh(kick_signal * props.drive.output);
+    kick_signal       = std::tanh(kick_signal * props.drive.output.load(std::memory_order_acquire));
     kick_signal       = filt.tick(kick_signal);
 
-    float kick_pitch =
-            frequency_by_octave_difference(props.pitch_fundamental.output, props.pitch_range * pitch_env);
+    float kick_pitch = frequency_by_octave_difference(
+            props.pitch_fundamental.output.load(std::memory_order_acquire), props.pitch_range * pitch_env);
     kick_osc.freq(kick_pitch);
 
-    float cut = frequency_by_octave_difference(props.cut_fundamental.output, props.cut_range * cutoff_env);
+    float cut = frequency_by_octave_difference(
+            props.cut_fundamental.output.load(std::memory_order_acquire), props.cut_range * cutoff_env);
 
-    filt.m_coeffs = lpf(fs, cut, props.filt_q.output);
+    filt.m_coeffs = lpf(fs, cut, props.filt_q.output.load(std::memory_order_acquire));
 
     props.tick();
     update_state();
-    return kick_signal * gain_env * props.gain.output;
+    return kick_signal * gain_env * props.gain.output.load(std::memory_order_acquire);
 };

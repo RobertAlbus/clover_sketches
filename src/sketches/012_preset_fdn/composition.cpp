@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <print>
 
 #include "composition.hpp"
 
@@ -24,8 +25,8 @@ std::pair<clover_float, clover_float> composition::tick() {
     float loop_output_L = loop_L * loop_mix;
     float loop_output_R = loop_R * loop_mix;
 
-    float verb_output_L = reverb_L.tick(loop_L * verb_in_gain) * reverb_mix;
-    float verb_output_R = reverb_R.tick(loop_R * verb_in_gain) * reverb_mix;
+    float verb_output_L = fdn_L.tick(loop_L * verb_in_gain) * reverb_mix;
+    float verb_output_R = fdn_R.tick(loop_R * verb_in_gain) * reverb_mix;
 
     float out_L = loop_output_L + verb_output_L;
     float out_R = loop_output_R + verb_output_R;

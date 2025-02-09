@@ -26,8 +26,8 @@ std::pair<clover_float, clover_float> composition::tick() {
     clap_L *= 0.2;
     clap_R *= 0.2;
 
-    float loop_L = signal_kick + signal_hat + clap_L;
-    float loop_R = signal_kick + signal_hat + clap_R;
+    float loop_L = signal_kick + signal_hat;  // + clap_L;
+    float loop_R = signal_kick + signal_hat;  // + clap_R;
 
     float loop_output_L = loop_L * loop_mix;  // * automation.verb_dry;
     float loop_output_R = loop_R * loop_mix;  // * automation.verb_dry;

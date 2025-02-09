@@ -5,84 +5,27 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <print>
+#include <ranges>
 
+#include "composition/fdn/fdn.hpp"
 #include "hello_imgui/hello_imgui.h"
 #include "imgui.h"
+using namespace ImGui;
 
 #include "composition.hpp"
 #include "composition/kick.hpp"
 #include "shared_props.hpp"
 
-using namespace ImGui;
-
-void adsr(
-        std::string id,
-        float* adsr,
-        settable& settable_a,
-        settable& settable_d,
-        settable& settable_s,
-        settable& settable_r) {
-    float width = 30;
-
-    ImGui::PushID(id.c_str());
-    bool set_a = VSliderFloat("##A_slider", ImVec2(width, 100), adsr + 0, 1, 1000, "");
-    ImGui::SameLine();
-    bool set_d = VSliderFloat("##D_slider", ImVec2(width, 100), adsr + 1, 1, 50000, "");
-    ImGui::SameLine();
-    bool set_s = VSliderFloat("##S_slider", ImVec2(width, 100), adsr + 2, 0, 1, "");
-    ImGui::SameLine();
-    bool set_r = VSliderFloat("##R_slider", ImVec2(width, 100), adsr + 3, 1, 1000, "");
-
-    ImGui::PushItemWidth(width);
-    set_a = set_a || ImGui::DragFloat("##A_spinner", adsr + 0, 2, 1, 1000, "%.0f");
-    ImGui::SameLine();
-    set_d = set_d || ImGui::DragFloat("##D_spinner", adsr + 1, 50, 1, 50000, "%.0f");
-    ImGui::SameLine();
-    set_s = set_s || ImGui::DragFloat("##S_spinner", adsr + 2, 0.1f, 0, 1, "%.2f");
-    ImGui::SameLine();
-    set_r = set_r || ImGui::DragFloat("##R_spinner", adsr + 3, 2, 1, 1000, "%.0f");
-    ImGui::PopItemWidth();
-
-    if (set_a) {
-        settable_a.set(adsr[0]);
-    }
-    if (set_d) {
-        settable_d.set(adsr[1]);
-    }
-    if (set_s) {
-        settable_s.set(adsr[2]);
-    }
-    if (set_r) {
-        settable_r.set(adsr[3]);
-    }
-
-    ImGui::PopID();
-}
-
-void mixer(float* loop, float* verb_in, float* verb_out) {
-    float width = 30;
-
-    ImGui::PushID("mixer");
-    bool set_a = VSliderFloat("##loop_slider", ImVec2(width, 100), loop, 0, 2, "");
-    ImGui::SameLine();
-    bool set_d = VSliderFloat("##verb_in_slider", ImVec2(width, 100), verb_in, 0, 2, "");
-    ImGui::SameLine();
-    bool set_s = VSliderFloat("##verb_out_slider", ImVec2(width, 100), verb_out, 0, 2, "");
-
-    ImGui::PushItemWidth(width);
-    set_a = set_a || ImGui::DragFloat("##loop_spinner", loop, 0.1f, 0, 2, "%.2f");
-    ImGui::SameLine();
-    set_d = set_d || ImGui::DragFloat("##verb_in_spinner", verb_in, 0.1f, 0, 2, "%.2f");
-    ImGui::SameLine();
-    set_s = set_s || ImGui::DragFloat("##verb_out_spinner", verb_out, 0.1f, 0, 2, "%.2f");
-
-    ImGui::PopItemWidth();
-    ImGui::PopID();
-}
+#include "gui/adsr.hpp"
+#include "gui/fdn_ui.hpp"
+#include "gui/mixer.hpp"
 
 void GUI(shared_props& props) {
     props.audio_ready.acquire();
     // gui setup before audio starts
+
+    fdn_8_012& fdn_L = props.composition->fdn_L;
+    fdn_8_012& fdn_R = props.composition->fdn_R;
 
     kick_drum& kick          = props.composition->kick;
     static float gain        = kick.props.gain.output;
@@ -105,6 +48,14 @@ void GUI(shared_props& props) {
             kick.props.pitch_r.output,
     };
 
+    fdn_L.props.fb_gain.gui = fdn_L.props.fb_gain.output.load(std::memory_order_acquire);
+
+    for (auto [L, R, P] : std::views::zip(fdn_L.props.taps, fdn_R.props.taps, fdn_patch.taps)) {
+        L.gui = L.output.load(std::memory_order_acquire);
+        R.gui = L.gui;
+        std::println("{} {} {}", L.output.load(std::memory_order_acquire), R.gui, P.gui);
+    }
+
     // gui setup complete
     props.gui_ready.release();
 
@@ -119,7 +70,6 @@ void GUI(shared_props& props) {
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("kick")) {
-                ImGui::Separator();
                 ImGui::BeginTable("##kick_drum_table", 4);
                 ImGui::TableNextColumn();
                 if (ImGui::Button("get kick_drum patch")) {
@@ -147,10 +97,17 @@ void GUI(shared_props& props) {
 
                 ImGui::EndTabItem();
             }
+            if (ImGui::BeginTabItem("fdn")) {
+                std::string fdn_component_id = {"fdn_ui"};
+                fdn_component(fdn_component_id, fdn_L.props, fdn_R.props);
+
+                ImGui::EndTabItem();
+            }
 
             ImGui::EndTabBar();
         }
 
+        ImGui::NewLine();
         if (ImGui::Button("Bye!")) {
             HelloImGui::GetRunnerParams()->appShallExit = true;
         }
