@@ -49,10 +49,11 @@ void AUDIO(shared_props& props) {
     stream.open(stream::settings{
             .device_index_in  = system.no_device(),
             .chan_count_in    = 0,
-            .device_index_out = 7,  // output: "pulse" with pulse bridged to JACK so I can use bluetooth
-            .chan_count_out   = comp.channel_count_out,
-            .sample_rate      = comp.fs_i,
-            .latency_ms       = 0});
+            .device_index_out = system.default_output().index,  // 7,  // output: "pulse" with pulse bridged
+                                                                // to JACK so I can use bluetooth
+            .chan_count_out = comp.channel_count_out,
+            .sample_rate    = comp.fs_i,
+            .latency_ms     = 0});
 
     stream.start();
     props.gui_intent_to_exit.acquire();
