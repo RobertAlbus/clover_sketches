@@ -17,7 +17,7 @@
 #include "shared_props.hpp"
 #include "util.hpp"
 
-std::string render_name{"011_preset.wav"};
+std::string render_name{"012_preset_fdn.wav"};
 
 void AUDIO(shared_props& props) {
     std::jthread render_thread = std::jthread([]() {
@@ -46,14 +46,14 @@ void AUDIO(shared_props& props) {
     std::println("----------------------------------------------------------------");
     std::println("| no sound? check device_index_out in 012_preset_fdn/audio.hpp |");
     std::println("----------------------------------------------------------------");
-
     stream.open(stream::settings{
             .device_index_in  = system.no_device(),
             .chan_count_in    = 0,
-            .device_index_out = 7,  // output: "pulse" with pulse bridged to JACK so I can use bluetooth
-            .chan_count_out   = comp.channel_count_out,
-            .sample_rate      = comp.fs_i,
-            .latency_ms       = 0});
+            .device_index_out = system.default_output().index,  // 7,  // output: "pulse" with pulse bridged
+                                                                // to JACK so I can use bluetooth
+            .chan_count_out = comp.channel_count_out,
+            .sample_rate    = comp.fs_i,
+            .latency_ms     = 0});
 
     stream.start();
     props.gui_intent_to_exit.acquire();
