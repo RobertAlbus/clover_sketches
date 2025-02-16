@@ -53,7 +53,6 @@ void GUI(shared_props& props) {
     for (auto [L, R, P] : std::views::zip(fdn_L.props.taps, fdn_R.props.taps, fdn_patch.taps)) {
         L.gui = L.output.load(std::memory_order_acquire);
         R.gui = L.gui;
-        std::println("{} {} {}", L.output.load(std::memory_order_acquire), R.gui, P.gui);
     }
 
     // gui setup complete

@@ -224,9 +224,6 @@ clover_float kick_drum::tick() {
     float gain_env   = adsr_amp.tick();
     float pitch_env  = adsr_pitch.tick();
 
-    // std::println("kick signal {} - {}", kick_osc.freq(),
-    // props.pitch_fundamental.output.load(std::memory_order_acquire));
-
     float kick_signal = osc_signal * gain_env;
     kick_signal       = std::tanh(kick_signal * props.drive.output.load(std::memory_order_acquire));
     kick_signal       = filt.tick(kick_signal);
