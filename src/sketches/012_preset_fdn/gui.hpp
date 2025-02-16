@@ -78,20 +78,24 @@ void GUI(shared_props& props) {
                 if (VSliderFloat("Gain##amp", ImVec2(20, 100), &gain, 0, 1, "%.3f")) {
                     kick.props.gain.set(gain);
                 }
-                ImGui::TableNextColumn();
+
+                adsr_ranges ranges = {1000, 40000, 1, 1000};
                 // clang-format off
-                std::string adsr_id_amp = "amp";
-                ImGui::TextUnformatted(adsr_id_amp.c_str());
-                adsr(adsr_id_amp, adsr_amp, kick.props.amp_a, kick.props.amp_d, kick.props.amp_s, kick.props.amp_r);
                 ImGui::TableNextColumn();
-                std::string adsr_id_cut = "cut";
-                ImGui::TextUnformatted(adsr_id_cut.c_str());
-                adsr(adsr_id_cut, adsr_cut, kick.props.cut_a, kick.props.cut_d, kick.props.cut_s, kick.props.cut_r);
+                ImGui::TextUnformatted("amplitude");
+                adsr("kick_amp", ranges, kick.props.amp_a, kick.props.amp_d, kick.props.amp_s, kick.props.amp_r);
+
                 ImGui::TableNextColumn();
-                std::string adsr_id_pitch = "pitch";
-                ImGui::TextUnformatted(adsr_id_pitch.c_str());
-                adsr(adsr_id_pitch, adsr_pitch, kick.props.pitch_a, kick.props.pitch_d, kick.props.pitch_s, kick.props.pitch_r);
+                ImGui::TextUnformatted("kick_cut");
+                ranges.d_max = 20000;
+                adsr("kick_cut", ranges, kick.props.cut_a, kick.props.cut_d, kick.props.cut_s, kick.props.cut_r);
+
+                ImGui::TableNextColumn();
+                ImGui::TextUnformatted("kick_pitch");
+                ranges.d_max = 10000;
+                adsr("kick_pitch", ranges, kick.props.pitch_a, kick.props.pitch_d, kick.props.pitch_s, kick.props.pitch_r);
                 // clang-format on
+
                 ImGui::EndTable();
 
                 ImGui::EndTabItem();

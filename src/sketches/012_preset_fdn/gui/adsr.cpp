@@ -10,46 +10,76 @@ using namespace ImGui;
 #include "adsr.hpp"
 #include "composition/settable.hpp"
 
-void adsr(
-        std::string id,
-        float* adsr,
+bool slider_spinnner_v(
+        const char* id,
+        settable& settable_param,
+        float min,
+        float max,
+        const char* fmt,
+        ImGuiSliderFlags slider_flags,
+        const ImVec2& dimensions) {
+    ImGui::PushID(id);
+
+    bool was_modified =
+            VSliderFloat("##slider", dimensions, &settable_param.gui, min, max, fmt, slider_flags);
+
+    ImGui::PushItemWidth(dimensions.x);
+    was_modified =
+            was_modified || ImGui::DragFloat("##spinner", &settable_param.gui, max * 0.2f, min, max, fmt);
+    ImGui::PopItemWidth();
+
+    ImGui::PopID();
+
+    if (was_modified) {
+        settable_param.set(settable_param.gui);
+    }
+
+    return was_modified;
+}
+
+bool slider_spinnner_v(
+        const char* id,
+        settable& settable_param,
+        float min,
+        float max,
+        const char* fmt,
+        ImGuiSliderFlags slider_flags) {
+    const ImVec2 default_dimensions = ImVec2(30, 100);
+    return slider_spinnner_v(id, settable_param, min, max, fmt, slider_flags, default_dimensions);
+}
+
+bool adsr(
+        const char* id,
+        const adsr_ranges& ranges,
         settable& settable_a,
         settable& settable_d,
         settable& settable_s,
         settable& settable_r) {
-    float width = 30;
+    ImGui::PushID(id);
 
-    ImGui::PushID(id.c_str());
-    bool set_a = VSliderFloat("##A_slider", ImVec2(width, 100), adsr + 0, 1, 1000, "");
-    ImGui::SameLine();
-    bool set_d = VSliderFloat("##D_slider", ImVec2(width, 100), adsr + 1, 1, 50000, "");
-    ImGui::SameLine();
-    bool set_s = VSliderFloat("##S_slider", ImVec2(width, 100), adsr + 2, 0, 1, "");
-    ImGui::SameLine();
-    bool set_r = VSliderFloat("##R_slider", ImVec2(width, 100), adsr + 3, 1, 1000, "");
+    ImGui::BeginTable("##table", 4);
 
-    ImGui::PushItemWidth(width);
-    set_a = set_a || ImGui::DragFloat("##A_spinner", adsr + 0, 2, 1, 1000, "%.0f");
-    ImGui::SameLine();
-    set_d = set_d || ImGui::DragFloat("##D_spinner", adsr + 1, 50, 1, 50000, "%.0f");
-    ImGui::SameLine();
-    set_s = set_s || ImGui::DragFloat("##S_spinner", adsr + 2, 0.1f, 0, 1, "%.2f");
-    ImGui::SameLine();
-    set_r = set_r || ImGui::DragFloat("##R_spinner", adsr + 3, 2, 1, 1000, "%.0f");
-    ImGui::PopItemWidth();
+    ImGui::TableSetupColumn("a", ImGuiTableColumnFlags_WidthFixed, 30);
+    ImGui::TableSetupColumn("d", ImGuiTableColumnFlags_WidthFixed, 30);
+    ImGui::TableSetupColumn("s", ImGuiTableColumnFlags_WidthFixed, 30);
+    ImGui::TableSetupColumn("r", ImGuiTableColumnFlags_WidthFixed, 30);
+    ImGui::TableHeadersRow();
 
-    if (set_a) {
-        settable_a.set(adsr[0]);
-    }
-    if (set_d) {
-        settable_d.set(adsr[1]);
-    }
-    if (set_s) {
-        settable_s.set(adsr[2]);
-    }
-    if (set_r) {
-        settable_r.set(adsr[3]);
-    }
+    ImGui::TableNextRow();
+
+    bool was_modified = false;
+
+    ImGui::TableNextColumn();
+    was_modified = was_modified || slider_spinnner_v("##a", settable_a, 1, ranges.a_max, "%.f");
+    ImGui::TableNextColumn();
+    was_modified = was_modified || slider_spinnner_v("##d", settable_d, 1, ranges.d_max, "%.2f");
+    ImGui::TableNextColumn();
+    was_modified = was_modified || slider_spinnner_v("##s", settable_s, 0, ranges.s_max, "%.f");
+    ImGui::TableNextColumn();
+    was_modified = was_modified || slider_spinnner_v("##r", settable_r, 1, ranges.r_max, "%.f");
+    ImGui::EndTable();
 
     ImGui::PopID();
+
+    return was_modified;
 }
