@@ -17,7 +17,7 @@ using namespace clover;
 using namespace dsp;
 
 struct kick_props {
-    settable gain;
+    settable trim;
     settable drive;
 
     settable amp_a;

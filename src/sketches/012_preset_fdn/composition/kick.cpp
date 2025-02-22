@@ -16,7 +16,7 @@ using namespace clover;
 using namespace dsp;
 
 void kick_props::tick() {
-    gain.tick();
+    trim.tick();
     amp_a.tick();
     amp_d.tick();
     amp_s.tick();
@@ -49,7 +49,7 @@ std::string kick_props::to_str() {
     return std::format(
             "\
 kick_props patch{{     \n\
-    .gain              = {}, \n\
+    .trim              = {}, \n\
     .drive             = {}, \n\
     .amp_a             = {}, \n\
     .amp_d             = {}, \n\
@@ -71,7 +71,7 @@ kick_props patch{{     \n\
     .pitch_range       = {}, \n\
     .cut_range         = {}, \n\
 }};",
-            gain.output.load(std::memory_order_acquire),
+            trim.output.load(std::memory_order_acquire),
             drive.output.load(std::memory_order_acquire),
             amp_a.output.load(std::memory_order_acquire),
             amp_d.output.load(std::memory_order_acquire),
@@ -95,7 +95,7 @@ kick_props patch{{     \n\
 }
 
 kick_props basic_patch{
-        .gain              = 0.5,
+        .trim              = 0.5,
         .drive             = 1.4,
         .amp_a             = 30,
         .amp_d             = 5000,
@@ -119,7 +119,7 @@ kick_props basic_patch{
 };
 
 kick_props example_patch{
-        .gain              = 0.5,
+        .trim              = 0.5,
         .drive             = 1.4,
         .amp_a             = 30,
         .amp_d             = 5953.263,
@@ -239,5 +239,5 @@ clover_float kick_drum::tick() {
 
     props.tick();
     update_state();
-    return kick_signal * gain_env * props.gain.output.load(std::memory_order_acquire);
+    return kick_signal * gain_env * props.trim.output.load(std::memory_order_acquire);
 };
