@@ -17,7 +17,7 @@ using namespace clover;
 using namespace dsp;
 
 struct kick_props {
-    settable gain;
+    settable trim;
     settable drive;
 
     settable amp_a;
@@ -59,7 +59,7 @@ struct kick_drum {
     env_adsr adsr_cut;
 
     float fs = 0;
-    kick_drum(float fs);
+    kick_drum(float fs, kick_props& new_props);
     void patch(kick_props& props);
     float tick();
     void update_state();

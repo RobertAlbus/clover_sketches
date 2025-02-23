@@ -11,6 +11,7 @@
 
 #include "composition/fdn/fdn.hpp"
 #include "composition/kick.hpp"
+#include "composition/patches/deep.hpp"
 #include "composition/sequencers.hpp"
 
 using namespace clover;
@@ -25,9 +26,9 @@ struct composition {
     float bpm             = 122;
     int_fast64_t duration = int_fast64_t(((fs * 60.f) / bpm) * 4 * 200);
 
-    kick_drum kick{fs};
-    fdn_8_012 fdn_L{fs, fdn_patch};
-    fdn_8_012 fdn_R{fs, fdn_patch};
+    kick_drum kick{fs, patch_deep_kick};
+    fdn_8_012 fdn_L{fs, patch_deep_fdn};
+    fdn_8_012 fdn_R{fs, patch_deep_fdn};
 
     float loop_mix     = 0.842;
     float reverb_mix   = 1;

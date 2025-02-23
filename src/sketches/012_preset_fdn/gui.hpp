@@ -8,6 +8,8 @@
 #include <ranges>
 
 #include "composition/fdn/fdn.hpp"
+#include "gui/audio_meter_poc.hpp"
+#include "gui/kick_drum_gui.hpp"
 #include "hello_imgui/hello_imgui.h"
 #include "imgui.h"
 using namespace ImGui;
@@ -16,7 +18,6 @@ using namespace ImGui;
 #include "composition/kick.hpp"
 #include "shared_props.hpp"
 
-#include "gui/adsr.hpp"
 #include "gui/fdn_ui.hpp"
 #include "gui/mixer.hpp"
 
@@ -28,7 +29,7 @@ void GUI(shared_props& props) {
     fdn_8_012& fdn_R = props.composition->fdn_R;
 
     kick_drum& kick          = props.composition->kick;
-    static float gain        = kick.props.gain.output;
+    static float gain        = kick.props.trim.output;
     static float adsr_amp[4] = {
             kick.props.amp_a.output,
             kick.props.amp_d.output,
@@ -66,37 +67,14 @@ void GUI(shared_props& props) {
                       &(props.composition->verb_in_gain),
                       &(props.composition->reverb_mix));
 
+                static float meter_value = 0;
+                audio_meter("meter", meter_value, ImVec2(30, 100));
+                ImGui::VSliderFloat("##meter_control", ImVec2(30, 100), &meter_value, 0, 2);
+
                 ImGui::EndTabItem();
             }
-            if (ImGui::BeginTabItem("kick")) {
-                ImGui::BeginTable("##kick_drum_table", 4);
-                ImGui::TableNextColumn();
-                if (ImGui::Button("get kick_drum patch")) {
-                    ImGui::SetClipboardText(kick.props.to_str().c_str());
-                }
-                ImGui::SameLine();
-                if (VSliderFloat("Gain##amp", ImVec2(20, 100), &gain, 0, 1, "%.3f")) {
-                    kick.props.gain.set(gain);
-                }
-
-                adsr_ranges ranges = {1000, 40000, 1, 1000};
-                // clang-format off
-                ImGui::TableNextColumn();
-                ImGui::TextUnformatted("amplitude");
-                adsr("kick_amp", ranges, kick.props.amp_a, kick.props.amp_d, kick.props.amp_s, kick.props.amp_r);
-
-                ImGui::TableNextColumn();
-                ImGui::TextUnformatted("kick_cut");
-                ranges.d_max = 20000;
-                adsr("kick_cut", ranges, kick.props.cut_a, kick.props.cut_d, kick.props.cut_s, kick.props.cut_r);
-
-                ImGui::TableNextColumn();
-                ImGui::TextUnformatted("kick_pitch");
-                ranges.d_max = 10000;
-                adsr("kick_pitch", ranges, kick.props.pitch_a, kick.props.pitch_d, kick.props.pitch_s, kick.props.pitch_r);
-                // clang-format on
-
-                ImGui::EndTable();
+            if (ImGui::BeginTabItem("kick", nullptr)) {
+                kick_drum_gui("##kick_drum_gui", kick.props);
 
                 ImGui::EndTabItem();
             }

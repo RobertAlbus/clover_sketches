@@ -19,6 +19,7 @@ bool slider_spinnner_v(
         ImGuiSliderFlags slider_flags,
         const ImVec2& dimensions) {
     ImGui::PushID(id);
+    slider_flags |= ImGuiSliderFlags_NoRoundToFormat;
 
     bool was_modified =
             VSliderFloat("##slider", dimensions, &settable_param.gui, min, max, fmt, slider_flags);
@@ -57,29 +58,27 @@ bool adsr(
         settable& settable_r) {
     ImGui::PushID(id);
 
-    ImGui::BeginTable("##table", 4);
-
-    ImGui::TableSetupColumn("a", ImGuiTableColumnFlags_WidthFixed, 30);
-    ImGui::TableSetupColumn("d", ImGuiTableColumnFlags_WidthFixed, 30);
-    ImGui::TableSetupColumn("s", ImGuiTableColumnFlags_WidthFixed, 30);
-    ImGui::TableSetupColumn("r", ImGuiTableColumnFlags_WidthFixed, 30);
-    ImGui::TableHeadersRow();
-
-    ImGui::TableNextRow();
-
     bool was_modified = false;
+    if (ImGui::BeginTable("##table", 4)) {
+        ImGui::TableSetupColumn("a", ImGuiTableColumnFlags_WidthFixed, 30);
+        ImGui::TableSetupColumn("d", ImGuiTableColumnFlags_WidthFixed, 30);
+        ImGui::TableSetupColumn("s", ImGuiTableColumnFlags_WidthFixed, 30);
+        ImGui::TableSetupColumn("r", ImGuiTableColumnFlags_WidthFixed, 30);
+        ImGui::TableHeadersRow();
 
-    ImGui::TableNextColumn();
-    was_modified = was_modified || slider_spinnner_v("##a", settable_a, 1, ranges.a_max, "%.f");
-    ImGui::TableNextColumn();
-    was_modified = was_modified || slider_spinnner_v("##d", settable_d, 1, ranges.d_max, "%.2f");
-    ImGui::TableNextColumn();
-    was_modified = was_modified || slider_spinnner_v("##s", settable_s, 0, ranges.s_max, "%.f");
-    ImGui::TableNextColumn();
-    was_modified = was_modified || slider_spinnner_v("##r", settable_r, 1, ranges.r_max, "%.f");
-    ImGui::EndTable();
+        ImGui::TableNextRow();
+
+        ImGui::TableNextColumn();
+        was_modified = was_modified || slider_spinnner_v("##a", settable_a, 1, ranges.a_max, "%.f");
+        ImGui::TableNextColumn();
+        was_modified = was_modified || slider_spinnner_v("##d", settable_d, 1, ranges.d_max, "%.f");
+        ImGui::TableNextColumn();
+        was_modified = was_modified || slider_spinnner_v("##s", settable_s, 0, ranges.s_max, "%.2f");
+        ImGui::TableNextColumn();
+        was_modified = was_modified || slider_spinnner_v("##r", settable_r, 1, ranges.r_max, "%.f");
+        ImGui::EndTable();
+    }
 
     ImGui::PopID();
-
     return was_modified;
 }
