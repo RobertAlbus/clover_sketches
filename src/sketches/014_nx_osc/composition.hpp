@@ -9,10 +9,10 @@
 #include "clover/io/audio_callback.hpp"
 #include "clover/math.hpp"
 
-#include "composition/fdn/fdn.hpp"
-#include "composition/kick.hpp"
+#include "composition/instruments/fdn.hpp"
+#include "composition/instruments/kick.hpp"
 #include "composition/patches/deep.hpp"
-#include "composition/sequencers.hpp"
+#include "composition/patterns/sequencers.hpp"
 
 using namespace clover;
 using namespace io;

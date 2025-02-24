@@ -9,7 +9,7 @@
 #include "imgui.h"
 using namespace ImGui;
 
-#include "composition/fdn/fdn.hpp"
+#include "composition/instruments/fdn.hpp"
 #include "fdn_ui.hpp"
 
 /*

@@ -7,7 +7,7 @@
 #include <print>
 #include <ranges>
 
-#include "composition/fdn/fdn.hpp"
+#include "composition/instruments/fdn.hpp"
 #include "gui/audio_meter_poc.hpp"
 #include "gui/kick_drum_gui.hpp"
 #include "hello_imgui/hello_imgui.h"
@@ -15,7 +15,7 @@
 using namespace ImGui;
 
 #include "composition.hpp"
-#include "composition/kick.hpp"
+#include "composition/instruments/kick.hpp"
 #include "shared_props.hpp"
 
 #include "gui/fdn_ui.hpp"

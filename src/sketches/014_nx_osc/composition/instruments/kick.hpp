@@ -10,11 +10,10 @@
 #include "clover/dsp/env_adsr.hpp"
 #include "clover/dsp/filter.hpp"
 #include "clover/dsp/oscillator.hpp"
-
-#include "settable.hpp"
-
 using namespace clover;
 using namespace dsp;
+
+#include "composition/settable.hpp"
 
 struct kick_props {
     settable trim;

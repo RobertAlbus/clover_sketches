@@ -4,15 +4,13 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "kick.hpp"
+#include "composition/instruments/kick.hpp"
+#include "composition/instruments/stsq.hpp"
+
 #include "patterns.hpp"
-#include "stsq.hpp"
 
 struct sequencers {
     stsq<int> kick_sequence;
-    stsq<int> clap_sequence;
-    stsq<int> hhat_sequence;
-
     sequencers(double fs, double bpm, kick_drum& kick) {
         double spm = fs * 60;
         double spb = spm / bpm;
@@ -34,6 +32,8 @@ struct sequencers {
                     break;
                 case pattern::_:
                     kick.key_off();
+                    break;
+                default:
                     break;
             }
         };

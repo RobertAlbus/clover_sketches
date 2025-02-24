@@ -5,6 +5,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 #include <string>
 
-#include "composition/fdn/fdn.hpp"
+#include "composition/instruments/fdn.hpp"
 
 void fdn_component(const std::string& id, fdn_8_props_012& fdn_props_L, fdn_8_props_012& fdn_props_R);
