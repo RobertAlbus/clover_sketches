@@ -178,22 +178,21 @@ clover_float kick_drum::tick() {
     float gain_env   = adsr_amp.tick();
     float pitch_env  = adsr_pitch.tick();
 
-    float drive = props.drive.output.load(std::memory_order_acquire);
+    float drive = props.drive.audio;
 
     float kick_signal = osc_signal * gain_env;
     kick_signal       = std::tanh(kick_signal * drive);
     kick_signal       = filt.tick(kick_signal);
 
-    float kick_pitch = frequency_by_octave_difference(
-            props.pitch_fundamental.output.load(std::memory_order_acquire), props.pitch_range * pitch_env);
+    float kick_pitch =
+            frequency_by_octave_difference(props.pitch_fundamental.audio, props.pitch_range * pitch_env);
     kick_osc.freq(kick_pitch);
 
-    float cut = frequency_by_octave_difference(
-            props.cut_fundamental.output.load(std::memory_order_acquire), props.cut_range * cutoff_env);
+    float cut = frequency_by_octave_difference(props.cut_fundamental.audio, props.cut_range * cutoff_env);
 
-    filt.m_coeffs = lpf(fs, cut, props.filt_q.output.load(std::memory_order_acquire));
+    filt.m_coeffs = lpf(fs, cut, props.filt_q.audio);
 
     props.tick();
     update_state();
-    return kick_signal * gain_env * props.trim.output.load(std::memory_order_acquire);
+    return kick_signal * gain_env * props.trim.audio;
 };

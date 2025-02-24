@@ -16,13 +16,15 @@ struct settable {
     std::atomic_bool has_changed_flag;
     float ramp_coef = 0.001;
 
-    settable(float value = 0) : target(value), output(value), gui(value), has_changed_flag(false) {
+    settable(float value = 0)
+        : target(value), output(value), gui(value), audio(value), has_changed_flag(false) {
     }
 
     settable(const settable& other)
         : target(other.target.load(std::memory_order_acquire)),
           output(other.output.load(std::memory_order_acquire)),
           gui(other.gui),
+          audio(other.audio),
           has_changed_flag(false) {
     }
 
@@ -33,7 +35,8 @@ struct settable {
         target.store(other.target.load(std::memory_order_release));
         output.store(other.output.load(std::memory_order_release));
         has_changed_flag.store(false, std::memory_order_release);
-        gui = other.gui;
+        gui   = other.gui;
+        audio = other.audio;
 
         return *this;
     }
@@ -41,7 +44,8 @@ struct settable {
     settable& operator=(float value) {
         target.store(value, std::memory_order_release);
         output.store(value, std::memory_order_release);
-        gui = value;
+        gui   = value;
+        audio = value;
         has_changed_flag.store(false, std::memory_order_release);
         return *this;
     }

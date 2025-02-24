@@ -69,14 +69,10 @@ fdn_8_012::fdn_8_012(float fs, const fdn_8_props_012& props)
 void fdn_8_012::patch(const fdn_8_props_012& patch_props) {
     props = patch_props;
     for (auto [section, tap] : std::views::zip(sections, props.taps)) {
-        section.set_lpf(
-                props.lpf_cut.output.load(std::memory_order_acquire),
-                props.lpf_res.output.load(std::memory_order_acquire));
-        section.set_hpf(
-                props.hpf_cut.output.load(std::memory_order_acquire),
-                props.hpf_res.output.load(std::memory_order_acquire));
-        section.set_time(tap.output.load(std::memory_order_acquire));
-        section.set_fb_coeff(props.fb_gain.output.load(std::memory_order_acquire));
+        section.set_lpf(props.lpf_cut.audio, props.lpf_res.audio);
+        section.set_hpf(props.hpf_cut.audio, props.hpf_res.audio);
+        section.set_time(tap.audio);
+        section.set_fb_coeff(props.fb_gain.audio);
     }
 }
 
@@ -107,24 +103,20 @@ float fdn_8_012::process(float x) {
 void fdn_8_012::update_state() {
     if (props.hpf_cut.has_changed() || props.hpf_res.has_changed()) {
         for (auto& section : sections)
-            section.set_hpf(
-                    props.hpf_cut.output.load(std::memory_order_acquire),
-                    props.hpf_res.output.load(std::memory_order_acquire));
+            section.set_hpf(props.hpf_cut.audio, props.hpf_res.audio);
     }
     if (props.lpf_cut.has_changed() || props.lpf_res.has_changed()) {
         for (auto& section : sections)
-            section.set_lpf(
-                    props.lpf_cut.output.load(std::memory_order_acquire),
-                    props.lpf_res.output.load(std::memory_order_acquire));
+            section.set_lpf(props.lpf_cut.audio, props.lpf_res.audio);
     }
     if (props.fb_gain.has_changed()) {
         for (auto& section : sections)
-            section.set_fb_coeff(props.fb_gain.output.load(std::memory_order_acquire));
+            section.set_fb_coeff(props.fb_gain.audio);
     }
 
     for (auto [i, section, tap] : std::views::zip(std::views::iota(0, 8), sections, props.taps)) {
         if (tap.has_changed()) {
-            section.set_time(tap.output.load(std::memory_order_acquire));
+            section.set_time(tap.audio);
         }
     }
 }
