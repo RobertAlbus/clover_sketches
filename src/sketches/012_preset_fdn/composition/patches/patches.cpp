@@ -2,7 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "composition/patches/deep.hpp"
+#include "composition/patches/patches.hpp"
 
 fdn_8_props_012 patch_deep_fdn = {
         .taps    = {134.42862, 329.99323, 721.1825, 1308.0359, 1959.9309, 3329.2222, 6458.37, 11087.26},
@@ -34,5 +34,38 @@ kick_props patch_deep_kick{
         .cut_fundamental   = 100,
         .cut_peak          = 235,
         .pitch_range       = 2.3218594,
+        .cut_range         = 2.0249748,
+};
+
+fdn_8_props_012 patch_real_fdn = {
+        .taps    = {134.42862, 329.99323, 721.1825, 395.18927, 916.76953, 525.59546, 525.59546, 395.18927},
+        .fb_gain = 0.9289702,
+        .lpf_cut = 149.90222,
+        .lpf_res = 0.707,
+        .hpf_cut = 14.883215,
+        .hpf_res = 0.707,
+};
+
+kick_props patch_real_kick{
+        .trim              = 0.6429702,
+        .drive             = 0.6860298,
+        .amp_a             = 30,
+        .amp_d             = 2619.231,
+        .amp_s             = 6.99e-43,
+        .amp_r             = 1000,
+        .cut_a             = 1,
+        .cut_d             = 5809.8223,
+        .cut_s             = 0,
+        .cut_r             = 1.0000596,
+        .filt_q            = 1.3999405,
+        .pitch_a           = 1,
+        .pitch_d           = 1452.4756,
+        .pitch_s           = 6.99e-43,
+        .pitch_r           = 1000,
+        .pitch_fundamental = 46.001907,
+        .pitch_peak        = 200,
+        .cut_fundamental   = 100,
+        .cut_peak          = 235,
+        .pitch_range       = 2.1202345,
         .cut_range         = 2.0249748,
 };

@@ -25,10 +25,15 @@ std::unordered_map<int, int> kick_map{
 
 // clang-format on
 
+std::unordered_map<int, float> bass_map{
+
+};
+
 /*
 
 - use unordered_map for now to prioritize implementation simplicity.
 - if I need to care about performance, I can always convert to std::vector sorted by key
 
 */
+
 }  // namespace pattern

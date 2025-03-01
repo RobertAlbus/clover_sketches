@@ -11,7 +11,7 @@
 
 #include "composition/fdn/fdn.hpp"
 #include "composition/kick.hpp"
-#include "composition/patches/deep.hpp"
+#include "composition/patches/patches.hpp"
 #include "composition/sequencers.hpp"
 
 using namespace clover;

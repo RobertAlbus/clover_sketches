@@ -9,3 +9,6 @@
 
 extern fdn_8_props_012 patch_deep_fdn;
 extern kick_props patch_deep_kick;
+
+extern fdn_8_props_012 patch_real_fdn;
+extern kick_props patch_real_kick;
