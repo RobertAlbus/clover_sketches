@@ -11,7 +11,8 @@
 
 #include "composition/instruments/fdn.hpp"
 #include "composition/instruments/kick.hpp"
-#include "composition/patches/deep.hpp"
+#include "composition/instruments/nx_osc.hpp"
+#include "composition/patches.hpp"
 #include "composition/patterns/sequencers.hpp"
 
 using namespace clover;
@@ -27,14 +28,23 @@ struct composition {
     int_fast64_t duration = int_fast64_t(((fs * 60.f) / bpm) * 4 * 200);
 
     kick_drum kick{fs, patch_deep_kick};
+
+    std::array<nx_osc, 4> chords{
+            nx_osc{fs, patch_deep_chord},
+            nx_osc{fs, patch_deep_chord},
+            nx_osc{fs, patch_deep_chord},
+            nx_osc{fs, patch_deep_chord},
+    };
+
     fdn_8_012 fdn_L{fs, patch_deep_fdn};
     fdn_8_012 fdn_R{fs, patch_deep_fdn};
 
     float loop_mix     = 0.842;
     float reverb_mix   = 1;
     float verb_in_gain = 1;
+    float chords_mix   = 0.08;
 
-    sequencers stsqs{fs, bpm, kick};
+    sequencers stsqs{fs, bpm, kick, chords};
 
     composition() = default;
 

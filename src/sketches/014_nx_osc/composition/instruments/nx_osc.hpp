@@ -26,44 +26,34 @@ enum struct waveform {
     none,
 };
 
-constexpr std::array<const char*, 6> waveform_str {
-    "sine",
-    "saw",
-    "square",
-    "triangle",
-    "noise",
-    "none",
+constexpr std::array<const char*, 6> waveform_str{
+        "sine",
+        "saw",
+        "square",
+        "triangle",
+        "noise",
+        "none",
 };
 
-float wave_none(float) {return 0;}
-const std::array<std::function<float(float)>, 6> waveform_func {
-    clover::dsp::wave_sine,
-    clover::dsp::wave_square,
-    clover::dsp::wave_saw,
-    clover::dsp::wave_tri,
-    clover::dsp::wave_noise,
-    wave_none
-};
+const std::array<std::function<float(float)>, 6> waveform_func{
+        clover::dsp::wave_sine,
+        clover::dsp::wave_square,
+        clover::dsp::wave_saw,
+        clover::dsp::wave_tri,
+        clover::dsp::wave_noise,
+        [](float) { return 0; }};
 
-waveform str_to_waveform(std::string_view str) noexcept {
-    auto it = std::find(waveform_str.begin(), waveform_str.end(), str);
-    return it != waveform_str.end() ? waveform::none : static_cast<waveform>(it - waveform_str.begin());
-}
-
-const char* waveform_to_str(waveform wave) noexcept{
-    return waveform_str[size_t(wave)];
-}
-std::function<float(float)> waveform_to_func(waveform wave) noexcept{
-    return waveform_func[size_t(wave)];
-}
+waveform str_to_waveform(std::string_view str) noexcept;
+const char* waveform_to_str(waveform wave) noexcept;
+std::function<float(float)> waveform_to_func(waveform wave) noexcept;
 
 struct nx_osc_props {
-    settable tuning;             // semitones.cents, relative
-    settable portamento_time;    // glide time in samples
+    settable tuning;           // semitones.cents, relative
+    settable portamento_time;  // glide time in samples
     settable pitch_env_octaves;
 
     std::vector<settable> osc_tunings;  // semitones.cents, relative
-    std::vector<settable> osc_pans; // [L,R] = [-1,1]
+    std::vector<settable> osc_pans;     // [L,R] = [-1,1]
     std::vector<settable_int> waveforms_i;
 
     settable pitch_a;
@@ -82,7 +72,7 @@ struct nx_osc_props {
     void tick();
 };
 
-struct nx_osc{
+struct nx_osc {
     float fs;
 
     std::vector<oscillator> oscs;
@@ -93,10 +83,12 @@ struct nx_osc{
     env_adsr adsr_pitch;
     env_adsr adsr_amp;
 
+    nx_osc(float fs, const nx_osc_props& new_props);
+
     void note(float midi_note);
     void key_on();
     void key_off();
-    void patch(const nx_osc_props& new_props);
+    void patch(nx_osc_props new_props);
     void update_from_props();
     std::pair<float, float> tick();
 };

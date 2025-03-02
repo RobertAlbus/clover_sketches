@@ -14,28 +14,26 @@ struct settable_int {
     int gui;
     int audio;
 
-    settable_int(int value = 0)
-        : output(value), gui(value), audio(value)  {}
+    settable_int(int value = 0) : output(value), gui(value), audio(value) {
+    }
 
     settable_int(const settable_int& other)
-        : output(other.output.load(std::memory_order_acquire)),
-          gui(other.gui),
-          audio(other.audio)
-           {}
+        : output(other.output.load(std::memory_order_acquire)), gui(other.gui), audio(other.audio) {
+    }
 
     settable_int& operator=(const settable_int& other) {
         if (this == &other) {
             std::println("WARNING! copy-assigned settable_int object to itself.");
         }
         output.store(other.output.load(std::memory_order_release));
-        gui = other.gui;
+        gui   = other.gui;
         audio = other.audio;
         return *this;
     }
 
     settable_int& operator=(int value) {
         output.store(value, std::memory_order_release);
-        gui = value;
+        gui   = value;
         audio = value;
         return *this;
     }
@@ -50,18 +48,17 @@ struct settable_int {
         - don't want to call `tick()` in `instrument_props.tick()` method.
         - should call `settable_int.update()` in `instrument.update_from_props()`
         - this is prettier than storing previous audio state, diffing, and updating
-        
+
         NOTE: to be called from audio thread
     */
     bool update() {
-        int out = output.load(std::memory_order_acquire);
+        int out      = output.load(std::memory_order_acquire);
         bool changed = audio == out;
-        audio = out;
+        audio        = out;
 
         return changed;
     }
 };
-
 
 struct settable {
     std::atomic<float> output;
