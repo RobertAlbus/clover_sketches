@@ -4,6 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "composition/instruments/filter_block.hpp"
 #include "composition/instruments/kick.hpp"
 #include "composition/instruments/nx_osc.hpp"
 #include "composition/instruments/stsq.hpp"
@@ -15,7 +16,12 @@ struct sequencers {
     stsq<int> kick_sequencer;
     stsq<std::array<float, 4>> chord_sequencer;
 
-    sequencers(double fs, double bpm, kick_drum& kick, std::array<nx_osc, 4>& chords) {
+    sequencers(
+            double fs,
+            double bpm,
+            kick_drum& kick,
+            std::array<nx_osc, 4>& chords,
+            std::array<filter_block, 4>& chord_filters) {
         double spm = fs * 60;
         double spb = spm / bpm;
         double bar = spb * 4;
@@ -44,14 +50,14 @@ struct sequencers {
         chord_sequencer.pattern                  = &pattern::chord_map;
         chord_sequencer.callback =
                 [&](const int clock, const int step, const std::array<float, 4>& step_data) {
-                    for (auto [note, chord_note] : std::views::zip(step_data, chords)) {
+                    for (auto [note, voice, filter] : std::views::zip(step_data, chords, chord_filters)) {
                         if (note < 0) {
-                            chord_note.key_off();
-                            // std::println("chord key_off");
+                            voice.key_off();
+                            filter.key_off();
                         } else {
-                            // std::println("chord key_on {}", note);
-                            chord_note.note(note);
-                            chord_note.key_on();
+                            voice.note(note);
+                            voice.key_on();
+                            filter.key_on();
                         }
                     }
                 };

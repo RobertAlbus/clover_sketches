@@ -58,6 +58,22 @@ nx_osc_props patch_deep_chord{
         .amp_r             = 1000,
 };
 
+filter_block_props patch_deep_chord_filter{
+        .cutoff               = 500,
+        .cutoff_range_octaves = 2.5,
+        .res                  = 0.707,
+        .res_range_octaves    = 0,
+        .filter_type_i        = int(filter_t::lpf),
+        .cut_a                = 5000,
+        .cut_d                = 8000,
+        .cut_s                = 0.5,
+        .cut_r                = 1000,
+        .res_a                = 1000,
+        .res_d                = 1000,
+        .res_s                = 0.1,
+        .res_r                = 1000,
+};
+
 fdn_8_props_012 patch_real_fdn = {
         .taps    = {134.42862, 329.99323, 721.1825, 395.18927, 916.76953, 525.59546, 525.59546, 395.18927},
         .fb_gain = 0.9289702,

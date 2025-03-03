@@ -10,6 +10,7 @@
 #include "clover/math.hpp"
 
 #include "composition/instruments/fdn.hpp"
+#include "composition/instruments/filter_block.hpp"
 #include "composition/instruments/kick.hpp"
 #include "composition/instruments/nx_osc.hpp"
 #include "composition/patches.hpp"
@@ -35,6 +36,12 @@ struct composition {
             nx_osc{fs, patch_deep_chord},
             nx_osc{fs, patch_deep_chord},
     };
+    std::array<filter_block, 4> chord_filters{
+            filter_block{fs, patch_deep_chord_filter},
+            filter_block{fs, patch_deep_chord_filter},
+            filter_block{fs, patch_deep_chord_filter},
+            filter_block{fs, patch_deep_chord_filter},
+    };
 
     fdn_8_012 fdn_L{fs, patch_deep_fdn};
     fdn_8_012 fdn_R{fs, patch_deep_fdn};
@@ -44,7 +51,7 @@ struct composition {
     float verb_in_gain = 1;
     float chords_mix   = 0.08;
 
-    sequencers stsqs{fs, bpm, kick, chords};
+    sequencers stsqs{fs, bpm, kick, chords, chord_filters};
 
     composition() = default;
 

@@ -96,8 +96,8 @@ struct settable {
     settable(const settable& other)
         : target(other.target.load(std::memory_order_acquire)),
           output(other.output.load(std::memory_order_acquire)),
-          gui(other.gui),
-          audio(other.audio),
+          gui(other.target.load(std::memory_order_acquire)),
+          audio(other.output.load(std::memory_order_acquire)),
           has_changed_flag(false) {
     }
 

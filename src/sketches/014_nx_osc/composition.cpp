@@ -19,10 +19,10 @@ std::pair<clover_float, clover_float> composition::tick() {
 
     float chords_L = 0;
     float chords_R = 0;
-    for (auto& chord_note : chords) {
-        auto chord_note_signal = chord_note.tick();
-        chords_L += chord_note_signal.first;
-        chords_R += chord_note_signal.second;
+    for (auto [voice, filter] : std::views::zip(chords, chord_filters)) {
+        auto voice_signal = filter.tick(voice.tick());
+        chords_L += voice_signal.first;
+        chords_R += voice_signal.second;
     }
     chords_L *= chords_mix;
     chords_R *= chords_mix;
