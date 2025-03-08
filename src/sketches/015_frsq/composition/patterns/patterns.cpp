@@ -30,6 +30,18 @@ std::unordered_map<int, int> kick_map{
         {(3 * beat) + (3 * sqvr), _},
 };
 
+std::unordered_map<int, int> hh_map{
+        {(0 * beat) + qvr, X},
+        {(1 * beat) + qvr, X},
+        {(2 * beat) + qvr, X},
+        {(3 * beat) + qvr, X},
+        //
+        {0 * beat, _},
+        {1 * beat, _},
+        {2 * beat, _},
+        {3 * beat, _},
+};
+
 constexpr std::array<float, 4> chord     = {note::Gb4, note::Ab4, note::B4, note::Eb5};
 constexpr std::array<float, 4> chord_off = {_, _, _, _};
 std::unordered_map<int, std::array<float, 4>> chord_map{

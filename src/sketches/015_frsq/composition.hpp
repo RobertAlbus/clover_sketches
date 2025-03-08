@@ -9,6 +9,7 @@
 #include "clover/io/audio_callback.hpp"
 #include "clover/math.hpp"
 
+#include "composition/instruments/cymbal.hpp"
 #include "composition/instruments/fdn.hpp"
 #include "composition/instruments/filter_block.hpp"
 #include "composition/instruments/kick.hpp"
@@ -29,6 +30,7 @@ struct composition {
     int_fast64_t duration = int_fast64_t(((fs * 60.f) / bpm) * 4 * 200);
 
     kick_drum kick{fs, patch_deep_kick};
+    cymbal hh{fs};
 
     std::array<nx_osc, 4> chords{
             nx_osc{fs, patch_deep_chord},
@@ -43,15 +45,16 @@ struct composition {
             filter_block{fs, patch_deep_chord_filter},
     };
 
-    fdn_8_012 fdn_L{fs, patch_deep_fdn};
-    fdn_8_012 fdn_R{fs, patch_deep_fdn};
+    fdn_8_012 kick_fdn_L{fs, patch_deep_fdn};
+    fdn_8_012 kick_fdn_R{fs, patch_deep_fdn};
 
-    float loop_mix     = 0.842;
+    float kick_mix     = 0.842;
+    float hh_mix       = 0.3;
     float reverb_mix   = 1;
     float verb_in_gain = 1;
     float chords_mix   = 0.08;
 
-    sequencers stsqs{fs, bpm, kick, chords, chord_filters};
+    sequencers stsqs{fs, bpm, kick, hh, chords, chord_filters};
 
     composition() = default;
 

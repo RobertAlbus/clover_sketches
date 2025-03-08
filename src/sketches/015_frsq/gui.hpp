@@ -25,8 +25,8 @@ void GUI(shared_props& props) {
     props.audio_ready.acquire();
     // gui setup before audio starts
 
-    fdn_8_012& fdn_L = props.composition->fdn_L;
-    fdn_8_012& fdn_R = props.composition->fdn_R;
+    fdn_8_012& fdn_L = props.composition->kick_fdn_L;
+    fdn_8_012& fdn_R = props.composition->kick_fdn_R;
 
     kick_drum& kick          = props.composition->kick;
     static float gain        = kick.props.trim.output;
@@ -63,7 +63,7 @@ void GUI(shared_props& props) {
         if (ImGui::BeginTabBar("MyTabBar")) {
             if (ImGui::BeginTabItem("mix")) {
                 // Content for Tab 2
-                mixer(&(props.composition->loop_mix),
+                mixer(&(props.composition->kick_mix),
                       &(props.composition->verb_in_gain),
                       &(props.composition->reverb_mix));
 

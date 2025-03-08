@@ -31,18 +31,18 @@ std::pair<clover_float, clover_float> composition::tick() {
     signal_kick *= 1.5f;
     signal_kick = std::clamp(signal_kick, -0.98f, 0.98f);
     signal_kick *= 0.6f;
+    signal_kick *= kick_mix;
 
-    float loop_L = signal_kick;
-    float loop_R = signal_kick;
+    float kick_verb_L = kick_fdn_L.tick(signal_kick * verb_in_gain) * reverb_mix;
+    float kick_verb_R = kick_fdn_R.tick(signal_kick * verb_in_gain) * reverb_mix;
 
-    float loop_output_L = loop_L * loop_mix;
-    float loop_output_R = loop_R * loop_mix;
+    float signal_hh = hh.tick() * hh_mix;
 
-    float verb_output_L = fdn_L.tick(loop_L * verb_in_gain) * reverb_mix;
-    float verb_output_R = fdn_R.tick(loop_R * verb_in_gain) * reverb_mix;
+    float drums_output_L = signal_kick + kick_verb_L + signal_hh;
+    float drums_output_R = signal_kick + kick_verb_R + signal_hh;
 
-    out_L = chords_L + loop_output_L + verb_output_L;
-    out_R = chords_R + loop_output_R + verb_output_R;
+    out_L = chords_L + drums_output_L;
+    out_R = chords_R + drums_output_R;
 
     return {out_L, out_R};
 }
