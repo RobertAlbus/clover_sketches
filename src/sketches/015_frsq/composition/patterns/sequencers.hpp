@@ -5,7 +5,9 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "composition/instruments/cymbal.hpp"
+#include "composition/instruments/drone.hpp"
 #include "composition/instruments/filter_block.hpp"
+#include "composition/instruments/frsq.h"
 #include "composition/instruments/kick.hpp"
 #include "composition/instruments/nx_osc.hpp"
 #include "composition/instruments/stsq.hpp"
@@ -17,6 +19,7 @@ struct sequencers {
     stsq<int> kick_sequencer;
     stsq<int> hh_sequencer;
     stsq<std::array<float, 4>> chord_sequencer;
+    frsq<pattern::midi_event, drone_synth> drone_sequencer;
 
     sequencers(
             double fs,
@@ -24,7 +27,8 @@ struct sequencers {
             kick_drum& kick,
             cymbal& hh,
             std::array<nx_osc, 4>& chords,
-            std::array<filter_block, 4>& chord_filters) {
+            std::array<filter_block, 4>& chord_filters,
+            std::array<drone_synth, 4>& drones) {
         double spm = fs * 60;
         double spb = spm / bpm;
         double bar = spb * 4;
@@ -84,11 +88,23 @@ struct sequencers {
                         }
                     }
                 };
+        drone_sequencer.callback_start = [](drone_synth& voice, const pattern::midi_event& data) {
+            voice.key_on(data.note);
+        };
+        drone_sequencer.callback_end = [](drone_synth& voice) { voice.key_off(); };
+
+        drone_sequencer.voices = drones;
+        drone_sequencer.set_pattern(pattern::drone_pattern);
+
+        drone_sequencer.duration_absolute     = bar;
+        drone_sequencer.duration_relative     = 16;
+        drone_sequencer.current_time_absolute = 0;
     }
 
     void tick() {
         kick_sequencer.tick();
         hh_sequencer.tick();
         chord_sequencer.tick();
+        drone_sequencer.tick();
     }
 };
