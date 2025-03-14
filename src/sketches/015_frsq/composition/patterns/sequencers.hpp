@@ -6,7 +6,7 @@
 
 #include "composition/instruments/cymbal.hpp"
 #include "composition/instruments/filter_block.hpp"
-#include "composition/instruments/frsq.h"
+#include "composition/instruments/frsq.hpp"
 #include "composition/instruments/kick.hpp"
 #include "composition/instruments/nx_osc.hpp"
 #include "composition/instruments/stsq.hpp"
