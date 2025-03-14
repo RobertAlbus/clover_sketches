@@ -30,7 +30,7 @@ void kick_drum_gui(const char* id, kick_props& kick) {
     ImGui::PushItemWidth(65);
     if (ImGui::DragFloat(
                 "mod range##pitch", &kick.pitch_peak.gui, kick.pitch_peak.gui * 0.1f, 10, 10000, "%.f")) {
-        kick.pitch_peak.set(kick.pitch_peak.gui);
+        kick.pitch_peak.store(kick.pitch_peak.gui);
     }
     if (ImGui::DragFloat(
                 "fundamental##pitch",
@@ -39,7 +39,7 @@ void kick_drum_gui(const char* id, kick_props& kick) {
                 10,
                 10000,
                 "%.f")) {
-        kick.pitch_fundamental.set(kick.pitch_fundamental.gui);
+        kick.pitch_fundamental.store(kick.pitch_fundamental.gui);
     }
 
     ImGui::PopItemWidth();
@@ -67,10 +67,10 @@ void kick_drum_gui(const char* id, kick_props& kick) {
                            "##trim_drag", &kick.trim.gui, 0.2f * kick.trim.gui, trim_gain_min, trim_gain_max);
 
     if (drive_changed) {
-        kick.drive.set(kick.drive.gui);
+        kick.drive.store(kick.drive.gui);
     }
     if (trim_changed) {
-        kick.trim.set(kick.trim.gui);
+        kick.trim.store(kick.trim.gui);
     }
     ImGui::PopItemWidth();
 
@@ -78,14 +78,14 @@ void kick_drum_gui(const char* id, kick_props& kick) {
     adsr("##cut_asr", {1000, 20000, 1, 1000}, kick.cut_a, kick.cut_d, kick.cut_s, kick.cut_r);
     ImGui::PushItemWidth(65);
     if (ImGui::DragFloat("mod range##cut", &kick.cut_peak.gui, kick.cut_peak.gui * 0.1f, 10, 10000, "%.f")) {
-        kick.cut_peak.set(kick.cut_peak.gui);
+        kick.cut_peak.store(kick.cut_peak.gui);
     }
     if (ImGui::DragFloat(
                 "cut off", &kick.cut_fundamental.gui, kick.cut_fundamental.gui * 0.1f, 10, 10000, "%.f")) {
-        kick.cut_fundamental.set(kick.cut_fundamental.gui);
+        kick.cut_fundamental.store(kick.cut_fundamental.gui);
     }
     if (ImGui::DragFloat("reso##cut", &kick.filt_q.gui, kick.filt_q.gui * 0.1f, 0, 10, "%.2f")) {
-        kick.filt_q.set(kick.filt_q.gui);
+        kick.filt_q.store(kick.filt_q.gui);
     }
 
     ImGui::PopItemWidth();

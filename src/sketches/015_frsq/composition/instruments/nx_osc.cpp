@@ -3,7 +3,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <algorithm>
-#include <atomic>
 #include <cmath>
 #include <ranges>
 #include <string>
@@ -73,26 +72,26 @@ nx_osc_props patch = {{\n\
     .amp_s             = {}, \n\
     .amp_r             = {}, \n\
 }};",
-            tuning.output.load(std::memory_order_acquire),
-            portamento_time.output.load(std::memory_order_acquire),
-            pitch_env_octaves.output.load(std::memory_order_acquire),
+            tuning.load_output(),
+            portamento_time.load_output(),
+            pitch_env_octaves.load_output(),
             build_str_list_osc_tunings(),
             build_str_list_osc_pans(),
             build_str_list_waveforms_i(),
-            retrigger_i.output.load(std::memory_order_acquire),
-            pitch_a.output.load(std::memory_order_acquire),
-            pitch_d.output.load(std::memory_order_acquire),
-            pitch_s.output.load(std::memory_order_acquire),
-            pitch_r.output.load(std::memory_order_acquire),
-            amp_a.output.load(std::memory_order_acquire),
-            amp_d.output.load(std::memory_order_acquire),
-            amp_s.output.load(std::memory_order_acquire),
-            amp_r.output.load(std::memory_order_acquire));
+            retrigger_i.load_output(),
+            pitch_a.load_output(),
+            pitch_d.load_output(),
+            pitch_s.load_output(),
+            pitch_r.load_output(),
+            amp_a.load_output(),
+            amp_d.load_output(),
+            amp_s.load_output(),
+            amp_r.load_output());
 }
 std::string nx_osc_props::build_str_list_osc_tunings() {
     std::string result = "{";
     for (auto& osc_tuning : osc_tunings)
-        result += std::format("{}, ", std::to_string(osc_tuning.output.load(std::memory_order_acquire)));
+        result += std::format("{}, ", std::to_string(osc_tuning.load_output()));
     result.pop_back();
     result += "}";
     return result;
@@ -100,7 +99,7 @@ std::string nx_osc_props::build_str_list_osc_tunings() {
 std::string nx_osc_props::build_str_list_osc_pans() {
     std::string result = "{";
     for (auto& osc_pan : osc_pans)
-        result += std::format("{}, ", std::to_string(osc_pan.output.load(std::memory_order_acquire)));
+        result += std::format("{}, ", std::to_string(osc_pan.load_output()));
     result.pop_back();
     result += "}";
     return result;
@@ -108,9 +107,7 @@ std::string nx_osc_props::build_str_list_osc_pans() {
 std::string nx_osc_props::build_str_list_waveforms_i() {
     std::string result = "{";
     for (auto& waveform_i : waveforms_i)
-        result += std::format(
-                "waveform::{}, ",
-                waveform_to_str(waveform(waveform_i.output.load(std::memory_order_acquire))));
+        result += std::format("waveform::{}, ", waveform_to_str(waveform(waveform_i.load_output())));
     result.pop_back();
     result += "}";
     return result;

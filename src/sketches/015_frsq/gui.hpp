@@ -49,10 +49,10 @@ void GUI(shared_props& props) {
             kick.props.pitch_r.output,
     };
 
-    fdn_L.props.fb_gain.gui = fdn_L.props.fb_gain.output.load(std::memory_order_acquire);
+    fdn_L.props.fb_gain.gui = fdn_L.props.fb_gain.load_output();
 
     for (auto [L, R, P] : std::views::zip(fdn_L.props.taps, fdn_R.props.taps, fdn_patch.taps)) {
-        L.gui = L.output.load(std::memory_order_acquire);
+        L.gui = L.load_output();
         R.gui = L.gui;
     }
 

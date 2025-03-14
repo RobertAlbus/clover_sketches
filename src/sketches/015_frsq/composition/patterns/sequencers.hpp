@@ -88,9 +88,8 @@ struct sequencers {
                         }
                     }
                 };
-        subtractive_synth_sequencer.callback_start = [](subtractive_synth& voice, const pattern::midi_event& data) {
-            voice.key_on(data.note);
-        };
+        subtractive_synth_sequencer.callback_start =
+                [](subtractive_synth& voice, const pattern::midi_event& data) { voice.key_on(data.note); };
         subtractive_synth_sequencer.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
 
         subtractive_synth_sequencer.voices = drones;
