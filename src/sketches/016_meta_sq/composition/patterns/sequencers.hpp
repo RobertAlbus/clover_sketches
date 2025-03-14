@@ -19,7 +19,10 @@ struct sequencers {
     stsq<int> kick_sequencer;
     stsq<int> hh_sequencer;
     stsq<std::array<float, 4>> chord_sequencer;
-    frsq<pattern::midi_event, subtractive_synth> subtractive_synth_sequencer;
+
+    using subtractive_synth_sq_t = frsq<pattern::midi_event, subtractive_synth>;
+    subtractive_synth_sq_t subtractive_synth_sequencer;
+    frsq<pattern::meta_pattern, subtractive_synth_sq_t> subtractive_synth_metasq;
 
     sequencers(
             double fs,
@@ -88,22 +91,33 @@ struct sequencers {
                         }
                     }
                 };
+
+        subtractive_synth_metasq.callback_start = [](subtractive_synth_sq_t& sq,
+                                                     const pattern::meta_pattern& data) {
+            sq.set_pattern(pattern::beep_patterns[data.pattern_index]);
+        };
+
+        subtractive_synth_metasq.voices = std::span<subtractive_synth_sq_t>(&subtractive_synth_sequencer, 1);
+        subtractive_synth_metasq.set_pattern(pattern::beep_meta_pattern);
+
+        subtractive_synth_metasq.duration_absolute = 8 * bar;
+        subtractive_synth_metasq.duration_relative = 8;
+
         subtractive_synth_sequencer.callback_start =
                 [](subtractive_synth& voice, const pattern::midi_event& data) { voice.key_on(data.note); };
         subtractive_synth_sequencer.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
 
         subtractive_synth_sequencer.voices = drones;
-        subtractive_synth_sequencer.set_pattern(pattern::beep_pattern);
 
-        subtractive_synth_sequencer.duration_absolute     = bar;
-        subtractive_synth_sequencer.duration_relative     = 16;
-        subtractive_synth_sequencer.current_time_absolute = 0;
+        subtractive_synth_sequencer.duration_absolute = bar;
+        subtractive_synth_sequencer.duration_relative = 16;
     }
 
     void tick() {
         kick_sequencer.tick();
         hh_sequencer.tick();
         chord_sequencer.tick();
+        subtractive_synth_metasq.tick();
         subtractive_synth_sequencer.tick();
     }
 };

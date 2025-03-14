@@ -2,6 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include <algorithm>
 #include <array>
 #include <unordered_map>
 
@@ -51,15 +52,54 @@ std::unordered_map<int, std::array<float, 4>> chord_map{
         {14 * sqvr, chord_off},
 };
 
-// clang-format off
-std::vector<midi_event> beep_pattern {
+bool midi_start_time_sort(midi_event& a, midi_event& b) {
+    return a.start_time < b.start_time;  // ascending order
+}
 
+// clang-format off
+std::vector<midi_event> beep_pattern_1 {
         {.start_time = 0,              .duration = 0.5, .note = note::Eb7 - 36},
         {.start_time = 1 * (3.*sqvr),  .duration = 0.5, .note = note::Eb7 - 36},
         {.start_time = 2 * (3.*sqvr),  .duration = 0.5, .note = note::Eb7 - 36},
         {.start_time = 3 * (3.*sqvr),  .duration = 0.5, .note = note::Eb7 - 36},
         {.start_time = 4 * (3.*sqvr),  .duration = 0.5, .note = note::Eb7 - 36},
 };
+
+std::vector<midi_event> beep_pattern_2 {
+        {.start_time = (0 * (3.*sqvr)),  .duration = 0.5, .note = note::Gb7 - 36},
+        {.start_time = (1 * (3.*sqvr)),  .duration = 0.5, .note = note::Gb7 - 36},
+        {.start_time = (2 * (3.*sqvr)),  .duration = 0.5, .note = note::E7  - 36},
+        {.start_time = (3 * (3.*sqvr)),  .duration = 0.5, .note = note::E7  - 36},
+        {.start_time = (4 * (3.*sqvr)),  .duration = 0.5, .note = note::Eb7 - 36},
+};
+
+std::vector<midi_event> beep_pattern_3 = []() {
+    std::vector<midi_event> pattern{
+            {.start_time = (0 * (3. * sqvr)), .duration = 0.5, .note = note::Gb7 - 36},
+            {.start_time = (1 * (3. * sqvr)), .duration = 0.5, .note = note::Gb7 - 36},
+            {.start_time = (2 * (3. * sqvr)), .duration = 0.5, .note = note::E7 - 36},
+            {.start_time = (3 * (3. * sqvr)), .duration = 0.5, .note = note::E7 - 36},
+            {.start_time = (4 * (3. * sqvr)), .duration = 0.5, .note = note::Eb7 - 36},
+
+            {.start_time = (0 * (3. * sqvr)) + 1, .duration = 0.5, .note = note::Gb7 - 36},
+        //     {.start_time = (1 * (3. * sqvr)) + 1, .duration = 0.5, .note = note::Gb7 - 36},
+            {.start_time = (2 * (3. * sqvr)) + 1, .duration = 0.5, .note = note::E7  - 36},
+            {.start_time = (3 * (3. * sqvr)) + 1, .duration = 0.5, .note = note::Eb7 - 36},
+        //     {.start_time = (4 * (3. * sqvr)) + 1, .duration = 0.5, .note = note::Eb7 - 36},
+    };
+    std::sort(pattern.begin(), pattern.end(), midi_start_time_sort);
+
+    return pattern;
+}();
 // clang-format on
+
+std::array<std::vector<midi_event>, 3> beep_patterns{beep_pattern_1, beep_pattern_2, beep_pattern_3};
+
+std::vector<meta_pattern> beep_meta_pattern{
+        {.start_time = 0, .pattern_index = 0},
+        {.start_time = 3, .pattern_index = 1},
+        {.start_time = 4, .pattern_index = 0},
+        {.start_time = 7, .pattern_index = 2},
+};
 
 }  // namespace pattern

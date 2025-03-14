@@ -27,6 +27,17 @@ struct midi_event {
     double duration;
     float note;
 };
-extern std::vector<midi_event> beep_pattern;
+
+struct meta_pattern {
+    double start_time;
+    size_t pattern_index;
+
+    // required for frsq_data_base but not semantically
+    // relevant for meta patterns.
+    double duration = 1;
+};
+
+extern std::array<std::vector<midi_event>, 3> beep_patterns;
+extern std::vector<meta_pattern> beep_meta_pattern;
 
 }  // namespace pattern
