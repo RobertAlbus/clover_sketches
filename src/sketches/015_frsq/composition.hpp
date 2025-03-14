@@ -44,7 +44,7 @@ struct composition {
             filter_block{fs, patch_deep_chord_filter},
     };
 
-    std::array<drone_synth, 4> drones{fs, fs, fs, fs};
+    std::array<subtractive_synth, 4> drones{fs, fs, fs, fs};
 
     fdn_8_012 kick_fdn_L{fs, patch_deep_fdn};
     fdn_8_012 kick_fdn_R{fs, patch_deep_fdn};
@@ -54,7 +54,7 @@ struct composition {
     float reverb_mix   = 1;
     float verb_in_gain = 1;
     float chords_mix   = 0.08;
-    float drones_mix   = 0.02;
+    float mix_beep     = 0.015;
 
     sequencers stsqs{fs, bpm, kick, hh, chords, chord_filters, drones};
 

@@ -6,12 +6,12 @@
 
 #include "composition/instruments/filter_block.hpp"
 #include "composition/instruments/nx_osc.hpp"
-struct drone_synth {
+struct subtractive_synth {
     float fs;
     nx_osc osc;
     filter_block filter;
 
-    drone_synth(float fs);
+    subtractive_synth(float fs);
     void key_on(float midi_note);
     void key_off();
     std::pair<float, float> tick();
