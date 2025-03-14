@@ -7,7 +7,6 @@
 #include <cmath>
 
 #include "clover/io/audio_callback.hpp"
-#include "clover/math.hpp"
 
 #include "composition/instruments/cymbal.hpp"
 #include "composition/instruments/fdn.hpp"
@@ -60,10 +59,6 @@ struct composition {
     sequencers stsqs{fs, bpm, kick, hh, chords, chord_filters, drones};
 
     composition() = default;
-
-    float mix_kick = db_to_linear(-8);
-    float mix_clap = db_to_linear(-6);
-    float mix_hhat = db_to_linear(3);
 
     io::callback audio_callback = [&](callback_args data) {
         float &L = *(data.output);
