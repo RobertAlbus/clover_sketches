@@ -55,6 +55,7 @@ struct nx_osc_props {
     std::vector<settable> osc_tunings;  // semitones.cents, relative
     std::vector<settable> osc_pans;     // [L,R] = [-1,1]
     std::vector<settable_int> waveforms_i;
+    settable_int retrigger_i;
 
     settable pitch_a;
     settable pitch_d;
@@ -77,6 +78,7 @@ struct nx_osc {
 
     std::vector<oscillator> oscs;
     std::vector<pan> osc_pans;
+    bool retrigger;
     nx_osc_props props;
 
     env_linear portamento;

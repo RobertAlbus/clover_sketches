@@ -27,6 +27,6 @@ struct midi_event {
     double duration;
     float note;
 };
-extern std::vector<midi_event> drone_pattern;
+extern std::vector<midi_event> beep_pattern;
 
 }  // namespace pattern

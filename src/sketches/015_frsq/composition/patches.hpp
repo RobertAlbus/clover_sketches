@@ -16,3 +16,6 @@ extern filter_block_props patch_deep_chord_filter;
 
 extern fdn_8_props_012 patch_real_fdn;
 extern kick_props patch_real_kick;
+
+extern fdn_8_props_012 hand_drum_fdn_patch;
+extern kick_props hand_drum_kick_patch;

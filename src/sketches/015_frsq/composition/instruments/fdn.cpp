@@ -2,7 +2,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <atomic>
 #include <numeric>
 #include <print>
 #include <ranges>
@@ -46,19 +45,19 @@ fdn_8_props_012 patch = {{\n\
     .hpf_cut  = {}, \n\
     .hpf_res  = {}, \n\
 }};",
-            taps[0].output.load(std::memory_order_acquire),
-            taps[1].output.load(std::memory_order_acquire),
-            taps[2].output.load(std::memory_order_acquire),
-            taps[3].output.load(std::memory_order_acquire),
-            taps[4].output.load(std::memory_order_acquire),
-            taps[5].output.load(std::memory_order_acquire),
-            taps[6].output.load(std::memory_order_acquire),
-            taps[7].output.load(std::memory_order_acquire),
-            fb_gain.output.load(std::memory_order_acquire),
-            lpf_cut.output.load(std::memory_order_acquire),
-            lpf_res.output.load(std::memory_order_acquire),
-            hpf_cut.output.load(std::memory_order_acquire),
-            hpf_res.output.load(std::memory_order_acquire));
+            taps[0].load_output(),
+            taps[1].load_output(),
+            taps[2].load_output(),
+            taps[3].load_output(),
+            taps[4].load_output(),
+            taps[5].load_output(),
+            taps[6].load_output(),
+            taps[7].load_output(),
+            fb_gain.load_output(),
+            lpf_cut.load_output(),
+            lpf_res.load_output(),
+            hpf_cut.load_output(),
+            hpf_res.load_output());
 }
 
 fdn_8_012::fdn_8_012(float fs, const fdn_8_props_012& props)

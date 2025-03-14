@@ -5,12 +5,12 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "composition/instruments/cymbal.hpp"
-#include "composition/instruments/drone.hpp"
 #include "composition/instruments/filter_block.hpp"
-#include "composition/instruments/frsq.h"
+#include "composition/instruments/frsq.hpp"
 #include "composition/instruments/kick.hpp"
 #include "composition/instruments/nx_osc.hpp"
 #include "composition/instruments/stsq.hpp"
+#include "composition/instruments/subtractive_synth.hpp"
 
 #include "patterns.hpp"
 #include <ranges>
@@ -19,7 +19,7 @@ struct sequencers {
     stsq<int> kick_sequencer;
     stsq<int> hh_sequencer;
     stsq<std::array<float, 4>> chord_sequencer;
-    frsq<pattern::midi_event, drone_synth> drone_sequencer;
+    frsq<pattern::midi_event, subtractive_synth> subtractive_synth_sequencer;
 
     sequencers(
             double fs,
@@ -28,7 +28,7 @@ struct sequencers {
             cymbal& hh,
             std::array<nx_osc, 4>& chords,
             std::array<filter_block, 4>& chord_filters,
-            std::array<drone_synth, 4>& drones) {
+            std::array<subtractive_synth, 4>& drones) {
         double spm = fs * 60;
         double spb = spm / bpm;
         double bar = spb * 4;
@@ -88,23 +88,22 @@ struct sequencers {
                         }
                     }
                 };
-        drone_sequencer.callback_start = [](drone_synth& voice, const pattern::midi_event& data) {
-            voice.key_on(data.note);
-        };
-        drone_sequencer.callback_end = [](drone_synth& voice) { voice.key_off(); };
+        subtractive_synth_sequencer.callback_start =
+                [](subtractive_synth& voice, const pattern::midi_event& data) { voice.key_on(data.note); };
+        subtractive_synth_sequencer.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
 
-        drone_sequencer.voices = drones;
-        drone_sequencer.set_pattern(pattern::drone_pattern);
+        subtractive_synth_sequencer.voices = drones;
+        subtractive_synth_sequencer.set_pattern(pattern::beep_pattern);
 
-        drone_sequencer.duration_absolute     = bar;
-        drone_sequencer.duration_relative     = 16;
-        drone_sequencer.current_time_absolute = 0;
+        subtractive_synth_sequencer.duration_absolute     = bar;
+        subtractive_synth_sequencer.duration_relative     = 16;
+        subtractive_synth_sequencer.current_time_absolute = 0;
     }
 
     void tick() {
         kick_sequencer.tick();
         hh_sequencer.tick();
         chord_sequencer.tick();
-        drone_sequencer.tick();
+        subtractive_synth_sequencer.tick();
     }
 };

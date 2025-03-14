@@ -18,7 +18,7 @@ struct settable_int {
     }
 
     settable_int(const settable_int& other)
-        : output(other.output.load(std::memory_order_acquire)), gui(other.gui), audio(other.audio) {
+        : output(other.load_output()), gui(other.gui), audio(other.audio) {
     }
 
     settable_int& operator=(const settable_int& other) {
@@ -40,8 +40,12 @@ struct settable_int {
 
     ~settable_int() = default;
 
-    void set(int value) {
+    void store(int value) {
         output.store(value, std::memory_order_release);
+    }
+
+    int load_output() const {
+        return output.load(std::memory_order_release);
     }
     /*
         called update() because tick and side effect are coupled.
@@ -69,8 +73,12 @@ struct settable {
     std::atomic_bool has_changed_flag;
     float ramp_coef = 0.001;
 
-    void set(float value) {
+    void store(float value) {
         target.store(value, std::memory_order_release);
+    }
+
+    float load_output() const {
+        return output.load(std::memory_order_release);
     }
 
     bool has_changed() {
@@ -95,9 +103,9 @@ struct settable {
 
     settable(const settable& other)
         : target(other.target.load(std::memory_order_acquire)),
-          output(other.output.load(std::memory_order_acquire)),
+          output(other.load_output()),
           gui(other.target.load(std::memory_order_acquire)),
-          audio(other.output.load(std::memory_order_acquire)),
+          audio(other.load_output()),
           has_changed_flag(false) {
     }
 

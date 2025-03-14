@@ -106,3 +106,36 @@ kick_props patch_real_kick{
         .pitch_range       = 2.1202345,
         .cut_range         = 2.0249748,
 };
+
+fdn_8_props_012 hand_drum_fdn_patch = {
+        .taps    = {4.0002384, 525.53455, 1373.1699, 655.98645, 786.37854, 525.53455, 1568.7571, 981.90454},
+        .fb_gain = 0.90697026,
+        .lpf_cut = 377.6148,
+        .lpf_res = 0.707,
+        .hpf_cut = 25.907795,
+        .hpf_res = 0.707,
+};
+
+kick_props hand_drum_kick_patch{
+        .trim              = 0.6429702,
+        .drive             = 0.6860298,
+        .amp_a             = 30,
+        .amp_d             = 5000,
+        .amp_s             = 0.02380862,
+        .amp_r             = 1000,
+        .cut_a             = 1,
+        .cut_d             = 5809.8223,
+        .cut_s             = 0,
+        .cut_r             = 1.0000596,
+        .filt_q            = 1.3999405,
+        .pitch_a           = 1,
+        .pitch_d           = 2999.8784,
+        .pitch_s           = 6.99e-43,
+        .pitch_r           = 1000,
+        .pitch_fundamental = 40.001907,
+        .pitch_peak        = 200,
+        .cut_fundamental   = 100,
+        .cut_peak          = 235,
+        .pitch_range       = 2.3218594,
+        .cut_range         = 2.0249748,
+};

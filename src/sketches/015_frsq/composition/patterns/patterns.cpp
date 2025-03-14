@@ -52,24 +52,13 @@ std::unordered_map<int, std::array<float, 4>> chord_map{
 };
 
 // clang-format off
-std::vector<midi_event> drone_pattern {
-        {.start_time = 0,  .duration = 16., .note = note::Eb6 - 36},
-        {.start_time = 0,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 1,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 2,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 3,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 4,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 5,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 6,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 7,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 8,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 9,  .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 10, .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 11, .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 12, .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 13, .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 14, .duration = 0.5, .note = note::Eb7 - 36},
-        {.start_time = 15, .duration = 0.5, .note = note::Eb7 - 36},
+std::vector<midi_event> beep_pattern {
+
+        {.start_time = 0,              .duration = 0.5, .note = note::Eb7 - 36},
+        {.start_time = 1 * (3.*sqvr),  .duration = 0.5, .note = note::Eb7 - 36},
+        {.start_time = 2 * (3.*sqvr),  .duration = 0.5, .note = note::Eb7 - 36},
+        {.start_time = 3 * (3.*sqvr),  .duration = 0.5, .note = note::Eb7 - 36},
+        {.start_time = 4 * (3.*sqvr),  .duration = 0.5, .note = note::Eb7 - 36},
 };
 // clang-format on
 

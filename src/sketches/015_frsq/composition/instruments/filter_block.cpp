@@ -45,19 +45,19 @@ filter_block_props patch = {{\n\
     .res_s                = {}, \n\
     .res_r                = {}, \n\
 }};",
-            cutoff.output.load(std::memory_order_acquire),
-            cutoff_range_octaves.output.load(std::memory_order_acquire),
-            res.output.load(std::memory_order_acquire),
-            res_range_octaves.output.load(std::memory_order_acquire),
-            filter_t_to_str(filter_t(filter_type_i.output.load(std::memory_order_acquire))),
-            cut_a.output.load(std::memory_order_acquire),
-            cut_d.output.load(std::memory_order_acquire),
-            cut_s.output.load(std::memory_order_acquire),
-            cut_r.output.load(std::memory_order_acquire),
-            res_a.output.load(std::memory_order_acquire),
-            res_d.output.load(std::memory_order_acquire),
-            res_s.output.load(std::memory_order_acquire),
-            res_r.output.load(std::memory_order_acquire));
+            cutoff.load_output(),
+            cutoff_range_octaves.load_output(),
+            res.load_output(),
+            res_range_octaves.load_output(),
+            filter_t_to_str(filter_t(filter_type_i.load_output())),
+            cut_a.load_output(),
+            cut_d.load_output(),
+            cut_s.load_output(),
+            cut_r.load_output(),
+            res_a.load_output(),
+            res_d.load_output(),
+            res_s.load_output(),
+            res_r.load_output());
 }
 
 void filter_block_props::tick() {

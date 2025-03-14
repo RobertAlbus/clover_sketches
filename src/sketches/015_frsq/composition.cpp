@@ -34,8 +34,8 @@ std::pair<clover_float, clover_float> composition::tick() {
         drones_L += voice_signal.first;
         drones_R += voice_signal.second;
     }
-    drones_L *= drones_mix;
-    drones_R *= drones_mix;
+    drones_L *= mix_beep;
+    drones_R *= mix_beep;
 
     float signal_kick = kick.tick();
     signal_kick *= 1.5f;

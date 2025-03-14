@@ -32,7 +32,7 @@ bool slider_spinnner_v(
     ImGui::PopID();
 
     if (was_modified) {
-        settable_param.set(settable_param.gui);
+        settable_param.store(settable_param.gui);
     }
 
     return was_modified;
