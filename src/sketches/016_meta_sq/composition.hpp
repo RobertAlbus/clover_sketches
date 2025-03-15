@@ -25,8 +25,11 @@ struct composition {
     float fs              = 48000;
     int fs_i              = static_cast<int>(fs);
     int channel_count_out = 2;
-    float bpm             = 122;
-    int_fast64_t duration = int_fast64_t(((fs * 60.f) / bpm) * 4 * 200);
+    double bpm            = 132;
+    double spm            = fs * 60;
+    double spb            = spm / bpm;
+    double bar            = spb * 4;
+    int_fast64_t duration = int_fast64_t(bar * 16) + 1;
 
     kick_drum kick{fs, patch_deep_kick};
     cymbal hh{fs};
