@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <stdexcept>
+#include <utility>
 
 #include "samplerate.h"
 
@@ -12,22 +13,25 @@
 
 using namespace clover;
 
-void sketch_008_convert_sample_rate(audio_buffer& buffer, int sample_rate) {
+void sketch_016_convert_sample_rate(audio_buffer& buffer, int sample_rate) {
     if (buffer.sample_rate == sample_rate) {
         return;
     }
 
-    SRC_STATE* libsamplerate_src_state = src_new(SRC_SINC_FASTEST, buffer.channels, nullptr);
+    auto fs_out = static_cast<double>(sample_rate);
+    auto fs_in  = static_cast<double>(buffer.sample_rate);
+    auto ratio  = fs_out / fs_in;
 
-    int error = src_error(libsamplerate_src_state);
+    long input_frames_count  = static_cast<long>(buffer.data.size() / buffer.channels);
+    long output_frames_count = static_cast<long>(static_cast<double>(input_frames_count) * ratio) + 1;
+
+    SRC_STATE* libsamplerate_src_state = src_new(SRC_SINC_FASTEST, buffer.channels, nullptr);
+    int error                          = src_error(libsamplerate_src_state);
     if (error) {
         throw std::runtime_error(src_strerror(error));
     }
 
-    float* data_in_start     = buffer.data.data();
-    long input_frames_count  = static_cast<long>(buffer.data.size() / buffer.channels);
-    double ratio             = static_cast<float>(sample_rate) / static_cast<float>(buffer.sample_rate);
-    long output_frames_count = static_cast<long>(static_cast<double>(input_frames_count) * ratio) + 1;
+    float* data_in_start = buffer.data.data();
 
     std::vector<float> output(output_frames_count * buffer.channels);
     float* data_out_start = &output.front();
@@ -41,12 +45,15 @@ void sketch_008_convert_sample_rate(audio_buffer& buffer, int sample_rate) {
     };
 
     error = src_process(libsamplerate_src_state, &libsampelrate_src_data);
-    src_delete(libsamplerate_src_state);
-    output.resize(libsampelrate_src_data.output_frames_gen * buffer.channels);
-
-    buffer.data = std::move(output);
 
     if (error) {
+        src_delete(libsamplerate_src_state);
         throw std::runtime_error(src_strerror(error));
     }
+
+    output.resize(libsampelrate_src_data.output_frames_gen * buffer.channels);
+    src_delete(libsamplerate_src_state);
+
+    std::swap(output, buffer.data);
+    buffer.sample_rate = sample_rate;
 }
