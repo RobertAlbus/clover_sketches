@@ -82,8 +82,11 @@ struct frsq {
             return;
         }
 
-        double current_time_relative = (current_time_absolute / duration_absolute) * duration_relative;
-        auto next_event              = std::ranges::lower_bound(
+        // std::floor fixes bug with missing the first pluck note when when going from pattern 3 back to
+        // pattern 1
+        double current_time_relative =
+                (std::floor(current_time_absolute) / duration_absolute) * duration_relative;
+        auto next_event = std::ranges::lower_bound(
                 pattern_data, current_time_relative, std::ranges::less{}, &frsq_data_t::start_time);
 
         if (next_event != pattern_data.begin()) {

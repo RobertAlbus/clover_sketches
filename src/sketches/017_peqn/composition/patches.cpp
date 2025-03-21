@@ -139,3 +139,5 @@ kick_props hand_drum_kick_patch{
         .pitch_range       = 2.3218594,
         .cut_range         = 2.0249748,
 };
+
+std::array<peq_props, peq::SIZE> kick_peq_props{};

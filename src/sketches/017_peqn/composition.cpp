@@ -13,6 +13,7 @@ using namespace io;
 
 std::pair<clover_float, clover_float> composition::tick() {
     stsqs.tick();
+    update_peq_from_gui(kick_peq_gui, kick_peq);
 
     float out_L = 0;
     float out_R = 0;
@@ -46,14 +47,18 @@ std::pair<clover_float, clover_float> composition::tick() {
     float kick_verb_L = kick_fdn_L.tick(signal_kick * verb_in_gain) * reverb_mix;
     float kick_verb_R = kick_fdn_R.tick(signal_kick * verb_in_gain) * reverb_mix;
 
+    float kick_sum_L = signal_kick + kick_verb_L;
+    float kick_sum_R = signal_kick + kick_verb_R;
+
+    auto [kick_eqd_L, kick_eqd_R] = kick_peq.tick({kick_sum_L, kick_sum_R});
+
     float signal_hh = hh.tick() * hh_mix;
 
-    float drums_output_L = signal_kick + kick_verb_L + signal_hh;
-    float drums_output_R = signal_kick + kick_verb_R + signal_hh;
+    float drums_output_L = kick_eqd_L + signal_hh;
+    float drums_output_R = kick_eqd_R + signal_hh;
 
     out_L = chords_L + drums_output_L + drones_L;
     out_R = chords_R + drums_output_R + drones_R;
-    // std::println("{} {}", drones_L, drones_R);
 
     return {out_L, out_R};
 }

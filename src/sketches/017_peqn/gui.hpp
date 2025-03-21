@@ -10,6 +10,7 @@
 #include "composition/instruments/fdn.hpp"
 #include "gui/audio_meter_poc.hpp"
 #include "gui/kick_drum_gui.hpp"
+#include "gui/peq.hpp"
 #include "hello_imgui/hello_imgui.h"
 #include "imgui.h"
 using namespace ImGui;
@@ -61,6 +62,11 @@ void GUI(shared_props& props) {
 
     auto guiFunction = [&]() {
         if (ImGui::BeginTabBar("MyTabBar")) {
+            if (ImGui::BeginTabItem("peq example", nullptr)) {
+                peq_gui("##kick_drum_gui", props.composition->kick_peq_gui);
+
+                ImGui::EndTabItem();
+            }
             if (ImGui::BeginTabItem("mix")) {
                 // Content for Tab 2
                 mixer(&(props.composition->kick_mix),

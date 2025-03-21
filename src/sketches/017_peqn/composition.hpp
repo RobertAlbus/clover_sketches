@@ -13,6 +13,7 @@
 #include "composition/instruments/filter_block.hpp"
 #include "composition/instruments/kick.hpp"
 #include "composition/instruments/nx_osc.hpp"
+#include "composition/instruments/peq.hpp"
 #include "composition/patches.hpp"
 #include "composition/patterns/sequencers.hpp"
 
@@ -29,7 +30,7 @@ struct composition {
     double spm            = fs * 60;
     double spb            = spm / bpm;
     double bar            = spb * 4;
-    int_fast64_t duration = int_fast64_t(bar * 16) + 1;
+    int_fast64_t duration = int_fast64_t(bar * 16 * 1000) + 1;
 
     kick_drum kick{fs, patch_deep_kick};
     cymbal hh{fs};
@@ -60,6 +61,9 @@ struct composition {
     float mix_beep     = 0.015;
 
     sequencers stsqs{fs, bpm, kick, hh, chords, chord_filters, drones};
+
+    peq kick_peq{fs, kick_peq_props};
+    peq_gui_model kick_peq_gui{kick_peq_props};
 
     composition() = default;
 
