@@ -51,7 +51,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
     FetchContent_Declare(
         imgui_knobs
         GIT_REPOSITORY https://github.com/altschuler/imgui-knobs.git
-        GIT_TAG        "a0768e19300268d15d748b5f67bc30deda75e11a"
+        GIT_TAG        "091dda7aed58fd44535023c61595facd32aea7fc"
     )
     FetchContent_MakeAvailable(imgui_knobs)
 
