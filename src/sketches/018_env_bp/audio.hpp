@@ -40,6 +40,10 @@ void AUDIO(shared_props& props) {
     props.audio_ready.release();
     props.gui_ready.acquire();
 
+    // I want the sequencer class to accept the composition as a ctor prop.
+    // as a result, compostion can't own the sequencer object because that creates a circular reference.
+    // IMPLICATION => it doesn't make sense for the composition to own the callback.
+    //                create a lambda here, call sequencers.tick() then composition.tick()
     stream.audio_callback = comp.audio_callback;
 
     // system.print();
