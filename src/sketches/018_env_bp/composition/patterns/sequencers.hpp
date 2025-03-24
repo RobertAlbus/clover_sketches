@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "composition/instruments/cymbal.hpp"
+#include "composition/instruments/env_bp.hpp"
 #include "composition/instruments/filter_block.hpp"
 #include "composition/instruments/frsq.hpp"
 #include "composition/instruments/kick.hpp"
@@ -14,21 +15,27 @@
 
 #include "patterns.hpp"
 #include <ranges>
+#include <span>
 
 struct sequencers {
     stsq<int> kick_sequencer;
-    stsq<int> hh_sequencer;
+    stsq<int> hh1_stsq;
     stsq<std::array<float, 4>> chord_sequencer;
 
-    using subtractive_synth_sq_t = frsq<pattern::midi_event, subtractive_synth>;
-    subtractive_synth_sq_t subtractive_synth_sequencer;
-    frsq<pattern::meta_pattern, subtractive_synth_sq_t> subtractive_synth_metasq;
+    using subtractive_sq_t = frsq<pattern::midi_event, subtractive_synth>;
+    subtractive_sq_t subtractive_synth_sequencer;
+    frsq<pattern::meta_pattern, subtractive_sq_t> subtractive_synth_metasq;
+
+    frsq<pattern::midi_event, cymbal> hh2_frsq;
+    frsq<pattern::midi_event, env_bp> hh2_articulation_frsq;
 
     sequencers(
             double fs,
             double bpm,
             kick_drum& kick,
-            cymbal& hh,
+            cymbal& hh1,
+            cymbal& hh2,
+            env_bp& hh2_articulation,
             std::array<nx_osc, 4>& chords,
             std::array<filter_block, 4>& chord_filters,
             std::array<subtractive_synth, 4>& drones) {
@@ -55,24 +62,39 @@ struct sequencers {
             }
         };
 
-        hh_sequencer.pattern_duration_samples = bar;
-        hh_sequencer.step_duration_samples    = bar / 16;
+        hh1_stsq.pattern_duration_samples = bar;
+        hh1_stsq.step_duration_samples    = bar / 16;
 
-        hh_sequencer.num_steps = 16;
-        hh_sequencer.pattern   = &pattern::hh_map;
-        hh_sequencer.callback  = [&](const int clock, const int step, const int& step_data) {
+        hh1_stsq.num_steps = 16;
+        hh1_stsq.pattern   = &pattern::hh_map;
+        hh1_stsq.callback  = [&](const int clock, const int step, const int& step_data) {
             switch (step_data) {
                 case pattern::X:
                 case pattern::x:
-                    hh.key_on();
+                    hh1.key_on();
                     break;
                 case pattern::_:
-                    hh.key_off();
+                    hh1.key_off();
                     break;
                 default:
                     break;
             }
         };
+
+        hh2_frsq.callback_start = [](cymbal& voice, const pattern::midi_event& data) { voice.key_on(); };
+        hh2_frsq.callback_end   = [](cymbal& voice) { voice.key_off(); };
+        hh2_frsq.voices         = std::span<cymbal>(&hh2, 1);
+        hh2_frsq.set_pattern(pattern::hh2_pattern);
+        hh2_frsq.duration_absolute = bar / 4;
+        hh2_frsq.duration_relative = 4;
+
+        hh2_articulation_frsq.callback_start = [](env_bp& voice, const pattern::midi_event& data) {
+            voice.key_on();
+        };
+        hh2_articulation_frsq.voices = std::span<env_bp>(&hh2_articulation, 1);
+        hh2_articulation_frsq.set_pattern(pattern::hh2_articulation_trigger_pattern);
+        hh2_articulation_frsq.duration_absolute = (bar / 16) * 5.;
+        hh2_articulation_frsq.duration_relative = 5;
 
         chord_sequencer.pattern_duration_samples = bar;
         chord_sequencer.num_steps                = 16;
@@ -92,12 +114,12 @@ struct sequencers {
                     }
                 };
 
-        subtractive_synth_metasq.callback_start = [](subtractive_synth_sq_t& sq,
+        subtractive_synth_metasq.callback_start = [](subtractive_sq_t& sq,
                                                      const pattern::meta_pattern& data) {
             sq.set_pattern(pattern::beep_patterns[data.pattern_index]);
         };
 
-        subtractive_synth_metasq.voices = std::span<subtractive_synth_sq_t>(&subtractive_synth_sequencer, 1);
+        subtractive_synth_metasq.voices = std::span<subtractive_sq_t>(&subtractive_synth_sequencer, 1);
         subtractive_synth_metasq.set_pattern(pattern::beep_meta_pattern);
 
         subtractive_synth_metasq.duration_absolute = 8 * bar;
@@ -115,7 +137,9 @@ struct sequencers {
 
     void tick() {
         kick_sequencer.tick();
-        hh_sequencer.tick();
+        hh1_stsq.tick();
+        hh2_frsq.tick();
+        hh2_articulation_frsq.tick();
         chord_sequencer.tick();
         subtractive_synth_metasq.tick();
         subtractive_synth_sequencer.tick();

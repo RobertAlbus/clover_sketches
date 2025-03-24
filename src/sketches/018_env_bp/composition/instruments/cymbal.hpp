@@ -19,6 +19,8 @@ struct cymbal {
     cymbal(clover_float fs);
     void key_on();
     void key_off();
+    void set_oscs();
+    void set_adsrs();
 
     clover_float tick();
 

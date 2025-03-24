@@ -6,6 +6,7 @@
 #include <array>
 #include <unordered_map>
 
+#include "composition/instruments/env_bp.hpp"
 #include "composition/patterns/notes.h"
 #include "patterns.hpp"
 
@@ -42,6 +43,27 @@ std::unordered_map<int, int> hh_map{
         {2 * beat, _},
         {3 * beat, _},
 };
+
+// clang-format off
+std::vector<midi_event> hh2_pattern {
+        {.start_time = 0, .duration = 0.9},
+        {.start_time = 1, .duration = 0.9},
+        {.start_time = 2, .duration = 0.9},
+        {.start_time = 3, .duration = 0.9},
+};
+std::vector<midi_event> hh2_articulation_trigger_pattern {
+        {.start_time = 0, .duration = 0.1},
+};
+std::vector<bp_event> hh2_articulation_env_pattern {
+        bp_event{.start = 0.0, .value = 0},
+        bp_event{.start = 1.0, .value = 0},
+        bp_event{.start = 2.0, .value = 1},
+        bp_event{.start = 2.5, .value = 1},
+        bp_event{.start = 3.0, .value = 0.5},
+        bp_event{.start = 4.0, .value = 0.5},
+};
+
+// clang-format off
 
 constexpr std::array<float, 4> chord     = {note::Gb4, note::Ab4, note::B4, note::Eb5};
 constexpr std::array<float, 4> chord_off = {_, _, _, _};

@@ -9,6 +9,7 @@
 #include "clover/io/audio_callback.hpp"
 
 #include "composition/instruments/cymbal.hpp"
+#include "composition/instruments/env_bp.hpp"
 #include "composition/instruments/fdn.hpp"
 #include "composition/instruments/filter_block.hpp"
 #include "composition/instruments/kick.hpp"
@@ -33,7 +34,9 @@ struct composition {
     int_fast64_t duration = int_fast64_t(bar * 16 * 1000) + 1;
 
     kick_drum kick{fs, patch_deep_kick};
-    cymbal hh{fs};
+    cymbal hh1{fs};
+    cymbal hh2{fs};
+    env_bp hh2_articulation{pattern::hh2_articulation_env_pattern};
 
     std::array<nx_osc, 4> chords{
             nx_osc{fs, patch_deep_chord},
@@ -54,18 +57,32 @@ struct composition {
     fdn_8_012 kick_fdn_R{fs, patch_deep_fdn};
 
     float kick_mix     = 0.842;
-    float hh_mix       = 0.3;
+    float hh1_mix      = 0.3;
+    float hh2_mix      = 0.08;
     float reverb_mix   = 1;
     float verb_in_gain = 1;
     float chords_mix   = 0.08;
     float mix_beep     = 0.015;
 
-    sequencers stsqs{fs, bpm, kick, hh, chords, chord_filters, drones};
+    sequencers stsqs{fs, bpm, kick, hh1, hh2, hh2_articulation, chords, chord_filters, drones};
 
     peq kick_peq{fs, kick_peq_props};
     peq_gui_model kick_peq_gui{kick_peq_props};
 
-    composition() = default;
+    composition() {
+        // shame on me. need to extract cymbal synth internals to props.
+        for (auto &f : hh2.osc_freq)
+            f = (f * 1.7f) + 390.f;
+        hh2.amp_a = 10;
+        hh2.amp_d = 800;
+        hh2.cut_a = 10;
+        hh2.cut_d = 800;
+        hh2.set_oscs();
+        hh2.set_adsrs();
+
+        hh2_articulation.duration_abs = (bar / 16) * 5.;
+        hh2_articulation.duration_rel = 5;
+    }
 
     io::callback audio_callback = [&](callback_args data) {
         float &L = *(data.output);

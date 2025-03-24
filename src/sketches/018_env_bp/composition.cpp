@@ -52,10 +52,11 @@ std::pair<clover_float, clover_float> composition::tick() {
 
     auto [kick_eqd_L, kick_eqd_R] = kick_peq.tick({kick_sum_L, kick_sum_R});
 
-    float signal_hh = hh.tick() * hh_mix;
+    float signal_hh1 = hh1.tick() * hh1_mix;
+    float signal_hh2 = hh2.tick() * hh2_mix * hh2_articulation.tick();
 
-    float drums_output_L = kick_eqd_L + signal_hh;
-    float drums_output_R = kick_eqd_R + signal_hh;
+    float drums_output_L = kick_eqd_L + signal_hh1 + signal_hh2;
+    float drums_output_R = kick_eqd_R + signal_hh1 + signal_hh2;
 
     out_L = chords_L + drums_output_L + drones_L;
     out_R = chords_R + drums_output_R + drones_R;

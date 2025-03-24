@@ -4,6 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "composition/instruments/env_bp.hpp"
 #include <unordered_map>
 #include <vector>
 
@@ -39,5 +40,8 @@ struct meta_pattern {
 
 extern std::array<std::vector<midi_event>, 3> beep_patterns;
 extern std::vector<meta_pattern> beep_meta_pattern;
+extern std::vector<midi_event> hh2_pattern;
+extern std::vector<midi_event> hh2_articulation_trigger_pattern;
+extern std::vector<bp_event> hh2_articulation_env_pattern;
 
 }  // namespace pattern

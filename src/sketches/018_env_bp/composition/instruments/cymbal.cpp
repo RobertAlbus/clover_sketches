@@ -22,14 +22,20 @@ cymbal::cymbal(clover_float fs)
     high_pass.m_coeffs = hpf(fs, hpf_f0, hpf_Q);
     band_pass.m_coeffs = bpf(fs, bpf_f0, bpf_Q);
 
-    adsr_amp.set(amp_a, amp_d, amp_s, amp_r);
-    adsr_cut.set(cut_a, cut_d, cut_s, cut_r);
+    set_oscs();
+    set_adsrs();
+}
 
+void cymbal::set_oscs() {
     for (auto i : std::views::iota(0, num_oscs)) {
         osc[i].freq(osc_freq[i]);
         osc[i].waveform = wave_square;
-        // osc[i].phase(float(i)/float(num_oscs));
     }
+}
+
+void cymbal::set_adsrs() {
+    adsr_amp.set(amp_a, amp_d, amp_s, amp_r);
+    adsr_cut.set(cut_a, cut_d, cut_s, cut_r);
 }
 
 void cymbal::key_on() {
