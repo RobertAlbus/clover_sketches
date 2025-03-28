@@ -40,8 +40,13 @@ filter_block_props patch_subtractive_synth_filter{
         .res_r                = 1000,
 };
 
-subtractive_synth::subtractive_synth(float fs)
-    : fs(fs), osc(fs, patch_subtractive_synth_oscs), filter(fs, patch_subtractive_synth_filter) {
+subtractive_synth::subtractive_synth(float fs, const subtractive_synth_props& new_props)
+    : fs(fs), osc(fs, new_props.osc_props), filter(fs, new_props.filter_props) {
+}
+
+void subtractive_synth::patch(subtractive_synth_props new_props) {
+    osc.patch(new_props.osc_props);
+    filter.patch(new_props.filter_props);
 }
 
 void subtractive_synth::key_on(float midi_note) {
