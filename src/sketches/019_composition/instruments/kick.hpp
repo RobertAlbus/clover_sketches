@@ -14,6 +14,8 @@ using namespace clover;
 using namespace dsp;
 
 struct kick_props {
+    // TODO: this just use the pitch_range instead pitch_peak
+
     float trim;
     float drive;
 
@@ -55,8 +57,8 @@ struct kick_drum {
     env_adsr adsr_cut;
 
     float fs = 0;
-    kick_drum(float fs, kick_props& new_props);
-    void patch(kick_props& props);
+    kick_drum(float fs, const kick_props& new_props);
+    void patch(kick_props props);
     float tick();
     void key_on();
     void key_off();

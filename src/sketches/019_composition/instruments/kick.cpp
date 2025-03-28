@@ -64,11 +64,11 @@ kick_props patch{{     \n\
             cut_range);
 }
 
-kick_drum::kick_drum(clover_float fs, kick_props& new_props) : fs(fs), kick_osc(fs) {
+kick_drum::kick_drum(clover_float fs, const kick_props& new_props) : fs(fs), kick_osc(fs) {
     patch(new_props);
 }
 
-void kick_drum::patch(kick_props& new_props) {
+void kick_drum::patch(kick_props new_props) {
     props = std::move(new_props);
     kick_osc.freq(props.pitch_fundamental);
     kick_osc.phase(0);
