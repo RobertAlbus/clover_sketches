@@ -80,7 +80,7 @@ bool operator!=(const peq_props& a, const peq_props& b);
 peq_props lerp(const peq_props& a, const peq_props& b, float lerp_amount);
 
 struct peq {
-    static const size_t SIZE = 8;
+    static const size_t SIZE = 4;
     std::array<peq_props, peq::SIZE> props;
     std::array<clover::dsp::filter_2, peq::SIZE> filters;
     float fs;
