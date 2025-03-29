@@ -48,5 +48,14 @@ struct pattern_drum {
             {.start_time = 1.502, .duration = 0.1},
         },
     };
+
+    std::vector<std::vector<event>> patterns_hh3 {
+        {},
+        {
+            {.start_time = 1.752, .duration = 0.5},
+            {.start_time = 3.752, .duration = 0.5},
+            {.start_time = 5.752, .duration = 0.5},
+        },
+    };
     // clang-format on
 };

@@ -15,6 +15,7 @@ std::map<const char*, size_t> scene_1 = {
         {"bass", 1},
         {"hh1", 1},
         {"hh2", 1},
+        {"hh3", 1},
 };
 
 std::map<const char*, size_t>& active_scene = scene_1;
@@ -24,6 +25,7 @@ sequencers::sequencers(composition& comp) {
     set_up_bass(comp);
     set_up_hh1(comp);
     set_up_hh2(comp);
+    set_up_hh3(comp);
 }
 
 void sequencers::tick() {
@@ -31,6 +33,7 @@ void sequencers::tick() {
     frsq_bass.tick();
     frsq_hh1.tick();
     frsq_hh2.tick();
+    frsq_hh3.tick();
 }
 
 void sequencers::set_up_kick(composition& comp) {
@@ -72,4 +75,14 @@ void sequencers::set_up_hh2(composition& comp) {
 
     frsq_hh2.callback_start = [](cymbal& voice, const event& data) { voice.key_on(); };
     frsq_hh2.callback_end   = [](cymbal& voice) { voice.key_off(); };
+}
+
+void sequencers::set_up_hh3(composition& comp) {
+    frsq_hh3.voices            = std::span<subtractive_synth>(&comp.cymbals.hh3, 1);
+    frsq_hh3.duration_absolute = comp.beat * 8;
+    frsq_hh3.duration_relative = 8.;
+    frsq_hh3.set_pattern(drum_patterns.patterns_hh3[active_scene["hh3"]]);
+
+    frsq_hh3.callback_start = [](subtractive_synth& voice, const event& data) { voice.key_on(50); };
+    frsq_hh3.callback_end   = [](subtractive_synth& voice) { voice.key_off(); };
 }

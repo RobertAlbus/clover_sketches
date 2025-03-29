@@ -14,7 +14,7 @@ using namespace dsp;
 #include "fdn.hpp"
 #include "hadamard.hpp"
 
-fdn_8_props_012 fdn_patch = {
+fdn_8_props_019 fdn_patch = {
         .taps    = {655.98645, 1307.852, 199.59464, 1894.7349, 199.59464, 3198.709, 4893.918, 9262.27},
         .fb_gain = 0.8310298,
         .lpf_cut = 599.3303,
@@ -23,10 +23,10 @@ fdn_8_props_012 fdn_patch = {
         .hpf_res = 0.707,
 };
 
-std::string fdn_8_props_012::to_str() {
+std::string fdn_8_props_019::to_str() {
     return std::format(
             "\
-fdn_8_props_012 patch = {{\n\
+fdn_8_props_019 patch = {{\n\
     .taps     = {{{}, {}, {}, {}, {}, {}, {}, {}}}, \n\
     .fb_gain  = {}, \n\
     .lpf_cut  = {}, \n\
@@ -49,13 +49,14 @@ fdn_8_props_012 patch = {{\n\
             hpf_res);
 }
 
-fdn_8_012::fdn_8_012(float fs, const fdn_8_props_012& props)
-    : fs{fs}, sections{fs, fs, fs, fs, fs, fs, fs, fs} {
+fdn_8_019::fdn_8_019(float fs, const fdn_8_props_019& props, bool has_gui)
+    : fs{fs}, sections{fs, fs, fs, fs, fs, fs, fs, fs}, has_gui{has_gui} {
     patch(props);
 }
 
-void fdn_8_012::patch(const fdn_8_props_012& patch_props) {
-    props = patch_props;
+void fdn_8_019::patch(const fdn_8_props_019& patch_props) {
+    props     = patch_props;
+    old_props = patch_props;
     for (auto [section, tap] : std::views::zip(sections, props.taps)) {
         section.set_lpf(props.lpf_cut, props.lpf_res);
         section.set_hpf(props.hpf_cut, props.hpf_res);
@@ -64,7 +65,18 @@ void fdn_8_012::patch(const fdn_8_props_012& patch_props) {
     }
 }
 
-float fdn_8_012::process(float x) {
+void fdn_8_019::update_from_gui() {
+    if (!has_gui)
+        return;
+    for (auto [section, tap] : std::views::zip(sections, props.taps)) {
+        section.set_lpf(props.lpf_cut, props.lpf_res);
+        section.set_hpf(props.hpf_cut, props.hpf_res);
+        section.set_time(tap);
+        section.set_fb_coeff(props.fb_gain);
+    }
+}
+
+float fdn_8_019::process(float x) {
     std::array<float, 8> delay_outputs;
     delay_outputs.fill(0);
 
@@ -89,6 +101,7 @@ float fdn_8_012::process(float x) {
     return output;
 }
 
-float fdn_8_012::tick(float x) {
+float fdn_8_019::tick(float x) {
+    update_from_gui();
     return process(x);
 }

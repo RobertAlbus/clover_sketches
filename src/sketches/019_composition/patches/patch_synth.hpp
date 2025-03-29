@@ -28,7 +28,7 @@ struct patch_synth_t {
 
     subtractive_synth_props chord_props{.osc_props{}, .filter_props{}};
 
-    fdn_8_props_012 chord_fdn_props{};
+    fdn_8_props_019 chord_fdn_props{};
     std::array<peq_props, peq::SIZE> chord_preverb_peq_props{};
     std::array<peq_props, peq::SIZE> chord_peq_props{};
 
@@ -37,7 +37,7 @@ struct patch_synth_t {
 
     subtractive_synth_props pad_props{.osc_props{}, .filter_props{}};
 
-    fdn_8_props_012 pad_fdn_props{};
+    fdn_8_props_019 pad_fdn_props{};
     std::array<peq_props, peq::SIZE> pad_preverb_peq_props{};
     std::array<peq_props, peq::SIZE> pad_peq_props{};
 };
