@@ -6,10 +6,13 @@
 
 #include "hello_imgui/hello_imgui.h"
 #include "imgui.h"
+#include "instruments/fdn.hpp"
 #include <print>
 using namespace ImGui;
 
 #include "shared_props.hpp"
+
+#include "visual_components/fdn_ui.hpp"
 
 void GUI(shared_props& props) {
     props.audio_ready.acquire();
@@ -17,6 +20,10 @@ void GUI(shared_props& props) {
     props.gui_ready.release();
 
     auto guiFunction = [&]() {
+        fdn_component(
+                "hh_reverb",
+                props.composition->cymbals.hh_verb_L.props,
+                props.composition->cymbals.hh_verb_R.props);
         ImGui::NewLine();
         if (ImGui::Button("Bye!")) {
             HelloImGui::GetRunnerParams()->appShallExit = true;
