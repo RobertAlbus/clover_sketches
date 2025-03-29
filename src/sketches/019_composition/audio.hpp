@@ -76,6 +76,7 @@ void AUDIO(shared_props &props) {
     clover::io::stream stream;
 
     props.composition = &comp;
+    props.sequencers  = &sqs;
 
     props.audio_ready.release();
     props.gui_ready.acquire();

@@ -8,9 +8,11 @@
 
 #include "clover/io/stream.hpp"
 #include "composition/composition.hpp"
+#include "sequence/sequencers.hpp"
 
 struct shared_props {
     composition* composition   = nullptr;
+    sequencers* sequencers     = nullptr;
     clover::io::stream* stream = nullptr;
 
     std::binary_semaphore gui_ready{0};
