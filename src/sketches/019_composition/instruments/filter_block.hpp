@@ -39,7 +39,7 @@ struct filter_block_props {
     float cutoff_range_octaves;
     float res;
     float res_range_octaves;
-    int filter_type_i;
+    filter_t filter_type;
 
     float cut_a;
     float cut_d;

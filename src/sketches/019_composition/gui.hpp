@@ -14,6 +14,7 @@ using namespace ImGui;
 void GUI(shared_props& props) {
     props.audio_ready.acquire();
     // gui setup before audio starts
+    props.gui_ready.release();
 
     auto guiFunction = [&]() {
         ImGui::NewLine();

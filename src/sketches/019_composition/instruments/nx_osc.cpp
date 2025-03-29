@@ -87,8 +87,8 @@ std::string nx_osc_props::build_str_list_osc_pans() {
 }
 std::string nx_osc_props::build_str_list_waveforms_i() {
     std::string result = "{";
-    for (auto& waveform_i : waveforms_i)
-        result += std::format("waveform::{}, ", waveform_to_str(waveform(waveform_i)));
+    for (auto& waveform : waveforms)
+        result += std::format("waveform::{}, ", waveform_to_str(waveform));
     result.pop_back();
     result += "}";
     return result;
@@ -121,13 +121,13 @@ void nx_osc::key_off() {
 void nx_osc::patch(nx_osc_props new_props) {
     props = std::move(new_props);
 
-    for (auto waveform_i : props.waveforms_i) {
+    for (auto waveform_i : props.waveforms) {
         osc_pans.emplace_back();
     }
     for (auto [osc_pan, osc_pan_value] : std::views::zip(osc_pans, props.osc_pans))
         osc_pan.set(osc_pan_value);
 
-    for (auto waveform_i : props.waveforms_i) {
+    for (auto waveform_i : props.waveforms) {
         auto& osc    = oscs.emplace_back(fs);
         osc.waveform = waveform_to_func(waveform(waveform_i));
     }
