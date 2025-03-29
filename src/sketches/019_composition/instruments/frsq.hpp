@@ -13,6 +13,7 @@
 #include <limits>
 #include <ranges>
 #include <span>
+#include <stdexcept>
 
 template <typename T>
 concept frsq_data_base = requires(T t) {
@@ -20,7 +21,7 @@ concept frsq_data_base = requires(T t) {
     { t.duration } -> std::same_as<double&>;
 };
 
-template <frsq_data_base frsq_data_t, typename voice_t>
+template <typename voice_t, frsq_data_base frsq_data_t>
 struct frsq {
     frsq() {
         voices_time_remaining.fill(std::numeric_limits<int>::min());
@@ -97,6 +98,8 @@ struct frsq {
     }
 
     void tick() {
+        if (voices.empty())
+            throw std::runtime_error("no voices assigned to frsq");
         if (pattern_data.empty())
             return;
 

@@ -9,13 +9,13 @@
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
 
-struct patch_synth {
+struct patch_synth_t {
     // --------------------------------
     // LEAD
 
-    static constexpr subtractive_synth_props lead_props{.osc_props{}, .filter_props{}};
-    static constexpr nx_osc_props lead_ringmod_props{};
-    static constexpr std::array<peq_props, peq::SIZE> lead_peq_props{};
+    subtractive_synth_props lead_props{.osc_props{}, .filter_props{}};
+    nx_osc_props lead_ringmod_props{};
+    std::array<peq_props, peq::SIZE> lead_peq_props{};
 
     static struct {
         float carrier   = 1.f;
@@ -26,18 +26,18 @@ struct patch_synth {
     // --------------------------------
     // CHORD
 
-    static constexpr subtractive_synth_props chord_props{.osc_props{}, .filter_props{}};
+    subtractive_synth_props chord_props{.osc_props{}, .filter_props{}};
 
-    static constexpr fdn_8_props_012 chord_fdn_props{};
-    static constexpr std::array<peq_props, peq::SIZE> chord_preverb_peq_props{};
-    static constexpr std::array<peq_props, peq::SIZE> chord_peq_props{};
+    fdn_8_props_012 chord_fdn_props{};
+    std::array<peq_props, peq::SIZE> chord_preverb_peq_props{};
+    std::array<peq_props, peq::SIZE> chord_peq_props{};
 
     // --------------------------------
     // PAD
 
-    static constexpr subtractive_synth_props pad_props{.osc_props{}, .filter_props{}};
+    subtractive_synth_props pad_props{.osc_props{}, .filter_props{}};
 
-    static constexpr fdn_8_props_012 pad_fdn_props{};
-    static constexpr std::array<peq_props, peq::SIZE> pad_preverb_peq_props{};
-    static constexpr std::array<peq_props, peq::SIZE> pad_peq_props{};
+    fdn_8_props_012 pad_fdn_props{};
+    std::array<peq_props, peq::SIZE> pad_preverb_peq_props{};
+    std::array<peq_props, peq::SIZE> pad_peq_props{};
 };

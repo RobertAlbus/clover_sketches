@@ -33,7 +33,7 @@ filter_block_props patch = {{\n\
     .cutoff_range_octaves = {}, \n\
     .res                  = {}, \n\
     .res_range_octaves    = {}, \n\
-    .filter_type_i        = int(filter_t::{}), \n\
+    .filter_type          = filter_t::{}, \n\
     .cut_a                = {}, \n\
     .cut_d                = {}, \n\
     .cut_s                = {}, \n\
@@ -47,7 +47,7 @@ filter_block_props patch = {{\n\
             cutoff_range_octaves,
             res,
             res_range_octaves,
-            filter_t_to_str(filter_t(filter_type_i)),
+            filter_t_to_str(filter_type),
             cut_a,
             cut_d,
             cut_s,
@@ -78,7 +78,7 @@ void filter_block::patch(filter_block_props new_props) {
     adsr_cut.set(props.cut_a, props.cut_d, props.cut_s, props.cut_r);
     adsr_res.set(props.res_a, props.res_d, props.res_s, props.res_r);
 
-    auto coeffs     = filter_t_func[size_t(props.filter_type_i)](fs, props.cutoff, props.res);
+    auto coeffs     = filter_t_func[size_t(props.filter_type)](fs, props.cutoff, props.res);
     filt_L.m_coeffs = coeffs;
     filt_R.m_coeffs = coeffs;
 }
@@ -93,7 +93,7 @@ std::pair<float, float> filter_block::tick(float in_L, float in_R) {
     float res_env = adsr_res.tick();
     float res     = frequency_by_octave_difference(props.res, props.res_range_octaves * res_env);
 
-    iir_coeffs coeffs = filter_t_func[size_t(props.filter_type_i)](fs, cut, res);
+    iir_coeffs coeffs = filter_t_func[size_t(props.filter_type)](fs, cut, res);
     filt_L.m_coeffs   = coeffs;
     filt_R.m_coeffs   = coeffs;
 
