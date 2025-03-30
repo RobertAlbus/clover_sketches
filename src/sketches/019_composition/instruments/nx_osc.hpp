@@ -53,7 +53,7 @@ struct nx_osc_props {
     std::vector<float> osc_tunings;  // semitones.cents, relative
     std::vector<float> osc_pans;     // [L,R] = [-1,1]
     std::vector<waveform> waveforms;
-    int retrigger_i;
+    bool retrigger;
 
     float pitch_a;
     float pitch_d;

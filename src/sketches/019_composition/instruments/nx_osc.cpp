@@ -42,8 +42,8 @@ nx_osc_props patch = {{\n\
     .pitch_env_octaves = {}, \n\
     .osc_tunings       = {}, \n\
     .osc_pans          = {}, \n\
-    .waveforms_i       = {}, \n\
-    .retrigger_i       = {}, \n\
+    .waveforms         = {}, \n\
+    .retrigger         = {}, \n\
     .pitch_a           = {}, \n\
     .pitch_d           = {}, \n\
     .pitch_s           = {}, \n\
@@ -59,7 +59,7 @@ nx_osc_props patch = {{\n\
             build_str_list_osc_tunings(),
             build_str_list_osc_pans(),
             build_str_list_waveforms_i(),
-            retrigger_i,
+            retrigger,
             pitch_a,
             pitch_d,
             pitch_s,
@@ -132,7 +132,7 @@ void nx_osc::patch(nx_osc_props new_props) {
         osc.waveform = waveform_to_func(waveform(waveform_i));
     }
 
-    retrigger = bool(props.retrigger_i);
+    retrigger = props.retrigger;
 
     adsr_pitch.set(props.pitch_a, props.pitch_d, props.pitch_s, props.pitch_r);
     adsr_amp.set(props.amp_a, props.amp_d, props.amp_s, props.amp_r);
