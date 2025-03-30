@@ -16,12 +16,15 @@
 struct sequencers {
     pattern_drum drum_patterns;
     pattern_synth synth_patterns;
+
     frsq<kick_drum, event> frsq_kick;
     frsq<subtractive_synth, event_midi> frsq_bass;
+
     frsq<cymbal, event> frsq_hh1;
     frsq<cymbal, event> frsq_hh2;
     frsq<subtractive_synth, event> frsq_hh3;
     frsq<cymbal, event> frsq_ride;
+
     frsq<subtractive_synth, event_midi> frsq_chord;
     frsq<subtractive_synth, event_midi> frsq_lead_a1;
     frsq<subtractive_synth, event_midi> frsq_lead_a2;
@@ -35,10 +38,12 @@ struct sequencers {
 
     void set_up_kick(composition& comp);
     void set_up_bass(composition& comp);
+
     void set_up_hh1(composition& comp);
     void set_up_hh2(composition& comp);
     void set_up_hh3(composition& comp);
     void set_up_ride(composition& comp);
+
     void set_up_chord(composition& comp);
     void set_up_lead_a(composition& comp);
 };

@@ -11,14 +11,14 @@
 
 // clang-format off
 struct pattern_drum {
-    std::vector<std::vector<event>> patterns_kick {
+    std::vector<std::vector<event>> patterns_kick{
         {},
         {
             {.start_time = 0, .duration = 0.5},
         },
     };
 
-    std::vector<std::vector<event_midi>> patterns_bass {
+    std::vector<std::vector<event_midi>> patterns_bass{
         {},
         {
             {.start_time = 0.05 + 0.5, .duration = 0.20, .note = note::Fs3},
@@ -29,7 +29,7 @@ struct pattern_drum {
         },
     };
 
-    std::vector<std::vector<event>> patterns_hh1 {
+    std::vector<std::vector<event>> patterns_hh1{
         {},
         {
             {.start_time = 0.50, .duration = 0.25},
@@ -38,7 +38,7 @@ struct pattern_drum {
         },
     };
 
-    std::vector<std::vector<event>> patterns_hh2 {
+    std::vector<std::vector<event>> patterns_hh2{
         {},
         {
             {.start_time = 0.002, .duration = 0.1},
@@ -49,7 +49,7 @@ struct pattern_drum {
         },
     };
 
-    std::vector<std::vector<event>> patterns_hh3 {
+    std::vector<std::vector<event>> patterns_hh3{
         {},
         {
             {.start_time = 1.752, .duration = 0.5},

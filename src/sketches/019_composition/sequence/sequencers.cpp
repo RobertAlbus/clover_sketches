@@ -15,10 +15,12 @@
 std::map<const char*, size_t> scene_1 = {
         {"kick", 1},
         {"bass", 1},
+
         {"hh1", 1},
         {"hh2", 1},
         {"hh3", 1},
         {"ride", 1},
+
         {"chord", 1},
         {"lead_a1", 1},
         {"lead_a2", 0},
@@ -30,10 +32,12 @@ std::map<const char*, size_t>& active_scene = scene_1;
 sequencers::sequencers(composition& comp) {
     set_up_kick(comp);
     set_up_bass(comp);
+
     set_up_hh1(comp);
     set_up_hh2(comp);
     set_up_hh3(comp);
     set_up_ride(comp);
+
     set_up_chord(comp);
     set_up_lead_a(comp);
 }
@@ -41,10 +45,12 @@ sequencers::sequencers(composition& comp) {
 void sequencers::tick() {
     frsq_kick.tick();
     frsq_bass.tick();
+
     frsq_hh1.tick();
     frsq_hh2.tick();
     frsq_hh3.tick();
     frsq_ride.tick();
+
     frsq_chord.tick();
     frsq_lead_a1.tick();
     frsq_lead_a2.tick();

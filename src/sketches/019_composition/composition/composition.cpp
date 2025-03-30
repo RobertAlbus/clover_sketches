@@ -15,6 +15,11 @@ std::pair<float, float> composition::tick() {
     float out_L = 0;
     float out_R = 0;
 
+    // ----------------
+    // FOUNDATION
+    //
+    //
+
     float kick_dry         = kick.drum.tick();
     float kick_send        = kick_dry * patch_drums.kick_mix.send;
     auto [kick_send_eq, _] = kick.preverb_peq.tick(kick_send, kick_send);
@@ -25,6 +30,11 @@ std::pair<float, float> composition::tick() {
     auto [bass_eq_L, bass_eq_R] = bass.out_peq.tick(bass_dry);
     bass_eq_L *= patch_drums.bass_mix.gain;
     bass_eq_R *= patch_drums.bass_mix.gain;
+
+    // ----------------
+    // CYMBALS
+    //
+    //
 
     float hh1_dry               = cymbals.hh1.tick() * patch_drums.hh_mix.mix_hh1;
     float hh2_dry               = cymbals.hh2.tick() * patch_drums.hh_mix.mix_hh2;
@@ -59,6 +69,10 @@ std::pair<float, float> composition::tick() {
     float cymbal_bus_L = ride + hh_sum_L;
     float cymbal_bus_R = ride + hh_sum_R;
 
+    // ----------------
+    // CHORD
+    //
+    //
 
     float chord_L = 0;
     float chord_R = 0;
@@ -76,6 +90,11 @@ std::pair<float, float> composition::tick() {
             synth.chord_peq.tick(chord_L + chord_verb_L, chord_R + chord_verb_R);
     float chord_sum_L = chord_post_eq_L * patch_synth.chord_mix.sum;
     float chord_sum_R = chord_post_eq_R * patch_synth.chord_mix.sum;
+
+    // ----------------
+    // LEAD
+    //
+    //
 
     float lead_a1_L = 0;
     float lead_a1_R = 0;
@@ -98,8 +117,13 @@ std::pair<float, float> composition::tick() {
     float lead_mixed_L = lead_peq.first * patch_synth.lead_mix.gain;
     float lead_mixed_R = lead_peq.second * patch_synth.lead_mix.gain;
 
-    out_L = kick_sum + bass_eq_L + hh_sum_L + chord_sum_L + lead_mixed_L;
-    out_R = kick_sum + bass_eq_R + hh_sum_R + chord_sum_R + lead_mixed_R;
+    // ----------------
+    // SUMMING
+    //
+    //
+
+    out_L = kick_sum + bass_eq_L + cymbal_bus_L + chord_sum_L + lead_mixed_L;
+    out_R = kick_sum + bass_eq_R + cymbal_bus_R + chord_sum_R + lead_mixed_R;
 
     out_L *= gain_master;
     out_R *= gain_master;
