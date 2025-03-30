@@ -50,6 +50,8 @@ void cymbal::set_filters() {
 void cymbal::key_on() {
     adsr_amp.key_on();
     adsr_cut.key_on();
+    adsr_amp.m_elapsed_samples = 0;
+    adsr_cut.m_elapsed_samples = 0;
 }
 
 void cymbal::key_off() {

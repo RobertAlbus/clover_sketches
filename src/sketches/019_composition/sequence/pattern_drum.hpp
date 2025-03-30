@@ -61,8 +61,8 @@ struct pattern_drum {
     std::vector<std::vector<event>> patterns_ride{
         {},
         {
-            {.start_time = 0.0, .duration = 0.5},
-            {.start_time = 0.5, .duration = 0.5},
+            {.start_time = 0.0, .duration = 0.01},
+            {.start_time = 0.5, .duration = 0.01},
         },
     };
     // clang-format on

@@ -63,7 +63,7 @@ inline patch_mix_t mix_patch{
         .hh_drive = 1.5238096,
         .hh_trim  = 0.7619047,
 
-        .ride = 0.11490679,
+        .ride = 0.18012404,
 
         .cymbal_bus = 0.71428573,
 

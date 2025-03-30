@@ -197,9 +197,7 @@ struct patch_drums_t {
     std::array<peq_props, peq::SIZE> hh_peq_props{};
 
     cymbal_props ride_props{
-            // clang-format off
-            .freqs = {150, 404, 1533, 1751, 13456, 17500},
-            // clang-format on
+            .freqs            = {150, 404, 1533, 1751, 13456, 17500},
             .hpf_f0           = 100,
             .hpf_fmod_octaves = 6,
             .hpf_Q            = 1,
@@ -207,15 +205,15 @@ struct patch_drums_t {
             .bpf_f0 = 3000,
             .bpf_Q  = 1.3,
 
-            .amp_a = 800,
-            .amp_d = 25000,
-            .amp_s = 0,
-            .amp_r = 10,
+            .amp_a = 400,
+            .amp_d = 1,
+            .amp_s = 1,
+            .amp_r = 15000,
 
-            .cut_a = 400,
-            .cut_d = 25000,
-            .cut_s = 0.9,
-            .cut_r = 100,
+            .cut_a = 30,
+            .cut_d = 1,
+            .cut_s = 1,
+            .cut_r = 2500000,
     };
     std::array<peq_props, peq::SIZE> ride_peq_props{};
 };
