@@ -66,8 +66,8 @@ std::pair<float, float> composition::tick() {
     auto [ride_peq, _] = cymbals.ride_peq.tick(ride_dry);
     float ride         = ride_peq * mix.ride;
 
-    float cymbal_bus_L = ride + hh_sum_L;
-    float cymbal_bus_R = ride + hh_sum_R;
+    float cymbal_bus_L = (ride + hh_sum_L) * mix.cymbal_bus;
+    float cymbal_bus_R = (ride + hh_sum_R) * mix.cymbal_bus;
 
     // ----------------
     // CHORD

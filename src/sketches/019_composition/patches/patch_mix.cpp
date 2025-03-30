@@ -9,8 +9,7 @@
 
 std::string patch_mix_t::to_str() {
     return std::format(
-            R"(
-{{
+            R"({{
     .kick_send = {},
     .kick_wet  = {},
     .kick_gain = {},

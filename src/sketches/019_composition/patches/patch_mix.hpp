@@ -8,7 +8,7 @@
 
 struct patch_mix_t {
     float kick_send = 0.8f;
-    float kick_wet = 1.f;
+    float kick_wet  = 1.f;
     float kick_gain = 1.f;
 
     float bass_gain = 0.45;
@@ -42,33 +42,33 @@ struct patch_mix_t {
 };
 
 inline patch_mix_t mix_patch{
-        .kick_send = 0.8,
-        .kick_wet  = 1,
-        .kick_gain = 1,
+        .kick_send = 0.6904762,
+        .kick_wet  = 0.5952381,
+        .kick_gain = 0.92857146,
 
-        .bass_gain = 0.45,
+        .bass_gain = 0.7380953,
 
-        .hh1 = 1,
-        .hh2 = 0.6,
-        .hh3 = 0.4,
+        .hh1 = 1.0476191,
+        .hh2 = 0.26190472,
+        .hh3 = 0.23809528,
 
-        .hh_verb_send = 1,
-        .hh_verb_wet  = 0.5,
-        .hh_bus       = 1,
+        .hh_verb_send = 0.9523809,
+        .hh_verb_wet  = 0.6428572,
+        .hh_bus       = 1.0714285,
 
-        .hh_drive = 1.8,
-        .hh_trim  = 0.808,
+        .hh_drive = 1.5238096,
+        .hh_trim  = 0.7619047,
 
-        .ride = 0.4,
+        .ride = 0.07142854,
 
-        .cymbal_bus = 0.7,
+        .cymbal_bus = 0.71428573,
 
-        .chord_send = 0.8,
-        .chord_wet  = 1,
-        .chord_sum  = 0.13,
+        .chord_send = 1,
+        .chord_wet  = 0.47619045,
+        .chord_sum  = 0.16666663,
 
-        .lead_a       = 0.5,
-        .lead_b       = 0.5,
-        .lead_ringmod = 0.5,
-        .lead         = 0.3,
+        .lead_a       = 0.28571427,
+        .lead_b       = 0,
+        .lead_ringmod = 0,
+        .lead         = 0.57142854,
 };

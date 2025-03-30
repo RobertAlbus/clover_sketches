@@ -12,6 +12,7 @@ using namespace ImGui;
 
 #include "instruments/fdn.hpp"
 #include "visual_components/fdn_ui.hpp"
+#include "visual_components/mixer_ui.hpp"
 
 void GUI(shared_props& props) {
     props.audio_ready.acquire();
@@ -19,9 +20,7 @@ void GUI(shared_props& props) {
     props.gui_ready.release();
 
     auto guiFunction = [&]() {
-        if (ImGui::Button("get mixer patch")) {
-            ImGui::SetClipboardText(props.composition->mix.to_str().c_str());
-        }
+        mixer_component("mix", &props.composition->mix);
         ImGui::NewLine();
         fdn_component(
                 "hh_reverb",
