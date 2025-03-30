@@ -46,7 +46,7 @@ struct pattern_synth {
         },
     };
 
-    std::vector<std::vector<event_midi>> patterns_lead {
+    std::vector<std::vector<event_midi>> patterns_lead_a {
         {},
         {
             {.start_time = 0,  .duration = 0.2, .note = note::E3},
@@ -65,6 +65,16 @@ struct pattern_synth {
             {.start_time = 13, .duration = 0.2, .note = note::E3},
             {.start_time = 14, .duration = 0.2, .note = note::E3},
             {.start_time = 15, .duration = 0.2, .note = note::E3},
+        },
+    };
+
+    std::vector<std::vector<event_midi>> patterns_lead_b {
+        {},
+        {
+            {.start_time = 2,  .duration = 0.2, .note = note::E3},
+            {.start_time = 3,  .duration = 0.2, .note = note::E4},// + 0.55},
+            {.start_time = 12, .duration = 0.2, .note = note::E4 + 0.55},
+            {.start_time = 14, .duration = 0.2, .note = note::E3},
         },
     };
 

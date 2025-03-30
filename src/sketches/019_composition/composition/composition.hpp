@@ -69,19 +69,19 @@ struct composition {
     struct {
         // 3 discrete lead instances with 2 voices each
         std::array<subtractive_synth, 6> lead_a{
-                subtractive_synth{fs, patch_synth.lead_props},
-                subtractive_synth{fs, patch_synth.lead_props},
-                subtractive_synth{fs, patch_synth.lead_props},
-                subtractive_synth{fs, patch_synth.lead_props},
-                subtractive_synth{fs, patch_synth.lead_props},
-                subtractive_synth{fs, patch_synth.lead_props}};
+                subtractive_synth{fs, patch_synth.lead_a_props},
+                subtractive_synth{fs, patch_synth.lead_a_props},
+                subtractive_synth{fs, patch_synth.lead_a_props},
+                subtractive_synth{fs, patch_synth.lead_a_props},
+                subtractive_synth{fs, patch_synth.lead_a_props},
+                subtractive_synth{fs, patch_synth.lead_a_props}};
         std::array<nx_osc, 6> lead_b{
-                nx_osc{fs, patch_synth.lead_ringmod_props},
-                nx_osc{fs, patch_synth.lead_ringmod_props},
-                nx_osc{fs, patch_synth.lead_ringmod_props},
-                nx_osc{fs, patch_synth.lead_ringmod_props},
-                nx_osc{fs, patch_synth.lead_ringmod_props},
-                nx_osc{fs, patch_synth.lead_ringmod_props}};
+                nx_osc{fs, patch_synth.lead_b_props},
+                nx_osc{fs, patch_synth.lead_b_props},
+                nx_osc{fs, patch_synth.lead_b_props},
+                nx_osc{fs, patch_synth.lead_b_props},
+                nx_osc{fs, patch_synth.lead_b_props},
+                nx_osc{fs, patch_synth.lead_b_props}};
 
         peq lead_peq{fs, patch_synth.lead_peq_props};
 

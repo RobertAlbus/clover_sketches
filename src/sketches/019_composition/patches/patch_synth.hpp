@@ -13,7 +13,7 @@ struct patch_synth_t {
     // --------------------------------
     // LEAD
 
-    subtractive_synth_props lead_props{
+    subtractive_synth_props lead_a_props{
             .osc_props{
                     .tuning            = 0,
                     .portamento_time   = 50,
@@ -47,7 +47,23 @@ struct patch_synth_t {
                     .res_r                = 100,
             }};
 
-    nx_osc_props lead_ringmod_props{};
+    nx_osc_props lead_b_props{
+            .tuning            = 17,
+            .portamento_time   = 0,
+            .pitch_env_octaves = 0,
+            .osc_tunings       = {0, 7},
+            .osc_pans          = {0, 0},
+            .waveforms         = {waveform::sine, waveform::sine},
+            .retrigger         = true,
+            .pitch_a           = 2,
+            .pitch_d           = 2,
+            .pitch_s           = 0,
+            .pitch_r           = 100,
+            .amp_a             = 10,
+            .amp_d             = 1,
+            .amp_s             = 1,
+            .amp_r             = 1000,
+    };
     std::array<peq_props, peq::SIZE> lead_peq_props{};
 
     // --------------------------------

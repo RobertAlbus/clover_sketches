@@ -8,6 +8,7 @@
 #include "instruments/cymbal.hpp"
 #include "instruments/frsq.hpp"
 #include "instruments/kick.hpp"
+#include "instruments/nx_osc.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "sequence/event.hpp"
 #include "sequence/pattern_drum.hpp"
@@ -29,9 +30,9 @@ struct sequencers {
     frsq<subtractive_synth, event_midi> frsq_lead_a1;
     frsq<subtractive_synth, event_midi> frsq_lead_a2;
     frsq<subtractive_synth, event_midi> frsq_lead_a3;
-    frsq<subtractive_synth, event_midi> frsq_lead_b1;
-    frsq<subtractive_synth, event_midi> frsq_lead_b2;
-    frsq<subtractive_synth, event_midi> frsq_lead_b3;
+    frsq<nx_osc, event_midi> frsq_lead_b1;
+    frsq<nx_osc, event_midi> frsq_lead_b2;
+    frsq<nx_osc, event_midi> frsq_lead_b3;
 
     frsq<subtractive_synth, event_midi> frsq_pad;
 
@@ -49,4 +50,5 @@ struct sequencers {
     void set_up_chord(composition& comp);
     void set_up_pad(composition& comp);
     void set_up_lead_a(composition& comp);
+    void set_up_lead_b(composition& comp);
 };
