@@ -35,6 +35,10 @@ std::string patch_mix_t::to_str() {
     .chord_wet  = {},
     .chord_sum  = {},
 
+    .pad_send = {},
+    .pad_wet  = {},
+    .pad_sum  = {},
+
     .lead_a       = {},
     .lead_b       = {},
     .lead_ringmod = {},
@@ -57,6 +61,9 @@ std::string patch_mix_t::to_str() {
             chord_send,
             chord_wet,
             chord_sum,
+            pad_send,
+            pad_wet,
+            pad_sum,
             lead_a,
             lead_b,
             lead_ringmod,

@@ -22,6 +22,7 @@ std::map<const char*, size_t> scene_1 = {
         {"ride", 1},
 
         {"chord", 1},
+        {"pad", 1},
         {"lead_a1", 1},
         {"lead_a2", 0},
         {"lead_a3", 0},
@@ -39,6 +40,7 @@ sequencers::sequencers(composition& comp) {
     set_up_ride(comp);
 
     set_up_chord(comp);
+    set_up_pad(comp);
     set_up_lead_a(comp);
 }
 
@@ -52,6 +54,7 @@ void sequencers::tick() {
     frsq_ride.tick();
 
     frsq_chord.tick();
+    frsq_pad.tick();
     frsq_lead_a1.tick();
     frsq_lead_a2.tick();
     frsq_lead_a3.tick();
@@ -128,6 +131,25 @@ void sequencers::set_up_chord(composition& comp) {
         voice.key_on(data.note);
     };
     frsq_chord.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
+}
+
+void sequencers::set_up_pad(composition& comp) {
+    frsq_pad.voices            = std::span<subtractive_synth>(comp.synth.pad.begin(), comp.synth.pad.end());
+    frsq_pad.duration_absolute = comp.beat * 8.f;
+
+    frsq_pad.duration_relative = 8.f;
+    frsq_pad.set_pattern(synth_patterns.patterns_pad[active_scene["pad"]]);
+
+    // TODO: WHY DOES IT APPEAR THAT FRSQ SOMETIMES DOUBLE TRIGGERS OR DOUBLE ENDS?
+    // is this an issue with println buffering, or is it actually double-eventing?
+    frsq_pad.callback_start = [](subtractive_synth& voice, const event_midi& data) {
+        // std::println("pad on {}", data.note);
+        voice.key_on(data.note);
+    };
+    frsq_pad.callback_end = [](subtractive_synth& voice) {
+        // std::println("pad off");
+        voice.key_off();
+    };
 }
 
 void sequencers::set_up_lead_a(composition& comp) {

@@ -18,11 +18,12 @@ const float MAX_GAIN            = 2;
 const ImVec2 channel_dimensions = ImVec2(20, 200);
 const ImVec2 cell_padding       = ImVec2(10, 0);
 void mixer_component(const char* id, patch_mix_t* mixer) {
-    const std::array<mixer_channel_ui, 21> mixer_channels{
+    const std::array<mixer_channel_ui, 24> mixer_channels{
             mixer_channel_ui{"kick_send", &mixer->kick_send},
             mixer_channel_ui{"kick_wet", &mixer->kick_wet},
             mixer_channel_ui{"kick_gain", &mixer->kick_gain},
             mixer_channel_ui{"bass_gain", &mixer->bass_gain},
+
             mixer_channel_ui{"hh1", &mixer->hh1},
             mixer_channel_ui{"hh2", &mixer->hh2},
             mixer_channel_ui{"hh3", &mixer->hh3},
@@ -33,9 +34,15 @@ void mixer_component(const char* id, patch_mix_t* mixer) {
             mixer_channel_ui{"hh_trim", &mixer->hh_trim},
             mixer_channel_ui{"ride", &mixer->ride},
             mixer_channel_ui{"cymbal_bus", &mixer->cymbal_bus},
+
             mixer_channel_ui{"chord_send", &mixer->chord_send},
             mixer_channel_ui{"chord_wet", &mixer->chord_wet},
             mixer_channel_ui{"chord_sum", &mixer->chord_sum},
+
+            mixer_channel_ui{"pad_send", &mixer->pad_send},
+            mixer_channel_ui{"pad_wet", &mixer->pad_wet},
+            mixer_channel_ui{"pad_sum", &mixer->pad_sum},
+
             mixer_channel_ui{"lead_a", &mixer->lead_a},
             mixer_channel_ui{"lead_b", &mixer->lead_b},
             mixer_channel_ui{"lead_ringmod", &mixer->lead_ringmod},

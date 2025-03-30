@@ -33,6 +33,8 @@ struct sequencers {
     frsq<subtractive_synth, event_midi> frsq_lead_b2;
     frsq<subtractive_synth, event_midi> frsq_lead_b3;
 
+    frsq<subtractive_synth, event_midi> frsq_pad;
+
     sequencers(composition& comp);
     void tick();
 
@@ -45,5 +47,6 @@ struct sequencers {
     void set_up_ride(composition& comp);
 
     void set_up_chord(composition& comp);
+    void set_up_pad(composition& comp);
     void set_up_lead_a(composition& comp);
 };

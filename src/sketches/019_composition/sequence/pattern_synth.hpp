@@ -67,5 +67,13 @@ struct pattern_synth {
             {.start_time = 15, .duration = 0.2, .note = note::E3},
         },
     };
+
+    std::vector<std::vector<event_midi>> patterns_pad {
+        {},
+        {
+            {.start_time = 0.f,  .duration = 7.9f, .note = note::E3},
+            {.start_time = 0.f,  .duration = 7.9f, .note = note::Fs3},
+        },
+    };
     // clang-format on
 };

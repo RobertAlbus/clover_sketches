@@ -33,6 +33,10 @@ struct patch_mix_t {
     float chord_wet  = 1.f;
     float chord_sum  = 0.13f;
 
+    float pad_send = 0.8f;
+    float pad_wet  = 1.f;
+    float pad_sum  = 0.13f;
+
     float lead_a       = 0.5f;
     float lead_b       = 0.5f;
     float lead_ringmod = 0.5f;
@@ -59,13 +63,17 @@ inline patch_mix_t mix_patch{
         .hh_drive = 1.5238096,
         .hh_trim  = 0.7619047,
 
-        .ride = 0.07142854,
+        .ride = 0.11490679,
 
         .cymbal_bus = 0.71428573,
 
         .chord_send = 1,
         .chord_wet  = 0.47619045,
         .chord_sum  = 0.16666663,
+
+        .pad_send = 1.0108695,
+        .pad_wet  = 1,
+        .pad_sum  = 0.53260875,
 
         .lead_a       = 0.28571427,
         .lead_b       = 0,

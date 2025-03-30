@@ -92,6 +92,30 @@ std::pair<float, float> composition::tick() {
     float chord_sum_R = chord_post_eq_R * mix.chord_sum;
 
     // ----------------
+    // PAD
+    //
+    //
+
+    float pad_L = 0;
+    float pad_R = 0;
+    for (auto& pad_voice : synth.pad) {
+        auto pad_voice_signal = pad_voice.tick();
+        pad_L += pad_voice_signal.first;
+        pad_R += pad_voice_signal.second;
+    }
+    float pad_send_L                    = pad_L * mix.pad_send;
+    float pad_send_R                    = pad_R * mix.pad_send;
+    auto [pad_preverb_L, pad_preverb_R] = synth.pad_peq.tick(pad_send_L, pad_send_R);
+    float pad_verb_L                    = synth.pad_verb_L.tick(pad_preverb_L) * mix.pad_wet;
+    float pad_verb_R                    = synth.pad_verb_R.tick(pad_preverb_R) * mix.pad_wet;
+    auto [pad_post_eq_L, pad_post_eq_R] = synth.pad_peq.tick(pad_L + pad_verb_L, pad_R + pad_verb_R);
+
+    // scaling the signal by 0.02 because it's very loud be default.
+    // makes it hard to control with the mixer.
+    float pad_sum_L = pad_post_eq_L * mix.pad_sum * 0.02f;  //
+    float pad_sum_R = pad_post_eq_R * mix.pad_sum * 0.02f;  //
+
+    // ----------------
     // LEAD
     //
     //
@@ -122,8 +146,8 @@ std::pair<float, float> composition::tick() {
     //
     //
 
-    out_L = kick_sum + bass_eq_L + cymbal_bus_L + chord_sum_L + lead_mixed_L;
-    out_R = kick_sum + bass_eq_R + cymbal_bus_R + chord_sum_R + lead_mixed_R;
+    out_L = kick_sum + bass_eq_L + cymbal_bus_L + chord_sum_L + lead_mixed_L + pad_sum_L;
+    out_R = kick_sum + bass_eq_R + cymbal_bus_R + chord_sum_R + lead_mixed_R + pad_sum_R;
 
     out_L *= gain_master;
     out_R *= gain_master;

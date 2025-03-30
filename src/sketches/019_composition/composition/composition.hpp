@@ -27,7 +27,7 @@ struct composition {
     double spm                = fs * 60;
     double spb                = spm / bpm;
     double bar                = spb * 4;
-    double beat               = bar / 4;
+    double beat               = spb;
     int_fast64_t duration     = int_fast64_t(bar * 16 * 226) + 1;
 
     float gain_master = 0.5f;
@@ -107,8 +107,9 @@ struct composition {
                 subtractive_synth{fs, patch_synth.pad_props}};
 
         peq pad_preverb_peq{fs, patch_synth.pad_preverb_peq_props};
-        fdn_8_019 pad_verb_L{fs, patch_synth.pad_fdn_props};
-        fdn_8_019 pad_verb_R{fs, patch_synth.pad_fdn_props};
+        alignas(64) fdn_8_019 pad_verb_L{fs, patch_synth.pad_fdn_props};
+        alignas(64) fdn_8_019 pad_verb_R{fs, patch_synth.pad_fdn_props};
         peq pad_peq{fs, patch_synth.pad_peq_props};
+
     } synth;
 };

@@ -101,9 +101,51 @@ struct patch_synth_t {
     // --------------------------------
     // PAD
 
-    subtractive_synth_props pad_props{.osc_props{}, .filter_props{}};
+    const float ppw = 0.3; // pad pitch width
+    subtractive_synth_props pad_props{
+            .osc_props{
+                    // clang-format off
+                    .tuning            = 12,
+                    .portamento_time   = 0,
+                    .pitch_env_octaves = 0,
+                    .osc_tunings       = {ppw, -ppw, 12 + ppw, 12 - ppw},
+                    .osc_pans = {-1.f, 1.f, -1.f, 1.f},
+                    .waveforms = {waveform::saw, waveform::saw, waveform::saw, waveform::saw},
+                    .retrigger = true,
+                    .pitch_a   = 1,
+                    .pitch_d   = 1,
+                    .pitch_s   = 0,
+                    .pitch_r   = 1,
+                    .amp_a     = 200000,
+                    .amp_d     = 1,
+                    .amp_s     = 1,
+                    .amp_r     = 200000,
+                    // clang-format on
+            },
+            .filter_props{
+                    .cutoff               = 500,
+                    .cutoff_range_octaves = 3,
+                    .res                  = 1,
+                    .res_range_octaves    = 0,
+                    .filter_type          = filter_t::lpf,
+                    .cut_a                = 100000,
+                    .cut_d                = 100000,
+                    .cut_s                = 1,
+                    .cut_r                = 100000,
+                    .res_a                = 1,
+                    .res_d                = 1,
+                    .res_s                = 0,
+                    .res_r                = 1,
+            }};
 
-    fdn_8_props_019 pad_fdn_props{};
     std::array<peq_props, peq::SIZE> pad_preverb_peq_props{};
+    alignas(64) fdn_8_props_019 pad_fdn_props{
+            .taps    = {134.42862, 329.99323, 721.1825, 1308.0359, 1959.9309, 3329.2222, 6458.37, 11087.26},
+            .fb_gain = 0.92402976,
+            .lpf_cut = 14000.31549,
+            .lpf_res = 0.707,
+            .hpf_cut = 45.100502,
+            .hpf_res = 0.707,
+    };
     std::array<peq_props, peq::SIZE> pad_peq_props{};
 };
