@@ -101,7 +101,7 @@ struct patch_synth_t {
     // --------------------------------
     // PAD
 
-    const float ppw = 0.3; // pad pitch width
+    const float ppw = 0.3;  // pad pitch width
     subtractive_synth_props pad_props{
             .osc_props{
                     // clang-format off

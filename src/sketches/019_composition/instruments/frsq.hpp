@@ -21,6 +21,9 @@ concept frsq_data_base = requires(T t) {
     { t.duration } -> std::same_as<double&>;
 };
 
+// TODO: WHY DOES IT APPEAR THAT FRSQ SOMETIMES DOUBLE TRIGGERS OR DOUBLE ENDS?
+// is this an issue with println buffering, or is it actually double-eventing?
+
 template <typename voice_t, frsq_data_base frsq_data_t>
 struct frsq {
     frsq() {

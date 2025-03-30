@@ -14,15 +14,6 @@ using namespace dsp;
 #include "fdn.hpp"
 #include "hadamard.hpp"
 
-fdn_8_props_019 fdn_patch = {
-        .taps    = {655.98645, 1307.852, 199.59464, 1894.7349, 199.59464, 3198.709, 4893.918, 9262.27},
-        .fb_gain = 0.8310298,
-        .lpf_cut = 599.3303,
-        .lpf_res = 0.707,
-        .hpf_cut = 105.487625,
-        .hpf_res = 0.707,
-};
-
 std::string fdn_8_props_019::to_str() {
     return std::format(
             "\
@@ -54,20 +45,12 @@ fdn_8_019::fdn_8_019(float fs, const fdn_8_props_019& props, bool has_gui)
     patch(props);
 }
 
-void fdn_8_019::patch(const fdn_8_props_019& patch_props) {
-    props     = patch_props;
-    old_props = patch_props;
-    for (auto [section, tap] : std::views::zip(sections, props.taps)) {
-        section.set_lpf(props.lpf_cut, props.lpf_res);
-        section.set_hpf(props.hpf_cut, props.hpf_res);
-        section.set_time(tap);
-        section.set_fb_coeff(props.fb_gain);
-    }
+void fdn_8_019::patch(fdn_8_props_019 patch_props) {
+    props = patch_props;
+    update_from_props();
 }
 
-void fdn_8_019::update_from_gui() {
-    if (!has_gui)
-        return;
+void fdn_8_019::update_from_props() {
     for (auto [section, tap] : std::views::zip(sections, props.taps)) {
         section.set_lpf(props.lpf_cut, props.lpf_res);
         section.set_hpf(props.hpf_cut, props.hpf_res);
@@ -102,6 +85,7 @@ float fdn_8_019::process(float x) {
 }
 
 float fdn_8_019::tick(float x) {
-    update_from_gui();
+    if (has_gui)
+        update_from_props();
     return process(x);
 }
