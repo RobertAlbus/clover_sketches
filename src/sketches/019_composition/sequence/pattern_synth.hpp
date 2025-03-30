@@ -45,5 +45,27 @@ struct pattern_synth {
             {.start_time = 3, .duration = 0.5, .note = note::Fs4},
         },
     };
+
+    std::vector<std::vector<event_midi>> patterns_lead {
+        {},
+        {
+            {.start_time = 0,  .duration = 0.2, .note = note::E3},
+            {.start_time = 1,  .duration = 0.2, .note = note::E3},
+            {.start_time = 2,  .duration = 0.2, .note = note::E3},
+            {.start_time = 3,  .duration = 0.2, .note = note::E4 + 0.55},
+            {.start_time = 4,  .duration = 0.2, .note = note::E3},
+            {.start_time = 5,  .duration = 0.2, .note = note::E3},
+            {.start_time = 6,  .duration = 0.2, .note = note::E3},
+            {.start_time = 7,  .duration = 0.2, .note = note::E3},
+            {.start_time = 8,  .duration = 0.2, .note = note::E3},
+            {.start_time = 9,  .duration = 0.2, .note = note::E3},
+            {.start_time = 10, .duration = 0.2, .note = note::E3},
+            {.start_time = 11, .duration = 0.2, .note = note::E3},
+            {.start_time = 12, .duration = 0.2, .note = note::E4 + 0.55},
+            {.start_time = 13, .duration = 0.2, .note = note::E3},
+            {.start_time = 14, .duration = 0.2, .note = note::E3},
+            {.start_time = 15, .duration = 0.2, .note = note::E3},
+        },
+    };
     // clang-format on
 };

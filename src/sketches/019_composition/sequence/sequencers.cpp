@@ -19,6 +19,9 @@ std::map<const char*, size_t> scene_1 = {
         {"hh2", 1},
         {"hh3", 1},
         {"chord", 1},
+        {"lead_a1", 1},
+        {"lead_a2", 0},
+        {"lead_a3", 0},
 };
 
 std::map<const char*, size_t>& active_scene = scene_1;
@@ -30,6 +33,7 @@ sequencers::sequencers(composition& comp) {
     set_up_hh2(comp);
     set_up_hh3(comp);
     set_up_chord(comp);
+    set_up_lead_a(comp);
 }
 
 void sequencers::tick() {
@@ -39,6 +43,9 @@ void sequencers::tick() {
     frsq_hh2.tick();
     frsq_hh3.tick();
     frsq_chord.tick();
+    frsq_lead_a1.tick();
+    frsq_lead_a2.tick();
+    frsq_lead_a3.tick();
 }
 
 void sequencers::set_up_kick(composition& comp) {
@@ -102,4 +109,39 @@ void sequencers::set_up_chord(composition& comp) {
         voice.key_on(data.note);
     };
     frsq_chord.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
+}
+
+void sequencers::set_up_lead_a(composition& comp) {
+    frsq_lead_a1.voices =
+            std::span<subtractive_synth>(comp.synth.lead_a.begin(), comp.synth.lead_a.begin() + 2);
+    frsq_lead_a1.duration_absolute = comp.beat * 4;
+    frsq_lead_a1.duration_relative = 16.;
+    frsq_lead_a1.set_pattern(synth_patterns.patterns_lead[active_scene["lead_a1"]]);
+
+    frsq_lead_a1.callback_start = [](subtractive_synth& voice, const event_midi& data) {
+        voice.key_on(data.note);
+    };
+    frsq_lead_a1.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
+
+    frsq_lead_a2.voices =
+            std::span<subtractive_synth>(comp.synth.lead_a.begin() + 2, comp.synth.lead_a.begin() + 4);
+    frsq_lead_a2.duration_absolute = comp.beat * 4;
+    frsq_lead_a2.duration_relative = 16.;
+    frsq_lead_a2.set_pattern(synth_patterns.patterns_lead[active_scene["lead_a2"]]);
+
+    frsq_lead_a2.callback_start = [](subtractive_synth& voice, const event_midi& data) {
+        voice.key_on(data.note);
+    };
+    frsq_lead_a2.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
+
+    frsq_lead_a3.voices =
+            std::span<subtractive_synth>(comp.synth.lead_a.begin() + 4, comp.synth.lead_a.begin() + 6);
+    frsq_lead_a3.duration_absolute = comp.beat * 4;
+    frsq_lead_a3.duration_relative = 16.;
+    frsq_lead_a3.set_pattern(synth_patterns.patterns_lead[active_scene["lead_a3"]]);
+
+    frsq_lead_a3.callback_start = [](subtractive_synth& voice, const event_midi& data) {
+        voice.key_on(data.note);
+    };
+    frsq_lead_a3.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
 }

@@ -69,10 +69,29 @@ std::pair<float, float> composition::tick() {
     float chord_sum_L = chord_post_eq_L * patch_synth.chord_mix.sum;
     float chord_sum_R = chord_post_eq_R * patch_synth.chord_mix.sum;
 
-    // chord_peq
+    float lead_a1_L = 0;
+    float lead_a1_R = 0;
 
-    out_L = kick_sum + bass_eq_L + hh_sum_L + chord_sum_L;
-    out_R = kick_sum + bass_eq_R + hh_sum_R + chord_sum_R;
+    auto lead_a1_dry = synth.lead_a[0].tick();
+    lead_a1_L += lead_a1_dry.first;
+    lead_a1_R += lead_a1_dry.second;
+    lead_a1_dry = synth.lead_a[1].tick();
+    lead_a1_L += lead_a1_dry.first;
+    lead_a1_R += lead_a1_dry.second;
+
+    lead_a1_L *= patch_synth.lead_mix.lead_a;
+    lead_a1_R *= patch_synth.lead_mix.lead_a;
+
+    float lead_sum_L = lead_a1_L;
+    float lead_sum_R = lead_a1_R;
+
+    auto lead_peq = synth.lead_peq.tick(lead_sum_L, lead_sum_R);
+
+    float lead_mixed_L = lead_peq.first * patch_synth.lead_mix.gain;
+    float lead_mixed_R = lead_peq.second * patch_synth.lead_mix.gain;
+
+    out_L = kick_sum + bass_eq_L + hh_sum_L + chord_sum_L + lead_mixed_L;
+    out_R = kick_sum + bass_eq_R + hh_sum_R + chord_sum_R + lead_mixed_R;
 
     out_L *= gain_master;
     out_R *= gain_master;
