@@ -18,6 +18,7 @@ std::map<const char*, size_t> scene_1 = {
         {"hh1", 1},
         {"hh2", 1},
         {"hh3", 1},
+        {"ride", 1},
         {"chord", 1},
         {"lead_a1", 1},
         {"lead_a2", 0},
@@ -32,6 +33,7 @@ sequencers::sequencers(composition& comp) {
     set_up_hh1(comp);
     set_up_hh2(comp);
     set_up_hh3(comp);
+    set_up_ride(comp);
     set_up_chord(comp);
     set_up_lead_a(comp);
 }
@@ -42,6 +44,7 @@ void sequencers::tick() {
     frsq_hh1.tick();
     frsq_hh2.tick();
     frsq_hh3.tick();
+    frsq_ride.tick();
     frsq_chord.tick();
     frsq_lead_a1.tick();
     frsq_lead_a2.tick();
@@ -97,6 +100,16 @@ void sequencers::set_up_hh3(composition& comp) {
 
     frsq_hh3.callback_start = [](subtractive_synth& voice, const event& data) { voice.key_on(50); };
     frsq_hh3.callback_end   = [](subtractive_synth& voice) { voice.key_off(); };
+}
+
+void sequencers::set_up_ride(composition& comp) {
+    frsq_ride.voices            = std::span<cymbal>(&comp.cymbals.ride, 1);
+    frsq_ride.duration_absolute = comp.beat;
+    frsq_ride.duration_relative = 1.;
+    frsq_ride.set_pattern(drum_patterns.patterns_ride[active_scene["ride"]]);
+
+    frsq_ride.callback_start = [](cymbal& voice, const event& data) { voice.key_on(); };
+    frsq_ride.callback_end   = [](cymbal& voice) { voice.key_off(); };
 }
 
 void sequencers::set_up_chord(composition& comp) {

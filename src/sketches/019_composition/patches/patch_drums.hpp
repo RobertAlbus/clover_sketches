@@ -210,7 +210,27 @@ struct patch_drums_t {
     std::array<peq_props, peq::SIZE> hh_preverb_peq_props{};
     std::array<peq_props, peq::SIZE> hh_peq_props{};
 
-    cymbal_props ride_props{};
+    cymbal_props ride_props{
+            // clang-format off
+            .freqs = {150, 404, 1533, 1751, 13456, 17500},
+            // clang-format on
+            .hpf_f0           = 100,
+            .hpf_fmod_octaves = 6,
+            .hpf_Q            = 1,
+
+            .bpf_f0 = 3000,
+            .bpf_Q  = 1.3,
+
+            .amp_a = 800,
+            .amp_d = 25000,
+            .amp_s = 0,
+            .amp_r = 10,
+
+            .cut_a = 400,
+            .cut_d = 25000,
+            .cut_s = 0.9,
+            .cut_r = 100,
+    };
     std::array<peq_props, peq::SIZE> ride_peq_props{};
 
     struct hh_mix_t {
@@ -222,7 +242,7 @@ struct patch_drums_t {
         float hh_verb_wet  = 0.5f;
         float mix_hh       = 1.f;
 
-        float mix_ride = 1.f;
+        float mix_ride = 0.4f;
 
         float mix_drive = 1.8f;
         float mix_trim  = 0.808f;

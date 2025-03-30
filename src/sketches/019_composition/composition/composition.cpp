@@ -52,6 +52,14 @@ std::pair<float, float> composition::tick() {
     hh_sum_L *= patch_drums.hh_mix.mix_hh;
     hh_sum_R *= patch_drums.hh_mix.mix_hh;
 
+    float ride_dry     = cymbals.ride.tick();
+    auto [ride_peq, _] = cymbals.ride_peq.tick(ride_dry);
+    float ride         = ride_peq * patch_drums.hh_mix.mix_ride;
+
+    float cymbal_bus_L = ride + hh_sum_L;
+    float cymbal_bus_R = ride + hh_sum_R;
+
+
     float chord_L = 0;
     float chord_R = 0;
     for (auto& chord_voice : synth.chord) {
