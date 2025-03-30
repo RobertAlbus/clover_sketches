@@ -16,14 +16,6 @@ struct patch_drums_t {
     // --------------------------------
     // KICK
 
-    struct kick_mix_t {
-        float send = 0.8f;
-        float wet  = 1.f;
-        float gain = 1.f;
-    };
-
-    kick_mix_t kick_mix;
-
     kick_props kick_drum_props{
             .trim              = 0.8429702,
             .drive             = 2.6860298,
@@ -95,12 +87,6 @@ struct patch_drums_t {
                     .res_r                = 1000,
             }};
     std::array<peq_props, peq::SIZE> bass_peq_props{};
-
-    struct bass_mix_t {
-        float gain = 0.45f;
-    };
-
-    bass_mix_t bass_mix;
 
     // --------------------------------
     // CYMBALS
@@ -232,21 +218,4 @@ struct patch_drums_t {
             .cut_r = 100,
     };
     std::array<peq_props, peq::SIZE> ride_peq_props{};
-
-    struct hh_mix_t {
-        float mix_hh1 = 1.f;
-        float mix_hh2 = 0.6f;
-        float mix_hh3 = 0.4f;
-
-        float hh_verb_send = 1.f;
-        float hh_verb_wet  = 0.5f;
-        float mix_hh       = 1.f;
-
-        float mix_ride = 0.4f;
-
-        float mix_drive = 1.8f;
-        float mix_trim  = 0.808f;
-        float mix_bus   = 0.7f;
-    };
-    hh_mix_t hh_mix;
 };

@@ -50,15 +50,6 @@ struct patch_synth_t {
     nx_osc_props lead_ringmod_props{};
     std::array<peq_props, peq::SIZE> lead_peq_props{};
 
-    struct lead_mix_t {
-        float lead_a    = 0.5f;
-        float lead_b    = 0.5f;
-        float modulated = 0.5f;
-        float gain      = 0.3f;
-    };
-
-    lead_mix_t lead_mix;
-
     // --------------------------------
     // CHORD
 
@@ -106,14 +97,6 @@ struct patch_synth_t {
     };
     std::array<peq_props, peq::SIZE> chord_preverb_peq_props{};
     std::array<peq_props, peq::SIZE> chord_peq_props{};
-
-    struct chord_mix_t {
-        float send = 0.8f;
-        float wet  = 1.f;
-        float sum  = 0.13f;
-    };
-
-    chord_mix_t chord_mix;
 
     // --------------------------------
     // PAD

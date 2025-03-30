@@ -14,6 +14,7 @@
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "patches/patch_drums.hpp"
+#include "patches/patch_mix.hpp"
 #include "patches/patch_synth.hpp"
 
 struct composition {
@@ -33,6 +34,7 @@ struct composition {
 
     static patch_drums_t patch_drums;
     static patch_synth_t patch_synth;
+    static patch_mix_t mix;
 
     // semantically meaning label used as a flag for some instruments
     static constexpr bool COMPONENT_HAS_GUI = true;
