@@ -6,6 +6,7 @@
 #include <print>
 
 #include "composition.hpp"
+#include "patches/patch_synth.hpp"
 
 patch_drums_t composition::patch_drums{};
 patch_synth_t composition::patch_synth{};
@@ -51,8 +52,27 @@ std::pair<float, float> composition::tick() {
     hh_sum_L *= patch_drums.hh_mix.mix_hh;
     hh_sum_R *= patch_drums.hh_mix.mix_hh;
 
-    out_L = kick_sum + bass_eq_L + hh_sum_L;
-    out_R = kick_sum + bass_eq_R + hh_sum_R;
+    float chord_L = 0;
+    float chord_R = 0;
+    for (auto& chord_voice : synth.chord) {
+        auto chord_voice_signal = chord_voice.tick();
+        chord_L += chord_voice_signal.first;
+        chord_R += chord_voice_signal.second;
+    }
+    float chord_send_L                      = chord_L * patch_synth.chord_mix.send;
+    float chord_send_R                      = chord_R * patch_synth.chord_mix.send;
+    auto [chord_preverb_L, chord_preverb_R] = synth.chord_peq.tick(chord_send_L, chord_send_R);
+    float chord_verb_L = synth.chord_verb_L.tick(chord_preverb_L) * patch_synth.chord_mix.wet;
+    float chord_verb_R = synth.chord_verb_R.tick(chord_preverb_R) * patch_synth.chord_mix.wet;
+    auto [chord_post_eq_L, chord_post_eq_R] =
+            synth.chord_peq.tick(chord_L + chord_verb_L, chord_R + chord_verb_R);
+    float chord_sum_L = chord_post_eq_L * patch_synth.chord_mix.sum;
+    float chord_sum_R = chord_post_eq_R * patch_synth.chord_mix.sum;
+
+    // chord_peq
+
+    out_L = kick_sum + bass_eq_L + hh_sum_L + chord_sum_L;
+    out_R = kick_sum + bass_eq_R + hh_sum_R + chord_sum_R;
 
     out_L *= gain_master;
     out_R *= gain_master;
