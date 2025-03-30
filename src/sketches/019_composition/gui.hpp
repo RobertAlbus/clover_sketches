@@ -6,12 +6,11 @@
 
 #include "hello_imgui/hello_imgui.h"
 #include "imgui.h"
-#include "instruments/fdn.hpp"
-#include <print>
 using namespace ImGui;
 
 #include "shared_props.hpp"
 
+#include "instruments/fdn.hpp"
 #include "visual_components/fdn_ui.hpp"
 
 void GUI(shared_props& props) {
@@ -26,8 +25,8 @@ void GUI(shared_props& props) {
         ImGui::NewLine();
         fdn_component(
                 "hh_reverb",
-                props.composition->cymbals.hh_verb_L.props,
-                props.composition->cymbals.hh_verb_R.props);
+                &props.composition->cymbals.hh_verb_L.props,
+                &props.composition->cymbals.hh_verb_R.props);
         ImGui::NewLine();
         if (ImGui::Button("Bye!")) {
             HelloImGui::GetRunnerParams()->appShallExit = true;
