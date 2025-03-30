@@ -20,6 +20,10 @@ void GUI(shared_props& props) {
     props.gui_ready.release();
 
     auto guiFunction = [&]() {
+        if (ImGui::Button("get mixer patch")) {
+            ImGui::SetClipboardText(props.composition->mix.to_str().c_str());
+        }
+        ImGui::NewLine();
         fdn_component(
                 "hh_reverb",
                 props.composition->cymbals.hh_verb_L.props,

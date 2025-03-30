@@ -9,7 +9,7 @@
 
 patch_drums_t composition::patch_drums{};
 patch_synth_t composition::patch_synth{};
-patch_mix_t composition::mix{};
+patch_mix_t composition::mix{mix_patch};
 
 std::pair<float, float> composition::tick() {
     float out_L = 0;
