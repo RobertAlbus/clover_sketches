@@ -129,6 +129,25 @@ std::pair<float, float> composition::tick() {
     lead_a1_dry = synth.lead_a[1].tick();
     lead_a1_L += lead_a1_dry.first;
     lead_a1_R += lead_a1_dry.second;
+    lead_a1_dry = synth.lead_a[2].tick();
+    lead_a1_L += lead_a1_dry.first;
+    lead_a1_R += lead_a1_dry.second;
+
+    float lead_a2_L = 0;
+    float lead_a2_R = 0;
+
+    auto lead_a2_dry = synth.lead_a[3].tick();
+    lead_a2_L += lead_a2_dry.first;
+    lead_a2_R += lead_a2_dry.second;
+    lead_a2_dry = synth.lead_a[4].tick();
+    lead_a2_L += lead_a2_dry.first;
+    lead_a2_R += lead_a2_dry.second;
+    lead_a2_dry = synth.lead_a[5].tick();
+    lead_a2_L += lead_a2_dry.first;
+    lead_a2_R += lead_a2_dry.second;
+
+    float lead_a_L = lead_a1_L + lead_a2_L;
+    float lead_a_R = lead_a1_R + lead_a2_R;
 
     float lead_b1_L = 0;
     float lead_b1_R = 0;
@@ -139,15 +158,34 @@ std::pair<float, float> composition::tick() {
     lead_b1_dry = synth.lead_b[1].tick();
     lead_b1_L += lead_b1_dry.first;
     lead_b1_R += lead_b1_dry.second;
+    lead_b1_dry = synth.lead_b[2].tick();
+    lead_b1_L += lead_b1_dry.first;
+    lead_b1_R += lead_b1_dry.second;
+
+    float lead_b2_L = 0;
+    float lead_b2_R = 0;
+
+    auto lead_b2_dry = synth.lead_b[3].tick();
+    lead_b2_L += lead_b2_dry.first;
+    lead_b2_R += lead_b2_dry.second;
+    lead_b2_dry = synth.lead_b[4].tick();
+    lead_b2_L += lead_b2_dry.first;
+    lead_b2_R += lead_b2_dry.second;
+    lead_b2_dry = synth.lead_b[5].tick();
+    lead_b2_L += lead_b2_dry.first;
+    lead_b2_R += lead_b2_dry.second;
+
+    float lead_b_L = lead_b1_L + lead_b2_L;
+    float lead_b_R = lead_b1_R + lead_b2_R;
 
     // LEAD RINGMOD
-    float lead_ringmod_L = lead_a1_L * lead_b1_L;
-    float lead_ringmod_R = lead_a1_R * lead_b1_R;
+    float lead_ringmod_L = lead_a_L * lead_b_L;
+    float lead_ringmod_R = lead_a_R * lead_b_R;
 
     float lead_sum_L =
-            (lead_a1_L * mix.lead_a) + (lead_b1_L * mix.lead_b) + (lead_ringmod_L * mix.lead_ringmod);
+            (lead_a_L * mix.lead_a) + (lead_b_L * mix.lead_b) + (lead_ringmod_L * mix.lead_ringmod);
     float lead_sum_R =
-            (lead_a1_R * mix.lead_a) + (lead_b1_R * mix.lead_b) + (lead_ringmod_R * mix.lead_ringmod);
+            (lead_a_R * mix.lead_a) + (lead_b_R * mix.lead_b) + (lead_ringmod_R * mix.lead_ringmod);
 
     // LEAD SUM
     auto lead_peq      = synth.lead_peq.tick(lead_sum_L, lead_sum_R);
@@ -164,6 +202,12 @@ std::pair<float, float> composition::tick() {
 
     out_L *= gain_master;
     out_R *= gain_master;
+
+    out_L = std::clamp(out_L, -1.f, 1.f);
+    out_R = std::clamp(out_R, -1.f, 1.f);
+
+    out_L *= 0.95f;
+    out_R *= 0.95f;
 
     return {out_L, out_R};
 }

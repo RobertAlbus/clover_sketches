@@ -29,10 +29,8 @@ struct sequencers {
     frsq<subtractive_synth, event_midi> frsq_chord;
     frsq<subtractive_synth, event_midi> frsq_lead_a1;
     frsq<subtractive_synth, event_midi> frsq_lead_a2;
-    frsq<subtractive_synth, event_midi> frsq_lead_a3;
     frsq<nx_osc, event_midi> frsq_lead_b1;
     frsq<nx_osc, event_midi> frsq_lead_b2;
-    frsq<nx_osc, event_midi> frsq_lead_b3;
 
     frsq<subtractive_synth, event_midi> frsq_pad;
 

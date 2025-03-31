@@ -76,7 +76,7 @@ inline patch_mix_t mix_patch{
         .pad_sum  = 0.53260875,
 
         .lead_a       = 0.28571427,
-        .lead_b       = 0,
-        .lead_ringmod = 0.3369565,
+        .lead_b       = 0.0869565,
+        .lead_ringmod = 0.11956525,
         .lead         = 0.57142854,
 };
