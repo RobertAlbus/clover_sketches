@@ -36,12 +36,10 @@ struct kick_props {
     float pitch_r;
 
     float pitch_fundamental;
-    float pitch_peak;
     float cut_fundamental;
-    float cut_peak;
 
-    float pitch_range;  // computed from two props that are already smoothed
-    float cut_range;    // computed from two props that are already smoothed
+    float pitch_range;
+    float cut_range;
 
     std::string to_str();
 };
