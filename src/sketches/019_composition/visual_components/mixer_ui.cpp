@@ -18,7 +18,7 @@ const float MAX_GAIN            = 2;
 const ImVec2 channel_dimensions = ImVec2(20, 200);
 const ImVec2 cell_padding       = ImVec2(10, 0);
 void mixer_component(const char* id, patch_mix_t* mixer) {
-    const std::array<mixer_channel_ui, 24> mixer_channels{
+    const std::array<mixer_channel_ui, 26> mixer_channels{
             mixer_channel_ui{"kick_send", &mixer->kick_send},
             mixer_channel_ui{"kick_wet", &mixer->kick_wet},
             mixer_channel_ui{"kick_gain", &mixer->kick_gain},
@@ -37,10 +37,12 @@ void mixer_component(const char* id, patch_mix_t* mixer) {
 
             mixer_channel_ui{"chord_send", &mixer->chord_send},
             mixer_channel_ui{"chord_wet", &mixer->chord_wet},
+            mixer_channel_ui{"chord_dry", &mixer->chord_dry},
             mixer_channel_ui{"chord_sum", &mixer->chord_sum},
 
             mixer_channel_ui{"pad_send", &mixer->pad_send},
             mixer_channel_ui{"pad_wet", &mixer->pad_wet},
+            mixer_channel_ui{"pad_dry", &mixer->pad_dry},
             mixer_channel_ui{"pad_sum", &mixer->pad_sum},
 
             mixer_channel_ui{"lead_a", &mixer->lead_a},

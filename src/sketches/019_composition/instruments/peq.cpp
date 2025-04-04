@@ -100,7 +100,7 @@ void peq::patch(std::array<peq_props, peq::SIZE> new_props) {
         }
 }
 std::string peq::to_str() {
-    std::string output = "std::array<peq_props, peq::SIZE> these_peq_props {\n";
+    std::string output = "{\n";
 
     for (auto& prop : props) {
         output += "    ";

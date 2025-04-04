@@ -33,10 +33,12 @@ std::string patch_mix_t::to_str() {
 
     .chord_send = {},
     .chord_wet  = {},
+    .chord_dry  = {},
     .chord_sum  = {},
 
     .pad_send = {},
     .pad_wet  = {},
+    .pad_dry  = {},
     .pad_sum  = {},
 
     .lead_a       = {},
@@ -60,9 +62,11 @@ std::string patch_mix_t::to_str() {
             cymbal_bus,
             chord_send,
             chord_wet,
+            chord_dry,
             chord_sum,
             pad_send,
             pad_wet,
+            pad_dry,
             pad_sum,
             lead_a,
             lead_b,

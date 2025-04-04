@@ -113,6 +113,7 @@ struct pattern_synth {
     std::vector<std::vector<event_midi>> patterns_pad {
         {},
         {
+            {.start_time = 0.f,  .duration = 7.9f, .note = note::Ds2},
             {.start_time = 0.f,  .duration = 7.9f, .note = note::E3},
             {.start_time = 0.f,  .duration = 7.9f, .note = note::Fs3},
         },

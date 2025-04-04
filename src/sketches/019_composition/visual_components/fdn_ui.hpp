@@ -6,4 +6,4 @@
 
 #include "instruments/fdn.hpp"
 
-void fdn_component(const char* id, fdn_8_props_019* fdn_props_L, fdn_8_props_019* fdn_props_R);
+void fdn_component(const char* id, fdn_8_019* fdn_L, fdn_8_019* fdn_R);

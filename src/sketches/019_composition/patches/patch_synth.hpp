@@ -103,15 +103,44 @@ struct patch_synth_t {
                     .res_r                = 100,
             }};
 
-    fdn_8_props_019 chord_fdn_props{
-            .taps    = {134.42862, 329.99323, 721.1825, 1308.0359, 1959.9309, 3329.2222, 6458.37, 11087.26},
-            .fb_gain = 0.92402976,
-            .lpf_cut = 14000.31549,
+    fdn_8_props_019 chord_fdn_props = {
+            .taps    = {134.391, 395.174, 460.37, 721.152, 6132.391, 5871.609, 7240.717, 12000},
+            .fb_gain = 0.863,
+            .lpf_cut = 15004.666,
             .lpf_res = 0.707,
-            .hpf_cut = 45.100502,
+            .hpf_cut = 291.3428,
             .hpf_res = 0.707,
     };
-    std::array<peq_props, peq::SIZE> chord_preverb_peq_props{};
+    std::array<peq_props, peq::SIZE> chord_preverb_peq_props{
+            peq_props{
+                    .freq    = 1657.1,
+                    .reso    = 3,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+    };
     std::array<peq_props, peq::SIZE> chord_peq_props{};
 
     // --------------------------------
@@ -154,8 +183,37 @@ struct patch_synth_t {
                     .res_r                = 1,
             }};
 
-    std::array<peq_props, peq::SIZE> pad_preverb_peq_props{};
-    alignas(64) fdn_8_props_019 pad_fdn_props{
+    std::array<peq_props, peq::SIZE> pad_preverb_peq_props{
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+    };
+    fdn_8_props_019 pad_fdn_props{
             .taps    = {134.42862, 329.99323, 721.1825, 1308.0359, 1959.9309, 3329.2222, 6458.37, 11087.26},
             .fb_gain = 0.92402976,
             .lpf_cut = 14000.31549,

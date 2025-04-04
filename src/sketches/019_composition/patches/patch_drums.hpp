@@ -193,9 +193,66 @@ struct patch_drums_t {
             .hpf_cut = 2719.1443,
             .hpf_res = 0.707,
     };
-    std::array<peq_props, peq::SIZE> hh_preverb_peq_props{};
-    std::array<peq_props, peq::SIZE> hh_peq_props{};
-
+    std::array<peq_props, peq::SIZE> hh_preverb_peq_props{
+            peq_props{
+                    .freq    = 11020.2,
+                    .reso    = 3.5,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 5219.8,
+                    .reso    = 2,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+    };
+    std::array<peq_props, peq::SIZE> hh_peq_props{
+            peq_props{
+                    .freq    = 5243.7,
+                    .reso    = 3.9,
+                    .gain    = -7.1,
+                    .enabled = true,
+                    .type    = peq_filter_type::eq,
+            },
+            peq_props{
+                    .freq    = 16083.7,
+                    .reso    = 0.8,
+                    .gain    = -0.8,
+                    .enabled = false,
+                    .type    = peq_filter_type::hs,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 10,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+    };
     cymbal_props ride_props{
             .freqs            = {150, 404, 1533, 1751, 13456, 17500},
             .hpf_f0           = 100,
@@ -215,5 +272,34 @@ struct patch_drums_t {
             .cut_s = 1,
             .cut_r = 2500000,
     };
-    std::array<peq_props, peq::SIZE> ride_peq_props{};
+    std::array<peq_props, peq::SIZE> ride_peq_props{
+            peq_props{
+                    .freq    = 5938.7,
+                    .reso    = 0.9,
+                    .gain    = 14,
+                    .enabled = true,
+                    .type    = peq_filter_type::eq,
+            },
+            peq_props{
+                    .freq    = 10,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+    };
 };

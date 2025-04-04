@@ -96,8 +96,8 @@ struct composition {
                 subtractive_synth{fs, patch_synth.chord_props}};
 
         peq chord_preverb_peq{fs, patch_synth.chord_preverb_peq_props};
-        fdn_8_019 chord_verb_L{fs, patch_synth.chord_fdn_props};
-        fdn_8_019 chord_verb_R{fs, patch_synth.chord_fdn_props};
+        fdn_8_019 chord_verb_L{fs, patch_synth.chord_fdn_props, COMPONENT_HAS_GUI};
+        fdn_8_019 chord_verb_R{fs, patch_synth.chord_fdn_props, COMPONENT_HAS_GUI};
         peq chord_peq{fs, patch_synth.chord_peq_props};
 
         std::array<subtractive_synth, 6> pad{

@@ -83,19 +83,38 @@ std::pair<float, float> composition::tick() {
     }
     float chord_send_L                      = chord_L * mix.chord_send;
     float chord_send_R                      = chord_R * mix.chord_send;
-    auto [chord_preverb_L, chord_preverb_R] = synth.chord_peq.tick(chord_send_L, chord_send_R);
-    float chord_verb_L                      = synth.chord_verb_L.tick(chord_preverb_L) * mix.chord_wet;
-    float chord_verb_R                      = synth.chord_verb_R.tick(chord_preverb_R) * mix.chord_wet;
-    auto [chord_post_eq_L, chord_post_eq_R] =
-            synth.chord_peq.tick(chord_L + chord_verb_L, chord_R + chord_verb_R);
-    float chord_sum_L = chord_post_eq_L * mix.chord_sum;
-    float chord_sum_R = chord_post_eq_R * mix.chord_sum;
+    auto [chord_preverb_L, chord_preverb_R] = synth.chord_preverb_peq.tick(chord_send_L, chord_send_R);
+    chord_preverb_L                         = std::clamp(chord_preverb_L, -1.f, 1.f);
+    chord_preverb_R                         = std::clamp(chord_preverb_R, -1.f, 1.f);
+
+    float chord_verb_L = 0;
+    float chord_verb_R = 0;
+
+    chord_verb_L = synth.chord_verb_L.tick(chord_preverb_L) * mix.chord_wet;
+    chord_verb_R = synth.chord_verb_R.tick(chord_preverb_R) * mix.chord_wet;
+
+    chord_verb_L = std::clamp(chord_verb_L, -1.f, 1.f);
+    chord_verb_R = std::clamp(chord_verb_R, -1.f, 1.f);
+
+    chord_L *= mix.chord_dry;
+    chord_R *= mix.chord_dry;
+
+    float chord_post_eq_in_L = std::clamp((chord_L + chord_verb_L) * 0.1f, -1.f, 1.f);
+    float chord_post_eq_in_R = std::clamp((chord_R + chord_verb_R) * 0.1f, -1.f, 1.f);
+
+    auto [chord_post_eq_L, chord_post_eq_R] = synth.chord_peq.tick(chord_post_eq_in_L, chord_post_eq_in_R);
+
+    float chord_sum_L = chord_post_eq_L * 10 * mix.chord_sum;
+    float chord_sum_R = chord_post_eq_R * 10 * mix.chord_sum;
 
     // ----------------
     // PAD
     //
     //
 
+    /*
+    NOTE: THE FEEDBACK IN THE PADS AND CHORDS MIGHT BE FROM NON-BOUNDED INPUT TO POST EQ
+    */
     float pad_L = 0;
     float pad_R = 0;
     for (auto& pad_voice : synth.pad) {
@@ -108,6 +127,8 @@ std::pair<float, float> composition::tick() {
     auto [pad_preverb_L, pad_preverb_R] = synth.pad_peq.tick(pad_send_L, pad_send_R);
     float pad_verb_L                    = synth.pad_verb_L.tick(pad_preverb_L) * mix.pad_wet;
     float pad_verb_R                    = synth.pad_verb_R.tick(pad_preverb_R) * mix.pad_wet;
+    pad_L *= mix.pad_dry;
+    pad_R *= mix.pad_dry;
     auto [pad_post_eq_L, pad_post_eq_R] = synth.pad_peq.tick(pad_L + pad_verb_L, pad_R + pad_verb_R);
 
     // scaling the signal by 0.02 because it's very loud be default.

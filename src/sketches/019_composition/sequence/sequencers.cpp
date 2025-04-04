@@ -65,7 +65,7 @@ std::map<const char*, size_t> scene_3 = {
         {"lead_b2", 0},
 };
 
-std::map<const char*, size_t>& active_scene = scene_1;
+std::map<const char*, size_t>& active_scene = scene_2;
 
 sequencers::sequencers(composition& comp) {
     set_up_kick(comp);

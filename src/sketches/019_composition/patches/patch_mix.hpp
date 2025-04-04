@@ -31,10 +31,12 @@ struct patch_mix_t {
 
     float chord_send = 0.8f;
     float chord_wet  = 1.f;
+    float chord_dry  = 1.f;
     float chord_sum  = 0.13f;
 
     float pad_send = 0.8f;
     float pad_wet  = 1.f;
+    float pad_dry  = 1.f;
     float pad_sum  = 0.13f;
 
     float lead_a       = 0.5f;
@@ -69,14 +71,16 @@ inline patch_mix_t mix_patch{
 
         .chord_send = 1,
         .chord_wet  = 0.47619045,
+        .chord_dry  = 1,
         .chord_sum  = 0.16666663,
 
         .pad_send = 1.0108695,
         .pad_wet  = 1,
-        .pad_sum  = 0.53260875,
+        .pad_dry  = 1,
+        .pad_sum  = 0.3369565,
 
         .lead_a       = 0.28571427,
-        .lead_b       = 0.0869565,
-        .lead_ringmod = 0.11956525,
-        .lead         = 0.57142854,
+        .lead_b       = 0.0,
+        .lead_ringmod = 0.032608747, // TODO: modulate this to great effect for the fm strength
+        .lead         = 0.29347825,
 };

@@ -24,7 +24,7 @@ void peq_gui(const char* id, peq& peq) {
     if (ImGui::Button("get peq patch")) {
         ImGui::SetClipboardText(peq.to_str().c_str());
     }
-    for (auto& these_props : peq.props) {
+    for (auto [i, these_props] : std::views::zip(std::views::iota(0, int(peq::SIZE)), peq.props)) {
         ImGui::PushID(&these_props);
 
         // it would be good to use one table for all segments.
@@ -35,7 +35,9 @@ void peq_gui(const char* id, peq& peq) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
 
-            ImGui::Checkbox("enabled", &these_props.enabled);
+            if (ImGui::Checkbox("enabled", &these_props.enabled)) {
+                peq.calculate_coefficients(i);
+            }
 
             ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 28);
 
@@ -46,6 +48,7 @@ void peq_gui(const char* id, peq& peq) {
                     bool is_selected = (type == these_props.type);
                     if (ImGui::Selectable(str, is_selected, 0)) {
                         these_props.type = type;
+                        peq.calculate_coefficients(i);
                     }
                     if (is_selected) {
                         ImGui::SetItemDefaultFocus();
@@ -66,6 +69,7 @@ void peq_gui(const char* id, peq& peq) {
                         ImGuiKnobVariant_Tick,
                         knob_size,
                         ImGuiKnobFlags_Logarithmic | ImGuiKnobFlags_AlwaysClamp)) {
+                peq.calculate_coefficients(i);
             }
             ImGui::SameLine();
             if (ImGuiKnobs::Knob(
@@ -78,6 +82,7 @@ void peq_gui(const char* id, peq& peq) {
                         ImGuiKnobVariant_Tick,
                         knob_size,
                         ImGuiKnobFlags_AlwaysClamp)) {
+                peq.calculate_coefficients(i);
             }
 
             static const std::array<peq_filter_type, 3> needs_gain = {
@@ -94,6 +99,7 @@ void peq_gui(const char* id, peq& peq) {
                             ImGuiKnobVariant_Tick,
                             knob_size,
                             ImGuiKnobFlags_AlwaysClamp)) {
+                    peq.calculate_coefficients(i);
                 }
             }
 
