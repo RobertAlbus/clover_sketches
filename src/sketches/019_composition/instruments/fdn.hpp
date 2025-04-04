@@ -23,6 +23,15 @@ extern fdn_8_props_019 fdn_patch;
 
 struct fdn_8_019 {
     float fs;
+
+    /*
+    TODO: remove this hack.
+    - has_gui is a flag to reconfigure internal components every sample
+        - needed when state is changed, e.g. from GUI
+        - could also programmatically change the state
+    - is there a way for the GUI to own the responsibility of calling the update?
+        - ^ that is not a good architecture but reasonable for prototyping
+    */
     bool has_gui;
     fdn_8_props_019 props;
     std::array<fdn_section_012, 8> sections;
