@@ -6,13 +6,10 @@
 
 #include "hello_imgui/hello_imgui.h"
 #include "imgui.h"
+#include "views/views.hpp"
 using namespace ImGui;
 
 #include "shared_props.hpp"
-
-#include "instruments/fdn.hpp"
-#include "visual_components/fdn_ui.hpp"
-#include "visual_components/mixer_ui.hpp"
 
 void GUI(shared_props& props) {
     props.audio_ready.acquire();
@@ -20,12 +17,44 @@ void GUI(shared_props& props) {
     props.gui_ready.release();
 
     auto guiFunction = [&]() {
-        mixer_component("mix", &props.composition->mix);
+        if (ImGui::BeginTabBar("Main Layout Tabs")) {
+            if (ImGui::BeginTabItem("mixer")) {
+                view_mixer("##kick_drum_gui", props.composition);
+
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("kick")) {
+                view_kick("kick", props.composition);
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("bass")) {
+                view_bass("bass", props.composition);
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("cymbal")) {
+                view_cymbal("cymbal", props.composition);
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("lead_a")) {
+                view_lead_a("lead_a", props.composition);
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("lead_b")) {
+                view_lead_b("lead_b", props.composition);
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("chord")) {
+                view_chord("chord", props.composition);
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("pad")) {
+                view_pad("pad", props.composition);
+                ImGui::EndTabItem();
+            }
+
+            ImGui::EndTabBar();
+        }
         ImGui::NewLine();
-        fdn_component(
-                "hh_reverb",
-                &props.composition->cymbals.hh_verb_L.props,
-                &props.composition->cymbals.hh_verb_R.props);
         ImGui::NewLine();
         if (ImGui::Button("Bye!")) {
             HelloImGui::GetRunnerParams()->appShallExit = true;
