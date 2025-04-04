@@ -78,6 +78,7 @@ struct nx_osc {
     bool retrigger;
     nx_osc_props props;
 
+    float input_mod_pitch_octaves = 0;
     env_linear portamento;
     env_adsr adsr_pitch;
     env_adsr adsr_amp;

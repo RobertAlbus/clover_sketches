@@ -179,8 +179,11 @@ std::pair<float, float> composition::tick() {
     float lead_b_R = lead_b1_R + lead_b2_R;
 
     // LEAD RINGMOD
-    float lead_ringmod_L = lead_a_L * lead_b_L;
-    float lead_ringmod_R = lead_a_R * lead_b_R;
+    float lead_ringmod_L = 0;  // lead_a_L * lead_b_L;
+    float lead_ringmod_R = 0;  // lead_a_R * lead_b_R;
+
+    for (auto& lead_a_voice : synth.lead_a)
+        lead_a_voice.osc.input_mod_pitch_octaves = (lead_b_L + lead_b_R) * 0.5f * mix.lead_ringmod;
 
     float lead_sum_L =
             (lead_a_L * mix.lead_a) + (lead_b_L * mix.lead_b) + (lead_ringmod_L * mix.lead_ringmod);

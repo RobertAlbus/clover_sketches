@@ -147,8 +147,10 @@ std::pair<float, float> nx_osc::tick() {
     for (auto [osc, tuning, osc_pan] : std::views::zip(oscs, props.osc_tunings, osc_pans)) {
         float osc_freq = clover::midi_to_frequency(current_midi_note + tuning);
         osc_freq       = frequency_by_octave_difference(osc_freq, props.pitch_env_octaves);
+        osc_freq       = frequency_by_octave_difference(osc_freq, input_mod_pitch_octaves);
         osc_freq       = std::clamp(osc_freq, 0.f, fs * 0.5f);
         osc.freq(osc_freq);
+
         std::pair<float, float> osc_output = osc_pan.process(osc.tick());
         output.first += osc_output.first;
         output.second += osc_output.second;
