@@ -20,29 +20,31 @@ void fdn_component(const char* id, fdn_8_props_019* fdn_props_L, fdn_8_props_019
         ImGui::NewLine();
 
         // one control for all fb gains
-        if (fdn_props_R && SliderFloat("fb", &fdn_props_L->fb_gain, 0, 2)) {
+        if (SliderFloat("fb", &fdn_props_L->fb_gain, 0, 2) && fdn_props_R) {
             fdn_props_R->fb_gain = fdn_props_L->fb_gain;
         }
 
         // one control for all lpf filters
-        if (fdn_props_R && SliderFloat(
-                                   "lpf_cut",
-                                   &fdn_props_L->lpf_cut,
-                                   20,
-                                   22000,
-                                   "%.3f",
-                                   ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
+        if (SliderFloat(
+                    "lpf_cut",
+                    &fdn_props_L->lpf_cut,
+                    20,
+                    22000,
+                    "%.3f",
+                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat) &&
+            fdn_props_R) {
             fdn_props_R->lpf_cut = fdn_props_L->lpf_cut;
         }
 
         // one control for all hpf filters
-        if (fdn_props_R && SliderFloat(
-                                   "hpf_cut",
-                                   &fdn_props_L->hpf_cut,
-                                   20,
-                                   22000,
-                                   "%.3f",
-                                   ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
+        if (SliderFloat(
+                    "hpf_cut",
+                    &fdn_props_L->hpf_cut,
+                    20,
+                    22000,
+                    "%.3f",
+                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat) &&
+            fdn_props_R) {
             fdn_props_R->hpf_cut = fdn_props_L->hpf_cut;
         }
 
