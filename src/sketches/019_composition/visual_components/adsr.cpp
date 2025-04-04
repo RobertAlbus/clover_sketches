@@ -58,6 +58,7 @@ bool adsr(const char* id, const adsr_ranges& ranges, float& a, float& d, float& 
         was_modified = was_modified || slider_spinnner_v("##s", s, 0, ranges.s_max, "%.2f");
         ImGui::TableNextColumn();
         was_modified = was_modified || slider_spinnner_v("##r", r, 1, ranges.r_max, "%.f");
+
         ImGui::EndTable();
     }
 
