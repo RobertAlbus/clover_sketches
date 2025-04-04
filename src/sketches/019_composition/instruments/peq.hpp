@@ -87,6 +87,7 @@ struct peq {
 
     peq(float fs, const std::array<peq_props, peq::SIZE>& new_props);
     void patch(std::array<peq_props, peq::SIZE> new_props);
+    std::string to_str();
 
     std::pair<float, float> tick(float in);
     std::pair<float, float> tick(float in_L, float in_R);

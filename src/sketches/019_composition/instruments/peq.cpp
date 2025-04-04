@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <array>
+#include <format>
 #include <print>
 #include <ranges>
 #include <utility>
@@ -13,7 +14,19 @@
 #include "peq.hpp"
 
 std::string peq_props::to_str() {
-    return "";
+    return std::format(
+            R"(peq_props{{
+        .freq = {},
+        .reso = {},
+        .gain = {},
+        .enabled = {},
+        .type = peq_filter_type::{},
+    }})",
+            freq,
+            reso,
+            gain,
+            enabled,
+            peq_filter_str[int(type)]);
 }
 
 void clear_filter_state(clover::dsp::filter_2& filter) {
@@ -85,6 +98,19 @@ void peq::patch(std::array<peq_props, peq::SIZE> new_props) {
             calculate_coefficients(i);
             clear_filter_state(filters[i]);
         }
+}
+std::string peq::to_str() {
+    std::string output = "std::array<peq_props, peq::SIZE> these_peq_props {\n";
+
+    for (auto& prop : props) {
+        output += "    ";
+        output += prop.to_str();
+        output += ",\n";
+    }
+    output.pop_back();  // remove trailing comma for last element
+    output += "\n};";
+
+    return output;
 }
 
 std::pair<float, float> peq::tick(float in) {
