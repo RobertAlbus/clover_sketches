@@ -2,7 +2,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <filesystem>
 #include <map>
 #include <print>
 
@@ -68,32 +67,7 @@ std::map<const char*, size_t> scene_3 = {
 
 std::map<const char*, size_t>& active_scene = scene_2;
 
-#include <fstream>
-void log_identities(sequencers* sq) {
-    const char* path =
-            "/home/ra/clover/sketches/src/sketches/019_composition/sequence/logs/log__identities.log";
-    std::filesystem::create_directories(std::filesystem::path(path).parent_path());
-
-    std::ofstream identity_log{path, std::ios::trunc};
-    std::println(identity_log, "frsq_kick         {}", static_cast<void*>(&sq->frsq_kick));
-    std::println(identity_log, "meta_frsq_kick    {}", static_cast<void*>(&sq->meta_frsq_kick));
-    // std::println(identity_log, "frsq_bass    {}", static_cast<void*>(&sq->frsq_bass));
-    // std::println(identity_log, "frsq_hh1     {}", static_cast<void*>(&sq->frsq_hh1));
-    // std::println(identity_log, "frsq_hh2     {}", static_cast<void*>(&sq->frsq_hh2));
-    // std::println(identity_log, "frsq_hh3     {}", static_cast<void*>(&sq->frsq_hh3));
-    // std::println(identity_log, "frsq_ride    {}", static_cast<void*>(&sq->frsq_ride));
-    // std::println(identity_log, "frsq_chord   {}", static_cast<void*>(&sq->frsq_chord));
-    // std::println(identity_log, "frsq_lead_a1 {}", static_cast<void*>(&sq->frsq_lead_a1));
-    // std::println(identity_log, "frsq_lead_a2 {}", static_cast<void*>(&sq->frsq_lead_a2));
-    // std::println(identity_log, "frsq_lead_b1 {}", static_cast<void*>(&sq->frsq_lead_b1));
-    // std::println(identity_log, "frsq_lead_b2 {}", static_cast<void*>(&sq->frsq_lead_b2));
-    // std::println(identity_log, "frsq_pad     {}", static_cast<void*>(&sq->frsq_pad));
-    identity_log.flush();
-}
-
-sequencers::sequencers(composition& comp) : frsq_kick(true), meta_frsq_kick(true) {
-    log_identities(this);
-
+sequencers::sequencers(composition& comp) {
     set_up_kick(comp);
     set_up_bass(comp);
 
