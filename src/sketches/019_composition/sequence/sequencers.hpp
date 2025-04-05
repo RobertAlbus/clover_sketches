@@ -12,11 +12,13 @@
 #include "instruments/subtractive_synth.hpp"
 #include "sequence/event.hpp"
 #include "sequence/pattern_drum.hpp"
+#include "sequence/pattern_meta.hpp"
 #include "sequence/pattern_synth.hpp"
 
 struct sequencers {
     pattern_drum drum_patterns;
     pattern_synth synth_patterns;
+    pattern_meta meta_patterns;
 
     frsq<kick_drum, event> frsq_kick;
     frsq<subtractive_synth, event_midi> frsq_bass;
@@ -34,6 +36,19 @@ struct sequencers {
 
     frsq<subtractive_synth, event_midi> frsq_pad;
 
+    frsq<frsq<kick_drum, event>, event_meta_sq> meta_frsq_kick;
+    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_bass;
+    frsq<frsq<cymbal, event>, event_meta_sq> meta_frsq_hh1;
+    frsq<frsq<cymbal, event>, event_meta_sq> meta_frsq_hh2;
+    frsq<frsq<subtractive_synth, event>, event_meta_sq> meta_frsq_hh3;
+    frsq<frsq<cymbal, event>, event_meta_sq> meta_frsq_ride;
+    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_chord;
+    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_lead_a1;
+    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_lead_a2;
+    frsq<frsq<nx_osc, event_midi>, event_meta_sq> meta_frsq_lead_b1;
+    frsq<frsq<nx_osc, event_midi>, event_meta_sq> meta_frsq_lead_b2;
+    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_pad;
+
     sequencers(composition& comp);
     void tick();
 
@@ -49,4 +64,5 @@ struct sequencers {
     void set_up_pad(composition& comp);
     void set_up_lead_a(composition& comp);
     void set_up_lead_b(composition& comp);
+    void set_up_meta_sq(composition& comp);
 };

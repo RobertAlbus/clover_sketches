@@ -15,6 +15,9 @@ struct pattern_drum {
         {},
         {
             {.start_time = 0, .duration = 0.5},
+            {.start_time = 1, .duration = 0.5},
+            {.start_time = 2, .duration = 0.5},
+            {.start_time = 3, .duration = 0.5},
         },
     };
 

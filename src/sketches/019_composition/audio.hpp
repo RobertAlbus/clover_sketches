@@ -43,34 +43,36 @@ void AUDIO(shared_props &props) {
 
     auto audio_callback = create_audio_callback(comp, sqs);
 
-    std::jthread render_thread = std::jthread([]() {
-        std::cout << "starting render: " << render_name.c_str() << std::endl;
+    constexpr bool SHOULD_RENDER = false;
+    if (SHOULD_RENDER)
+        std::jthread render_thread = std::jthread([]() {
+            std::cout << "starting render: " << render_name.c_str() << std::endl;
 
-        composition render_comp;
-        sequencers render_sqs{render_comp};
+            composition render_comp;
+            sequencers render_sqs{render_comp};
 
-        auto audio_callback = create_audio_callback(render_comp, render_sqs);
+            auto audio_callback = create_audio_callback(render_comp, render_sqs);
 
-        audio_buffer buffer;
-        buffer.channels    = render_comp.channel_count_out;
-        buffer.sample_rate = render_comp.fs_i;
-        buffer.data.resize(render_comp.duration * render_comp.channel_count_out, 0.f);
+            audio_buffer buffer;
+            buffer.channels    = render_comp.channel_count_out;
+            buffer.sample_rate = render_comp.fs_i;
+            buffer.data.resize(render_comp.duration * render_comp.channel_count_out, 0.f);
 
-        for (auto frame : std::views::iota(0, render_comp.duration)) {
-            auto result = audio_callback({
-                    .clock_time     = frame,
-                    .chan_count_in  = 0,
-                    .chan_count_out = render_comp.channel_count_out,
-                    .input          = nullptr,
-                    .output = &(buffer.data[static_cast<size_t>(frame) * render_comp.channel_count_out]),
-            });
-        }
+            for (auto frame : std::views::iota(0, render_comp.duration)) {
+                auto result = audio_callback({
+                        .clock_time     = frame,
+                        .chan_count_in  = 0,
+                        .chan_count_out = render_comp.channel_count_out,
+                        .input          = nullptr,
+                        .output = &(buffer.data[static_cast<size_t>(frame) * render_comp.channel_count_out]),
+                });
+            }
 
-        sketch_016_convert_sample_rate(buffer, 44100);
-        clover::io::audio_file::write(
-                render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
-        std::cout << "finished render: " << render_name.c_str() << std::endl;
-    });
+            sketch_016_convert_sample_rate(buffer, 44100);
+            clover::io::audio_file::write(
+                    render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
+            std::cout << "finished render: " << render_name.c_str() << std::endl;
+        });
 
     clover::io::system_audio_config system;
     clover::io::stream stream;

@@ -81,6 +81,6 @@ inline patch_mix_t mix_patch{
 
         .lead_a       = 0.28571427,
         .lead_b       = 0.0,
-        .lead_ringmod = 0.032608747, // TODO: modulate this to great effect for the fm strength
+        .lead_ringmod = 0.032608747,  // TODO: modulate this to great effect for the fm strength
         .lead         = 0.29347825,
 };
