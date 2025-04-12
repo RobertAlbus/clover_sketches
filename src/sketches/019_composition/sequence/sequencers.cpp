@@ -9,6 +9,7 @@
 #include "instruments/kick.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "sequence/event.hpp"
+#include "sequence/pattern_meta.hpp"
 #include "sequence/pattern_synth.hpp"
 #include "sequencers.hpp"
 
@@ -81,9 +82,11 @@ sequencers::sequencers(composition& comp) {
     set_up_lead_a(comp);
     set_up_lead_b(comp);
     set_up_meta_sq(comp);
+    set_up_arrangement_print(comp);
 }
 
 void sequencers::tick() {
+    frsq_arrangement_print.tick();
     meta_frsq_kick.tick();
     meta_frsq_bass.tick();
     meta_frsq_hh1.tick();
@@ -233,9 +236,11 @@ void sequencers::set_up_lead_b(composition& comp) {
     frsq_lead_b1.duration_relative = 16.;
     // frsq_lead_b1.set_pattern(synth_patterns.patterns_lead_b[active_scene["lead_b1"]]);
 
-    frsq_lead_b1.callback_start = [](nx_osc& voice, const event_midi& data) {
+    frsq_lead_b1.callback_start = [&](nx_osc& voice, const event_midi& data) {
         voice.note(data.note);
         voice.key_on();
+        comp.synth.lead_b_lfo.note(data.note);
+        comp.synth.lead_b_lfo.key_on();
     };
     frsq_lead_b1.callback_end = [](nx_osc& voice) { voice.key_off(); };
 
@@ -265,87 +270,137 @@ void sequencers::set_up_meta_sq(composition& comp) {
     meta_frsq_lead_b2.voices = std::span(&frsq_lead_b2, 1);
     meta_frsq_pad.voices     = std::span(&frsq_pad, 1);
 
-    meta_frsq_kick.duration_absolute    = comp.bar * 224;
-    meta_frsq_bass.duration_absolute    = comp.bar * 224;
-    meta_frsq_hh1.duration_absolute     = comp.bar * 224;
-    meta_frsq_hh2.duration_absolute     = comp.bar * 224;
-    meta_frsq_hh3.duration_absolute     = comp.bar * 224;
-    meta_frsq_ride.duration_absolute    = comp.bar * 224;
-    meta_frsq_chord.duration_absolute   = comp.bar * 224;
-    meta_frsq_lead_a1.duration_absolute = comp.bar * 224;
-    meta_frsq_lead_a2.duration_absolute = comp.bar * 224;
-    meta_frsq_lead_b1.duration_absolute = comp.bar * 224;
-    meta_frsq_lead_b2.duration_absolute = comp.bar * 224;
-    meta_frsq_pad.duration_absolute     = comp.bar * 224;
+    meta_frsq_kick.duration_absolute    = comp.bar * 226;
+    meta_frsq_bass.duration_absolute    = comp.bar * 226;
+    meta_frsq_hh1.duration_absolute     = comp.bar * 226;
+    meta_frsq_hh2.duration_absolute     = comp.bar * 226;
+    meta_frsq_hh3.duration_absolute     = comp.bar * 226;
+    meta_frsq_ride.duration_absolute    = comp.bar * 226;
+    meta_frsq_chord.duration_absolute   = comp.bar * 226;
+    meta_frsq_lead_a1.duration_absolute = comp.bar * 226;
+    meta_frsq_lead_a2.duration_absolute = comp.bar * 226;
+    meta_frsq_lead_b1.duration_absolute = comp.bar * 226;
+    meta_frsq_lead_b2.duration_absolute = comp.bar * 226;
+    meta_frsq_pad.duration_absolute     = comp.bar * 226;
 
-    meta_frsq_kick.duration_relative    = 224;
-    meta_frsq_bass.duration_relative    = 224;
-    meta_frsq_hh1.duration_relative     = 224;
-    meta_frsq_hh2.duration_relative     = 224;
-    meta_frsq_hh3.duration_relative     = 224;
-    meta_frsq_ride.duration_relative    = 224;
-    meta_frsq_chord.duration_relative   = 224;
-    meta_frsq_lead_a1.duration_relative = 224;
-    meta_frsq_lead_a2.duration_relative = 224;
-    meta_frsq_lead_b1.duration_relative = 224;
-    meta_frsq_lead_b2.duration_relative = 224;
-    meta_frsq_pad.duration_relative     = 224;
+    meta_frsq_kick.duration_relative    = 226;
+    meta_frsq_bass.duration_relative    = 226;
+    meta_frsq_hh1.duration_relative     = 226;
+    meta_frsq_hh2.duration_relative     = 226;
+    meta_frsq_hh3.duration_relative     = 226;
+    meta_frsq_ride.duration_relative    = 226;
+    meta_frsq_chord.duration_relative   = 226;
+    meta_frsq_lead_a1.duration_relative = 226;
+    meta_frsq_lead_a2.duration_relative = 226;
+    meta_frsq_lead_b1.duration_relative = 226;
+    meta_frsq_lead_b2.duration_relative = 226;
+    meta_frsq_pad.duration_relative     = 226;
 
     meta_frsq_kick.callback_start = [&](frsq<kick_drum, event>& voice, const event_meta_sq& event) {
-        std::println("kick pattern changed {} {}", event.start_time, event.pattern_index);
+        std::println(" - frsq_kick:    {} @ {}", event.pattern_index, event.start_time);
         voice.set_pattern(this->drum_patterns.patterns_kick[event.pattern_index]);
     };
     meta_frsq_bass.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
                                         const event_meta_sq& event) {
-        std::println("bass pattern changed {} {}", event.start_time, event.pattern_index);
+        std::println(" - frsq_bass:    {} @ {}", event.pattern_index, event.start_time);
         voice.set_pattern(this->drum_patterns.patterns_bass[event.pattern_index]);
     };
     meta_frsq_hh1.callback_start = [&](frsq<cymbal, event>& voice, const event_meta_sq& event) {
+        std::println(" - frsq_hh1:     {} @ {}", event.pattern_index, event.start_time);
+
         voice.set_pattern(this->drum_patterns.patterns_hh1[event.pattern_index]);
     };
     meta_frsq_hh2.callback_start = [&](frsq<cymbal, event>& voice, const event_meta_sq& event) {
+        std::println(" - frsq_hh2:     {} @ {}", event.pattern_index, event.start_time);
+
         voice.set_pattern(this->drum_patterns.patterns_hh2[event.pattern_index]);
     };
     meta_frsq_hh3.callback_start = [&](frsq<subtractive_synth, event>& voice, const event_meta_sq& event) {
+        std::println(" - frsq_hh3:     {} @ {}", event.pattern_index, event.start_time);
+
         voice.set_pattern(this->drum_patterns.patterns_hh3[event.pattern_index]);
     };
     meta_frsq_ride.callback_start = [&](frsq<cymbal, event>& voice, const event_meta_sq& event) {
+        std::println(" - frsq_ride:    {} @ {}", event.pattern_index, event.start_time);
+
         voice.set_pattern(this->drum_patterns.patterns_ride[event.pattern_index]);
     };
     meta_frsq_chord.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
                                          const event_meta_sq& event) {
+        std::println(" - frsq_chord:   {} @ {}", event.pattern_index, event.start_time);
+
         voice.set_pattern(this->synth_patterns.patterns_chord[event.pattern_index]);
     };
     meta_frsq_lead_a1.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
                                            const event_meta_sq& event) {
+        std::println(" - frsq_lead_a1: {} @ {}", event.pattern_index, event.start_time);
+
         voice.set_pattern(this->synth_patterns.patterns_lead_a[event.pattern_index]);
     };
     meta_frsq_lead_a2.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
                                            const event_meta_sq& event) {
+        std::println(" - frsq_lead_a2: {} @ {}", event.pattern_index, event.start_time);
+
         voice.set_pattern(this->synth_patterns.patterns_lead_a[event.pattern_index]);
     };
     meta_frsq_lead_b1.callback_start = [&](frsq<nx_osc, event_midi>& voice, const event_meta_sq& event) {
+        std::println(" - frsq_lead_b1: {} @ {}", event.pattern_index, event.start_time);
+
         voice.set_pattern(this->synth_patterns.patterns_lead_b[event.pattern_index]);
     };
     meta_frsq_lead_b2.callback_start = [&](frsq<nx_osc, event_midi>& voice, const event_meta_sq& event) {
+        std::println(" - frsq_lead_b2: {} @ {}", event.pattern_index, event.start_time);
+
         voice.set_pattern(this->synth_patterns.patterns_lead_b[event.pattern_index]);
     };
     meta_frsq_pad.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
                                        const event_meta_sq& event) {
-        std::println("pad pattern changed {} {}", event.start_time, event.pattern_index);
+        std::println(" - frsq_pad:     {} @ {}", event.pattern_index, event.start_time);
         voice.set_pattern(this->synth_patterns.patterns_pad[event.pattern_index]);
     };
 
-    meta_frsq_kick.set_pattern(meta_patterns.patterns_kick);
-    meta_frsq_bass.set_pattern(meta_patterns.patterns_bass);
-    meta_frsq_hh1.set_pattern(meta_patterns.patterns_hh1);
-    meta_frsq_hh2.set_pattern(meta_patterns.patterns_hh2);
-    meta_frsq_hh3.set_pattern(meta_patterns.patterns_hh3);
-    meta_frsq_ride.set_pattern(meta_patterns.patterns_ride);
-    meta_frsq_chord.set_pattern(meta_patterns.patterns_chord);
-    meta_frsq_lead_a1.set_pattern(meta_patterns.patterns_lead_a1);
-    meta_frsq_lead_a2.set_pattern(meta_patterns.patterns_lead_a2);
-    meta_frsq_lead_b1.set_pattern(meta_patterns.patterns_lead_b1);
-    meta_frsq_lead_b2.set_pattern(meta_patterns.patterns_lead_b2);
-    meta_frsq_pad.set_pattern(meta_patterns.patterns_pad);
+    meta_frsq_kick.set_pattern(meta_patterns.patterns_kick, meta_patterns.PLAYBACK_START);
+    meta_frsq_bass.set_pattern(meta_patterns.patterns_bass, meta_patterns.PLAYBACK_START);
+    meta_frsq_hh1.set_pattern(meta_patterns.patterns_hh1, meta_patterns.PLAYBACK_START);
+    meta_frsq_hh2.set_pattern(meta_patterns.patterns_hh2, meta_patterns.PLAYBACK_START);
+    meta_frsq_hh3.set_pattern(meta_patterns.patterns_hh3, meta_patterns.PLAYBACK_START);
+    meta_frsq_ride.set_pattern(meta_patterns.patterns_ride, meta_patterns.PLAYBACK_START);
+    meta_frsq_chord.set_pattern(meta_patterns.patterns_chord, meta_patterns.PLAYBACK_START);
+    meta_frsq_lead_a1.set_pattern(meta_patterns.patterns_lead_a1, meta_patterns.PLAYBACK_START);
+    meta_frsq_lead_a2.set_pattern(meta_patterns.patterns_lead_a2, meta_patterns.PLAYBACK_START);
+    meta_frsq_lead_b1.set_pattern(meta_patterns.patterns_lead_b1, meta_patterns.PLAYBACK_START);
+    meta_frsq_lead_b2.set_pattern(meta_patterns.patterns_lead_b2, meta_patterns.PLAYBACK_START);
+    meta_frsq_pad.set_pattern(meta_patterns.patterns_pad, meta_patterns.PLAYBACK_START);
+}
+
+void sequencers::set_up_arrangement_print(composition& comp) {
+    frsq_arrangement_print.voices            = std::span(meta_patterns.timing_range.begin(), 1);
+    frsq_arrangement_print.duration_absolute = comp.bar * 224;
+    frsq_arrangement_print.duration_relative = 224;
+    frsq_arrangement_print.set_pattern(meta_patterns.timing_range);
+    frsq_arrangement_print.callback_start = [](event& voice, const event& event) {
+        // clang-format off
+        if (
+            event.start_time == 0   ||
+            event.start_time == 32  ||
+            event.start_time == 65  ||
+            event.start_time == 89  ||
+            event.start_time == 97  ||
+            event.start_time == 125 ||
+            event.start_time == 137 ||
+            event.start_time == 145 ||
+            event.start_time == 161 ||
+            event.start_time == 177 ||
+            event.start_time == 185 ||
+            event.start_time == 193 ||
+            event.start_time == 209 ||
+            event.start_time == 225
+            ){
+            // clang-format on
+            std::println("--------------------------------");
+        } else {
+            std::println("--------");
+        }
+        std::println("B: {}", event.start_time);
+    };
 }

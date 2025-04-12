@@ -17,7 +17,7 @@ using namespace dsp;
 std::string fdn_8_props_019::to_str() {
     return std::format(
             "\
-fdn_8_props_019 patch = {{\n\
+{{\n\
     .taps     = {{{}, {}, {}, {}, {}, {}, {}, {}}}, \n\
     .fb_gain  = {}, \n\
     .lpf_cut  = {}, \n\
@@ -38,6 +38,19 @@ fdn_8_props_019 patch = {{\n\
             lpf_res,
             hpf_cut,
             hpf_res);
+}
+
+fdn_8_props_019 fdn_8_props_019::taps_mult(float coeff) {
+    fdn_8_props_019 altered = *this;
+    for (auto& tap : altered.taps)
+        tap *= coeff;
+    return altered;
+}
+fdn_8_props_019 fdn_8_props_019::taps_add(float add) {
+    fdn_8_props_019 altered = *this;
+    for (auto& tap : altered.taps)
+        tap += add;
+    return altered;
 }
 
 fdn_8_019::fdn_8_019(float fs, const fdn_8_props_019& props, bool has_gui)

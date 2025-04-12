@@ -44,8 +44,8 @@ void AUDIO(shared_props &props) {
     auto audio_callback = create_audio_callback(comp, sqs);
 
     constexpr bool SHOULD_RENDER = false;
-    if (SHOULD_RENDER)
-        std::jthread render_thread = std::jthread([]() {
+    if (SHOULD_RENDER) {
+        std::thread render_thread = std::thread([]() {
             std::cout << "starting render: " << render_name.c_str() << std::endl;
 
             composition render_comp;
@@ -73,6 +73,9 @@ void AUDIO(shared_props &props) {
                     render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
             std::cout << "finished render: " << render_name.c_str() << std::endl;
         });
+        render_thread.join();
+        exit(0);
+    }
 
     clover::io::system_audio_config system;
     clover::io::stream stream;

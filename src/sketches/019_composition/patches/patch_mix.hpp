@@ -34,10 +34,10 @@ struct patch_mix_t {
     float chord_dry  = 1.f;
     float chord_sum  = 0.13f;
 
-    float pad_send = 0.8f;
+    float pad_send = 1.f;
     float pad_wet  = 1.f;
-    float pad_dry  = 1.f;
-    float pad_sum  = 0.13f;
+    float pad_dry  = 0.8f;
+    float pad_sum  = 0.6f;
 
     float lead_a       = 0.5f;
     float lead_b       = 0.5f;
@@ -50,37 +50,76 @@ struct patch_mix_t {
 inline patch_mix_t mix_patch{
         .kick_send = 0.6904762,
         .kick_wet  = 0.5952381,
-        .kick_gain = 0.92857146,
+        .kick_gain = 0.90683234,
 
-        .bass_gain = 0.7380953,
+        .bass_gain = 0.5837476,
 
-        .hh1 = 1.0476191,
-        .hh2 = 0.26190472,
-        .hh3 = 0.23809528,
+        .hh1 = 0.71739125,
+        .hh2 = 0.6413044,
+        .hh3 = 0.11956525,
 
-        .hh_verb_send = 0.9523809,
-        .hh_verb_wet  = 0.6428572,
-        .hh_bus       = 1.0714285,
+        .hh_verb_send = 0.81107664,
+        .hh_verb_wet  = 0.53260875,
+        .hh_bus       = 0.8369565,
 
         .hh_drive = 1.5238096,
         .hh_trim  = 0.7619047,
 
-        .ride = 0.18012404,
+        .ride = 0.13012405,
 
-        .cymbal_bus = 0.71428573,
+        .cymbal_bus = 0.583851,
 
-        .chord_send = 1,
-        .chord_wet  = 0.47619045,
-        .chord_dry  = 1,
-        .chord_sum  = 0.16666663,
+        .chord_send = 0.7282609,
+        .chord_wet  = 0.4778261,
+        .chord_dry  = 0.32826102,
+        .chord_sum  = 0.26086962,
 
-        .pad_send = 1.0108695,
-        .pad_wet  = 1,
-        .pad_dry  = 1,
-        .pad_sum  = 0.3369565,
+        .pad_send = 0.7391304,
+        .pad_wet  = 0.576087,
+        .pad_dry  = 0.18478262,
+        .pad_sum  = 0.96434784,
 
         .lead_a       = 0.28571427,
-        .lead_b       = 0.0,
-        .lead_ringmod = 0.032608747,  // TODO: modulate this to great effect for the fm strength
-        .lead         = 0.29347825,
+        .lead_b       = 0,
+        .lead_ringmod = 0.032608747,
+        .lead         = 0.31521738,
 };
+
+/*
+inline patch_mix_t mix_patch{
+        .kick_send = 0.6904762,
+        .kick_wet  = 0.5952381,
+        .kick_gain = 0.90683234,
+
+        .bass_gain = 0.5837476,
+
+        .hh1 = 0.71739125,
+        .hh2 = 0.6413044,
+        .hh3 = 0.326087,
+
+        .hh_verb_send = 0.81107664,
+        .hh_verb_wet  = 0.53260875,
+        .hh_bus       = 0.8369565,
+
+        .hh_drive = 1.5238096,
+        .hh_trim  = 0.7619047,
+
+        .ride = 0.13012404,
+
+        .cymbal_bus = 0.583851,
+
+        .chord_send = 0.7282609,
+        .chord_wet  = 0.4778261,
+        .chord_dry  = 0.32826102,
+        .chord_sum  = 0.26086962,
+
+        .pad_send = 0,
+        .pad_wet  = 0,
+        .pad_dry  = 0.8347826,
+        .pad_sum  = 0.96434784,
+
+        .lead_a       = 0.28571427,
+        .lead_b       = 0,
+        .lead_ringmod = 0.032608747,
+        .lead         = 0.31521738,
+};*/

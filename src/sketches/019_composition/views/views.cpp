@@ -13,6 +13,7 @@ void view_mixer(const char* id, composition* comp) {
     ImGui::PushID(id);
 
     mixer_component("mix", &comp->mix);
+    peq_gui("##master_peq", comp->master_peq);
 
     ImGui::PopID();
 }

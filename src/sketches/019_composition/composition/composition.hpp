@@ -8,6 +8,7 @@
 #include <cstdint>
 
 #include "instruments/cymbal.hpp"
+#include "instruments/env_bp.hpp"
 #include "instruments/fdn.hpp"
 #include "instruments/kick.hpp"
 #include "instruments/nx_osc.hpp"
@@ -16,6 +17,7 @@
 #include "patches/patch_drums.hpp"
 #include "patches/patch_mix.hpp"
 #include "patches/patch_synth.hpp"
+#include "sequence/automation.hpp"
 
 struct composition {
     std::pair<float, float> tick();
@@ -28,13 +30,17 @@ struct composition {
     double spb                = spm / bpm;
     double bar                = spb * 4;
     double beat               = spb;
-    int_fast64_t duration     = int_fast64_t(bar * 16 * 226) + 1;
+    double duration_bars      = 226;
+    int_fast64_t duration     = int_fast64_t(bar * duration_bars) + 1;
 
     float gain_master = 0.5f;
+
+    composition();
 
     static patch_drums_t patch_drums;
     static patch_synth_t patch_synth;
     static patch_mix_t mix;
+    static automation_patterns automation;
 
     // HACK: semantically meaning label used as a flag for fdn
     // - FDN needs to be updated after props change.
@@ -46,6 +52,12 @@ struct composition {
         peq preverb_peq{fs, patch_drums.kick_preverb_peq_props};
         fdn_8_019 verb{fs, patch_drums.kick_fdn_props, COMPONENT_HAS_GUI};
         peq out_peq{fs, patch_drums.kick_peq_props};
+
+        env_bp auto_hp;
+        env_bp auto_verb_send;
+
+        filter hpf{};
+
     } kick;
 
     struct {
@@ -85,7 +97,17 @@ struct composition {
                 nx_osc{fs, patch_synth.lead_b_props},
                 nx_osc{fs, patch_synth.lead_b_props}};
 
+        nx_osc lead_b_lfo{fs, patch_synth.lead_b_lfo_props};
+
         peq lead_peq{fs, patch_synth.lead_peq_props};
+
+        fdn_8_019 lead_verb_L{
+                fs, patch_synth.chord_fdn_props.taps_mult(.495f).taps_add(82.f), COMPONENT_HAS_GUI};
+        fdn_8_019 lead_verb_R{
+                fs, patch_synth.chord_fdn_props.taps_mult(.5f).taps_add(90.4f), COMPONENT_HAS_GUI};
+
+        env_bp autogain_lead_1;
+        env_bp autogain_lead_2;
 
         std::array<subtractive_synth, 6> chord{
                 subtractive_synth{fs, patch_synth.chord_props},
@@ -97,10 +119,17 @@ struct composition {
 
         peq chord_preverb_peq{fs, patch_synth.chord_preverb_peq_props};
         fdn_8_019 chord_verb_L{fs, patch_synth.chord_fdn_props, COMPONENT_HAS_GUI};
-        fdn_8_019 chord_verb_R{fs, patch_synth.chord_fdn_props, COMPONENT_HAS_GUI};
+        fdn_8_019 chord_verb_R{
+                fs, patch_synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
         peq chord_peq{fs, patch_synth.chord_peq_props};
 
-        std::array<subtractive_synth, 6> pad{
+        std::array<subtractive_synth, 12> pad{
+                subtractive_synth{fs, patch_synth.pad_props},
+                subtractive_synth{fs, patch_synth.pad_props},
+                subtractive_synth{fs, patch_synth.pad_props},
+                subtractive_synth{fs, patch_synth.pad_props},
+                subtractive_synth{fs, patch_synth.pad_props},
+                subtractive_synth{fs, patch_synth.pad_props},
                 subtractive_synth{fs, patch_synth.pad_props},
                 subtractive_synth{fs, patch_synth.pad_props},
                 subtractive_synth{fs, patch_synth.pad_props},
@@ -110,8 +139,10 @@ struct composition {
 
         peq pad_preverb_peq{fs, patch_synth.pad_preverb_peq_props};
         fdn_8_019 pad_verb_L{fs, patch_synth.pad_fdn_props, COMPONENT_HAS_GUI};
-        fdn_8_019 pad_verb_R{fs, patch_synth.pad_fdn_props, COMPONENT_HAS_GUI};
+        fdn_8_019 pad_verb_R{fs, patch_synth.pad_fdn_props.taps_add(9.345), COMPONENT_HAS_GUI};
         peq pad_peq{fs, patch_synth.pad_peq_props};
 
     } synth;
+
+    peq master_peq{fs, patch_synth.master_peq_props};
 };

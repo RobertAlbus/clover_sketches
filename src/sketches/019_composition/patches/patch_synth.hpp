@@ -4,10 +4,12 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "clover/math.hpp"
 #include "instruments/fdn.hpp"
 #include "instruments/nx_osc.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
+#include "sequence/notes.h"
 
 struct patch_synth_t {
     // --------------------------------
@@ -15,7 +17,7 @@ struct patch_synth_t {
 
     subtractive_synth_props lead_a_props{
             .osc_props{
-                    .tuning            = 0,
+                    .tuning            = -12,
                     .portamento_time   = 50,
                     .pitch_env_octaves = 2,
                     .osc_tunings       = {0, 0.2, -0.2, 0},
@@ -48,22 +50,41 @@ struct patch_synth_t {
             }};
 
     nx_osc_props lead_b_props{
-            .tuning            = 17,
+            .tuning            = -24,
             .portamento_time   = 0,
-            .pitch_env_octaves = 0,
-            .osc_tunings       = {0, 7},
+            .pitch_env_octaves = 4,
+            .osc_tunings       = {0, 5},
             .osc_pans          = {0, 0},
-            .waveforms         = {waveform::sine, waveform::sine},
+            .waveforms         = {waveform::saw, waveform::sine},
             .retrigger         = true,
-            .pitch_a           = 2,
-            .pitch_d           = 2,
+            .pitch_a           = 1,
+            .pitch_d           = 3000,
             .pitch_s           = 0,
             .pitch_r           = 100,
-            .amp_a             = 10,
+            .amp_a             = 1,
+            .amp_d             = 2000,
+            .amp_s             = 0.6,
+            .amp_r             = 100,
+    };
+
+    nx_osc_props lead_b_lfo_props{
+            .tuning            = -12,
+            .portamento_time   = 1000,
+            .pitch_env_octaves = 0.5,
+            .osc_tunings       = {0},
+            .osc_pans          = {0},
+            .waveforms         = {waveform::saw},
+            .retrigger         = true,
+            .pitch_a           = 1,
+            .pitch_d           = 500,
+            .pitch_s           = 0,
+            .pitch_r           = 100,
+            .amp_a             = 1,
             .amp_d             = 1,
             .amp_s             = 1,
-            .amp_r             = 1000,
+            .amp_r             = 100,
     };
+
     std::array<peq_props, peq::SIZE> lead_peq_props{};
 
     // --------------------------------
@@ -74,8 +95,8 @@ struct patch_synth_t {
                     .tuning            = 0,
                     .portamento_time   = 0,
                     .pitch_env_octaves = 0,
-                    .osc_tunings       = {0.1, -0.1},
-                    .osc_pans          = {-0.1f, 0.5f},
+                    .osc_tunings       = {0.2, 7.2},
+                    .osc_pans          = {-1.f, 1.0f},
                     .waveforms         = {waveform::square, waveform::square},
                     .retrigger         = true,
                     .pitch_a           = 10,
@@ -104,16 +125,17 @@ struct patch_synth_t {
             }};
 
     fdn_8_props_019 chord_fdn_props = {
-            .taps    = {134.391, 395.174, 460.37, 721.152, 6132.391, 5871.609, 7240.717, 12000},
-            .fb_gain = 0.863,
-            .lpf_cut = 15004.666,
+            .taps    = {2090.261, 2285.848, 2677.022, 3524.565, 4502.5, 5415.239, 6197.587, 6653.957},
+            .fb_gain = 0.918,
+            .lpf_cut = 3052,
             .lpf_res = 0.707,
-            .hpf_cut = 291.3428,
+            .hpf_cut = 91,
             .hpf_res = 0.707,
     };
+
     std::array<peq_props, peq::SIZE> chord_preverb_peq_props{
             peq_props{
-                    .freq    = 1657.1,
+                    .freq    = 5657.1,
                     .reso    = 3,
                     .gain    = 0,
                     .enabled = true,
@@ -141,21 +163,28 @@ struct patch_synth_t {
                     .type    = peq_filter_type::lp,
             },
     };
-    std::array<peq_props, peq::SIZE> chord_peq_props{};
+    std::array<peq_props, peq::SIZE> chord_peq_props{
+            peq_props{
+                    .freq    = 180.1,
+                    .reso    = .707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+    };
 
     // --------------------------------
     // PAD
 
-    const float ppw = 0.3;  // pad pitch width
     subtractive_synth_props pad_props{
             .osc_props{
                     // clang-format off
-                    .tuning            = 12,
+                    .tuning            = 0,
                     .portamento_time   = 0,
                     .pitch_env_octaves = 0,
-                    .osc_tunings       = {ppw, -ppw, 12 + ppw, 12 - ppw},
-                    .osc_pans = {-1.f, 1.f, -1.f, 1.f},
-                    .waveforms = {waveform::saw, waveform::saw, waveform::saw, waveform::saw},
+                    .osc_tunings       = {0.1, -0.1, 0.2, -0.2,0,0},
+                    .osc_pans  = {-1.f, 0.5f, -0.5f, 1.f, 1,-1},
+                    .waveforms = {waveform::saw, waveform::saw, waveform::square, waveform::square, waveform::noise, waveform::noise},
                     .retrigger = true,
                     .pitch_a   = 1,
                     .pitch_d   = 1,
@@ -185,41 +214,112 @@ struct patch_synth_t {
 
     std::array<peq_props, peq::SIZE> pad_preverb_peq_props{
             peq_props{
-                    .freq    = 20000,
+                    .freq    = 4000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
             peq_props{
-                    .freq    = 20000,
+                    .freq    = 4000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
             peq_props{
-                    .freq    = 20000,
-                    .reso    = 0.707,
-                    .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .freq    = 291,
+                    .reso    = 1,
+                    .gain    = 24,
+                    .enabled = true,
+                    .type    = peq_filter_type::eq,
             },
             peq_props{
-                    .freq    = 20000,
+                    .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
             },
     };
-    fdn_8_props_019 pad_fdn_props{
-            .taps    = {134.42862, 329.99323, 721.1825, 1308.0359, 1959.9309, 3329.2222, 6458.37, 11087.26},
-            .fb_gain = 0.92402976,
-            .lpf_cut = 9000.31549,
+    fdn_8_props_019 pad_fdn_props = {
+            // clang-format off
+                .taps = {
+                    48000 / (midi_to_frequency(note::Fs3) / 8 / 2),
+                    48000 / (midi_to_frequency(note::B3)  / 8 / 2),
+                    48000 / (midi_to_frequency(note::Cs4) / 8 / 4),
+                    48000 / (midi_to_frequency(note::E4)  / 8 / 4),
+                    48000 / (midi_to_frequency(note::Gs4) / 8 / 8),
+                    48000 / (midi_to_frequency(note::A4)  / 8 / 8),
+                    48000 / (midi_to_frequency(note::As4) / 4 / 16),
+                    48000 / (midi_to_frequency(note::Ds5) / 4 / 16)
+                },
+            // clang-format on
+            .fb_gain = 0.831,
+            .lpf_cut = 8804,
             .lpf_res = 0.707,
-            .hpf_cut = 45.100502,
+            .hpf_cut = 342,
             .hpf_res = 0.707,
     };
-    std::array<peq_props, peq::SIZE> pad_peq_props{};
+    std::array<peq_props, peq::SIZE> pad_peq_props{
+            peq_props{
+                    .freq    = 4000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 4000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 212.4,
+                    .reso    = 0.2,
+                    .gain    = 11.7,
+                    .enabled = true,
+                    .type    = peq_filter_type::eq,
+            },
+            peq_props{
+                    .freq    = 100,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+    };
+
+    std::array<peq_props, peq::SIZE> master_peq_props{
+            peq_props{
+                    .freq    = 10,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+            peq_props{
+                    .freq    = 78.4,
+                    .reso    = 0.9,
+                    .gain    = -2.8,
+                    .enabled = true,
+                    .type    = peq_filter_type::ls,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+    };
 };

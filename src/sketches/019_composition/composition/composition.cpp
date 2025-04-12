@@ -5,11 +5,34 @@
 #include <cmath>
 #include <print>
 
+#include "clover/math.hpp"
 #include "composition.hpp"
 
 patch_drums_t composition::patch_drums{};
 patch_synth_t composition::patch_synth{};
 patch_mix_t composition::mix{mix_patch};
+
+automation_patterns composition::automation{};
+
+composition::composition() {
+    synth.autogain_lead_1.set_pattern(automation.bp_env_lead_a);
+    synth.autogain_lead_1.duration_abs = double(duration);
+    synth.autogain_lead_1.duration_rel = duration_bars;
+    synth.autogain_lead_1.key_on();
+    synth.autogain_lead_2.set_pattern(automation.bp_env_lead_b);
+    synth.autogain_lead_2.duration_abs = double(duration);
+    synth.autogain_lead_2.duration_rel = duration_bars;
+    synth.autogain_lead_2.key_on();
+
+    kick.auto_hp.set_pattern(automation.bp_env_kick_hp);
+    kick.auto_hp.duration_abs = double(duration);
+    kick.auto_hp.duration_rel = duration_bars;
+    kick.auto_hp.key_on();
+    kick.auto_verb_send.set_pattern(automation.bp_env_kick_verb_send);
+    kick.auto_verb_send.duration_abs = double(duration);
+    kick.auto_verb_send.duration_rel = duration_bars;
+    kick.auto_verb_send.key_on();
+}
 
 std::pair<float, float> composition::tick() {
     float out_L = 0;
@@ -23,8 +46,15 @@ std::pair<float, float> composition::tick() {
     float kick_dry         = kick.drum.tick();
     float kick_send        = kick_dry * mix.kick_send;
     auto [kick_send_eq, _] = kick.preverb_peq.tick(kick_send, kick_send);
-    float kick_wet         = kick.verb.tick(kick_send_eq) * mix.kick_wet;
-    float kick_sum         = (kick_dry + kick_wet) * mix.kick_gain;
+
+    float kick_wet = kick.verb.tick(kick_send_eq) * mix.kick_wet * kick.auto_verb_send.tick();
+    float kick_sum = (kick_dry + kick_wet) * mix.kick_gain;
+
+    kick.hpf.m_coeffs = hpf(fs, frequency_by_octave_difference(10, kick.auto_hp.tick()), 0.707);
+    kick_sum          = kick.hpf.tick(kick_sum);
+
+    auto [kick_post_eq, _] = kick.out_peq.tick(kick_sum, kick_sum);
+    kick_sum               = kick_post_eq;
 
     auto bass_dry               = bass.synth.tick();
     auto [bass_eq_L, bass_eq_R] = bass.out_peq.tick(bass_dry);
@@ -39,8 +69,8 @@ std::pair<float, float> composition::tick() {
     float hh1_dry               = cymbals.hh1.tick() * mix.hh1;
     float hh2_dry               = cymbals.hh2.tick() * mix.hh2;
     auto [hh3_dry_L, hh3_dry_R] = cymbals.hh3.tick();
-    hh3_dry_L *= mix.hh3;
-    hh3_dry_R *= mix.hh3;
+    hh3_dry_L *= mix.hh3 * 0.07f;
+    hh3_dry_R *= mix.hh3 * 0.07f;
 
     float hh_dry_sum_L = hh1_dry + hh2_dry + hh3_dry_L;
     float hh_dry_sum_R = hh1_dry + hh2_dry + hh3_dry_R;
@@ -64,7 +94,7 @@ std::pair<float, float> composition::tick() {
 
     float ride_dry     = cymbals.ride.tick();
     auto [ride_peq, _] = cymbals.ride_peq.tick(ride_dry);
-    float ride         = ride_peq * mix.ride;
+    float ride         = ride_peq * 0.5f * mix.ride;
 
     float cymbal_bus_L = (ride + hh_sum_L) * mix.cymbal_bus;
     float cymbal_bus_R = (ride + hh_sum_R) * mix.cymbal_bus;
@@ -99,22 +129,25 @@ std::pair<float, float> composition::tick() {
     chord_L *= mix.chord_dry;
     chord_R *= mix.chord_dry;
 
-    float chord_post_eq_in_L = std::clamp((chord_L + chord_verb_L) * 0.1f, -1.f, 1.f);
-    float chord_post_eq_in_R = std::clamp((chord_R + chord_verb_R) * 0.1f, -1.f, 1.f);
+    float chord_post_eq_in_L = std::clamp((chord_L + chord_verb_L), -1.f, 1.f);
+    float chord_post_eq_in_R = std::clamp((chord_R + chord_verb_R), -1.f, 1.f);
 
     auto [chord_post_eq_L, chord_post_eq_R] = synth.chord_peq.tick(chord_post_eq_in_L, chord_post_eq_in_R);
 
-    float chord_sum_L = chord_post_eq_L * 10 * mix.chord_sum;
-    float chord_sum_R = chord_post_eq_R * 10 * mix.chord_sum;
+    float chord_sum_L = chord_post_eq_L * mix.chord_sum;
+    float chord_sum_R = chord_post_eq_R * mix.chord_sum;
+
+    float chord_mid  = (chord_sum_L + chord_sum_R) * 0.4f * 0.9f;
+    float chord_side = (chord_sum_L - chord_sum_R) * 0.4f * 1.5f;
+
+    chord_sum_L = chord_mid + chord_side;
+    chord_sum_R = chord_mid - chord_side;
 
     // ----------------
     // PAD
     //
     //
 
-    /*
-    NOTE: THE FEEDBACK IN THE PADS AND CHORDS MIGHT BE FROM NON-BOUNDED INPUT TO POST EQ
-    */
     float pad_L = 0;
     float pad_R = 0;
     for (auto& pad_voice : synth.pad) {
@@ -122,9 +155,15 @@ std::pair<float, float> composition::tick() {
         pad_L += pad_voice_signal.first;
         pad_R += pad_voice_signal.second;
     }
+
+    /*
+    NOTE: THE FEEDBACK IN THE PADS AND CHORDS MIGHT BE FROM NON-BOUNDED OUTPUT FROM VOICES
+    */
+    pad_L *= (1.f / std::sqrt(float(synth.pad.size())));
+    pad_R *= (1.f / std::sqrt(float(synth.pad.size())));
     float pad_send_L                    = pad_L * mix.pad_send;
     float pad_send_R                    = pad_R * mix.pad_send;
-    auto [pad_preverb_L, pad_preverb_R] = synth.pad_peq.tick(pad_send_L, pad_send_R);
+    auto [pad_preverb_L, pad_preverb_R] = synth.pad_preverb_peq.tick(pad_send_L, pad_send_R);
     float pad_verb_L                    = synth.pad_verb_L.tick(pad_preverb_L) * mix.pad_wet;
     float pad_verb_R                    = synth.pad_verb_R.tick(pad_preverb_R) * mix.pad_wet;
     pad_L *= mix.pad_dry;
@@ -141,6 +180,9 @@ std::pair<float, float> composition::tick() {
     //
     //
 
+    float lead_1_autogain = synth.autogain_lead_1.tick();
+    float lead_2_autogain = synth.autogain_lead_2.tick();
+
     float lead_a1_L = 0;
     float lead_a1_R = 0;
 
@@ -154,6 +196,9 @@ std::pair<float, float> composition::tick() {
     lead_a1_L += lead_a1_dry.first;
     lead_a1_R += lead_a1_dry.second;
 
+    lead_a1_L *= lead_1_autogain;
+    lead_a1_R *= lead_1_autogain;
+
     float lead_a2_L = 0;
     float lead_a2_R = 0;
 
@@ -166,6 +211,9 @@ std::pair<float, float> composition::tick() {
     lead_a2_dry = synth.lead_a[5].tick();
     lead_a2_L += lead_a2_dry.first;
     lead_a2_R += lead_a2_dry.second;
+
+    lead_a2_L *= lead_2_autogain;
+    lead_a2_R *= lead_2_autogain;
 
     float lead_a_L = lead_a1_L + lead_a2_L;
     float lead_a_R = lead_a1_R + lead_a2_R;
@@ -183,6 +231,9 @@ std::pair<float, float> composition::tick() {
     lead_b1_L += lead_b1_dry.first;
     lead_b1_R += lead_b1_dry.second;
 
+    lead_b1_L *= lead_1_autogain;
+    lead_b1_R *= lead_1_autogain;
+
     float lead_b2_L = 0;
     float lead_b2_R = 0;
 
@@ -196,20 +247,34 @@ std::pair<float, float> composition::tick() {
     lead_b2_L += lead_b2_dry.first;
     lead_b2_R += lead_b2_dry.second;
 
-    float lead_b_L = lead_b1_L + lead_b2_L;
-    float lead_b_R = lead_b1_R + lead_b2_R;
+    lead_b2_L *= lead_2_autogain;
+    lead_b2_R *= lead_2_autogain;
+
+    auto [lead_b_lfo, _]   = synth.lead_b_lfo.tick();
+    float lead_b_lfo_clamp = std::clamp(((lead_b_lfo + 1.f) * 0.5f), -1.f, 1.f);
+
+    float lead_b_L = (lead_b1_L + lead_b2_L) * lead_b_lfo;
+    float lead_b_R = (lead_b1_R + lead_b2_R) * lead_b_lfo;
 
     // LEAD RINGMOD
     float lead_ringmod_L = 0;  // lead_a_L * lead_b_L;
     float lead_ringmod_R = 0;  // lead_a_R * lead_b_R;
 
     for (auto& lead_a_voice : synth.lead_a)
-        lead_a_voice.osc.input_mod_pitch_octaves = (lead_b_L + lead_b_R) * 0.5f * mix.lead_ringmod;
+        lead_a_voice.osc.input_mod_pitch_octaves = lead_b_L * 1000 * mix.lead_ringmod;
 
     float lead_sum_L =
             (lead_a_L * mix.lead_a) + (lead_b_L * mix.lead_b) + (lead_ringmod_L * mix.lead_ringmod);
     float lead_sum_R =
             (lead_a_R * mix.lead_a) + (lead_b_R * mix.lead_b) + (lead_ringmod_R * mix.lead_ringmod);
+
+    // TODO
+
+    float lead_verb_L = synth.lead_verb_L.tick(lead_sum_L) * 0.1f;
+    float lead_verb_R = synth.lead_verb_R.tick(lead_sum_R) * 0.1f;
+
+    lead_sum_L += lead_verb_L;
+    lead_sum_R += lead_verb_R;
 
     // LEAD SUM
     auto lead_peq      = synth.lead_peq.tick(lead_sum_L, lead_sum_R);
@@ -224,14 +289,26 @@ std::pair<float, float> composition::tick() {
     out_L = kick_sum + bass_eq_L + cymbal_bus_L + chord_sum_L + lead_mixed_L + pad_sum_L;
     out_R = kick_sum + bass_eq_R + cymbal_bus_R + chord_sum_R + lead_mixed_R + pad_sum_R;
 
+    // WHY IS DC BLOCKER MAKING THE TOP END MONO?
+    // IT'S THE HPF REGARDLESS OF SETTINGS!
+    auto out_dc_blocker = master_peq.tick(out_L, out_R);
+    out_L               = out_dc_blocker.first;
+    out_R               = out_dc_blocker.second;
+
     out_L *= gain_master;
     out_R *= gain_master;
+
+    out_L = std::tanh(out_L * 1.3f);
+    out_R = std::tanh(out_R * 1.3f);
+
+    out_L *= 1.1f;
+    out_R *= 1.1f;
 
     out_L = std::clamp(out_L, -1.f, 1.f);
     out_R = std::clamp(out_R, -1.f, 1.f);
 
-    out_L *= 0.95f;
-    out_R *= 0.95f;
+    out_L *= db_to_linear(-0.3f);
+    out_R *= db_to_linear(-0.3f);
 
     return {out_L, out_R};
 }

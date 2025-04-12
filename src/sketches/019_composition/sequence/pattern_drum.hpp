@@ -59,6 +59,17 @@ struct pattern_drum {
             {.start_time = 3.752, .duration = 0.5},
             {.start_time = 5.752, .duration = 0.5},
         },
+        {
+            {.start_time = 0.02, .duration = 0.5},
+            {.start_time = 0.502, .duration = 0.5},
+            {.start_time = 1.502, .duration = 0.5},
+            {.start_time = 2.502, .duration = 0.5},
+            {.start_time = 3.502, .duration = 0.5},
+            {.start_time = 4.502, .duration = 0.5},
+            {.start_time = 5.502, .duration = 0.5},
+            {.start_time = 6.502, .duration = 0.5},
+            {.start_time = 7.502, .duration = 0.5},
+        },
     };
 
     std::vector<std::vector<event>> patterns_ride{

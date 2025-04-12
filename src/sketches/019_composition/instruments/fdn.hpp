@@ -16,6 +16,9 @@ struct fdn_8_props_019 {
     float hpf_cut;
     float hpf_res;
 
+    fdn_8_props_019 taps_mult(float coeff);
+    fdn_8_props_019 taps_add(float add);
+
     std::string to_str();
 };
 

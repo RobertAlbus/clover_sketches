@@ -46,9 +46,66 @@ struct patch_drums_t {
             .hpf_res = 0.707,
     };
 
-    std::array<peq_props, peq::SIZE> kick_preverb_peq_props{};
-    std::array<peq_props, peq::SIZE> kick_peq_props{};
-
+    std::array<peq_props, peq::SIZE> kick_preverb_peq_props{
+            peq_props{
+                    .freq    = 20,
+                    .reso    = .707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+            peq_props{
+                    .freq    = 20,
+                    .reso    = .707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+            peq_props{
+                    .freq    = 20000,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 10,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+    };
+    std::array<peq_props, peq::SIZE> kick_peq_props{
+            peq_props{
+                    .freq    = 20,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+            peq_props{
+                    .freq    = 20,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+            peq_props{
+                    .freq    = 41,
+                    .reso    = 1.1,
+                    .gain    = -2.0,
+                    .enabled = true,
+                    .type    = peq_filter_type::ls,
+            },
+            peq_props{
+                    .freq    = 10,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+    };
     // --------------------------------
     // BASS
 
@@ -86,7 +143,36 @@ struct patch_drums_t {
                     .res_s                = 0.1,
                     .res_r                = 1000,
             }};
-    std::array<peq_props, peq::SIZE> bass_peq_props{};
+    std::array<peq_props, peq::SIZE> bass_peq_props{
+            peq_props{
+                    .freq    = 1921.8,
+                    .reso    = 2.8,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 3216.8,
+                    .reso    = 0.1,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props{
+                    .freq    = 60,
+                    .reso    = 0.707,
+                    .gain    = -4,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+            peq_props{
+                    .freq    = 60,
+                    .reso    = 0.707,
+                    .gain    = -13.8,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+    };
 
     // --------------------------------
     // CYMBALS
@@ -156,8 +242,8 @@ struct patch_drums_t {
                             .tuning            = 0,
                             .portamento_time   = 0,
                             .pitch_env_octaves = 0,
-                            .osc_tunings       = {0, 0},
-                            .osc_pans          = {-0.5f, 0.2f},
+                            .osc_tunings       = {0},
+                            .osc_pans          = {-0.1f, -0.4f},
                             .waveforms         = {waveform::noise, waveform::noise},
                             .retrigger         = false,
                             .pitch_a           = 10,
@@ -209,18 +295,18 @@ struct patch_drums_t {
                     .type    = peq_filter_type::hp,
             },
             peq_props{
-                    .freq    = 20000,
+                    .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
             },
             peq_props{
-                    .freq    = 20000,
+                    .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
             },
     };
     std::array<peq_props, peq::SIZE> hh_peq_props{
@@ -239,18 +325,18 @@ struct patch_drums_t {
                     .type    = peq_filter_type::hs,
             },
             peq_props{
-                    .freq    = 20000,
+                    .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
             },
             peq_props{
-                    .freq    = 10,
+                    .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
             },
     };
     cymbal_props ride_props{
@@ -288,18 +374,18 @@ struct patch_drums_t {
                     .type    = peq_filter_type::lp,
             },
             peq_props{
-                    .freq    = 20000,
+                    .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
             },
             peq_props{
-                    .freq    = 20000,
+                    .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
             },
     };
 };

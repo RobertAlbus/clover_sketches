@@ -67,7 +67,7 @@ void GUI(shared_props& props) {
     params.callbacks.EnqueueBeforeExit([&]() { props.gui_intent_to_exit.release(); });
 
     params.callbacks.ShowGui           = guiFunction;
-    params.appWindowParams.windowTitle = "Hello, Audio";
+    params.appWindowParams.windowTitle = "019_composition gui";
     params.fpsIdling.enableIdling      = true;
     HelloImGui::Run(params);
 }
