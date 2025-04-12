@@ -72,54 +72,15 @@ inline patch_mix_t mix_patch{
         .chord_send = 0.7282609,
         .chord_wet  = 0.4778261,
         .chord_dry  = 0.32826102,
-        .chord_sum  = 0.26086962,
+        .chord_sum  = 0.46739125,
 
-        .pad_send = 0.7391304,
-        .pad_wet  = 0.576087,
-        .pad_dry  = 0.18478262,
-        .pad_sum  = 0.96434784,
+        .pad_send = 0.8369565,
+        .pad_wet  = 0.923913,
+        .pad_dry  = 0.7717391,
+        .pad_sum  = 0.6056522,
 
         .lead_a       = 0.28571427,
         .lead_b       = 0,
         .lead_ringmod = 0.032608747,
-        .lead         = 0.31521738,
+        .lead         = 0.5978261,
 };
-
-/*
-inline patch_mix_t mix_patch{
-        .kick_send = 0.6904762,
-        .kick_wet  = 0.5952381,
-        .kick_gain = 0.90683234,
-
-        .bass_gain = 0.5837476,
-
-        .hh1 = 0.71739125,
-        .hh2 = 0.6413044,
-        .hh3 = 0.326087,
-
-        .hh_verb_send = 0.81107664,
-        .hh_verb_wet  = 0.53260875,
-        .hh_bus       = 0.8369565,
-
-        .hh_drive = 1.5238096,
-        .hh_trim  = 0.7619047,
-
-        .ride = 0.13012404,
-
-        .cymbal_bus = 0.583851,
-
-        .chord_send = 0.7282609,
-        .chord_wet  = 0.4778261,
-        .chord_dry  = 0.32826102,
-        .chord_sum  = 0.26086962,
-
-        .pad_send = 0,
-        .pad_wet  = 0,
-        .pad_dry  = 0.8347826,
-        .pad_sum  = 0.96434784,
-
-        .lead_a       = 0.28571427,
-        .lead_b       = 0,
-        .lead_ringmod = 0.032608747,
-        .lead         = 0.31521738,
-};*/

@@ -214,23 +214,23 @@ struct patch_synth_t {
 
     std::array<peq_props, peq::SIZE> pad_preverb_peq_props{
             peq_props{
-                    .freq    = 4000,
+                    .freq    = 18000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
             peq_props{
-                    .freq    = 4000,
+                    .freq    = 18000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
             peq_props{
-                    .freq    = 291,
+                    .freq    = 273.4,
                     .reso    = 1,
-                    .gain    = 24,
+                    .gain    = 15,
                     .enabled = true,
                     .type    = peq_filter_type::eq,
             },
@@ -255,29 +255,29 @@ struct patch_synth_t {
                     48000 / (midi_to_frequency(note::Ds5) / 4 / 16)
                 },
             // clang-format on
-            .fb_gain = 0.831,
-            .lpf_cut = 8804,
+            .fb_gain = 0.89,
+            .lpf_cut = 12875.011,
             .lpf_res = 0.707,
-            .hpf_cut = 342,
+            .hpf_cut = 293,
             .hpf_res = 0.707,
     };
     std::array<peq_props, peq::SIZE> pad_peq_props{
             peq_props{
-                    .freq    = 4000,
+                    .freq    = 18000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
             peq_props{
-                    .freq    = 4000,
+                    .freq    = 18000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
             peq_props{
-                    .freq    = 212.4,
+                    .freq    = 448.4,
                     .reso    = 0.2,
                     .gain    = 11.7,
                     .enabled = true,

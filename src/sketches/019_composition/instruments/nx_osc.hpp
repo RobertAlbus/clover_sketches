@@ -72,6 +72,7 @@ struct nx_osc_props {
 
 struct nx_osc {
     float fs;
+    float gain_scale = 1.f;
 
     std::vector<oscillator> oscs;
     std::vector<pan> osc_pans;

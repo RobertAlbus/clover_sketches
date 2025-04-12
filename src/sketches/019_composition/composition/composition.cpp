@@ -156,11 +156,6 @@ std::pair<float, float> composition::tick() {
         pad_R += pad_voice_signal.second;
     }
 
-    /*
-    NOTE: THE FEEDBACK IN THE PADS AND CHORDS MIGHT BE FROM NON-BOUNDED OUTPUT FROM VOICES
-    */
-    pad_L *= (1.f / std::sqrt(float(synth.pad.size())));
-    pad_R *= (1.f / std::sqrt(float(synth.pad.size())));
     float pad_send_L                    = pad_L * mix.pad_send;
     float pad_send_R                    = pad_R * mix.pad_send;
     auto [pad_preverb_L, pad_preverb_R] = synth.pad_preverb_peq.tick(pad_send_L, pad_send_R);

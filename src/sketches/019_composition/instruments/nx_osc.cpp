@@ -127,12 +127,13 @@ void nx_osc::patch(nx_osc_props new_props) {
     for (auto [osc_pan, osc_pan_value] : std::views::zip(osc_pans, props.osc_pans))
         osc_pan.set(osc_pan_value);
 
-    for (auto waveform_i : props.waveforms) {
+    for (auto waveform : props.waveforms) {
         auto& osc    = oscs.emplace_back(fs);
-        osc.waveform = waveform_to_func(waveform(waveform_i));
+        osc.waveform = waveform_to_func(waveform);
     }
 
-    retrigger = props.retrigger;
+    gain_scale = 1.f / std::sqrt(float(oscs.size()));
+    retrigger  = props.retrigger;
 
     adsr_pitch.set(props.pitch_a, props.pitch_d, props.pitch_s, props.pitch_r);
     adsr_amp.set(props.amp_a, props.amp_d, props.amp_s, props.amp_r);
@@ -152,10 +153,14 @@ std::pair<float, float> nx_osc::tick() {
         osc_freq = std::clamp(osc_freq, 0.f, fs * 0.499f);
         osc.freq(osc_freq);
 
-        std::pair<float, float> osc_output = osc_pan.process(osc.tick());
-        output.first += osc_output.first;
-        output.second += osc_output.second;
+        float osc_output                          = osc.tick();
+        std::pair<float, float> osc_output_stereo = osc_pan.process(osc_output, osc_output);
+        output.first += osc_output_stereo.first;
+        output.second += osc_output_stereo.second;
     }
+
+    output.first *= gain_scale;
+    output.second *= gain_scale;
 
     float amp_env = adsr_amp.tick();
     output.first *= amp_env;
