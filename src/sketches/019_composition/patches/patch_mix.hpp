@@ -67,20 +67,20 @@ inline patch_mix_t mix_patch{
 
         .ride = 0.13012405,
 
-        .cymbal_bus = 0.583851,
+        .cymbal_bus = 0.5947206,
 
         .chord_send = 0.7282609,
         .chord_wet  = 0.4778261,
         .chord_dry  = 0.32826102,
-        .chord_sum  = 0.46739125,
+        .chord_sum  = 0.3369565,
 
         .pad_send = 0.8369565,
         .pad_wet  = 0.923913,
         .pad_dry  = 0.7717391,
-        .pad_sum  = 0.6056522,
+        .pad_sum  = 0.45347822,
 
         .lead_a       = 0.28571427,
         .lead_b       = 0,
         .lead_ringmod = 0.032608747,
-        .lead         = 0.5978261,
+        .lead         = 0.7608696,
 };

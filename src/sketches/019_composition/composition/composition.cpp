@@ -137,12 +137,6 @@ std::pair<float, float> composition::tick() {
     float chord_sum_L = chord_post_eq_L * mix.chord_sum;
     float chord_sum_R = chord_post_eq_R * mix.chord_sum;
 
-    float chord_mid  = (chord_sum_L + chord_sum_R) * 0.4f * 0.9f;
-    float chord_side = (chord_sum_L - chord_sum_R) * 0.4f * 1.5f;
-
-    chord_sum_L = chord_mid + chord_side;
-    chord_sum_R = chord_mid - chord_side;
-
     // ----------------
     // PAD
     //
