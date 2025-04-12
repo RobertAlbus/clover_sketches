@@ -43,7 +43,7 @@ void AUDIO(shared_props &props) {
 
     auto audio_callback = create_audio_callback(comp, sqs);
 
-    constexpr bool SHOULD_RENDER = false;
+    constexpr bool SHOULD_RENDER = true;
     if (SHOULD_RENDER) {
         std::thread render_thread = std::thread([]() {
             std::cout << "starting render: " << render_name.c_str() << std::endl;
