@@ -61,5 +61,8 @@ std::pair<clover_float, clover_float> composition::tick() {
     out_L = chords_L + drums_output_L + drones_L;
     out_R = chords_R + drums_output_R + drones_R;
 
+    out_L = std::clamp(std::tanh(out_L * 2.5f) * 1.4f, -1.f, 1.f);
+    out_R = std::clamp(std::tanh(out_R * 2.5f) * 1.4f, -1.f, 1.f);
+
     return {out_L, out_R};
 }

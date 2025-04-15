@@ -58,8 +58,8 @@ struct composition {
 
     float kick_mix     = 0.842;
     float hh1_mix      = 0.3;
-    float hh2_mix      = 0.08;
-    float reverb_mix   = 1;
+    float hh2_mix      = 0.4;
+    float reverb_mix   = 0.61;
     float verb_in_gain = 1;
     float chords_mix   = 0.08;
     float mix_beep     = 0.015;
