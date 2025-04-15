@@ -1,21 +1,17 @@
-#pragma once
-
 // Sketches with Clover Audio Framework
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "clover/math.hpp"
-#include "instruments/fdn.hpp"
-#include "instruments/nx_osc.hpp"
-#include "instruments/peq.hpp"
-#include "instruments/subtractive_synth.hpp"
 #include "sequence/notes.h"
 
-struct patch_synth_t {
+#include "patches.hpp"
+
+patch_synth_t::patch_synth_t() {
     // --------------------------------
     // LEAD
 
-    subtractive_synth_props lead_a_props{
+    lead_a_props = {
             .osc_props{
                     .tuning            = -12,
                     .portamento_time   = 50,
@@ -49,7 +45,7 @@ struct patch_synth_t {
                     .res_r                = 100,
             }};
 
-    nx_osc_props lead_b_props{
+    lead_b_props = {
             .tuning            = -24,
             .portamento_time   = 0,
             .pitch_env_octaves = 4,
@@ -67,7 +63,7 @@ struct patch_synth_t {
             .amp_r             = 100,
     };
 
-    nx_osc_props lead_b_lfo_props{
+    lead_b_lfo_props = {
             .tuning            = -12,
             .portamento_time   = 1000,
             .pitch_env_octaves = 0.5,
@@ -85,12 +81,12 @@ struct patch_synth_t {
             .amp_r             = 100,
     };
 
-    std::array<peq_props, peq::SIZE> lead_peq_props{};
+    lead_peq_props = {};
 
     // --------------------------------
     // CHORD
 
-    subtractive_synth_props chord_props{
+    chord_props = {
             .osc_props{
                     .tuning            = 0,
                     .portamento_time   = 0,
@@ -124,7 +120,7 @@ struct patch_synth_t {
                     .res_r                = 100,
             }};
 
-    fdn_8_props_019 chord_fdn_props = {
+    chord_fdn_props = {
             .taps    = {2090.261, 2285.848, 2677.022, 3524.565, 4502.5, 5415.239, 6197.587, 6653.957},
             .fb_gain = 0.918,
             .lpf_cut = 3052,
@@ -163,7 +159,7 @@ struct patch_synth_t {
                     .type    = peq_filter_type::lp,
             },
     };
-    std::array<peq_props, peq::SIZE> chord_peq_props{
+    chord_peq_props = {
             peq_props{
                     .freq    = 180.1,
                     .reso    = .707,
@@ -176,15 +172,16 @@ struct patch_synth_t {
     // --------------------------------
     // PAD
 
-    subtractive_synth_props pad_props{
+    pad_props = {
             .osc_props{
-                    // clang-format off
                     .tuning            = 0,
                     .portamento_time   = 0,
                     .pitch_env_octaves = 0,
-                    .osc_tunings       = {0.1, -0.1, 0.2, -0.2,0,0},
-                    .osc_pans  = {-1.f, 0.5f, -0.5f, 1.f, 1,-1},
+                    .osc_tunings       = {0.1, -0.1, 0.2, -0.2, 0, 0},
+                    .osc_pans          = {-1.f, 0.5f, -0.5f, 1.f, 1, -1},
+                    // clang-format off
                     .waveforms = {waveform::saw, waveform::saw, waveform::square, waveform::square, waveform::noise, waveform::noise},
+                    // clang-format on
                     .retrigger = true,
                     .pitch_a   = 1,
                     .pitch_d   = 1,
@@ -194,7 +191,6 @@ struct patch_synth_t {
                     .amp_d     = 1,
                     .amp_s     = 1,
                     .amp_r     = 200000,
-                    // clang-format on
             },
             .filter_props{
                     .cutoff               = 500,
@@ -212,7 +208,7 @@ struct patch_synth_t {
                     .res_r                = 1,
             }};
 
-    std::array<peq_props, peq::SIZE> pad_preverb_peq_props{
+    pad_preverb_peq_props = {
             peq_props{
                     .freq    = 18000,
                     .reso    = 0.707,
@@ -242,7 +238,7 @@ struct patch_synth_t {
                     .type    = peq_filter_type::hp,
             },
     };
-    fdn_8_props_019 pad_fdn_props = {
+    pad_fdn_props = {
             // clang-format off
                 .taps = {
                     48000 / (midi_to_frequency(note::Fs3) / 8 / 2),
@@ -261,7 +257,7 @@ struct patch_synth_t {
             .hpf_cut = 293,
             .hpf_res = 0.707,
     };
-    std::array<peq_props, peq::SIZE> pad_peq_props{
+    pad_peq_props = {
             peq_props{
                     .freq    = 18000,
                     .reso    = 0.707,
@@ -289,37 +285,6 @@ struct patch_synth_t {
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
-            },
-    };
-
-    std::array<peq_props, peq::SIZE> master_peq_props{
-            peq_props{
-                    .freq    = 10,
-                    .reso    = 0.707,
-                    .gain    = 0,
-                    .enabled = true,
-                    .type    = peq_filter_type::hp,
-            },
-            peq_props{
-                    .freq    = 78.4,
-                    .reso    = 0.9,
-                    .gain    = -2.8,
-                    .enabled = true,
-                    .type    = peq_filter_type::ls,
-            },
-            peq_props{
-                    .freq    = 20000,
-                    .reso    = 0.707,
-                    .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
-            },
-            peq_props{
-                    .freq    = 20000,
-                    .reso    = 0.707,
-                    .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
             },
     };
 };

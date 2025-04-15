@@ -6,8 +6,9 @@
 
 #include "imgui.h"
 
+#include "composition/mix.hpp"
+
 #include "mixer_ui.hpp"
-#include "patches/patch_mix.hpp"
 
 struct mixer_channel_ui {
     const char* id;
@@ -17,7 +18,7 @@ struct mixer_channel_ui {
 const float MAX_GAIN            = 2;
 const ImVec2 channel_dimensions = ImVec2(20, 200);
 const ImVec2 cell_padding       = ImVec2(10, 0);
-void mixer_component(const char* id, patch_mix_t* mixer) {
+void mixer_component(const char* id, composition_mix* mixer) {
     const std::array<mixer_channel_ui, 26> mixer_channels{
             mixer_channel_ui{"kick_send", &mixer->kick_send},
             mixer_channel_ui{"kick_wet", &mixer->kick_wet},

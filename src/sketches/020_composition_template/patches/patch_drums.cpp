@@ -1,23 +1,17 @@
-#pragma once
-
 // Sketches with Clover Audio Framework
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "clover/math.hpp"
-#include "instruments/cymbal.hpp"
-#include "instruments/fdn.hpp"
-#include "instruments/kick.hpp"
-#include "instruments/peq.hpp"
-#include "instruments/subtractive_synth.hpp"
+
+#include "patches.hpp"
 #include "sequence/notes.h"
 
-struct patch_drums_t {
+patch_drums_t::patch_drums_t() {
     // --------------------------------
     // KICK
-
-    kick_props kick_drum_props{
-            .trim              = 0.8429702,
+    kick_drum_props = {
+            .trim              = 0.84297022,
             .drive             = 2.6860298,
             .amp_a             = 30,
             .amp_d             = 5000,
@@ -37,7 +31,8 @@ struct patch_drums_t {
             .pitch_range       = 2,
             .cut_range         = 3,
     };
-    fdn_8_props_019 kick_fdn_props{
+
+    kick_fdn_props = {
             .taps    = {134.42862, 329.99323, 721.1825, 1308.0359, 1959.9309, 3329.2222, 6458.37, 11087.26},
             .fb_gain = 0.87402976,
             .lpf_cut = 180.31549,
@@ -46,7 +41,7 @@ struct patch_drums_t {
             .hpf_res = 0.707,
     };
 
-    std::array<peq_props, peq::SIZE> kick_preverb_peq_props{
+    kick_preverb_peq_props = {
             peq_props{
                     .freq    = 20,
                     .reso    = .707,
@@ -76,7 +71,8 @@ struct patch_drums_t {
                     .type    = peq_filter_type::lp,
             },
     };
-    std::array<peq_props, peq::SIZE> kick_peq_props{
+
+    kick_peq_props = {
             peq_props{
                     .freq    = 20,
                     .reso    = 0.707,
@@ -106,10 +102,10 @@ struct patch_drums_t {
                     .type    = peq_filter_type::lp,
             },
     };
+
     // --------------------------------
     // BASS
-
-    subtractive_synth_props bass_props{
+    bass_props = {
             .osc_props =
                     {
                             .tuning            = -24,
@@ -143,7 +139,7 @@ struct patch_drums_t {
                     .res_s                = 0.1,
                     .res_r                = 1000,
             }};
-    std::array<peq_props, peq::SIZE> bass_peq_props{
+    bass_peq_props = {
             peq_props{
                     .freq    = 1921.8,
                     .reso    = 2.8,
@@ -177,7 +173,7 @@ struct patch_drums_t {
     // --------------------------------
     // CYMBALS
 
-    cymbal_props hh1_props{
+    hh1_props = {
             .freqs            = {31, 82, 215, 227, 248, 278},
             .hpf_f0           = 1992,
             .hpf_fmod_octaves = 2.3,
@@ -196,8 +192,7 @@ struct patch_drums_t {
             .cut_s = 0,
             .cut_r = 100,
     };
-
-    cymbal_props hh2_props{
+    hh2_props = {
             .freqs            = {100, 150, 175, 225, 66.6},
             .hpf_f0           = 100,
             .hpf_fmod_octaves = 5,
@@ -216,27 +211,7 @@ struct patch_drums_t {
             .cut_s = 0,
             .cut_r = 100,
     };
-
-    // cymbal_props hh2_props{
-    //         .freqs            = {200, 250, 275, 325, 166.6},
-    //         .hpf_f0           = 100,
-    //         .hpf_fmod_octaves = 5,
-    //         .hpf_Q            = 1,
-
-    //         .bpf_f0 = 3000,
-    //         .bpf_Q  = 1.3,
-
-    //         .amp_a = 10,
-    //         .amp_d = 2500,
-    //         .amp_s = 0,
-    //         .amp_r = 10,
-
-    //         .cut_a = 10,
-    //         .cut_d = 1800,
-    //         .cut_s = 0,
-    //         .cut_r = 100,
-    // };
-    subtractive_synth_props hh3_props{
+    hh3_props = {
             .osc_props =
                     {
                             .tuning            = 0,
@@ -270,8 +245,7 @@ struct patch_drums_t {
                     .res_s                = 0,
                     .res_r                = 100,
             }};
-
-    fdn_8_props_019 hh_fdn_props{
+    hh_fdn_props = {
             .taps    = {134.391, 293.781, 721.152, 786.348, 395.174, 721.152, 264.783, 69.196},
             .fb_gain = 0.612,
             .lpf_cut = 13899.115,
@@ -279,7 +253,7 @@ struct patch_drums_t {
             .hpf_cut = 2719.1443,
             .hpf_res = 0.707,
     };
-    std::array<peq_props, peq::SIZE> hh_preverb_peq_props{
+    hh_preverb_peq_props = {
             peq_props{
                     .freq    = 11020.2,
                     .reso    = 3.5,
@@ -309,7 +283,7 @@ struct patch_drums_t {
                     .type    = peq_filter_type::hp,
             },
     };
-    std::array<peq_props, peq::SIZE> hh_peq_props{
+    hh_peq_props = {
             peq_props{
                     .freq    = 5243.7,
                     .reso    = 3.9,
@@ -339,7 +313,7 @@ struct patch_drums_t {
                     .type    = peq_filter_type::hp,
             },
     };
-    cymbal_props ride_props{
+    ride_props = {
             .freqs            = {150, 404, 1533, 1751, 13456, 17500},
             .hpf_f0           = 100,
             .hpf_fmod_octaves = 6,
@@ -358,7 +332,7 @@ struct patch_drums_t {
             .cut_s = 1,
             .cut_r = 2500000,
     };
-    std::array<peq_props, peq::SIZE> ride_peq_props{
+    ride_peq_props = {
             peq_props{
                     .freq    = 5938.7,
                     .reso    = 0.9,
@@ -388,4 +362,4 @@ struct patch_drums_t {
                     .type    = peq_filter_type::hp,
             },
     };
-};
+}

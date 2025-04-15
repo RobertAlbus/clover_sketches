@@ -5,46 +5,46 @@
 #include <format>
 #include <string>
 
-#include "patch_mix.hpp"
+#include "mix.hpp"
 
-std::string patch_mix_t::to_str() {
+std::string composition_mix::to_str() {
     return std::format(
             R"({{
-    .kick_send = {},
-    .kick_wet  = {},
-    .kick_gain = {},
+    kick_send = {},
+    kick_wet  = {},
+    kick_gain = {},
 
-    .bass_gain = {},
+    bass_gain = {},
 
-    .hh1 = {},
-    .hh2 = {},
-    .hh3 = {},
+    hh1 = {},
+    hh2 = {},
+    hh3 = {},
 
-    .hh_verb_send = {},
-    .hh_verb_wet  = {},
-    .hh_bus       = {},
+    hh_verb_send = {},
+    hh_verb_wet  = {},
+    hh_bus       = {},
 
-    .hh_drive = {},
-    .hh_trim  = {},
+    hh_drive = {},
+    hh_trim  = {},
 
-    .ride = {},
+    ride = {},
 
-    .cymbal_bus = {},
+    cymbal_bus = {},
 
-    .chord_send = {},
-    .chord_wet  = {},
-    .chord_dry  = {},
-    .chord_sum  = {},
+    chord_send = {},
+    chord_wet  = {},
+    chord_dry  = {},
+    chord_sum  = {},
 
-    .pad_send = {},
-    .pad_wet  = {},
-    .pad_dry  = {},
-    .pad_sum  = {},
+    pad_send = {},
+    pad_wet  = {},
+    pad_dry  = {},
+    pad_sum  = {},
 
-    .lead_a       = {},
-    .lead_b       = {},
-    .lead_ringmod = {},
-    .lead         = {},
+    lead_a       = {},
+    lead_b       = {},
+    lead_ringmod = {},
+    lead         = {},
 }};)",
             kick_send,
             kick_wet,

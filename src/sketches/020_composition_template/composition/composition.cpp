@@ -8,10 +8,6 @@
 #include "clover/math.hpp"
 #include "composition.hpp"
 
-patch_drums_t composition::patch_drums{};
-patch_synth_t composition::patch_synth{};
-patch_mix_t composition::mix{mix_patch};
-
 automation_patterns composition::automation{};
 
 composition::composition() {
@@ -280,7 +276,7 @@ std::pair<float, float> composition::tick() {
 
     // WHY IS DC BLOCKER MAKING THE TOP END MONO?
     // IT'S THE HPF REGARDLESS OF SETTINGS!
-    auto out_dc_blocker = master_peq.tick(out_L, out_R);
+    auto out_dc_blocker = main_bus.eq.tick(out_L, out_R);
     out_L               = out_dc_blocker.first;
     out_R               = out_dc_blocker.second;
 
