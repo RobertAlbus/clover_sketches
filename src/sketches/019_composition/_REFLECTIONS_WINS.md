@@ -1,4 +1,4 @@
-# Reflections: 019_composition
+# Reflections: 019_composition wins
 
 --------------------------------
 ## I Got To The Music
@@ -34,6 +34,7 @@
 - longer delay times could be useful for wild spacial decomposition
 - especially with modulation of delay times
 - peq in fb path could help with drum synthesis
+- builder pattern for patches would be great
 
 
 
