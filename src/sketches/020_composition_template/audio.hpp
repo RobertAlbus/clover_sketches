@@ -20,7 +20,7 @@
 #include "shared_props.hpp"
 #include "util.hpp"
 
-std::string render_name{"019_composition"};
+std::string render_name{"020_composition_template"};
 
 auto create_audio_callback(composition &comp, sequencers &sqs) {
     return [&](clover::io::callback_args data) {
