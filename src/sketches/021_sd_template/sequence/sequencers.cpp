@@ -8,8 +8,7 @@
 #include "instruments/kick.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "sequence/event.hpp"
-#include "sequence/pattern_meta.hpp"
-#include "sequence/pattern_synth.hpp"
+#include "sequence/patterns.hpp"
 #include "sequencers.hpp"
 
 sequencers::sequencers(composition& comp) {
@@ -62,24 +61,24 @@ void sequencers::set_up_meta_sq(composition& comp) {
 
     meta_frsq_kick.callback_start = [&](frsq<kick_drum, event>& voice, const event_meta_sq& event) {
         std::println(" - frsq_kick:    {} @ {}", event.pattern_index, event.start_time);
-        voice.set_pattern(this->drum_patterns.patterns_kick[event.pattern_index]);
+        voice.set_pattern(pattern::kick[event.pattern_index]);
     };
     meta_frsq_chord.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
                                          const event_meta_sq& event) {
         std::println(" - frsq_chord:   {} @ {}", event.pattern_index, event.start_time);
 
-        voice.set_pattern(this->synth_patterns.patterns_chord[event.pattern_index]);
+        voice.set_pattern(pattern::chord[event.pattern_index]);
     };
 
-    meta_frsq_kick.set_pattern(meta_patterns.patterns_kick, meta_patterns.PLAYBACK_START);
-    meta_frsq_chord.set_pattern(meta_patterns.patterns_chord, meta_patterns.PLAYBACK_START);
+    meta_frsq_kick.set_pattern(arrangement::kick, arrangement::playback_start);
+    meta_frsq_chord.set_pattern(arrangement::chord, arrangement::playback_start);
 }
 
 void sequencers::set_up_arrangement_print(composition& comp) {
-    frsq_arrangement_print.voices            = std::span(meta_patterns.timing_range.begin(), 1);
+    frsq_arrangement_print.voices            = std::span(arrangement::bar.begin(), 1);
     frsq_arrangement_print.duration_absolute = comp.bar * comp.duration_bars;
     frsq_arrangement_print.duration_relative = comp.duration_bars;
-    frsq_arrangement_print.set_pattern(meta_patterns.timing_range);
+    frsq_arrangement_print.set_pattern(arrangement::bar);
     frsq_arrangement_print.callback_start = [](event& voice, const event& event) {
         std::println("--------");
         std::println("B: {}", event.start_time);

@@ -9,15 +9,8 @@
 #include "instruments/kick.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "sequence/event.hpp"
-#include "sequence/pattern_drum.hpp"
-#include "sequence/pattern_meta.hpp"
-#include "sequence/pattern_synth.hpp"
 
 struct sequencers {
-    pattern_drum drum_patterns;
-    pattern_synth synth_patterns;
-    pattern_meta meta_patterns;
-
     // need a placeholder for the voices, so reusing the event
     // this is fine because there is no need for a voice - will just println in the callback.
     frsq<event, event> frsq_arrangement_print;
