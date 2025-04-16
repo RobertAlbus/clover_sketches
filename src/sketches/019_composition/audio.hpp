@@ -37,7 +37,7 @@ auto create_audio_callback(composition &comp, sequencers &sqs) {
     };
 }
 
-void AUDIO(shared_props &props) {
+void AUDIO(view_model &props) {
     composition comp;
     sequencers sqs{comp};
 

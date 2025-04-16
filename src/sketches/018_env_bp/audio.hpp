@@ -19,7 +19,7 @@
 
 std::string render_name{"018_env_bp"};
 
-void AUDIO(shared_props& props) {
+void AUDIO(view_model& props) {
     std::jthread render_thread = std::jthread([]() {
         std::cout << "starting render: " << render_name.c_str() << std::endl;
         composition comp;

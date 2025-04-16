@@ -6,4 +6,4 @@
 
 #include "shared_props.hpp"
 
-void GUI(shared_props& props);
+void GUI(view_model& props);

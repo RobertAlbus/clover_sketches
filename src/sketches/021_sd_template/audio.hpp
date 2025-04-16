@@ -9,4 +9,4 @@
 #include "shared_props.hpp"
 
 extern std::string render_name;
-void AUDIO(shared_props &props);
+void AUDIO(view_model &props);

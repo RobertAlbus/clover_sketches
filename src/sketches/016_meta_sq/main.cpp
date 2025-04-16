@@ -13,7 +13,7 @@ using namespace clover;
 using namespace io;
 
 int main(int, char *[]) {
-    shared_props sharedProps;
+    view_model sharedProps;
 
     std::thread Audio(AUDIO, std::ref(sharedProps));
     std::thread Gui(GUI, std::ref(sharedProps));

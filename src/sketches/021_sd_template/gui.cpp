@@ -11,7 +11,7 @@ using namespace ImGui;
 
 #include "views/views.hpp"
 
-void GUI(shared_props& props) {
+void GUI(view_model& props) {
     props.audio_ready.acquire();
     // gui setup before audio starts
     props.gui_ready.release();
