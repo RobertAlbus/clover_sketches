@@ -5,7 +5,10 @@
 - duplicate 019_composition and strip back to boilerplate
 - copy into 000_template
 - don't worry about fixing too much
-    - main win would be avoiding structs for aggregating patches and patterns.
+    - main wins would be
+        - fix recompilation of unrelated TUs
+        - add coupling between pattern events and pattern durations
+        - setters for ugen properties
 
 --------------------------------
 ## spend time playing
@@ -24,10 +27,12 @@ things I want to explore:
 - real time pattern lerp
 - FDN modulation
 - FDN with different feedback processing
-- colorless FDN
+- colorless FDN?
+    - colorful FDN is really cool and unique
+    - colorless is maybe not important at this stage
 
 highest priority refactors:
-- props are patches, not inputs
+- props structs are patches, not inputs
     - create setter methods on the ugens that can be called in the main event loop or from UI
     - consider a separate instantiation of the props for the GUI
 - patches and patterns should be their own compilation unit

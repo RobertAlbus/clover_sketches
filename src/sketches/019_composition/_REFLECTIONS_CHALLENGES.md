@@ -1,7 +1,7 @@
 # Reflections: 019_composition challenges
 
 --------------------------------
-## Sequencing and Meta Sequencing are bulky
+## sequencing and arranging are cumbersome
 - lots of repetition and boilerplate
     - hard to find errors if I miss changes during copy-paste setup
 - template specialization for `frsq` makes it cumbersome
@@ -20,39 +20,35 @@
 
 
 --------------------------------
-## Pattern events are not linked to pattern durations
+## pattern events are not linked to pattern durations
 The sequencer currently owns the abs/rel durations. The event list for the pattern must adhere to this.
 
-### Potential solution
+### potential solution
 - define concept(s) and struct(s) that contain all pattern metadata
     - `pattern_concept` that requires abs/rel durations
 - implement patterns as structs that
 
 
 --------------------------------
-## No transport control
+## no transport control
 - cannot start the composition part way though
 - meta `frsq` can be started part way through, but not propagating this to `frsq` instances
 - automation clips created with `env_bp` don't handle arbitrary starting positions
 
+--------------------------------
+## incorrect 
 
 --------------------------------
 ## need better UI coverage
 - not all instruments have a UI that I can tweak
 - having UI will make it easier to tweak patches
 
-
 --------------------------------
-## need better UI coverage
-
-
-
---------------------------------
-## Compile-Time Patterns and Patches
+## recompilation of unrelated units when patterns and patches change
 Patterns and patches are set up as the definitions of members in structs.
 This was initially chosen because it seemed like it would be simpler to implement.
 
-**Recompilation of unrelated units**
+**recompilation of unrelated units**
 Changing a synth patch for one instrument causes recompilation of several unrelated compilation units.
 
 ```sh
@@ -93,8 +89,6 @@ fdn_8_props_019 create_tuned_resonator_fdn(
     float f5, float f6, float f7, float f8) {
         return fdn_8_props_019{ /* props */ };
     }
-
-
 ```
 
 **namespaced objects**
@@ -102,14 +96,14 @@ fdn_8_props_019 create_tuned_resonator_fdn(
 - definition in source file
 
 --------------------------------
-## objects not updating from props struct
+## ugens not updating from props struct
 - props structs are pocos that contains scalars
 - dsp object doesn't know when props change
     - currently I either don't update at all, or update every sample
 - would like as-needed updates of only changed settings
 
 --------------------------------
-## Always-on processing
+## always-on processing
 Do not currently have a method to determine if an object needs to be processed or can be skipped
 
 
