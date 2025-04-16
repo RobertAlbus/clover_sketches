@@ -23,34 +23,14 @@ void GUI(shared_props& props) {
 
                 ImGui::EndTabItem();
             }
-            if (ImGui::BeginTabItem("kick")) {
-                view_kick("kick", props.composition);
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("bass")) {
-                view_bass("bass", props.composition);
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("cymbal")) {
-                view_cymbal("cymbal", props.composition);
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("lead_a")) {
-                view_lead_a("lead_a", props.composition);
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("lead_b")) {
-                view_lead_b("lead_b", props.composition);
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("chord")) {
-                view_chord("chord", props.composition);
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("pad")) {
-                view_pad("pad", props.composition);
-                ImGui::EndTabItem();
-            }
+            // if (ImGui::BeginTabItem("kick")) {
+            //     view_kick("kick", props.composition);
+            //     ImGui::EndTabItem();
+            // }
+            // if (ImGui::BeginTabItem("chord")) {
+            //     view_chord("chord", props.composition);
+            //     ImGui::EndTabItem();
+            // }
 
             ImGui::EndTabBar();
         }

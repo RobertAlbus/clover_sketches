@@ -11,9 +11,4 @@
 
 void view_mixer(const char* id, composition* comp);
 void view_kick(const char* id, composition* comp);
-void view_bass(const char* id, composition* comp);
-void view_cymbal(const char* id, composition* comp);
-void view_lead_a(const char* id, composition* comp);
-void view_lead_b(const char* id, composition* comp);
 void view_chord(const char* id, composition* comp);
-void view_pad(const char* id, composition* comp);

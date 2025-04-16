@@ -26,7 +26,6 @@ auto create_audio_callback(composition &comp, sequencers &sqs) {
     return [&](clover::io::callback_args data) {
         float &L = *(data.output);
         float &R = *(data.output + 1);
-
         sqs.tick();
         std::tie(L, R) = comp.tick();
 
@@ -84,7 +83,7 @@ void AUDIO(shared_props &props) {
     props.sequencers  = &sqs;
 
     props.audio_ready.release();
-    props.gui_ready.acquire();
+    // props.gui_ready.acquire();
 
     stream.audio_callback = audio_callback;
     // system.print();
