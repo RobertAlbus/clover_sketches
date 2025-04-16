@@ -30,6 +30,7 @@ struct composition {
     double bar                = spb * 4;
     double beat               = spb;
     double duration_bars      = 32;
+    bool should_loop          = true;
     int_fast64_t duration     = int_fast64_t(bar * duration_bars) + 1;
 
     float gain_master = 0.5f;

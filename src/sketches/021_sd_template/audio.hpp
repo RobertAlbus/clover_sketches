@@ -29,7 +29,7 @@ auto create_audio_callback(composition &comp, sequencers &sqs) {
         sqs.tick();
         std::tie(L, R) = comp.tick();
 
-        if (data.clock_time == comp.duration) {
+        if (!comp.should_loop && data.clock_time == comp.duration) {
             return clover::io::callback_status::end;
         }
         return clover::io::callback_status::cont;
