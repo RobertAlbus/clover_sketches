@@ -14,14 +14,15 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
         GIT_REPOSITORY https://github.com/glfw/glfw.git
         GIT_TAG        "3.3.4"
     )
-
-    set(HELLOIMGUI_HAS_OPENGL3 ON  CACHE BOOL "HELLOIMGUI_HAS_OPENGL3" FORCE)
-    set(HELLOIMGUI_USE_GLFW3 ON  CACHE BOOL "HELLOIMGUI_USE_GLFW3" FORCE)
-    set(HELLOIMGUI_INSTALL   OFF CACHE BOOL "HELLOIMGUI_INSTALL" FORCE)
+    set(HELLOIMGUI_IMGUI_SOURCE_DIR ${imgui_SOURCE_DIR} CACHE PATH "Path to Dear ImGui")
+    set(HELLOIMGUI_BUILD_IMGUI      OFF CACHE BOOL "HELLOIMGUI_BUILD_IMGUI" FORCE)
+    set(HELLOIMGUI_HAS_OPENGL3      ON  CACHE BOOL "HELLOIMGUI_HAS_OPENGL3" FORCE)
+    set(HELLOIMGUI_USE_GLFW3        ON  CACHE BOOL "HELLOIMGUI_USE_GLFW3" FORCE)
+    set(HELLOIMGUI_INSTALL          OFF CACHE BOOL "HELLOIMGUI_INSTALL" FORCE)
     FetchContent_Declare(
         hello_imgui
         GIT_REPOSITORY https://github.com/pthom/hello_imgui.git
-        GIT_TAG        "13e6bd4f6e6b1e7dee7a0bb01b08ada49c7f4b30"
+        GIT_TAG        "1d8abf8fa1a3daf001a41f1fe5ceb2cc58f7980f"
     )
 
     # --------------------------------
