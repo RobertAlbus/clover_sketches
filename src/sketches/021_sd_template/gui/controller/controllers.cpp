@@ -15,6 +15,18 @@
 #include "gui/component/mixer_ui.hpp"
 #include "gui/component/peq.hpp"
 
+void controller_mixer(const char* id, context& ctx);
+void controller_kick(const char* id, context& ctx);
+void controller_chord(const char* id, context& ctx);
+
+std::vector<tabbed_controller> tabbed_controllers{
+        // clang-format off
+        {"mixer", controller_mixer},
+        {"kick",  controller_kick},
+        {"chord", controller_chord}
+        // clang-format on
+};
+
 void controller_mixer(const char* id, context& ctx) {
     composition* comp = ctx.composition;
 

@@ -40,18 +40,12 @@ bool view_draw(context& context) {
     // ----------------
 
     if (ImGui::BeginTabBar("Main Layout Tabs")) {
-        if (ImGui::BeginTabItem("mixer")) {
-            controller_mixer("##kick_drum_gui", context);
+        for (auto& tabbed_controller : tabbed_controllers) {
+            if (ImGui::BeginTabItem(tabbed_controller.name)) {
+                tabbed_controller.controller(tabbed_controller.name, context);
 
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("kick")) {
-            controller_kick("kick", context);
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("chord")) {
-            controller_chord("chord", context);
-            ImGui::EndTabItem();
+                ImGui::EndTabItem();
+            }
         }
 
         ImGui::EndTabBar();
