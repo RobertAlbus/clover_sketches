@@ -20,17 +20,12 @@
 
 #include <print>
 
-// troubleshooting logging;
-inline static const char* individual_log_path_partial = "/home/ra/clover/sketches/src/019_composition/log__";
 
 template <typename T>
 concept frsq_data_base = requires(T t) {
     { t.start_time } -> std::same_as<double&>;
     { t.duration } -> std::same_as<double&>;
 };
-
-// TODO: WHY DOES IT APPEAR THAT FRSQ SOMETIMES DOUBLE TRIGGERS OR DOUBLE ENDS?
-// is this an issue with println buffering, or is it actually double-eventing?
 
 template <typename voice_t, frsq_data_base frsq_data_t>
 struct frsq {
