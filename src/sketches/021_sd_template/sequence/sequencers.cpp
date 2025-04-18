@@ -60,12 +60,36 @@ void sequencers::set_up_meta_sq(composition& comp) {
     meta_frsq_chord.duration_relative = comp.duration_bars;
 
     meta_frsq_kick.callback_start = [&](frsq<kick_drum, event>& voice, const event_meta_sq& event) {
-        std::println(" - frsq_kick:    {} @ {}", event.pattern_index, event.start_time);
+        if (gui_log_queue) {
+            gui_log_message msg;
+            snprintf(
+                    msg.text,
+                    sizeof(msg.text),
+                    " - frsq_kick:    %zu @ %f",
+                    event.pattern_index,
+                    event.start_time);
+            bool sent = gui_log_queue->try_enqueue(msg);
+            if (!sent) {
+                std::println("meta_frsq_kick.callback_start failed to log to gui");
+            }
+        }
         voice.set_pattern(pattern::kick[event.pattern_index]);
     };
     meta_frsq_chord.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
                                          const event_meta_sq& event) {
-        std::println(" - frsq_chord:   {} @ {}", event.pattern_index, event.start_time);
+        if (gui_log_queue) {
+            gui_log_message msg;
+            snprintf(
+                    msg.text,
+                    sizeof(msg.text),
+                    " - frsq_chord:   %zu @ %f",
+                    event.pattern_index,
+                    event.start_time);
+            bool sent = gui_log_queue->try_enqueue(msg);
+            if (!sent) {
+                std::println("meta_frsq_chord.callback_start failed to log to gui");
+            }
+        }
 
         voice.set_pattern(pattern::chord[event.pattern_index]);
     };
@@ -79,8 +103,14 @@ void sequencers::set_up_arrangement_print(composition& comp) {
     frsq_arrangement_print.duration_absolute = comp.sp_bar * comp.duration_bars;
     frsq_arrangement_print.duration_relative = comp.duration_bars;
     frsq_arrangement_print.set_pattern(arrangement::bar);
-    frsq_arrangement_print.callback_start = [](event& voice, const event& event) {
-        std::println("--------");
-        std::println("B: {}", event.start_time);
+    frsq_arrangement_print.callback_start = [&](event& voice, const event& event) {
+        if (gui_log_queue) {
+            gui_log_message msg;
+            snprintf(msg.text, sizeof(msg.text), "\n--------\n bar: %d", int(event.start_time));
+            bool sent = gui_log_queue->try_enqueue(msg);
+            if (!sent) {
+                std::println("meta_frsq_chord.callback_start failed to log to gui");
+            }
+        }
     };
 }

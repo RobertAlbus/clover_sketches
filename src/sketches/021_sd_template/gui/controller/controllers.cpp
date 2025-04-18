@@ -5,18 +5,22 @@
 #include "imgui.h"
 #include "implot.h"
 
+#include "context.hpp"
+
 #include "controllers.hpp"
 
-#include "gui/component/bar_logger_component.hpp"
 #include "gui/component/fdn_ui.hpp"
+#include "gui/component/gui_logger_component.hpp"
 #include "gui/component/kick_drum_gui.hpp"
 #include "gui/component/mixer_ui.hpp"
 #include "gui/component/peq.hpp"
 
-void controller_mixer(const char* id, composition* comp) {
+void controller_mixer(const char* id, context& ctx) {
+    composition* comp = ctx.composition;
+
     ImGui::PushID(id);
 
-    bar_logger_component(*comp);
+    gui_logger_component(ctx);
 
     static double x = 0.5f;
     static double y = 0.5f;
@@ -36,7 +40,9 @@ void controller_mixer(const char* id, composition* comp) {
     ImGui::PopID();
 }
 
-void controller_kick(const char* id, composition* comp) {
+void controller_kick(const char* id, context& ctx) {
+    composition* comp = ctx.composition;
+
     ImGui::PushID(id);
 
     kick_drum_gui("kick_synth", comp->kick.drum);
@@ -53,7 +59,9 @@ void controller_kick(const char* id, composition* comp) {
     ImGui::PopID();
 }
 
-void controller_chord(const char* id, composition* comp) {
+void controller_chord(const char* id, context& ctx) {
+    composition* comp = ctx.composition;
+
     ImGui::PushID(id);
     fdn_component("fdn", &comp->synth.chord_verb_L, &comp->synth.chord_verb_R);
     if (ImGui::BeginTable("##peq_table", 2)) {

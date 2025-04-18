@@ -4,6 +4,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "composition/composition.hpp"
+#include "context.hpp"
 
-void bar_logger_component(composition& comp, bool* p_open = nullptr);
+void gui_logger_component(context& ctx, bool* p_open = nullptr);

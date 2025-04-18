@@ -9,13 +9,13 @@
 #include "controller/controllers.hpp"
 #include "view.hpp"
 
-void view_setup(context& props) {
-    props.audio_ready.acquire();
+void view_setup(context& context) {
+    context.audio_ready.acquire();
     // gui setup before audio starts
-    props.gui_ready.release();
+    context.gui_ready.release();
 }
 
-bool view_draw(context& props) {
+bool view_draw(context& context) {
     // Fullscreen Docking Node (single node replaces window content)
     ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -41,16 +41,16 @@ bool view_draw(context& props) {
 
     if (ImGui::BeginTabBar("Main Layout Tabs")) {
         if (ImGui::BeginTabItem("mixer")) {
-            controller_mixer("##kick_drum_gui", props.composition);
+            controller_mixer("##kick_drum_gui", context);
 
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("kick")) {
-            controller_kick("kick", props.composition);
+            controller_kick("kick", context);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("chord")) {
-            controller_chord("chord", props.composition);
+            controller_chord("chord", context);
             ImGui::EndTabItem();
         }
 

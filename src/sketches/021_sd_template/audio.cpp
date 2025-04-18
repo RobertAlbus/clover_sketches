@@ -74,17 +74,16 @@ void AUDIO(context &props) {
     clover::io::system_audio_config system;
     clover::io::stream stream;
 
+    moodycamel::ConcurrentQueue<gui_log_message> gui_log_queue(1024);
     composition comp;
     sequencers sqs{comp};
 
-    auto audio_callback = create_audio_callback(comp, sqs);
+    props.composition   = &comp;
+    props.sequencers    = &sqs;
+    props.gui_log_queue = &gui_log_queue;
+    sqs.gui_log_queue   = &gui_log_queue;
 
-    props.composition = &comp;
-    props.sequencers  = &sqs;
-
-    props.audio_ready.release();
-    // props.gui_ready.acquire();
-
+    auto audio_callback   = create_audio_callback(comp, sqs);
     stream.audio_callback = audio_callback;
     // system.print();
     stream.open(clover::io::stream::settings{
@@ -94,6 +93,9 @@ void AUDIO(context &props) {
             .chan_count_out   = comp.channel_count_out,
             .sample_rate      = comp.fs_i,
             .latency_ms       = 0});
+
+    props.audio_ready.release();
+    // props.gui_ready.acquire();
 
     stream.start();
     props.gui_intent_to_exit.acquire();
