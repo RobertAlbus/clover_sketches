@@ -36,11 +36,6 @@ auto create_audio_callback(composition &comp, sequencers &sqs) {
 }
 
 void AUDIO(view_model &props) {
-    composition comp;
-    sequencers sqs{comp};
-
-    auto audio_callback = create_audio_callback(comp, sqs);
-
     constexpr bool SHOULD_RENDER = false;
     if (SHOULD_RENDER) {
         std::thread render_thread = std::thread([]() {
@@ -77,6 +72,11 @@ void AUDIO(view_model &props) {
 
     clover::io::system_audio_config system;
     clover::io::stream stream;
+
+    composition comp;
+    sequencers sqs{comp};
+
+    auto audio_callback = create_audio_callback(comp, sqs);
 
     props.composition = &comp;
     props.sequencers  = &sqs;
