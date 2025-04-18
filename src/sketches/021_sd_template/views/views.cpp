@@ -12,6 +12,8 @@
 void view_mixer(const char* id, composition* comp) {
     ImGui::PushID(id);
 
+    bar_logger_component(*comp);
+
     mixer_component("mix", &comp->mix);
     peq_gui("##master_peq", comp->main_bus.eq);
 

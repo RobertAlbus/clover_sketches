@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cstdint>
 
+#include "bar_counter.hpp"
 #include "composition/mix.hpp"
 #include "instruments/env_bp.hpp"
 #include "instruments/fdn.hpp"
@@ -24,20 +25,21 @@ struct composition {
     static constexpr float fs = 48000;
     int fs_i                  = static_cast<int>(fs);
     int channel_count_out     = 2;
-    double bpm                = 142;
-    double spm                = fs * 60;
-    double spb                = spm / bpm;
-    double bar                = spb * 4;
-    double beat               = spb;
-    double duration_bars      = 32;
-    bool should_loop          = true;
-    int_fast64_t duration     = int_fast64_t(bar * duration_bars) + 1;
+
+    double bpm            = 142;
+    double sp_minute      = fs * 60;
+    double sp_beat        = sp_minute / bpm;
+    double sp_bar         = sp_beat * 4;
+    double duration_bars  = 32;
+    bool should_loop      = true;
+    int_fast64_t duration = int_fast64_t(sp_bar * duration_bars) + 1;
 
     float gain_master = 0.5f;
 
+    static automation_patterns automation;
     composition();
 
-    static automation_patterns automation;
+    bar_counter counter;
 
     // HACK: semantically meaning label used as a flag for fdn
     // - FDN needs to be updated after props change.

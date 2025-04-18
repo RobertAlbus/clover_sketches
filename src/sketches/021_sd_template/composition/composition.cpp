@@ -10,7 +10,7 @@
 
 automation_patterns composition::automation{};
 
-composition::composition() {
+composition::composition() : counter(sp_bar * duration_bars, duration_bars, should_loop) {
     kick.auto_hp.set_pattern(automation.bp_env_kick_hp);
     kick.auto_hp.duration_abs = double(duration);
     kick.auto_hp.duration_rel = duration_bars;
@@ -22,6 +22,8 @@ composition::composition() {
 }
 
 std::pair<float, float> composition::tick() {
+    counter.tick();
+
     float out_L = 0;
     float out_R = 0;
 
