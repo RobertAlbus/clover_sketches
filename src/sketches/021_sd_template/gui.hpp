@@ -4,6 +4,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "shared_props.hpp"
+#include "context.hpp"
 
-void GUI(view_model& props);
+void GUI(context& props);

@@ -12,9 +12,10 @@
 #include "clover/io/stream.hpp"
 #include "clover/io/system_audio.hpp"
 
+#include "context.hpp"
+
 #include "composition/composition.hpp"
 #include "sequence/sequencers.hpp"
-#include "shared_props.hpp"
 #include "util.hpp"
 
 #include "audio.hpp"
@@ -35,7 +36,7 @@ auto create_audio_callback(composition &comp, sequencers &sqs) {
     };
 }
 
-void AUDIO(view_model &props) {
+void AUDIO(context &props) {
     constexpr bool SHOULD_RENDER = false;
     if (SHOULD_RENDER) {
         std::thread render_thread = std::thread([]() {

@@ -12,6 +12,7 @@
 // - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
 // - Introduction, links and more at the top of imgui.cpp
 
+#include "gui/view.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -24,76 +25,15 @@
 
 using namespace ImGui;
 
+#include "context.hpp"
 #include "gui.hpp"
-#include "shared_props.hpp"
-
-#include "views/views.hpp"
-
-void gui_state_setup(view_model& props) {
-    props.audio_ready.acquire();
-    // gui setup before audio starts
-    props.gui_ready.release();
-}
-
-bool gui_draw(view_model& props) {
-    // Fullscreen Docking Node (single node replaces window content)
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
-    ImGui::SetNextWindowPos(viewport->WorkPos);
-    ImGui::SetNextWindowSize(viewport->WorkSize);
-    ImGui::SetNextWindowViewport(viewport->ID);
-
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse |
-                                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-                                    ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus |
-                                    ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_MenuBar;
-
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-
-    ImGui::Begin("MainDockSpaceHost", nullptr, window_flags);
-    ImGui::PopStyleVar(2);
-
-    // Optional: create a dockspace, even if unused
-    ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
-    ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
-
-    // ----------------
-
-    if (ImGui::BeginTabBar("Main Layout Tabs")) {
-        if (ImGui::BeginTabItem("mixer")) {
-            view_mixer("##kick_drum_gui", props.composition);
-
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("kick")) {
-            view_kick("kick", props.composition);
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("chord")) {
-            view_chord("chord", props.composition);
-            ImGui::EndTabItem();
-        }
-
-        ImGui::EndTabBar();
-    }
-    ImGui::NewLine();
-    ImGui::NewLine();
-    if (ImGui::Button("Bye!")) {
-        return false;
-    }
-    ImGui::Text("Framerate: %.2f", ImGui::GetIO().Framerate);
-
-    ImGui::End();  // End "MainDockSpaceHost"
-
-    return true;
-}
 
 static void glfw_error_callback(int error, const char* description) {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
 // Main code
-void GUI(view_model& props) {
+void GUI(context& props) {
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
 
@@ -157,7 +97,7 @@ void GUI(view_model& props) {
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Our state
-    gui_state_setup(props);
+    view_setup(props);
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // Main loop
@@ -182,7 +122,7 @@ void GUI(view_model& props) {
         ImGui::NewFrame();
 
         // Show window
-        if (!gui_draw(props)) {
+        if (!view_draw(props)) {
             glfwSetWindowShouldClose(window, true);
         }
 

@@ -15,7 +15,7 @@
 
 #include "imgui.h"
 
-#include "visual_components/imgui_app_log.hpp"
+#include "imgui_app_log.hpp"
 
 ExampleAppLog::ExampleAppLog() {
     AutoScroll = true;

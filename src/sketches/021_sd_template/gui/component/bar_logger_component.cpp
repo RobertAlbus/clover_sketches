@@ -6,8 +6,8 @@
 
 #include "composition/composition.hpp"
 
-#include "visual_components/bar_logger_component.hpp"
-#include "visual_components/imgui_app_log.hpp"
+#include "bar_logger_component.hpp"
+#include "imgui_app_log.hpp"
 
 void bar_logger_component(composition& comp, bool* p_open) {
     static ExampleAppLog log;

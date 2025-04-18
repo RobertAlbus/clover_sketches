@@ -9,7 +9,7 @@
 #include "clover/io/stream.hpp"
 #include "composition.hpp"
 
-struct view_model {
+struct context {
     composition* composition   = nullptr;
     clover::io::stream* stream = nullptr;
 

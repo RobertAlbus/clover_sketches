@@ -11,7 +11,7 @@ using namespace ImGui;
 
 #include "shared_props.hpp"
 
-void GUI(view_model& props) {
+void GUI(context& props) {
     props.audio_ready.acquire();
     // gui setup before audio starts
     props.gui_ready.release();
@@ -19,12 +19,12 @@ void GUI(view_model& props) {
     auto guiFunction = [&]() {
         if (ImGui::BeginTabBar("Main Layout Tabs")) {
             if (ImGui::BeginTabItem("mixer")) {
-                view_mixer("##kick_drum_gui", props.composition);
+                controller_mixer("##kick_drum_gui", props.composition);
 
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("kick")) {
-                view_kick("kick", props.composition);
+                controller_kick("kick", props.composition);
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("bass")) {
@@ -44,7 +44,7 @@ void GUI(view_model& props) {
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("chord")) {
-                view_chord("chord", props.composition);
+                controller_chord("chord", props.composition);
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("pad")) {

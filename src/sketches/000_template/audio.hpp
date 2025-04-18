@@ -22,7 +22,7 @@
 
 std::string render_name{"000_template"};
 
-void AUDIO(view_model &props) {
+void AUDIO(context &props) {
     composition comp;
     sequencers sqs{comp};
 

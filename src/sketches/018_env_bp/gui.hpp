@@ -22,7 +22,7 @@ using namespace ImGui;
 #include "gui/fdn_ui.hpp"
 #include "gui/mixer.hpp"
 
-void GUI(view_model& props) {
+void GUI(context& props) {
     props.audio_ready.acquire();
     // gui setup before audio starts
 

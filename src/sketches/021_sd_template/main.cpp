@@ -6,14 +6,14 @@
 #include <thread>
 
 #include "audio.hpp"
+#include "context.hpp"
 #include "gui.hpp"
-#include "shared_props.hpp"
 
 using namespace clover;
 using namespace io;
 
 int main(int, char *[]) {
-    view_model sharedProps;
+    context sharedProps;
 
     std::thread Audio(AUDIO, std::ref(sharedProps));
     std::thread Gui(GUI, std::ref(sharedProps));

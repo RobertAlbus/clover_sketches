@@ -5,15 +5,15 @@
 #include "imgui.h"
 #include "implot.h"
 
-#include "views.hpp"
+#include "controllers.hpp"
 
-#include "visual_components/bar_logger_component.hpp"
-#include "visual_components/fdn_ui.hpp"
-#include "visual_components/kick_drum_gui.hpp"
-#include "visual_components/mixer_ui.hpp"
-#include "visual_components/peq.hpp"
+#include "gui/component/bar_logger_component.hpp"
+#include "gui/component/fdn_ui.hpp"
+#include "gui/component/kick_drum_gui.hpp"
+#include "gui/component/mixer_ui.hpp"
+#include "gui/component/peq.hpp"
 
-void view_mixer(const char* id, composition* comp) {
+void controller_mixer(const char* id, composition* comp) {
     ImGui::PushID(id);
 
     bar_logger_component(*comp);
@@ -36,7 +36,7 @@ void view_mixer(const char* id, composition* comp) {
     ImGui::PopID();
 }
 
-void view_kick(const char* id, composition* comp) {
+void controller_kick(const char* id, composition* comp) {
     ImGui::PushID(id);
 
     kick_drum_gui("kick_synth", comp->kick.drum);
@@ -53,7 +53,7 @@ void view_kick(const char* id, composition* comp) {
     ImGui::PopID();
 }
 
-void view_chord(const char* id, composition* comp) {
+void controller_chord(const char* id, composition* comp) {
     ImGui::PushID(id);
     fdn_component("fdn", &comp->synth.chord_verb_L, &comp->synth.chord_verb_R);
     if (ImGui::BeginTable("##peq_table", 2)) {
