@@ -36,8 +36,6 @@ void gui_state_setup(view_model& props) {
 }
 
 bool gui_draw(view_model& props) {
-    bool is_alive = true;
-
     // Fullscreen Docking Node (single node replaces window content)
     ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -61,18 +59,6 @@ bool gui_draw(view_model& props) {
 
     // ----------------
 
-    static double x = 0.5f;
-    static double y = 0.5f;
-
-    static bool show_plot = false;
-    ImGui::Checkbox("show plot", &show_plot);
-    if (show_plot) {
-        if (ImPlot::BeginPlot("Draggable Point")) {
-            ImPlot::DragPoint(0, &x, &y, ImVec4(1, 0, 0, 1), 4, ImPlotDragToolFlags_None);
-            ImPlot::EndPlot();
-        }
-    }
-
     if (ImGui::BeginTabBar("Main Layout Tabs")) {
         if (ImGui::BeginTabItem("mixer")) {
             view_mixer("##kick_drum_gui", props.composition);
@@ -93,13 +79,13 @@ bool gui_draw(view_model& props) {
     ImGui::NewLine();
     ImGui::NewLine();
     if (ImGui::Button("Bye!")) {
-        is_alive = false;
+        return false;
     }
     ImGui::Text("Framerate: %.2f", ImGui::GetIO().Framerate);
 
     ImGui::End();  // End "MainDockSpaceHost"
 
-    return is_alive;
+    return true;
 }
 
 static void glfw_error_callback(int error, const char* description) {

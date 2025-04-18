@@ -2,8 +2,12 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "views.hpp"
 #include "imgui.h"
+#include "implot.h"
+
+#include "views.hpp"
+
+#include "visual_components/bar_logger_component.hpp"
 #include "visual_components/fdn_ui.hpp"
 #include "visual_components/kick_drum_gui.hpp"
 #include "visual_components/mixer_ui.hpp"
@@ -13,6 +17,18 @@ void view_mixer(const char* id, composition* comp) {
     ImGui::PushID(id);
 
     bar_logger_component(*comp);
+
+    static double x = 0.5f;
+    static double y = 0.5f;
+
+    static bool show_plot = false;
+    ImGui::Checkbox("show plot", &show_plot);
+    if (show_plot) {
+        if (ImPlot::BeginPlot("Draggable Point")) {
+            ImPlot::DragPoint(0, &x, &y, ImVec4(1, 0, 0, 1), 4, ImPlotDragToolFlags_None);
+            ImPlot::EndPlot();
+        }
+    }
 
     mixer_component("mix", &comp->mix);
     peq_gui("##master_peq", comp->main_bus.eq);
