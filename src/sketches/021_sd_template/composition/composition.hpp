@@ -7,6 +7,9 @@
 #include <cmath>
 #include <cstdint>
 
+#include "concurrentqueue.h"
+#include "infrastructure/gui_log_message.hpp"
+
 #include "bar_counter.hpp"
 #include "composition/mix.hpp"
 #include "instruments/env_bp.hpp"
@@ -20,6 +23,8 @@
 #include "sequence/automation.hpp"
 
 struct composition {
+    moodycamel::ConcurrentQueue<gui_log_message>* gui_log_queue;
+
     std::pair<float, float> tick();
 
     static constexpr float fs = 48000;

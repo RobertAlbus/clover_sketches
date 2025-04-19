@@ -20,15 +20,19 @@
 
 #include <print>
 
-
 template <typename T>
 concept frsq_data_base = requires(T t) {
     { t.start_time } -> std::same_as<double&>;
     { t.duration } -> std::same_as<double&>;
 };
 
+struct frsq_base {
+    virtual void tick()  = 0;
+    virtual ~frsq_base() = default;
+};
+
 template <typename voice_t, frsq_data_base frsq_data_t>
-struct frsq {
+struct frsq : public frsq_base {
     frsq() {
         voices_time_remaining.fill(std::numeric_limits<int>::min());
         voices_time_elapsed.fill(std::numeric_limits<int>::max());
@@ -97,7 +101,7 @@ struct frsq {
         }
     }
 
-    void tick() {
+    void tick() final {
         // no voices
         if (voices.empty())
             throw std::runtime_error("no voices assigned to frsq");

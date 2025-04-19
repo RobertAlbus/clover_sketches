@@ -81,7 +81,7 @@ void AUDIO(context &props) {
     props.composition   = &comp;
     props.sequencers    = &sqs;
     props.gui_log_queue = &gui_log_queue;
-    sqs.gui_log_queue   = &gui_log_queue;
+    comp.gui_log_queue  = &gui_log_queue;
 
     auto audio_callback   = create_audio_callback(comp, sqs);
     stream.audio_callback = audio_callback;
