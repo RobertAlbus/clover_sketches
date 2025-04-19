@@ -7,6 +7,7 @@
 #include "composition/composition.hpp"
 #include "instruments/kick.hpp"
 #include "instruments/subtractive_synth.hpp"
+#include "sequence/arrangement_callback_builder.hpp"
 #include "sequence/event.hpp"
 #include "sequence/patterns.hpp"
 #include "sequencers.hpp"
@@ -59,40 +60,11 @@ void sequencers::set_up_meta_sq(composition& comp) {
     meta_frsq_kick.duration_relative  = comp.duration_bars;
     meta_frsq_chord.duration_relative = comp.duration_bars;
 
-    meta_frsq_kick.callback_start = [&](frsq<kick_drum, event>& voice, const event_meta_sq& event) {
-        if (gui_log_queue) {
-            gui_log_message msg;
-            snprintf(
-                    msg.text,
-                    sizeof(msg.text),
-                    " - frsq_kick:    %zu @ %f",
-                    event.pattern_index,
-                    event.start_time);
-            bool sent = gui_log_queue->try_enqueue(msg);
-            if (!sent) {
-                std::println("meta_frsq_kick.callback_start failed to log to gui");
-            }
-        }
-        voice.set_pattern(pattern::kick[event.pattern_index]);
-    };
-    meta_frsq_chord.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
-                                         const event_meta_sq& event) {
-        if (gui_log_queue) {
-            gui_log_message msg;
-            snprintf(
-                    msg.text,
-                    sizeof(msg.text),
-                    " - frsq_chord:   %zu @ %f",
-                    event.pattern_index,
-                    event.start_time);
-            bool sent = gui_log_queue->try_enqueue(msg);
-            if (!sent) {
-                std::println("meta_frsq_chord.callback_start failed to log to gui");
-            }
-        }
+    meta_frsq_kick.callback_start =
+            callback_for<kick_drum, event>(&gui_log_queue, pattern::kick, "frsq_kick");
 
-        voice.set_pattern(pattern::chord[event.pattern_index]);
-    };
+    meta_frsq_chord.callback_start =
+            callback_for<subtractive_synth, event_midi>(&gui_log_queue, pattern::chord, "frsq_chord");
 
     meta_frsq_kick.set_pattern(arrangement::kick, arrangement::playback_start);
     meta_frsq_chord.set_pattern(arrangement::chord, arrangement::playback_start);
