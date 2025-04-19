@@ -12,7 +12,9 @@
 #include "sequence/patterns.hpp"
 #include "sequencers.hpp"
 
-sequencers::sequencers(composition& comp) {
+sequencers::sequencers(composition& comp) : sequencers(comp, nullptr) {
+}
+sequencers::sequencers(composition& comp, logger* log) : log{log} {
     set_up_kick(comp);
     set_up_chord(comp);
     set_up_arrangement_print(comp);
@@ -60,11 +62,10 @@ void sequencers::set_up_meta_sq(composition& comp) {
     meta_frsq_kick.duration_relative  = comp.duration_bars;
     meta_frsq_chord.duration_relative = comp.duration_bars;
 
-    meta_frsq_kick.callback_start =
-            callback_for<kick_drum, event>(&gui_log_queue, pattern::kick, "frsq_kick");
+    meta_frsq_kick.callback_start = callback_for<kick_drum, event>(&log, pattern::kick, "frsq_kick");
 
     meta_frsq_chord.callback_start =
-            callback_for<subtractive_synth, event_midi>(&gui_log_queue, pattern::chord, "frsq_chord");
+            callback_for<subtractive_synth, event_midi>(&log, pattern::chord, "frsq_chord");
 
     meta_frsq_kick.set_pattern(arrangement::kick, arrangement::playback_start);
     meta_frsq_chord.set_pattern(arrangement::chord, arrangement::playback_start);
@@ -76,10 +77,10 @@ void sequencers::set_up_arrangement_print(composition& comp) {
     frsq_arrangement_print.duration_relative = comp.duration_bars;
     frsq_arrangement_print.set_pattern(arrangement::bar);
     frsq_arrangement_print.callback_start = [&](event& voice, const event& event) {
-        if (gui_log_queue) {
+        if (log) {
             gui_log_message msg;
             snprintf(msg.text, sizeof(msg.text), "\n--------\n bar: %d", int(event.start_time));
-            bool sent = gui_log_queue->try_enqueue(msg);
+            bool sent = log->gui.try_enqueue(msg);
             if (!sent) {
                 std::println("meta_frsq_chord.callback_start failed to log to gui");
             }

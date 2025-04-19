@@ -4,8 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "concurrentqueue.h"
-#include "infrastructure/gui_log_message.hpp"
+#include "infrastructure/logger.hpp"
 
 #include "composition/composition.hpp"
 #include "instruments/frsq.hpp"
@@ -14,8 +13,7 @@
 #include "sequence/event.hpp"
 
 struct sequencers {
-    moodycamel::ConcurrentQueue<gui_log_message>* gui_log_queue;
-
+    logger* log;
     // need a placeholder for the voices, so reusing the event
     // this is fine because there is no need for a voice - will just println in the callback.
     frsq<event, event> frsq_arrangement_print;
@@ -29,6 +27,7 @@ struct sequencers {
     frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_chord;
 
     sequencers(composition& comp);
+    sequencers(composition& comp, logger* log);
     void tick();
 
     void set_up_kick(composition& comp);

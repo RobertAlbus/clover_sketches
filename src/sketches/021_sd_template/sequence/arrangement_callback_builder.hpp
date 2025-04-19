@@ -9,20 +9,18 @@
 #include <vector>
 
 #include "concurrentqueue.h"
-#include "infrastructure/gui_log_message.hpp"
 
+#include "infrastructure/logger.hpp"
 #include "instruments/frsq.hpp"
 
 #include "event.hpp"
 
 template <typename voice_t, frsq_data_base event_t>
 std::function<void(frsq<voice_t, event_t>& voice, const event_meta_sq& event)> callback_for(
-        moodycamel::ConcurrentQueue<gui_log_message>** gui_log_queue,
-        std::vector<std::vector<event_t>> patterns,
-        std::string logging_name) {
-    return [gui_log_queue, logging_name, patterns](
+        logger** logger, std::vector<std::vector<event_t>> patterns, std::string logging_name) {
+    return [logger, logging_name, patterns](
                    frsq<voice_t, event_t>& voice, const event_meta_sq& event) mutable {
-        if (gui_log_queue && *gui_log_queue) {
+        if (logger && *logger) {
             gui_log_message msg;
             snprintf(
                     msg.text,
@@ -31,7 +29,7 @@ std::function<void(frsq<voice_t, event_t>& voice, const event_meta_sq& event)> c
                     logging_name.c_str(),
                     event.pattern_index,
                     event.start_time);
-            bool sent = (*gui_log_queue)->try_enqueue(msg);
+            bool sent = (*logger)->gui.try_enqueue(msg);
             if (!sent) {
                 std::fprintf(
                         stderr, "failed to log to gui: arrangement callback for %s\n", logging_name.c_str());

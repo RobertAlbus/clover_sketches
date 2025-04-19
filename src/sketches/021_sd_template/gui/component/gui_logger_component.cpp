@@ -15,7 +15,7 @@ void gui_logger_component(context& ctx, bool* p_open) {
     bool has_message = false;
     do {
         gui_log_message msg;
-        has_message = ctx.gui_log_queue->try_dequeue(msg);
+        has_message = ctx.logger.gui.try_dequeue(msg);
         if (has_message)
             log.AddLog("%s\n", msg.text);
     } while (has_message);

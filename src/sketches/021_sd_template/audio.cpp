@@ -74,14 +74,11 @@ void AUDIO(context &ctx) {
     clover::io::system_audio_config system;
     clover::io::stream stream;
 
-    moodycamel::ConcurrentQueue<gui_log_message> gui_log_queue(1024);
     composition comp;
-    sequencers sqs{comp};
+    sequencers sqs{comp, &ctx.logger};
 
-    ctx.composition   = &comp;
-    ctx.sequencers    = &sqs;
-    ctx.gui_log_queue = &gui_log_queue;
-    sqs.gui_log_queue = &gui_log_queue;
+    ctx.composition = &comp;
+    ctx.sequencers  = &sqs;
 
     auto audio_callback   = create_audio_callback(comp, sqs);
     stream.audio_callback = audio_callback;
