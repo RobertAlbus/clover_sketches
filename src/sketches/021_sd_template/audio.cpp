@@ -36,7 +36,7 @@ auto create_audio_callback(composition &comp, sequencers &sqs) {
     };
 }
 
-void AUDIO(context &props) {
+void AUDIO(context &ctx) {
     constexpr bool SHOULD_RENDER = false;
     if (SHOULD_RENDER) {
         std::thread render_thread = std::thread([]() {
@@ -78,10 +78,10 @@ void AUDIO(context &props) {
     composition comp;
     sequencers sqs{comp};
 
-    props.composition   = &comp;
-    props.sequencers    = &sqs;
-    props.gui_log_queue = &gui_log_queue;
-    sqs.gui_log_queue   = &gui_log_queue;
+    ctx.composition   = &comp;
+    ctx.sequencers    = &sqs;
+    ctx.gui_log_queue = &gui_log_queue;
+    sqs.gui_log_queue = &gui_log_queue;
 
     auto audio_callback   = create_audio_callback(comp, sqs);
     stream.audio_callback = audio_callback;
@@ -94,11 +94,11 @@ void AUDIO(context &props) {
             .sample_rate      = comp.fs_i,
             .latency_ms       = 0});
 
-    props.audio_ready.release();
+    ctx.audio_ready.release();
     // props.gui_ready.acquire();
 
     stream.start();
-    props.gui_intent_to_exit.acquire();
+    ctx.gui_intent_to_exit.acquire();
     stream.stop();
     stream.wait_to_complete();
 }
