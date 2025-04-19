@@ -6,17 +6,18 @@
 #include "patches.hpp"
 
 patch_mix_t::patch_mix_t() {
-    mix = {
-            .kick_send = 0.6904762,
-            .kick_wet  = 0.5952381,
-            .kick_gain = 0.90683234,
-
-            .chord_send = 0.7282609,
-            .chord_wet  = 0.4778261,
-            .chord_dry  = 0.32826102,
-            .chord_sum  = 0.3369565,
-
-    };
+    // alignment sucks...
+    // could re-order mixer_track for gain first
+    // then format the float to have N decimals.
+    mixer_tracks = std::vector<mixer_track>{
+            {.name = "kick dry", .gain = 1},
+            {.name = "kick send", .gain = 0.69},
+            {.name = "kick wet", .gain = 0.59},
+            {.name = "kick bus", .gain = 0.9},
+            {.name = "chord send", .gain = 0.73},
+            {.name = "chord wet", .gain = 0.48},
+            {.name = "chord dry", .gain = 0.33},
+            {.name = "chord bus", .gain = 0.34}};
 
     main_peq_props = {
             peq_props{

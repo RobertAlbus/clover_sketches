@@ -20,7 +20,6 @@
 
 #include <print>
 
-
 template <typename T>
 concept frsq_data_base = requires(T t) {
     { t.start_time } -> std::same_as<double&>;

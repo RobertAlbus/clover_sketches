@@ -20,6 +20,9 @@
 #include "sequence/automation.hpp"
 
 struct composition {
+    std::vector<mixer_track> mixer_tracks;
+    std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer;
+
     std::pair<float, float> tick();
 
     static constexpr float fs = 48000;
@@ -78,5 +81,4 @@ struct composition {
     struct {
         peq eq{fs, patch::mix.main_peq_props};
     } main_bus;
-    composition_mix mix{patch::mix.mix};
 };

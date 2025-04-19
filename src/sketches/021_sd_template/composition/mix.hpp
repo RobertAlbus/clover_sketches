@@ -5,16 +5,15 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <string>
+#include <unordered_map>
+#include <vector>
 
-struct composition_mix {
-    std::string to_str();
-
-    float kick_send;
-    float kick_wet;
-    float kick_gain;
-
-    float chord_send;
-    float chord_wet;
-    float chord_dry;
-    float chord_sum;
+struct mixer_track {
+    const std::string name;
+    float gain;
 };
+
+std::unordered_map<std::string, std::reference_wrapper<float>> build_audio_mixer(
+        std::vector<mixer_track>& mixer_tracks);
+
+std::string to_str(std::vector<mixer_track>& mixer_tracks);

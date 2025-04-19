@@ -46,7 +46,8 @@ void controller_mixer(const char* id, context& ctx) {
         }
     }
 
-    mixer_component("mix", &comp->mix);
+    mixer_component("new_mix", &comp->mixer_tracks);
+    // mixer_component("mix", &comp->mix);
     peq_gui("##master_peq", comp->main_bus.eq);
 
     ImGui::PopID();

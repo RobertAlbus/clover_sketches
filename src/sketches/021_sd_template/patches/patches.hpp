@@ -37,7 +37,7 @@ struct patch_synth_t {
 struct patch_mix_t {
     patch_mix_t();
 
-    composition_mix mix;
+    std::vector<mixer_track> mixer_tracks;
 
     // --------------------------------
     // MASTER

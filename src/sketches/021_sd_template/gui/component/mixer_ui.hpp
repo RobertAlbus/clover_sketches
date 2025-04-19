@@ -6,4 +6,5 @@
 
 #include "composition/mix.hpp"
 
-void mixer_component(const char* id, composition_mix* mixer);
+// void mixer_component(const char* id, composition_mix* mixer);
+void mixer_component(const char* id, std::vector<mixer_track>* mixer);

@@ -6,24 +6,27 @@
 #include <string>
 
 #include "mix.hpp"
+#include "patches/patches.hpp"
 
-std::string composition_mix::to_str() {
-    return std::format(
-            R"({{
-    kick_send = {},
-    kick_wet  = {},
-    kick_gain = {},
+std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer =
+        build_audio_mixer(patch::mix.mixer_tracks);
 
-    chord_send = {},
-    chord_wet  = {},
-    chord_dry  = {},
-    chord_sum  = {},
-}};)",
-            kick_send,
-            kick_wet,
-            kick_gain,
-            chord_send,
-            chord_wet,
-            chord_dry,
-            chord_sum);
+std::unordered_map<std::string, std::reference_wrapper<float>> build_audio_mixer(
+        std::vector<mixer_track>& mixer_tracks) {
+    std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer;
+    for (auto& mixer_track : mixer_tracks)
+        audio_mixer.emplace(std::pair{mixer_track.name, std::ref(mixer_track.gain)});
+
+    return audio_mixer;
+}
+
+std::string to_str(std::vector<mixer_track>& mixer_tracks) {
+    std::string preset = "{";
+
+    for (auto& mixer_track : mixer_tracks)
+        preset += std::format("\n{{.name = \"{}\", .gain = {}}},", mixer_track.name, mixer_track.gain);
+    preset.pop_back();  // remove trailing comma
+    preset += "\n};\n";
+
+    return preset;
 }
