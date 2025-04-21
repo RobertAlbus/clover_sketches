@@ -12,19 +12,20 @@
 
 automation_patterns graph::automation{};
 
-graph::graph() : counter(sp_bar * duration_bars, duration_bars, should_loop) {
+graph::graph(bar_grid& grid)
+    : grid{grid}, counter(grid.duration_samples(), grid.duration_bars, grid.should_loop) {
     for (auto& t : patch::mix.mixer_tracks)
         mixer_tracks.emplace_back(t);
     audio_mixer = build_audio_mixer(mixer_tracks);
 
-    kick.auto_hp.set_pattern(automation.bp_env_kick_hp);
-    kick.auto_hp.duration_abs = double(duration);
-    kick.auto_hp.duration_rel = duration_bars;
-    kick.auto_hp.key_on();
-    kick.auto_verb_send.set_pattern(automation.bp_env_kick_verb_send);
-    kick.auto_verb_send.duration_abs = double(duration);
-    kick.auto_verb_send.duration_rel = duration_bars;
-    kick.auto_verb_send.key_on();
+    kick_auto_hp.set_pattern(automation.bp_env_kick_hp);
+    kick_auto_hp.duration_abs = grid.duration_samples();
+    kick_auto_hp.duration_rel = grid.duration_bars;
+    kick_auto_hp.key_on();
+    kick_auto_verb_send.set_pattern(automation.bp_env_kick_verb_send);
+    kick_auto_verb_send.duration_abs = grid.duration_samples();
+    kick_auto_verb_send.duration_rel = grid.duration_bars;
+    kick_auto_verb_send.key_on();
 }
 
 std::pair<float, float> graph::tick() {
@@ -48,18 +49,18 @@ std::pair<float, float> graph::tick() {
     //
     //
 
-    float kick_dry  = kick.drum.tick();
+    float kick_dry  = kick.tick();
     float kick_send = kick_dry * MIX_kick_send;
     kick_dry *= MIX_kick_dry;
-    auto [kick_send_eq, _] = kick.preverb_peq.tick(kick_send, kick_send);
+    auto [kick_send_eq, _] = kick_preverb_peq.tick(kick_send, kick_send);
 
-    float kick_wet = kick.verb.tick(kick_send_eq) * MIX_kick_wet * kick.auto_verb_send.tick();
+    float kick_wet = kick_verb.tick(kick_send_eq) * MIX_kick_wet * kick_auto_verb_send.tick();
     float kick_sum = (kick_dry + kick_wet) * MIX_kick_bus;
 
-    kick.hpf.m_coeffs = hpf(fs, frequency_by_octave_difference(10, kick.auto_hp.tick()), 0.707);
-    kick_sum          = kick.hpf.tick(kick_sum);
+    kick_hpf.m_coeffs = hpf(grid.fs, frequency_by_octave_difference(10, kick_auto_hp.tick()), 0.707);
+    kick_sum          = kick_hpf.tick(kick_sum);
 
-    auto [kick_post_eq, _] = kick.out_peq.tick(kick_sum, kick_sum);
+    auto [kick_post_eq, _] = kick_out_peq.tick(kick_sum, kick_sum);
     kick_sum               = kick_post_eq;
 
     // ----------------
@@ -69,33 +70,30 @@ std::pair<float, float> graph::tick() {
 
     float chord_L = 0;
     float chord_R = 0;
-    for (auto& chord_voice : synth.chord) {
+    for (auto& chord_voice : chord) {
         auto chord_voice_signal = chord_voice.tick();
         chord_L += chord_voice_signal.first;
         chord_R += chord_voice_signal.second;
     }
     float chord_send_L                      = chord_L * MIX_chord_send;
     float chord_send_R                      = chord_R * MIX_chord_send;
-    auto [chord_preverb_L, chord_preverb_R] = synth.chord_preverb_peq.tick(chord_send_L, chord_send_R);
+    auto [chord_preverb_L, chord_preverb_R] = chord_preverb_peq.tick(chord_send_L, chord_send_R);
     chord_preverb_L                         = std::clamp(chord_preverb_L, -1.f, 1.f);
     chord_preverb_R                         = std::clamp(chord_preverb_R, -1.f, 1.f);
 
-    float chord_verb_L = 0;
-    float chord_verb_R = 0;
+    float chord_verb_out_L = chord_verb_L.tick(chord_preverb_L) * MIX_chord_wet;
+    float chord_verb_out_R = chord_verb_R.tick(chord_preverb_R) * MIX_chord_wet;
 
-    chord_verb_L = synth.chord_verb_L.tick(chord_preverb_L) * MIX_chord_wet;
-    chord_verb_R = synth.chord_verb_R.tick(chord_preverb_R) * MIX_chord_wet;
-
-    chord_verb_L = std::clamp(chord_verb_L, -1.f, 1.f);
-    chord_verb_R = std::clamp(chord_verb_R, -1.f, 1.f);
+    chord_verb_out_L = std::clamp(chord_verb_out_L, -1.f, 1.f);
+    chord_verb_out_R = std::clamp(chord_verb_out_R, -1.f, 1.f);
 
     chord_L *= MIX_chord_dry;
     chord_R *= MIX_chord_dry;
 
-    float chord_post_eq_in_L = std::clamp((chord_L + chord_verb_L), -1.f, 1.f);
-    float chord_post_eq_in_R = std::clamp((chord_R + chord_verb_R), -1.f, 1.f);
+    float chord_post_eq_in_L = std::clamp((chord_L + chord_verb_out_L), -1.f, 1.f);
+    float chord_post_eq_in_R = std::clamp((chord_R + chord_verb_out_R), -1.f, 1.f);
 
-    auto [chord_post_eq_L, chord_post_eq_R] = synth.chord_peq.tick(chord_post_eq_in_L, chord_post_eq_in_R);
+    auto [chord_post_eq_L, chord_post_eq_R] = chord_peq.tick(chord_post_eq_in_L, chord_post_eq_in_R);
 
     float chord_sum_L = chord_post_eq_L * MIX_chord_bus;
     float chord_sum_R = chord_post_eq_R * MIX_chord_bus;
@@ -108,9 +106,9 @@ std::pair<float, float> graph::tick() {
     out_L = kick_sum + chord_sum_L;
     out_R = kick_sum + chord_sum_R;
 
-    auto main_eq = main_bus.eq.tick(out_L, out_R);
-    out_L        = main_eq.first;
-    out_R        = main_eq.second;
+    auto main_eq_out = main_eq.tick(out_L, out_R);
+    out_L            = main_eq_out.first;
+    out_R            = main_eq_out.second;
 
     out_L *= gain_master;
     out_R *= gain_master;

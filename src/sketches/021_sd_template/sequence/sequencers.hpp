@@ -29,12 +29,12 @@ struct sequencers {
     frsq<frsq<kick_drum, event>, event_meta_sq> meta_frsq_kick;
     frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_chord;
 
-    sequencers(graph& comp, bar_grid& grid);
-    sequencers(graph& comp, bar_grid& grid, logger* log);
+    sequencers(graph& graph, bar_grid& grid);
+    sequencers(graph& graph, bar_grid& grid, logger* log);
     void tick();
 
-    void set_up_kick(graph& comp);
-    void set_up_chord(graph& comp);
-    void set_up_meta_sq(graph& comp);
-    void set_up_arrangement_print(graph& comp);
+    void set_up_kick(graph& graph);
+    void set_up_chord(graph& graph);
+    void set_up_meta_sq(graph& graph);
+    void set_up_arrangement_print(graph& graph);
 };

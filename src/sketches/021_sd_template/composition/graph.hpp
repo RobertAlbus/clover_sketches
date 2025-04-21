@@ -5,42 +5,34 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
-#include <cstdint>
 
-#include "bar_counter.hpp"
-#include "composition/mix.hpp"
+#include "infrastructure/bar_grid.hpp"
+
 #include "instruments/env_bp.hpp"
 #include "instruments/fdn.hpp"
 #include "instruments/kick.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
-
-#include "patches/patches.hpp"
-
 #include "sequence/automation.hpp"
 
+#include "bar_counter.hpp"
+#include "composition/mix.hpp"
+#include "patches/patches.hpp"
+
 struct graph {
+    bar_grid& grid;
+
     std::vector<mixer_track> mixer_tracks;
     std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer;
 
     std::pair<float, float> tick();
 
-    static constexpr float fs = 48000;
-    int fs_i                  = static_cast<int>(fs);
-    int channel_count_out     = 2;
-
-    double bpm            = 160;
-    double sp_minute      = fs * 60;
-    double sp_beat        = sp_minute / bpm;
-    double sp_bar         = sp_beat * 4;
-    double duration_bars  = 32;
-    bool should_loop      = true;
-    int_fast64_t duration = int_fast64_t(sp_bar * duration_bars) + 1;
+    int channel_count_out = 2;
 
     float gain_master = 0.5f;
 
     static automation_patterns automation;
-    graph();
+    graph(bar_grid& grid);
 
     bar_counter counter;
 
@@ -49,36 +41,28 @@ struct graph {
     // - see TODO in FDN
     static constexpr bool COMPONENT_HAS_GUI = true;
 
-    struct {
-        kick_drum drum{fs, patch::drums.kick_drum_props};
-        peq preverb_peq{fs, patch::drums.kick_preverb_peq_props};
-        fdn_8_019 verb{fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
-        peq out_peq{fs, patch::drums.kick_peq_props};
+    kick_drum kick{grid.fs, patch::drums.kick_drum_props};
+    peq kick_preverb_peq{grid.fs, patch::drums.kick_preverb_peq_props};
+    fdn_8_019 kick_verb{grid.fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
+    peq kick_out_peq{grid.fs, patch::drums.kick_peq_props};
 
-        env_bp auto_hp;
-        env_bp auto_verb_send;
+    env_bp kick_auto_hp;
+    env_bp kick_auto_verb_send;
+    filter kick_hpf{};
 
-        filter hpf{};
+    std::array<subtractive_synth, 6> chord{
+            subtractive_synth{grid.fs, patch::synth.chord_props},
+            subtractive_synth{grid.fs, patch::synth.chord_props},
+            subtractive_synth{grid.fs, patch::synth.chord_props},
+            subtractive_synth{grid.fs, patch::synth.chord_props},
+            subtractive_synth{grid.fs, patch::synth.chord_props},
+            subtractive_synth{grid.fs, patch::synth.chord_props}};
 
-    } kick;
+    peq chord_preverb_peq{grid.fs, patch::synth.chord_preverb_peq_props};
+    fdn_8_019 chord_verb_L{grid.fs, patch::synth.chord_fdn_props, COMPONENT_HAS_GUI};
+    fdn_8_019 chord_verb_R{
+            grid.fs, patch::synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
+    peq chord_peq{grid.fs, patch::synth.chord_peq_props};
 
-    struct {
-        std::array<subtractive_synth, 6> chord{
-                subtractive_synth{fs, patch::synth.chord_props},
-                subtractive_synth{fs, patch::synth.chord_props},
-                subtractive_synth{fs, patch::synth.chord_props},
-                subtractive_synth{fs, patch::synth.chord_props},
-                subtractive_synth{fs, patch::synth.chord_props},
-                subtractive_synth{fs, patch::synth.chord_props}};
-
-        peq chord_preverb_peq{fs, patch::synth.chord_preverb_peq_props};
-        fdn_8_019 chord_verb_L{fs, patch::synth.chord_fdn_props, COMPONENT_HAS_GUI};
-        fdn_8_019 chord_verb_R{
-                fs, patch::synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
-        peq chord_peq{fs, patch::synth.chord_peq_props};
-    } synth;
-
-    struct {
-        peq eq{fs, patch::mix.main_peq_props};
-    } main_bus;
+    peq main_eq{grid.fs, patch::mix.main_peq_props};
 };

@@ -12,13 +12,13 @@
 #include "sequence/patterns.hpp"
 #include "sequencers.hpp"
 
-sequencers::sequencers(graph& comp, bar_grid& grid) : sequencers(comp, grid, nullptr) {
+sequencers::sequencers(graph& graph, bar_grid& grid) : sequencers(graph, grid, nullptr) {
 }
-sequencers::sequencers(graph& comp, bar_grid& grid, logger* log) : grid{grid}, log{log} {
-    set_up_kick(comp);
-    set_up_chord(comp);
-    set_up_arrangement_print(comp);
-    set_up_meta_sq(comp);
+sequencers::sequencers(graph& graph, bar_grid& grid, logger* log) : grid{grid}, log{log} {
+    set_up_kick(graph);
+    set_up_chord(graph);
+    set_up_arrangement_print(graph);
+    set_up_meta_sq(graph);
 }
 
 void sequencers::tick() {
@@ -30,8 +30,8 @@ void sequencers::tick() {
     frsq_chord.tick();
 }
 
-void sequencers::set_up_kick(graph& comp) {
-    frsq_kick.voices = std::span<kick_drum>(&comp.kick.drum, 1);
+void sequencers::set_up_kick(graph& graph) {
+    frsq_kick.voices = std::span<kick_drum>(&graph.kick, 1);
     // frsq_kick.duration_absolute = comp.sp_bar;
     // frsq_kick.duration_relative = 4.;
     // frsq_kick.set_pattern(drum_patterns.patterns_kick[active_scene["kick"]]);
@@ -40,8 +40,8 @@ void sequencers::set_up_kick(graph& comp) {
     frsq_kick.callback_end   = [](kick_drum& voice) { voice.key_off(); };
 }
 
-void sequencers::set_up_chord(graph& comp) {
-    frsq_chord.voices = std::span<subtractive_synth>(comp.synth.chord.begin(), comp.synth.chord.end());
+void sequencers::set_up_chord(graph& graph) {
+    frsq_chord.voices = std::span<subtractive_synth>(graph.chord.begin(), graph.chord.end());
     // frsq_chord.duration_absolute = comp.sp_bar;
     // frsq_chord.duration_relative = 4.;
     // frsq_chord.set_pattern(synth_patterns.patterns_chord[active_scene["chord"]]);
@@ -52,15 +52,15 @@ void sequencers::set_up_chord(graph& comp) {
     frsq_chord.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
 }
 
-void sequencers::set_up_meta_sq(graph& comp) {
+void sequencers::set_up_meta_sq(graph& graph) {
     meta_frsq_kick.voices  = std::span(&frsq_kick, 1);
     meta_frsq_chord.voices = std::span(&frsq_chord, 1);
 
-    meta_frsq_kick.duration_absolute  = grid.bars_to_samples(comp.duration_bars);
-    meta_frsq_chord.duration_absolute = grid.bars_to_samples(comp.duration_bars);
+    meta_frsq_kick.duration_absolute  = grid.bars_to_samples(grid.duration_bars);
+    meta_frsq_chord.duration_absolute = grid.bars_to_samples(grid.duration_bars);
 
-    meta_frsq_kick.duration_relative  = comp.duration_bars;
-    meta_frsq_chord.duration_relative = comp.duration_bars;
+    meta_frsq_kick.duration_relative  = grid.duration_bars;
+    meta_frsq_chord.duration_relative = grid.duration_bars;
 
     meta_frsq_kick.callback_start = callback_for<kick_drum, event>(&log, grid, pattern::kick, "frsq_kick");
 
@@ -69,22 +69,22 @@ void sequencers::set_up_meta_sq(graph& comp) {
 
     meta_frsq_kick.set_pattern(
             arrangement::kick,
-            grid.bars_to_samples(comp.duration_bars),
-            comp.duration_bars,
+            grid.bars_to_samples(grid.duration_bars),
+            grid.duration_bars,
             arrangement::playback_start);
     meta_frsq_chord.set_pattern(
             arrangement::chord,
-            grid.bars_to_samples(comp.duration_bars),
-            comp.duration_bars,
+            grid.bars_to_samples(grid.duration_bars),
+            grid.duration_bars,
             arrangement::playback_start);
 }
 
-void sequencers::set_up_arrangement_print(graph& comp) {
+void sequencers::set_up_arrangement_print(graph& graph) {
     frsq_arrangement_print.voices            = std::span(arrangement::bar.begin(), 1);
-    frsq_arrangement_print.duration_absolute = comp.sp_bar * comp.duration_bars;
-    frsq_arrangement_print.duration_relative = comp.duration_bars;
+    frsq_arrangement_print.duration_absolute = grid.bars_to_samples(grid.duration_bars);
+    frsq_arrangement_print.duration_relative = grid.duration_bars;
     frsq_arrangement_print.set_pattern(
-            arrangement::bar, grid.bars_to_samples(comp.duration_bars), comp.duration_bars);
+            arrangement::bar, grid.bars_to_samples(grid.duration_bars), grid.duration_bars);
     frsq_arrangement_print.callback_start = [&](event& voice, const event& event) {
         if (log) {
             gui_log_message msg;

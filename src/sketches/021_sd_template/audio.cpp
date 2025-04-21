@@ -23,14 +23,14 @@
 
 std::string render_name{"021_sd_template"};
 
-auto create_audio_callback(graph &comp, sequencers &sqs) {
+auto create_audio_callback(bar_grid &grid, graph &comp, sequencers &sqs) {
     return [&](clover::io::callback_args data) {
         float &L = *(data.output);
         float &R = *(data.output + 1);
         sqs.tick();
         std::tie(L, R) = comp.tick();
 
-        if (!comp.should_loop && data.clock_time == comp.duration) {
+        if (!grid.should_loop && data.clock_time == size_t(grid.duration_samples())) {
             return clover::io::callback_status::end;
         }
         return clover::io::callback_status::cont;
@@ -40,21 +40,21 @@ auto create_audio_callback(graph &comp, sequencers &sqs) {
 void AUDIO(context &ctx) {
     constexpr bool SHOULD_RENDER = false;
     if (SHOULD_RENDER) {
-        std::thread render_thread = std::thread([]() {
+        std::thread render_thread = std::thread([&ctx]() {
             std::cout << "starting render: " << render_name.c_str() << std::endl;
 
-            graph render_comp;
-            bar_grid grid{render_comp.fs, render_comp.bpm};
+            bar_grid grid{ctx.fs, ctx.bpm, ctx.duration_bars, false};
+            graph render_comp{grid};
             sequencers render_sqs{render_comp, grid};
 
-            auto audio_callback = create_audio_callback(render_comp, render_sqs);
+            auto audio_callback = create_audio_callback(grid, render_comp, render_sqs);
 
             audio_buffer buffer;
             buffer.channels    = render_comp.channel_count_out;
-            buffer.sample_rate = render_comp.fs_i;
-            buffer.data.resize(render_comp.duration * render_comp.channel_count_out, 0.f);
+            buffer.sample_rate = int(grid.fs);
+            buffer.data.resize(size_t(grid.duration_samples() * render_comp.channel_count_out), 0.f);
 
-            for (auto frame : std::views::iota(0, render_comp.duration)) {
+            for (auto frame : std::views::iota(0, int(grid.duration_samples()))) {
                 auto result = audio_callback({
                         .clock_time     = frame,
                         .chan_count_in  = 0,
@@ -64,7 +64,7 @@ void AUDIO(context &ctx) {
                 });
             }
 
-            sketch_016_convert_sample_rate(buffer, render_comp.fs_i);
+            sketch_016_convert_sample_rate(buffer, int(grid.fs));
             clover::io::audio_file::write(
                     render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
             std::cout << "finished render: " << render_name.c_str() << std::endl;
@@ -76,14 +76,14 @@ void AUDIO(context &ctx) {
     clover::io::system_audio_config system;
     clover::io::stream stream;
 
-    graph comp;
-    bar_grid grid{comp.fs, comp.bpm};
+    bar_grid grid(ctx.fs, ctx.bpm, ctx.duration_bars, ctx.should_loop);
+    graph comp{grid};
     sequencers sqs{comp, grid, &ctx.logger};
 
-    ctx.composition = &comp;
-    ctx.sequencers  = &sqs;
+    ctx.graph      = &comp;
+    ctx.sequencers = &sqs;
 
-    auto audio_callback   = create_audio_callback(comp, sqs);
+    auto audio_callback   = create_audio_callback(grid, comp, sqs);
     stream.audio_callback = audio_callback;
     // system.print();
     stream.open(clover::io::stream::settings{
@@ -91,7 +91,7 @@ void AUDIO(context &ctx) {
             .chan_count_in    = 0,
             .device_index_out = system.default_output().index,
             .chan_count_out   = comp.channel_count_out,
-            .sample_rate      = comp.fs_i,
+            .sample_rate      = int(grid.fs),
             .latency_ms       = 0});
 
     ctx.audio_ready.release();
