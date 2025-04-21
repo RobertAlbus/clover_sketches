@@ -7,7 +7,7 @@
 #include "infrastructure/bar_grid.hpp"
 #include "infrastructure/logger.hpp"
 
-#include "composition/composition.hpp"
+#include "composition/graph.hpp"
 #include "instruments/frsq.hpp"
 #include "instruments/kick.hpp"
 #include "instruments/subtractive_synth.hpp"
@@ -29,12 +29,12 @@ struct sequencers {
     frsq<frsq<kick_drum, event>, event_meta_sq> meta_frsq_kick;
     frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_chord;
 
-    sequencers(composition& comp, bar_grid& grid);
-    sequencers(composition& comp, bar_grid& grid, logger* log);
+    sequencers(graph& comp, bar_grid& grid);
+    sequencers(graph& comp, bar_grid& grid, logger* log);
     void tick();
 
-    void set_up_kick(composition& comp);
-    void set_up_chord(composition& comp);
-    void set_up_meta_sq(composition& comp);
-    void set_up_arrangement_print(composition& comp);
+    void set_up_kick(graph& comp);
+    void set_up_chord(graph& comp);
+    void set_up_meta_sq(graph& comp);
+    void set_up_arrangement_print(graph& comp);
 };

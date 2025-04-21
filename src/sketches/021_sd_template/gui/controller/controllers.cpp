@@ -28,7 +28,7 @@ std::vector<tabbed_controller> tabbed_controllers{
 };
 
 void controller_mixer(const char* id, context& ctx) {
-    composition* comp = ctx.composition;
+    graph* comp = ctx.composition;
 
     ImGui::PushID(id);
 
@@ -54,7 +54,7 @@ void controller_mixer(const char* id, context& ctx) {
 }
 
 void controller_kick(const char* id, context& ctx) {
-    composition* comp = ctx.composition;
+    graph* comp = ctx.composition;
 
     ImGui::PushID(id);
 
@@ -73,7 +73,7 @@ void controller_kick(const char* id, context& ctx) {
 }
 
 void controller_chord(const char* id, context& ctx) {
-    composition* comp = ctx.composition;
+    graph* comp = ctx.composition;
 
     ImGui::PushID(id);
     fdn_component("fdn", &comp->synth.chord_verb_L, &comp->synth.chord_verb_R);

@@ -19,7 +19,7 @@
 
 #include "sequence/automation.hpp"
 
-struct composition {
+struct graph {
     std::vector<mixer_track> mixer_tracks;
     std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer;
 
@@ -40,7 +40,7 @@ struct composition {
     float gain_master = 0.5f;
 
     static automation_patterns automation;
-    composition();
+    graph();
 
     bar_counter counter;
 

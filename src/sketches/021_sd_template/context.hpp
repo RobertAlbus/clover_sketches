@@ -8,12 +8,12 @@
 
 #include "clover/io/stream.hpp"
 
-#include "composition/composition.hpp"
+#include "composition/graph.hpp"
 #include "infrastructure/logger.hpp"
 #include "sequence/sequencers.hpp"
 
 struct context {
-    composition* composition   = nullptr;
+    graph* composition         = nullptr;
     sequencers* sequencers     = nullptr;
     clover::io::stream* stream = nullptr;
 

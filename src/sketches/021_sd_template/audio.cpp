@@ -15,7 +15,7 @@
 #include "context.hpp"
 #include "infrastructure/bar_grid.hpp"
 
-#include "composition/composition.hpp"
+#include "composition/graph.hpp"
 #include "sequence/sequencers.hpp"
 #include "util.hpp"
 
@@ -23,7 +23,7 @@
 
 std::string render_name{"021_sd_template"};
 
-auto create_audio_callback(composition &comp, sequencers &sqs) {
+auto create_audio_callback(graph &comp, sequencers &sqs) {
     return [&](clover::io::callback_args data) {
         float &L = *(data.output);
         float &R = *(data.output + 1);
@@ -43,7 +43,7 @@ void AUDIO(context &ctx) {
         std::thread render_thread = std::thread([]() {
             std::cout << "starting render: " << render_name.c_str() << std::endl;
 
-            composition render_comp;
+            graph render_comp;
             bar_grid grid{render_comp.fs, render_comp.bpm};
             sequencers render_sqs{render_comp, grid};
 
@@ -76,7 +76,7 @@ void AUDIO(context &ctx) {
     clover::io::system_audio_config system;
     clover::io::stream stream;
 
-    composition comp;
+    graph comp;
     bar_grid grid{comp.fs, comp.bpm};
     sequencers sqs{comp, grid, &ctx.logger};
 

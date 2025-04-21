@@ -6,13 +6,13 @@
 #include <print>
 
 #include "clover/math.hpp"
-#include "composition.hpp"
 #include "composition/mix.hpp"
+#include "graph.hpp"
 #include "patches/patches.hpp"
 
-automation_patterns composition::automation{};
+automation_patterns graph::automation{};
 
-composition::composition() : counter(sp_bar * duration_bars, duration_bars, should_loop) {
+graph::graph() : counter(sp_bar * duration_bars, duration_bars, should_loop) {
     for (auto& t : patch::mix.mixer_tracks)
         mixer_tracks.emplace_back(t);
     audio_mixer = build_audio_mixer(mixer_tracks);
@@ -27,7 +27,7 @@ composition::composition() : counter(sp_bar * duration_bars, duration_bars, shou
     kick.auto_verb_send.key_on();
 }
 
-std::pair<float, float> composition::tick() {
+std::pair<float, float> graph::tick() {
     counter.tick();
 
     float out_L = 0;
