@@ -4,7 +4,7 @@
 
 #include "bar_grid.hpp"
 
-bar_grid::bar_grid(float fs, double bpm, double beats_per_bar) {
+bar_grid::bar_grid(float fs, double bpm, double beats_per_bar) : fs{fs} {
     double samples_per_minute = fs * 60;
     double samples_per_beat   = samples_per_minute / bpm;
     samples_per_bar           = samples_per_beat * beats_per_bar;
