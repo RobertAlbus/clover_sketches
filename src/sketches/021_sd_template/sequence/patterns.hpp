@@ -6,12 +6,20 @@
 
 #include <vector>
 
+#include "instruments/frsq.hpp"
 #include "sequence/event.hpp"
+
+template <frsq_data_base event_t>
+struct pattern_t {
+    double duration_bar;
+    double duration_rel;
+    std::vector<event_t> pattern;
+};
 
 namespace pattern {
 
-extern std::vector<std::vector<event>> kick;
-extern std::vector<std::vector<event_midi>> chord;
+extern std::vector<pattern_t<event>> kick;
+extern std::vector<pattern_t<event_midi>> chord;
 
 }  // namespace pattern
 

@@ -13,6 +13,7 @@
 #include "clover/io/system_audio.hpp"
 
 #include "context.hpp"
+#include "infrastructure/bar_grid.hpp"
 
 #include "composition/composition.hpp"
 #include "sequence/sequencers.hpp"
@@ -43,7 +44,8 @@ void AUDIO(context &ctx) {
             std::cout << "starting render: " << render_name.c_str() << std::endl;
 
             composition render_comp;
-            sequencers render_sqs{render_comp};
+            bar_grid grid{render_comp.fs, render_comp.bpm};
+            sequencers render_sqs{render_comp, grid};
 
             auto audio_callback = create_audio_callback(render_comp, render_sqs);
 
@@ -62,7 +64,7 @@ void AUDIO(context &ctx) {
                 });
             }
 
-            sketch_016_convert_sample_rate(buffer, 44100);
+            sketch_016_convert_sample_rate(buffer, render_comp.fs_i);
             clover::io::audio_file::write(
                     render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
             std::cout << "finished render: " << render_name.c_str() << std::endl;
@@ -75,7 +77,8 @@ void AUDIO(context &ctx) {
     clover::io::stream stream;
 
     composition comp;
-    sequencers sqs{comp, &ctx.logger};
+    bar_grid grid{comp.fs, comp.bpm};
+    sequencers sqs{comp, grid, &ctx.logger};
 
     ctx.composition = &comp;
     ctx.sequencers  = &sqs;

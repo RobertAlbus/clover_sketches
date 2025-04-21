@@ -68,11 +68,28 @@ struct frsq {
         current_time_absolute = (from_time_relative / duration_relative) * duration_absolute;
         determine_last_event();
     }
-    void set_pattern(std::span<frsq_data_t> new_pattern_data, double from_time_relative) {
+    void set_pattern(
+            std::span<frsq_data_t> new_pattern_data,
+            double new_duration_samples,
+            double new_duration_relative,
+            double from_time_relative) {
+        duration_absolute = new_duration_samples;
+        duration_relative = new_duration_relative;
+        if (current_time_absolute > duration_absolute) {
+            current_time_absolute = fmod(current_time_absolute, duration_absolute);
+        }
         pattern_data = new_pattern_data;
         set_from_time(from_time_relative);
     }
-    void set_pattern(std::span<frsq_data_t> new_pattern_data) {
+    void set_pattern(
+            std::span<frsq_data_t> new_pattern_data,
+            double new_duration_samples,
+            double new_duration_relative) {
+        duration_absolute = new_duration_samples;
+        duration_relative = new_duration_relative;
+        if (current_time_absolute > duration_absolute) {
+            current_time_absolute = fmod(current_time_absolute, duration_absolute);
+        }
         pattern_data = new_pattern_data;
         determine_last_event();
     }
@@ -144,11 +161,14 @@ struct frsq {
         auto next_event = last_event + 1;
 
         // wrap back around to the beginning if needed
+        auto next_event_cache = next_event;
         if (initial_pattern_start) {
             next_event            = pattern_data.begin();
             initial_pattern_start = false;
         } else if (next_event == pattern_data.end()) {
-            if (!(current_time_absolute >= next_event->start_time)) {
+            // add epsilon to prevent false negative for certain BPMs (eg. @160)
+            constexpr double eps = std::numeric_limits<double>::epsilon();
+            if (!(current_time_absolute + eps >= next_event->start_time)) {
                 loop_wrap_pending = true;
             }
             next_event = pattern_data.begin();
@@ -224,6 +244,7 @@ struct frsq {
         if (current_time_absolute >= duration_absolute) {
             loop_wrap_pending = false;
             current_time_absolute -= duration_absolute;
+        } else {
         }
     }
 };

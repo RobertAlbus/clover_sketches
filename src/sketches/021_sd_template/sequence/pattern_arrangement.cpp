@@ -11,6 +11,7 @@ double playback_start = 0;
 
 std::vector<event_meta_sq> kick{
         {.start_time = 0, .pattern_index = 1},
+        {.start_time = 12, .pattern_index = 2},
         {.start_time = 16, .pattern_index = 1},
 };
 

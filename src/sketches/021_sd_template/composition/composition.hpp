@@ -29,7 +29,7 @@ struct composition {
     int fs_i                  = static_cast<int>(fs);
     int channel_count_out     = 2;
 
-    double bpm            = 142;
+    double bpm            = 160;
     double sp_minute      = fs * 60;
     double sp_beat        = sp_minute / bpm;
     double sp_bar         = sp_beat * 4;
