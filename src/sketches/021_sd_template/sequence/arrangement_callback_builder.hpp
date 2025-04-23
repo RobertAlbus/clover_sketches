@@ -24,7 +24,7 @@ std::function<void(frsq<voice_t, event_t>&, const event_meta_sq&)> callback_for(
         bar_grid& grid,
         std::vector<pattern_t<event_t>>& patterns,
         std::string logging_name) {
-    return [&logger, logging_name, &patterns, &grid](
+    return [logger, logging_name, &patterns, &grid](
                    frsq<voice_t, event_t>& voice, const event_meta_sq& event) mutable {
         if (logger && *logger) {
             gui_log_message msg;
@@ -40,6 +40,8 @@ std::function<void(frsq<voice_t, event_t>&, const event_meta_sq&)> callback_for(
                 std::fprintf(
                         stderr, "failed to log to gui: arrangement callback for %s\n", logging_name.c_str());
             }
+        } else {
+            std::fprintf(stderr, "failed to log to gui: no logger\n");
         }
         if (event.pattern_index >= patterns.size())
             throw std::runtime_error(std::format(
