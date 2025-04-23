@@ -13,9 +13,7 @@
 #include "instruments/kick.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
-#include "sequence/automation.hpp"
 
-#include "bar_counter.hpp"
 #include "composition/mix.hpp"
 #include "patches/patches.hpp"
 
@@ -28,13 +26,8 @@ struct graph {
     std::pair<float, float> tick();
 
     int channel_count_out = 2;
-
-    float gain_master = 0.5f;
-
-    static automation_patterns automation;
+    float gain_master     = 0.5f;
     graph(bar_grid& grid);
-
-    bar_counter counter;
 
     // HACK: semantically meaning label used as a flag for fdn
     // - FDN needs to be updated after props change.

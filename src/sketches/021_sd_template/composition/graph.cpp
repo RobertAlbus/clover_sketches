@@ -10,27 +10,13 @@
 #include "graph.hpp"
 #include "patches/patches.hpp"
 
-automation_patterns graph::automation{};
-
-graph::graph(bar_grid& grid)
-    : grid{grid}, counter(grid.duration_samples(), grid.duration_bars, grid.should_loop) {
+graph::graph(bar_grid& grid) : grid{grid} {
     for (auto& t : patch::mix.mixer_tracks)
         mixer_tracks.emplace_back(t);
     audio_mixer = build_audio_mixer(mixer_tracks);
-
-    kick_auto_hp.set_pattern(automation.bp_env_kick_hp);
-    kick_auto_hp.duration_abs = grid.duration_samples();
-    kick_auto_hp.duration_rel = grid.duration_bars;
-    kick_auto_hp.key_on();
-    kick_auto_verb_send.set_pattern(automation.bp_env_kick_verb_send);
-    kick_auto_verb_send.duration_abs = grid.duration_samples();
-    kick_auto_verb_send.duration_rel = grid.duration_bars;
-    kick_auto_verb_send.key_on();
 }
 
 std::pair<float, float> graph::tick() {
-    counter.tick();
-
     float out_L = 0;
     float out_R = 0;
 
@@ -54,11 +40,12 @@ std::pair<float, float> graph::tick() {
     kick_dry *= MIX_kick_dry;
     auto [kick_send_eq, _] = kick_preverb_peq.tick(kick_send, kick_send);
 
-    float kick_wet = kick_verb.tick(kick_send_eq) * MIX_kick_wet * kick_auto_verb_send.tick();
+    float kick_wet = kick_verb.tick(kick_send_eq) * MIX_kick_wet;  // * kick_auto_verb_send.tick();
     float kick_sum = (kick_dry + kick_wet) * MIX_kick_bus;
 
-    kick_hpf.m_coeffs = hpf(grid.fs, frequency_by_octave_difference(10, kick_auto_hp.tick()), 0.707);
-    kick_sum          = kick_hpf.tick(kick_sum);
+    // kick_hpf.m_coeffs = hpf(grid.fs, frequency_by_octave_difference(10, kick_auto_hp.tick()), 0.707);
+    // kick_hpf.m_coeffs = hpf(grid.fs, frequency_by_octave_difference(10, 0), 0.707);
+    kick_sum = kick_sum;  // kick_hpf.tick(kick_sum);
 
     auto [kick_post_eq, _] = kick_out_peq.tick(kick_sum, kick_sum);
     kick_sum               = kick_post_eq;

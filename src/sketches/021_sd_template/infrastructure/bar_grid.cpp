@@ -22,5 +22,5 @@ double bar_grid::samples_to_bars(double samples) {
 }
 
 double bar_grid::duration_samples() {
-    return std::floor(bars_to_samples(duration_bars) + 1);
+    return bars_to_samples(duration_bars);
 }

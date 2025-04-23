@@ -37,4 +37,5 @@ struct sequencers {
     void set_up_chord(graph& graph);
     void set_up_meta_sq(graph& graph);
     void set_up_arrangement_print(graph& graph);
+    void set_up_automation(graph& graph);
 };

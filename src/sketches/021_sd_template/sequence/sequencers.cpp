@@ -19,6 +19,7 @@ sequencers::sequencers(graph& graph, bar_grid& grid, logger* log) : grid{grid}, 
     set_up_chord(graph);
     set_up_arrangement_print(graph);
     set_up_meta_sq(graph);
+    set_up_automation(graph);
 }
 
 void sequencers::tick() {
@@ -31,21 +32,13 @@ void sequencers::tick() {
 }
 
 void sequencers::set_up_kick(graph& graph) {
-    frsq_kick.voices = std::span<kick_drum>(&graph.kick, 1);
-    // frsq_kick.duration_absolute = comp.sp_bar;
-    // frsq_kick.duration_relative = 4.;
-    // frsq_kick.set_pattern(drum_patterns.patterns_kick[active_scene["kick"]]);
-
+    frsq_kick.voices         = std::span<kick_drum>(&graph.kick, 1);
     frsq_kick.callback_start = [](kick_drum& voice, const event& data) { voice.key_on(); };
     frsq_kick.callback_end   = [](kick_drum& voice) { voice.key_off(); };
 }
 
 void sequencers::set_up_chord(graph& graph) {
-    frsq_chord.voices = std::span<subtractive_synth>(graph.chord.begin(), graph.chord.end());
-    // frsq_chord.duration_absolute = comp.sp_bar;
-    // frsq_chord.duration_relative = 4.;
-    // frsq_chord.set_pattern(synth_patterns.patterns_chord[active_scene["chord"]]);
-
+    frsq_chord.voices         = std::span<subtractive_synth>(graph.chord.begin(), graph.chord.end());
     frsq_chord.callback_start = [](subtractive_synth& voice, const event_midi& data) {
         voice.key_on(data.note);
     };
@@ -91,8 +84,19 @@ void sequencers::set_up_arrangement_print(graph& graph) {
             snprintf(msg.text, sizeof(msg.text), "\n--------\n bar: %d", int(event.start_time));
             bool sent = log->gui.try_enqueue(msg);
             if (!sent) {
-                std::println("meta_frsq_chord.callback_start failed to log to gui");
+                std::println("frsq_arrangement_print.callback_start failed to log to gui");
             }
         }
     };
+}
+
+void sequencers::set_up_automation(graph& graph) {
+    graph.kick_auto_hp.set_pattern(arrangement::bp_env_kick_hp);
+    graph.kick_auto_hp.duration_abs = grid.duration_samples();
+    graph.kick_auto_hp.duration_rel = grid.duration_bars;
+    graph.kick_auto_hp.key_on();
+    graph.kick_auto_verb_send.set_pattern(arrangement::bp_env_kick_verb_send);
+    graph.kick_auto_verb_send.duration_abs = grid.duration_samples();
+    graph.kick_auto_verb_send.duration_rel = grid.duration_bars;
+    graph.kick_auto_verb_send.key_on();
 }

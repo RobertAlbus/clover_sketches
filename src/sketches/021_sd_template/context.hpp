@@ -15,7 +15,7 @@
 struct context {
     float fs            = 48000;
     float bpm           = 160;
-    float duration_bars = 16;
+    float duration_bars = 4;
     bool should_loop    = true;
 
     graph* graph               = nullptr;
