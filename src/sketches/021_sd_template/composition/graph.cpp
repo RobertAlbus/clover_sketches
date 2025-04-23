@@ -10,13 +10,13 @@
 #include "graph.hpp"
 #include "patches/patches.hpp"
 
-graph::graph(bar_grid& grid) : grid{grid} {
+signal_graph::signal_graph(bar_grid& grid) : grid{grid} {
     for (auto& t : patch::mix.mixer_tracks)
         mixer_tracks.emplace_back(t);
     audio_mixer = build_audio_mixer(mixer_tracks);
 }
 
-std::pair<float, float> graph::tick() {
+std::pair<float, float> signal_graph::tick() {
     float out_L = 0;
     float out_R = 0;
 

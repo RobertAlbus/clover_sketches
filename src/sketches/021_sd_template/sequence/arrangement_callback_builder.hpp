@@ -20,29 +20,19 @@
 
 template <typename voice_t, frsq_data_base event_t>
 std::function<void(frsq<voice_t, event_t>&, const event_meta_sq&)> callback_for(
-        logger** logger,
-        bar_grid& grid,
-        std::vector<pattern_t<event_t>>& patterns,
-        std::string logging_name) {
-    return [logger, logging_name, &patterns, &grid](
+        logger& logger, bar_grid& grid, std::vector<pattern_t<event_t>>& patterns, std::string logging_name) {
+    return [&logger, logging_name, &patterns, &grid](
                    frsq<voice_t, event_t>& voice, const event_meta_sq& event) mutable {
-        if (logger && *logger) {
-            gui_log_message msg;
-            snprintf(
-                    msg.text,
-                    sizeof(msg.text),
-                    " - %-16s %zu @ %f",
-                    logging_name.c_str(),
-                    event.pattern_index,
-                    event.start_time);
-            bool sent = (*logger)->gui.try_enqueue(msg);
-            if (!sent) {
-                std::fprintf(
-                        stderr, "failed to log to gui: arrangement callback for %s\n", logging_name.c_str());
-            }
-        } else {
-            std::fprintf(stderr, "failed to log to gui: no logger\n");
-        }
+        gui_log_message msg;
+        snprintf(
+                msg.text,
+                sizeof(msg.text),
+                " - %-16s %zu @ %f",
+                logging_name.c_str(),
+                event.pattern_index,
+                event.start_time);
+        logger.gui.try_enqueue(msg);
+
         if (event.pattern_index >= patterns.size())
             throw std::runtime_error(std::format(
                     "selected non-existant pattern[{}] for {}", event.pattern_index, logging_name));

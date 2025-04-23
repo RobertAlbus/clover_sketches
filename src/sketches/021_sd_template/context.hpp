@@ -13,16 +13,23 @@
 #include "sequence/sequencers.hpp"
 
 struct context {
+    context(bool render_mode = false) {
+        should_loop = !render_mode;
+    }
     float fs            = 48000;
     float bpm           = 160;
     float duration_bars = 4;
     bool should_loop    = true;
 
-    graph* graph               = nullptr;
-    sequencers* sequencers     = nullptr;
-    clover::io::stream* stream = nullptr;
+    int channel_count_out = 2;
+    const std::string render_name{"021_sd_template"};
 
     logger logger;
+
+    bar_grid grid{fs, bpm, duration_bars, should_loop};
+    signal_graph graph{grid};
+    sequencers sequencers{graph, grid, logger};
+    clover::io::stream* stream = nullptr;
 
     std::binary_semaphore gui_ready{0};
     std::binary_semaphore gui_intent_to_exit{0};

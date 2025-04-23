@@ -12,8 +12,8 @@ double playback_start = 0;
 
 // clang-format off
 std::vector<event_meta_sq> kick{
-    {.start_time = 0, .pattern_index = 1},
-    {.start_time = 3, .pattern_index = 0},
+        {.start_time = 0, .pattern_index = 1},
+        {.start_time = 3, .pattern_index = 0},
 };
 
 std::vector<event_meta_sq> chord{

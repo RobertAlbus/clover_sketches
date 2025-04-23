@@ -28,7 +28,7 @@ std::vector<tabbed_controller> tabbed_controllers{
 };
 
 void controller_mixer(const char* id, context& ctx) {
-    graph* comp = ctx.graph;
+    signal_graph& graph = ctx.graph;
 
     ImGui::PushID(id);
 
@@ -46,45 +46,44 @@ void controller_mixer(const char* id, context& ctx) {
         }
     }
 
-    mixer_component("new_mix", &comp->mixer_tracks);
-    // mixer_component("mix", &comp->mix);
-    peq_gui("##master_peq", comp->main_eq);
+    mixer_component("new_mix", &graph.mixer_tracks);
+    peq_gui("##master_peq", graph.main_eq);
 
     ImGui::PopID();
 }
 
 void controller_kick(const char* id, context& ctx) {
-    graph* comp = ctx.graph;
+    signal_graph& graph = ctx.graph;
 
     ImGui::PushID(id);
 
-    kick_drum_gui("kick_synth", comp->kick);
+    kick_drum_gui("kick_synth", graph.kick);
     if (ImGui::BeginTable("##kick_table", 2)) {
         ImGui::TableNextColumn();
-        peq_gui("##kick_preverb_peq", comp->kick_preverb_peq);
+        peq_gui("##kick_preverb_peq", graph.kick_preverb_peq);
         ImGui::TableNextColumn();
         ImGui::Text("kick postverb peq");
-        peq_gui("##kick_out_peq", comp->kick_out_peq);
+        peq_gui("##kick_out_peq", graph.kick_out_peq);
         ImGui::EndTable();
     }
-    fdn_component("##kick_fdn", &comp->kick_verb, nullptr);
+    fdn_component("##kick_fdn", &graph.kick_verb, nullptr);
 
     ImGui::PopID();
 }
 
 void controller_chord(const char* id, context& ctx) {
-    graph* comp = ctx.graph;
+    signal_graph& graph = ctx.graph;
 
     ImGui::PushID(id);
-    fdn_component("fdn", &comp->chord_verb_L, &comp->chord_verb_R);
+    fdn_component("fdn", &graph.chord_verb_L, &graph.chord_verb_R);
     if (ImGui::BeginTable("##peq_table", 2)) {
         ImGui::TableNextColumn();
         ImGui::Text("chord preverb peq");
-        peq_gui("##preverb_peq", comp->chord_preverb_peq);
+        peq_gui("##preverb_peq", graph.chord_preverb_peq);
 
         ImGui::TableNextColumn();
         ImGui::Text("chord out peq");
-        peq_gui("##postverb_peq", comp->chord_peq);
+        peq_gui("##postverb_peq", graph.chord_peq);
 
         ImGui::EndTable();
     }

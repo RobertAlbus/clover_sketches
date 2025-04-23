@@ -17,7 +17,7 @@
 #include "composition/mix.hpp"
 #include "patches/patches.hpp"
 
-struct graph {
+struct signal_graph {
     bar_grid& grid;
 
     std::vector<mixer_track> mixer_tracks;
@@ -25,9 +25,8 @@ struct graph {
 
     std::pair<float, float> tick();
 
-    int channel_count_out = 2;
-    float gain_master     = 0.5f;
-    graph(bar_grid& grid);
+    float gain_master = 0.5f;
+    signal_graph(bar_grid& grid);
 
     // HACK: semantically meaning label used as a flag for fdn
     // - FDN needs to be updated after props change.

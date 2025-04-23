@@ -12,16 +12,18 @@
 #include "sequence/patterns.hpp"
 #include "sequencers.hpp"
 
-sequencers::sequencers(graph& graph, bar_grid& grid) : sequencers(graph, grid, nullptr) {
+sequencers::sequencers(signal_graph& graph, bar_grid& grid, logger& log)
+    : log{log}, grid{grid}, graph{graph} {
+    set_up();
 }
-sequencers::sequencers(graph& graph, bar_grid& grid, logger* log) : grid{grid}, log{log} {
+
+void sequencers::set_up() {
     set_up_kick(graph);
     set_up_chord(graph);
     set_up_arrangement_print(graph);
     set_up_meta_sq(graph);
     set_up_automation(graph);
 }
-
 void sequencers::tick() {
     frsq_arrangement_print.tick();
     meta_frsq_kick.tick();
@@ -31,13 +33,13 @@ void sequencers::tick() {
     frsq_chord.tick();
 }
 
-void sequencers::set_up_kick(graph& graph) {
+void sequencers::set_up_kick(signal_graph& graph) {
     frsq_kick.voices         = std::span<kick_drum>(&graph.kick, 1);
     frsq_kick.callback_start = [](kick_drum& voice, const event& data) { voice.key_on(); };
     frsq_kick.callback_end   = [](kick_drum& voice) { voice.key_off(); };
 }
 
-void sequencers::set_up_chord(graph& graph) {
+void sequencers::set_up_chord(signal_graph& graph) {
     frsq_chord.voices         = std::span<subtractive_synth>(graph.chord.begin(), graph.chord.end());
     frsq_chord.callback_start = [](subtractive_synth& voice, const event_midi& data) {
         voice.key_on(data.note);
@@ -45,7 +47,7 @@ void sequencers::set_up_chord(graph& graph) {
     frsq_chord.callback_end = [](subtractive_synth& voice) { voice.key_off(); };
 }
 
-void sequencers::set_up_meta_sq(graph& graph) {
+void sequencers::set_up_meta_sq(signal_graph& graph) {
     meta_frsq_kick.voices  = std::span(&frsq_kick, 1);
     meta_frsq_chord.voices = std::span(&frsq_chord, 1);
 
@@ -55,10 +57,10 @@ void sequencers::set_up_meta_sq(graph& graph) {
     meta_frsq_kick.duration_relative  = grid.duration_bars;
     meta_frsq_chord.duration_relative = grid.duration_bars;
 
-    meta_frsq_kick.callback_start = callback_for<kick_drum, event>(&log, grid, pattern::kick, "frsq_kick");
+    meta_frsq_kick.callback_start = callback_for<kick_drum, event>(log, grid, pattern::kick, "frsq_kick");
 
     meta_frsq_chord.callback_start =
-            callback_for<subtractive_synth, event_midi>(&log, grid, pattern::chord, "frsq_chord");
+            callback_for<subtractive_synth, event_midi>(log, grid, pattern::chord, "frsq_chord");
 
     meta_frsq_kick.set_pattern(
             arrangement::kick,
@@ -72,25 +74,20 @@ void sequencers::set_up_meta_sq(graph& graph) {
             arrangement::playback_start);
 }
 
-void sequencers::set_up_arrangement_print(graph& graph) {
+void sequencers::set_up_arrangement_print(signal_graph& graph) {
     frsq_arrangement_print.voices            = std::span(arrangement::bar.begin(), 1);
     frsq_arrangement_print.duration_absolute = grid.bars_to_samples(grid.duration_bars);
     frsq_arrangement_print.duration_relative = grid.duration_bars;
     frsq_arrangement_print.set_pattern(
             arrangement::bar, grid.bars_to_samples(grid.duration_bars), grid.duration_bars);
     frsq_arrangement_print.callback_start = [&](event& voice, const event& event) {
-        if (log) {
-            gui_log_message msg;
-            snprintf(msg.text, sizeof(msg.text), "\n--------\n bar: %d", int(event.start_time));
-            bool sent = log->gui.try_enqueue(msg);
-            if (!sent) {
-                std::println("frsq_arrangement_print.callback_start failed to log to gui");
-            }
-        }
+        gui_log_message msg;
+        snprintf(msg.text, sizeof(msg.text), "\n--------\n bar: %d", int(event.start_time));
+        log.gui.try_enqueue(msg);
     };
 }
 
-void sequencers::set_up_automation(graph& graph) {
+void sequencers::set_up_automation(signal_graph& graph) {
     graph.kick_auto_hp.set_pattern(arrangement::bp_env_kick_hp);
     graph.kick_auto_hp.duration_abs = grid.duration_samples();
     graph.kick_auto_hp.duration_rel = grid.duration_bars;
