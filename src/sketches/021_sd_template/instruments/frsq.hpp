@@ -167,8 +167,7 @@ struct frsq {
             initial_pattern_start = false;
         } else if (next_event == pattern_data.end()) {
             // add epsilon to prevent false negative for certain BPMs (eg. @160)
-            constexpr double eps = std::numeric_limits<double>::epsilon();
-            if (!(current_time_absolute + eps >= next_event->start_time)) {
+            if (!(int(current_time_absolute) >= int(next_event->start_time))) {
                 loop_wrap_pending = true;
             }
             next_event = pattern_data.begin();
@@ -244,7 +243,6 @@ struct frsq {
         if (current_time_absolute >= duration_absolute) {
             loop_wrap_pending = false;
             current_time_absolute -= duration_absolute;
-        } else {
         }
     }
 };
