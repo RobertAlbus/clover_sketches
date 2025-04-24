@@ -43,11 +43,11 @@ patch_synth_t::patch_synth_t() {
             }};
 
     chord_fdn_props = {
-            .taps    = {2090.261, 2285.848, 2677.022, 3524.565, 4502.5, 5415.239, 6197.587, 6653.957},
+            .taps    = {137.289, 270.578, 337.222, 603.8, 937.022, 11000.334, 11533.489, 12000},
             .fb_gain = 0.918,
-            .lpf_cut = 3052,
+            .lpf_cut = 987.6031,
             .lpf_res = 0.707,
-            .hpf_cut = 91,
+            .hpf_cut = 139.60605,
             .hpf_res = 0.707,
     };
 
@@ -85,10 +85,17 @@ patch_synth_t::patch_synth_t() {
     chord_peq_props = {
             peq_props{
                     .freq    = 180.1,
-                    .reso    = .707,
+                    .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
+            },
+            peq_props{
+                    .freq    = 9431.6,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::lp,
             },
     };
 };

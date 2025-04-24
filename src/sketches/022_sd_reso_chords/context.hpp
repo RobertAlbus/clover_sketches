@@ -17,7 +17,7 @@ struct context {
         should_loop = !render_mode;
     }
     float fs            = 48000;
-    float bpm           = 160;
+    float bpm           = 124;
     float duration_bars = 4;
     bool should_loop    = true;
 

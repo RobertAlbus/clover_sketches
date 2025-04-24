@@ -21,7 +21,7 @@ patch_synth_t::patch_synth_t() {
                     .pitch_d           = 10,
                     .pitch_s           = 0,
                     .pitch_r           = 10,
-                    .amp_a             = 100,
+                    .amp_a             = 15000,
                     .amp_d             = 2000,
                     .amp_s             = 0.6,
                     .amp_r             = 1000,
@@ -32,7 +32,7 @@ patch_synth_t::patch_synth_t() {
                     .res                  = 1,
                     .res_range_octaves    = 0,
                     .filter_type          = filter_t::lpf,
-                    .cut_a                = 10,
+                    .cut_a                = 15000,
                     .cut_d                = 1000,
                     .cut_s                = 0.1,
                     .cut_r                = 1000,
@@ -43,11 +43,11 @@ patch_synth_t::patch_synth_t() {
             }};
 
     chord_fdn_props = {
-            .taps    = {2090.261, 2285.848, 2677.022, 3524.565, 4502.5, 5415.239, 6197.587, 6653.957},
+            .taps    = {137.289, 270.578, 337.222, 603.8, 937.022, 11000.334, 11533.489, 12000},
             .fb_gain = 0.918,
-            .lpf_cut = 3052,
+            .lpf_cut = 987.6031,
             .lpf_res = 0.707,
-            .hpf_cut = 91,
+            .hpf_cut = 139.60605,
             .hpf_res = 0.707,
     };
 
