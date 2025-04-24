@@ -19,7 +19,7 @@
 
 std::string render_name{"015_frsq.wav"};
 
-void AUDIO(shared_props& props) {
+void AUDIO(context& props) {
     std::jthread render_thread = std::jthread([]() {
         std::cout << "starting render: " << render_name.c_str() << std::endl;
         composition comp;

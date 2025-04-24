@@ -9,7 +9,7 @@
 #include "clover/io/stream.hpp"
 #include "composition/composition.hpp"
 
-struct shared_props {
+struct context {
     composition* composition   = nullptr;
     clover::io::stream* stream = nullptr;
 

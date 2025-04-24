@@ -10,7 +10,7 @@
 #include "composition/composition.hpp"
 #include "sequence/sequencers.hpp"
 
-struct shared_props {
+struct context {
     composition* composition   = nullptr;
     sequencers* sequencers     = nullptr;
     clover::io::stream* stream = nullptr;

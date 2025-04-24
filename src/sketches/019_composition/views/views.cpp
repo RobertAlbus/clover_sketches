@@ -9,7 +9,7 @@
 #include "visual_components/mixer_ui.hpp"
 #include "visual_components/peq.hpp"
 
-void view_mixer(const char* id, composition* comp) {
+void controller_mixer(const char* id, composition* comp) {
     ImGui::PushID(id);
 
     mixer_component("mix", &comp->mix);
@@ -18,7 +18,7 @@ void view_mixer(const char* id, composition* comp) {
     ImGui::PopID();
 }
 
-void view_kick(const char* id, composition* comp) {
+void controller_kick(const char* id, composition* comp) {
     ImGui::PushID(id);
 
     kick_drum_gui("kick_synth", comp->kick.drum);
@@ -80,7 +80,7 @@ void view_lead_b(const char* id, composition* comp) {
     ImGui::PopID();
 }
 
-void view_chord(const char* id, composition* comp) {
+void controller_chord(const char* id, composition* comp) {
     ImGui::PushID(id);
     fdn_component("fdn", &comp->synth.chord_verb_L, &comp->synth.chord_verb_R);
     if (ImGui::BeginTable("##peq_table", 2)) {
