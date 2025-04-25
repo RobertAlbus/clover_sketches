@@ -56,13 +56,13 @@ bool draw_adsr_000(const char* id, const adsr_ranges_000& ranges, float& a, floa
         ImGui::TableNextRow();
 
         ImGui::TableNextColumn();
-        was_modified = was_modified || slider_spinnner_v_000("##a", a, 1, ranges.a_max, "%.f");
+        was_modified |= slider_spinnner_v_000("##a", a, 1, ranges.a_max, "%.f");
         ImGui::TableNextColumn();
-        was_modified = was_modified || slider_spinnner_v_000("##d", d, 1, ranges.d_max, "%.f");
+        was_modified |= slider_spinnner_v_000("##d", d, 1, ranges.d_max, "%.f");
         ImGui::TableNextColumn();
-        was_modified = was_modified || slider_spinnner_v_000("##s", s, 0, ranges.s_max, "%.2f");
+        was_modified |= slider_spinnner_v_000("##s", s, 0, ranges.s_max, "%.2f");
         ImGui::TableNextColumn();
-        was_modified = was_modified || slider_spinnner_v_000("##r", r, 1, ranges.r_max, "%.f");
+        was_modified |= slider_spinnner_v_000("##r", r, 1, ranges.r_max, "%.f");
 
         ImGui::EndTable();
     }
