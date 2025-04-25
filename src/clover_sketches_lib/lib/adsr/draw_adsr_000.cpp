@@ -7,9 +7,9 @@
 #include "imgui.h"
 using namespace ImGui;
 
-#include "adsr.hpp"
+#include "draw_adsr.hpp"
 
-bool slider_spinnner_v(
+bool slider_spinnner_v_000(
         const char* id,
         float& value,
         float min,
@@ -31,13 +31,18 @@ bool slider_spinnner_v(
     return was_modified;
 }
 
-bool slider_spinnner_v(
-        const char* id, float& value, float min, float max, const char* fmt, ImGuiSliderFlags slider_flags) {
+bool slider_spinnner_v_000(
+        const char* id,
+        float& value,
+        float min,
+        float max,
+        const char* fmt,
+        ImGuiSliderFlags slider_flags = 0) {
     const ImVec2 default_dimensions = ImVec2(30, 100);
-    return slider_spinnner_v(id, value, min, max, fmt, slider_flags, default_dimensions);
+    return slider_spinnner_v_000(id, value, min, max, fmt, slider_flags, default_dimensions);
 }
 
-bool adsr(const char* id, const adsr_ranges& ranges, float& a, float& d, float& s, float& r) {
+bool draw_adsr_000(const char* id, const adsr_ranges_000& ranges, float& a, float& d, float& s, float& r) {
     ImGui::PushID(id);
 
     bool was_modified = false;
@@ -51,13 +56,13 @@ bool adsr(const char* id, const adsr_ranges& ranges, float& a, float& d, float& 
         ImGui::TableNextRow();
 
         ImGui::TableNextColumn();
-        was_modified = was_modified || slider_spinnner_v("##a", a, 1, ranges.a_max, "%.f");
+        was_modified = was_modified || slider_spinnner_v_000("##a", a, 1, ranges.a_max, "%.f");
         ImGui::TableNextColumn();
-        was_modified = was_modified || slider_spinnner_v("##d", d, 1, ranges.d_max, "%.f");
+        was_modified = was_modified || slider_spinnner_v_000("##d", d, 1, ranges.d_max, "%.f");
         ImGui::TableNextColumn();
-        was_modified = was_modified || slider_spinnner_v("##s", s, 0, ranges.s_max, "%.2f");
+        was_modified = was_modified || slider_spinnner_v_000("##s", s, 0, ranges.s_max, "%.2f");
         ImGui::TableNextColumn();
-        was_modified = was_modified || slider_spinnner_v("##r", r, 1, ranges.r_max, "%.f");
+        was_modified = was_modified || slider_spinnner_v_000("##r", r, 1, ranges.r_max, "%.f");
 
         ImGui::EndTable();
     }

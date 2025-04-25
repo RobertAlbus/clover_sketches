@@ -6,9 +6,9 @@
 
 #include "composition/mix.hpp"
 #include "instruments/fdn.hpp"
-#include "instruments/kick.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
+#include "lib/kick_drum/kick_drum.hpp"
 
 struct patch_drums_t {
     patch_drums_t();
@@ -16,7 +16,7 @@ struct patch_drums_t {
     // --------------------------------
     // KICK
 
-    kick_props kick_drum_props;
+    kick_props_000 kick_drum_props;
     fdn_8_props_019 kick_fdn_props;
     std::array<peq_props, peq::SIZE> kick_preverb_peq_props;
     std::array<peq_props, peq::SIZE> kick_peq_props;

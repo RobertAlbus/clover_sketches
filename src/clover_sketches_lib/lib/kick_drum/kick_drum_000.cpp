@@ -10,12 +10,12 @@
 #include "clover/dsp/oscillator.hpp"
 #include "clover/math.hpp"
 
-#include "kick.hpp"
+#include "kick_drum.hpp"
 
 using namespace clover;
 using namespace dsp;
 
-std::string kick_props::to_str() {
+std::string kick_props_000::to_str() {
     return std::format(
             "\
 kick_props patch{{     \n\
@@ -60,11 +60,11 @@ kick_props patch{{     \n\
             cut_range);
 }
 
-kick_drum::kick_drum(clover_float fs, const kick_props& new_props) : fs(fs), kick_osc(fs) {
+kick_drum_000::kick_drum_000(clover_float fs, const kick_props_000& new_props) : fs(fs), kick_osc(fs) {
     patch(new_props);
 }
 
-void kick_drum::patch(kick_props new_props) {
+void kick_drum_000::patch(kick_props_000 new_props) {
     props = std::move(new_props);
     kick_osc.freq(props.pitch_fundamental);
     kick_osc.phase(0);
@@ -75,20 +75,20 @@ void kick_drum::patch(kick_props new_props) {
     filt.m_coeffs = lpf(fs, props.cut_fundamental, 1);
 }
 
-void kick_drum::key_on() {
+void kick_drum_000::key_on() {
     key_off();
     kick_osc.phase(0);
     adsr_cut.key_on();
     adsr_pitch.key_on();
     adsr_amp.key_on();
 }
-void kick_drum::key_off() {
+void kick_drum_000::key_off() {
     adsr_cut.key_off();
     adsr_pitch.key_off();
     adsr_amp.key_off();
 }
 
-clover_float kick_drum::tick() {
+clover_float kick_drum_000::tick() {
     float osc_signal = kick_osc.tick();
     float cutoff_env = adsr_cut.tick();
     float gain_env   = adsr_amp.tick();

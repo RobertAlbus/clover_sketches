@@ -11,9 +11,9 @@
 
 #include "gui/component/fdn_ui.hpp"
 #include "gui/component/gui_logger_component.hpp"
-#include "gui/component/kick_drum_gui.hpp"
 #include "gui/component/mixer_ui.hpp"
 #include "gui/component/peq.hpp"
+#include "lib/kick_drum/draw_kick_drum.hpp"
 
 void controller_mixer(const char* id, context& ctx);
 void controller_kick(const char* id, context& ctx);
@@ -57,7 +57,7 @@ void controller_kick(const char* id, context& ctx) {
 
     ImGui::PushID(id);
 
-    kick_drum_gui("kick_synth", graph.kick);
+    draw_kick_drum_000("kick_synth", graph.kick);
     if (ImGui::BeginTable("##kick_table", 2)) {
         ImGui::TableNextColumn();
         peq_gui("##kick_preverb_peq", graph.kick_preverb_peq);

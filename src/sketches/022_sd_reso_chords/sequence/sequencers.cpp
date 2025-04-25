@@ -5,8 +5,8 @@
 #include <print>
 
 #include "composition/graph.hpp"
-#include "instruments/kick.hpp"
 #include "instruments/subtractive_synth.hpp"
+#include "lib/kick_drum/kick_drum.hpp"
 #include "sequence/arrangement_callback_builder.hpp"
 #include "sequence/event.hpp"
 #include "sequence/patterns.hpp"
@@ -34,9 +34,9 @@ void sequencers::tick() {
 }
 
 void sequencers::set_up_kick(signal_graph& graph) {
-    frsq_kick.voices         = std::span<kick_drum>(&graph.kick, 1);
-    frsq_kick.callback_start = [](kick_drum& voice, const event& data) { voice.key_on(); };
-    frsq_kick.callback_end   = [](kick_drum& voice) { voice.key_off(); };
+    frsq_kick.voices         = std::span<kick_drum_000>(&graph.kick, 1);
+    frsq_kick.callback_start = [](kick_drum_000& voice, const event& data) { voice.key_on(); };
+    frsq_kick.callback_end   = [](kick_drum_000& voice) { voice.key_off(); };
 }
 
 void sequencers::set_up_chord(signal_graph& graph) {
@@ -57,7 +57,7 @@ void sequencers::set_up_meta_sq(signal_graph& graph) {
     meta_frsq_kick.duration_relative  = grid.duration_bars;
     meta_frsq_chord.duration_relative = grid.duration_bars;
 
-    meta_frsq_kick.callback_start = callback_for<kick_drum, event>(log, grid, pattern::kick, "frsq_kick");
+    meta_frsq_kick.callback_start = callback_for<kick_drum_000, event>(log, grid, pattern::kick, "frsq_kick");
 
     meta_frsq_chord.callback_start =
             callback_for<subtractive_synth, event_midi>(log, grid, pattern::chord, "frsq_chord");

@@ -2,11 +2,12 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "adsr.hpp"
+#include "imgui.h"
 
-#include "kick_drum_gui.hpp"
+#include "draw_kick_drum.hpp"
+#include "lib/adsr/draw_adsr.hpp"
 
-void kick_drum_gui(const char* id, kick_drum& kick) {
+void draw_kick_drum_000(const char* id, kick_drum_000& kick) {
     ImGui::PushID(id);
 
     if (ImGui::Button("get kick patch")) {
@@ -23,21 +24,23 @@ void kick_drum_gui(const char* id, kick_drum& kick) {
         ImGui::TableNextRow();
 
         ImGui::TableNextColumn();
-        if (adsr("##amp_asr",
-                 {1000, 40000, 1, 1000},
-                 kick.props.amp_a,
-                 kick.props.amp_d,
-                 kick.props.amp_s,
-                 kick.props.amp_r)) {
+        if (draw_adsr_000(
+                    "##amp_asr",
+                    {1000, 40000, 1, 1000},
+                    kick.props.amp_a,
+                    kick.props.amp_d,
+                    kick.props.amp_s,
+                    kick.props.amp_r)) {
             kick.adsr_amp.set(kick.props.amp_a, kick.props.amp_d, kick.props.amp_s, kick.props.amp_r);
         }
         ImGui::TableNextColumn();
-        if (adsr("##pitch_asr",
-                 {1000, 10000, 1, 1000},
-                 kick.props.pitch_a,
-                 kick.props.pitch_d,
-                 kick.props.pitch_s,
-                 kick.props.pitch_r)) {
+        if (draw_adsr_000(
+                    "##pitch_asr",
+                    {1000, 10000, 1, 1000},
+                    kick.props.pitch_a,
+                    kick.props.pitch_d,
+                    kick.props.pitch_s,
+                    kick.props.pitch_r)) {
             kick.adsr_pitch.set(
                     kick.props.pitch_a, kick.props.pitch_d, kick.props.pitch_s, kick.props.pitch_r);
         }
@@ -76,12 +79,13 @@ void kick_drum_gui(const char* id, kick_drum& kick) {
         ImGui::PopItemWidth();
 
         ImGui::TableNextColumn();
-        if (adsr("##cut_asr",
-                 {1000, 20000, 1, 1000},
-                 kick.props.cut_a,
-                 kick.props.cut_d,
-                 kick.props.cut_s,
-                 kick.props.cut_r)) {
+        if (draw_adsr_000(
+                    "##cut_asr",
+                    {1000, 20000, 1, 1000},
+                    kick.props.cut_a,
+                    kick.props.cut_d,
+                    kick.props.cut_s,
+                    kick.props.cut_r)) {
             kick.adsr_cut.set(kick.props.cut_a, kick.props.cut_d, kick.props.cut_s, kick.props.cut_r);
         }
         ImGui::PushItemWidth(65);

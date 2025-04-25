@@ -6,7 +6,7 @@ file(GLOB_RECURSE CLOVER_SKETCHES_BENCHMARK_SOURCE_CPP
 add_executable(clover_sketches_benchmark ${CLOVER_SKETCHES_BENCHMARK_SOURCE_CPP})
 target_include_directories(clover_sketches_benchmark PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
-target_link_libraries(clover_sketches_benchmark PUBLIC benchmark::benchmark clover_sketches)
+target_link_libraries(clover_sketches_benchmark PUBLIC benchmark::benchmark clover_sketches_lib)
 
 add_custom_target(
     bench

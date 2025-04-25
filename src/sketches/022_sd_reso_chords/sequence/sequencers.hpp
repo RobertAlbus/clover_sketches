@@ -9,8 +9,8 @@
 
 #include "composition/graph.hpp"
 #include "instruments/frsq.hpp"
-#include "instruments/kick.hpp"
 #include "instruments/subtractive_synth.hpp"
+#include "lib/kick_drum/kick_drum.hpp"
 #include "sequence/event.hpp"
 
 struct sequencers {
@@ -23,11 +23,11 @@ struct sequencers {
     frsq<event, event> frsq_arrangement_print;
 
     // pattern sequencers
-    frsq<kick_drum, event> frsq_kick;
+    frsq<kick_drum_000, event> frsq_kick;
     frsq<subtractive_synth, event_midi> frsq_chord;
 
     // meta sequencers
-    frsq<frsq<kick_drum, event>, event_meta_sq> meta_frsq_kick;
+    frsq<frsq<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
     frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_chord;
 
     sequencers(signal_graph& graph, bar_grid& grid, logger& log);

@@ -10,9 +10,9 @@
 
 #include "instruments/env_bp.hpp"
 #include "instruments/fdn.hpp"
-#include "instruments/kick.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
+#include "lib/kick_drum/kick_drum.hpp"
 
 #include "composition/mix.hpp"
 #include "patches/patches.hpp"
@@ -33,7 +33,7 @@ struct signal_graph {
     // - see TODO in FDN
     static constexpr bool COMPONENT_HAS_GUI = true;
 
-    kick_drum kick{grid.fs, patch::drums.kick_drum_props};
+    kick_drum_000 kick{grid.fs, patch::drums.kick_drum_props};
     peq kick_preverb_peq{grid.fs, patch::drums.kick_preverb_peq_props};
     fdn_8_019 kick_verb{grid.fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
     peq kick_out_peq{grid.fs, patch::drums.kick_peq_props};

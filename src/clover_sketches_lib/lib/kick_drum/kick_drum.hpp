@@ -13,9 +13,7 @@
 using namespace clover;
 using namespace dsp;
 
-struct kick_props {
-    // TODO: this just use the pitch_range instead pitch_peak
-
+struct kick_props_000 {
     float trim;
     float drive;
 
@@ -44,19 +42,19 @@ struct kick_props {
     std::string to_str();
 };
 
-struct kick_drum {
+struct kick_drum_000 {
     oscillator kick_osc;
     filter filt;
 
-    kick_props props;
+    kick_props_000 props;
 
     env_adsr adsr_amp;
     env_adsr adsr_pitch;
     env_adsr adsr_cut;
 
     float fs = 0;
-    kick_drum(float fs, const kick_props& new_props);
-    void patch(kick_props props);
+    kick_drum_000(float fs, const kick_props_000& new_props);
+    void patch(kick_props_000 props);
     float tick();
     void key_on();
     void key_off();
