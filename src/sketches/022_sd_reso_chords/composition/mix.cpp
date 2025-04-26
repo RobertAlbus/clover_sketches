@@ -15,7 +15,8 @@ std::unordered_map<std::string, std::reference_wrapper<float>> build_audio_mixer
         std::vector<mixer_track>& mixer_tracks) {
     std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer;
     for (auto& mixer_track : mixer_tracks)
-        audio_mixer.emplace(std::pair{mixer_track.name, std::ref(mixer_track.gain)});
+        if (!mixer_track.spacer)
+            audio_mixer.emplace(std::pair{mixer_track.name, std::ref(mixer_track.gain)});
 
     return audio_mixer;
 }
@@ -23,9 +24,14 @@ std::unordered_map<std::string, std::reference_wrapper<float>> build_audio_mixer
 std::string to_str(std::vector<mixer_track>& mixer_tracks) {
     std::string preset = "{";
 
-    for (auto& mixer_track : mixer_tracks)
-        preset += std::format(
-                "\n            {{.name = \"{}\", .gain = {}}},", mixer_track.name, mixer_track.gain);
+    for (auto& mixer_track : mixer_tracks) {
+        if (mixer_track.spacer) {
+            preset += std::format("\n            {{.spacer = true}},");
+        } else {
+            preset += std::format(
+                    "\n            {{.name = \"{}\", .gain = {}}},", mixer_track.name, mixer_track.gain);
+        }
+    }
 
     preset.pop_back();  // remove trailing comma
     preset += "};";

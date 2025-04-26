@@ -31,17 +31,21 @@ void mixer_component(const char* id, std::vector<mixer_track>* mixer_tracks) {
         ImGui::TableNextRow();
 
         for (auto& mixer_track : *mixer_tracks) {
-            ImGui::PushID(&mixer_track.gain);
             ImGui::TableNextColumn();
-            ImGui::VSliderFloat(
-                    "",
-                    channel_dimensions,
-                    &mixer_track.gain,
-                    0,
-                    MAX_GAIN,
-                    "",
-                    ImGuiSliderFlags_NoRoundToFormat);
-            ImGui::PopID();
+            if (mixer_track.spacer) {
+                ImGui::Dummy(channel_dimensions);
+            } else {
+                ImGui::PushID(&mixer_track.gain);
+                ImGui::VSliderFloat(
+                        "",
+                        channel_dimensions,
+                        &mixer_track.gain,
+                        0,
+                        MAX_GAIN,
+                        "",
+                        ImGuiSliderFlags_NoRoundToFormat);
+                ImGui::PopID();
+            }
         }
 
         ImGui::EndTable();

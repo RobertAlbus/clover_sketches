@@ -9,8 +9,9 @@
 #include <vector>
 
 struct mixer_track {
-    const std::string name;
-    float gain;
+    const std::string name = "";
+    float gain             = 0.5;
+    bool spacer            = false;
 };
 
 std::unordered_map<std::string, std::reference_wrapper<float>> build_audio_mixer(

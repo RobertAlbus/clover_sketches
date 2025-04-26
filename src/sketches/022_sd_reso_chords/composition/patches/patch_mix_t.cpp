@@ -10,14 +10,15 @@ patch_mix_t::patch_mix_t() {
     // could re-order mixer_track for gain first
     // then format the float to have N decimals.
     mixer_tracks = std::vector<mixer_track>{
+            {.name = "kick bus", .gain = 0.9},
             {.name = "kick dry", .gain = 0.63043475},
             {.name = "kick send", .gain = 0.69},
             {.name = "kick wet", .gain = 0.46739125},
-            {.name = "kick bus", .gain = 0.9},
-            {.name = "chord send", .gain = 0.423913},
-            {.name = "chord wet", .gain = 1.2391305},
+            {.spacer = true},
+            {.name = "chord bus", .gain = 0.34},
             {.name = "chord dry", .gain = 0.326087},
-            {.name = "chord bus", .gain = 0.34}};
+            {.name = "chord send", .gain = 0.423913},
+            {.name = "chord wet", .gain = 1.2391305}};
 
     main_peq_props = {
             peq_props{
