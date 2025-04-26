@@ -33,8 +33,7 @@ std::string to_str(std::vector<mixer_track>& mixer_tracks) {
         }
     }
 
-    preset.pop_back();  // remove trailing comma
-    preset += "};";
+    preset += "\n    };";
 
     return preset;
 }
