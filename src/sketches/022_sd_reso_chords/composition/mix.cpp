@@ -24,9 +24,11 @@ std::string to_str(std::vector<mixer_track>& mixer_tracks) {
     std::string preset = "{";
 
     for (auto& mixer_track : mixer_tracks)
-        preset += std::format("\n{{.name = \"{}\", .gain = {}}},", mixer_track.name, mixer_track.gain);
+        preset += std::format(
+                "\n            {{.name = \"{}\", .gain = {}}},", mixer_track.name, mixer_track.gain);
+
     preset.pop_back();  // remove trailing comma
-    preset += "\n};\n";
+    preset += "};";
 
     return preset;
 }

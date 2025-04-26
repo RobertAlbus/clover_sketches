@@ -15,7 +15,7 @@ patch_mix_t::patch_mix_t() {
             {.name = "kick wet", .gain = 0.46739125},
             {.name = "kick bus", .gain = 0.9},
             {.name = "chord send", .gain = 0.423913},
-            {.name = "chord wet", .gain = 0.5},
+            {.name = "chord wet", .gain = 1.2391305},
             {.name = "chord dry", .gain = 0.326087},
             {.name = "chord bus", .gain = 0.34}};
 
