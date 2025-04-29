@@ -10,7 +10,7 @@ using namespace ImGui;
 
 #include "draw_fdn.hpp"
 
-void fdn_component(const char* id, fdn_8_019* fdn_L, fdn_8_019* fdn_R) {
+void fdn_component(const char* id, fdn8_000* fdn_L, fdn8_000* fdn_R) {
     PushID(id);
     if (ImGui::BeginTable("##fdn_table", 3)) {
         ImGui::TableNextColumn();

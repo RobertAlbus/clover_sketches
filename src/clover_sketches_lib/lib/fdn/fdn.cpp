@@ -14,7 +14,7 @@ using namespace dsp;
 #include "fdn.hpp"
 #include "hadamard.hpp"
 
-std::string fdn_8_props_019::to_str() {
+std::string fdn8_props_000::to_str() {
     return std::format(
             "\
 {{\n\
@@ -40,30 +40,30 @@ std::string fdn_8_props_019::to_str() {
             hpf_res);
 }
 
-fdn_8_props_019 fdn_8_props_019::taps_mult(float coeff) {
-    fdn_8_props_019 altered = *this;
+fdn8_props_000 fdn8_props_000::taps_mult(float coeff) {
+    fdn8_props_000 altered = *this;
     for (auto& tap : altered.taps)
         tap *= coeff;
     return altered;
 }
-fdn_8_props_019 fdn_8_props_019::taps_add(float add) {
-    fdn_8_props_019 altered = *this;
+fdn8_props_000 fdn8_props_000::taps_add(float add) {
+    fdn8_props_000 altered = *this;
     for (auto& tap : altered.taps)
         tap += add;
     return altered;
 }
 
-fdn_8_019::fdn_8_019(float fs, const fdn_8_props_019& props, bool has_gui)
+fdn8_000::fdn8_000(float fs, const fdn8_props_000& props, bool has_gui)
     : fs{fs}, sections{fs, fs, fs, fs, fs, fs, fs, fs}, has_gui{has_gui} {
     patch(props);
 }
 
-void fdn_8_019::patch(fdn_8_props_019 patch_props) {
+void fdn8_000::patch(fdn8_props_000 patch_props) {
     props = patch_props;
     update_from_props();
 }
 
-void fdn_8_019::update_from_props() {
+void fdn8_000::update_from_props() {
     for (auto [section, tap] : std::views::zip(sections, props.taps)) {
         section.set_lpf(props.lpf_cut, props.lpf_res);
         section.set_hpf(props.hpf_cut, props.hpf_res);
@@ -72,7 +72,7 @@ void fdn_8_019::update_from_props() {
     }
 }
 
-float fdn_8_019::process(float x) {
+float fdn8_000::process(float x) {
     std::array<float, 8> delay_outputs;
     delay_outputs.fill(0);
 
@@ -97,7 +97,7 @@ float fdn_8_019::process(float x) {
     return output;
 }
 
-float fdn_8_019::tick(float x) {
+float fdn8_000::tick(float x) {
     if (has_gui)
         update_from_props();
     return process(x);

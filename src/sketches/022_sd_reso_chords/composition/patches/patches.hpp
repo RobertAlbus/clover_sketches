@@ -18,7 +18,7 @@ struct patch_drums_t {
     // KICK
 
     kick_props_000 kick_drum_props;
-    fdn_8_props_019 kick_fdn_props;
+    fdn8_props_000 kick_fdn_props;
     std::array<peq_props, peq::SIZE> kick_preverb_peq_props;
     std::array<peq_props, peq::SIZE> kick_peq_props;
 };
@@ -30,14 +30,14 @@ struct patch_synth_t {
     // CHORD
 
     subtractive_synth_props chord_props;
-    fdn_8_props_019 chord_fdn_props;
+    fdn8_props_000 chord_fdn_props;
     std::array<peq_props, peq::SIZE> chord_preverb_peq_props;
     std::array<peq_props, peq::SIZE> chord_peq_props;
 
     echoverb_022_props echoverb_props;
     std::array<peq_props, peq::SIZE> chord_echoverb_peq_props;
-    fdn_8_props_019 chord_echoverb_fdn_L_props;
-    fdn_8_props_019 chord_echoverb_fdn_R_props;
+    fdn8_props_000 chord_echoverb_fdn_L_props;
+    fdn8_props_000 chord_echoverb_fdn_R_props;
 };
 
 struct patch_mix_t {

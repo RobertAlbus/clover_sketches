@@ -6,4 +6,4 @@
 
 #include "lib/fdn/fdn.hpp"
 
-void fdn_component(const char* id, fdn_8_019* fdn_L, fdn_8_019* fdn_R);
+void fdn_component(const char* id, fdn8_000* fdn_L, fdn8_000* fdn_R);

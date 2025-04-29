@@ -8,7 +8,7 @@
 
 float fb_coefficient(float reduction_db, float delay_line_duration_samples, float decay_duration_samples);
 
-struct fdn_8_props_019 {
+struct fdn8_props_000 {
     std::array<float, 8> taps;
     float fb_gain;
     float lpf_cut;
@@ -16,15 +16,13 @@ struct fdn_8_props_019 {
     float hpf_cut;
     float hpf_res;
 
-    fdn_8_props_019 taps_mult(float coeff);
-    fdn_8_props_019 taps_add(float add);
+    fdn8_props_000 taps_mult(float coeff);
+    fdn8_props_000 taps_add(float add);
 
     std::string to_str();
 };
 
-extern fdn_8_props_019 fdn_patch;
-
-struct fdn_8_019 {
+struct fdn8_000 {
     float fs;
 
     /*
@@ -36,11 +34,11 @@ struct fdn_8_019 {
         - ^ that is not a good architecture but reasonable for prototyping
     */
     bool has_gui;
-    fdn_8_props_019 props;
+    fdn8_props_000 props;
     std::array<fdn_section_012, 8> sections;
 
-    fdn_8_019(float fs, const fdn_8_props_019& props, bool has_gui = true);
-    void patch(fdn_8_props_019 props);
+    fdn8_000(float fs, const fdn8_props_000& props, bool has_gui = true);
+    void patch(fdn8_props_000 props);
 
     void update_from_props();
     float tick(float x);

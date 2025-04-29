@@ -28,15 +28,15 @@ struct echoverb_022 {
             float max_length_samples,
             const echoverb_022_props& new_props,
             const std::array<peq_props, peq::SIZE>& eq_props,
-            const fdn_8_props_019& verb_props_L,
-            const fdn_8_props_019& verb_props_R);
+            const fdn8_props_000& verb_props_L,
+            const fdn8_props_000& verb_props_R);
     void patch(echoverb_022_props new_props);
 
     echoverb_022_props props;
 
     peq eq;
-    fdn_8_019 verb_L;
-    fdn_8_019 verb_R;
+    fdn8_000 verb_L;
+    fdn8_000 verb_R;
     clover::dsp::fdl_lagrange_2 fdl;
     float max_length_samples;
 

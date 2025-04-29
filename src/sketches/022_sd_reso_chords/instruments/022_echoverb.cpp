@@ -30,8 +30,8 @@ echoverb_022::echoverb_022(
         float max_length_samples,
         const echoverb_022_props& new_props,
         const std::array<peq_props, peq::SIZE>& eq_props,
-        const fdn_8_props_019& verb_props_L,
-        const fdn_8_props_019& verb_props_R)
+        const fdn8_props_000& verb_props_L,
+        const fdn8_props_000& verb_props_R)
     : eq{fs, eq_props},
       verb_L{fs, verb_props_L},
       verb_R{fs, verb_props_R},

@@ -39,7 +39,7 @@ struct signal_graph {
     // KICK
     kick_drum_000 kick{grid.fs, patch::drums.kick_drum_props};
     peq kick_preverb_peq{grid.fs, patch::drums.kick_preverb_peq_props};
-    fdn_8_019 kick_verb{grid.fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
+    fdn8_000 kick_verb{grid.fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
     peq kick_out_peq{grid.fs, patch::drums.kick_peq_props};
 
     env_bp kick_auto_hp;
@@ -58,8 +58,8 @@ struct signal_graph {
             subtractive_synth{grid.fs, patch::synth.chord_props}};
 
     peq chord_preverb_peq{grid.fs, patch::synth.chord_preverb_peq_props};
-    fdn_8_019 chord_verb_L{grid.fs, patch::synth.chord_fdn_props, COMPONENT_HAS_GUI};
-    fdn_8_019 chord_verb_R{
+    fdn8_000 chord_verb_L{grid.fs, patch::synth.chord_fdn_props, COMPONENT_HAS_GUI};
+    fdn8_000 chord_verb_R{
             grid.fs, patch::synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
     peq chord_peq{grid.fs, patch::synth.chord_peq_props};
 
