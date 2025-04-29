@@ -39,6 +39,24 @@ auto create_audio_callback(bar_grid &grid, signal_graph &comp, sequencers &sqs) 
 void AUDIO(context &ctx) {
     std::optional<std::thread> render_thread;
     constexpr bool SHOULD_RENDER = true;
+
+    clover::io::system_audio_config system;
+    clover::io::stream stream;
+
+    auto audio_callback   = create_audio_callback(ctx.grid, ctx.graph, ctx.sequencers);
+    stream.audio_callback = audio_callback;
+    // system.print();
+    stream.open(clover::io::stream::settings{
+            .device_index_in  = system.no_device(),
+            .chan_count_in    = 0,
+            .device_index_out = system.default_output().index,
+            .chan_count_out   = ctx.channel_count_out,
+            .sample_rate      = int(ctx.fs),
+            .latency_ms       = 0});
+
+    ctx.audio_ready.release();
+    stream.start();
+
     if (SHOULD_RENDER) {
         render_thread = std::thread([]() {
             context render_ctx{SHOULD_RENDER};
@@ -74,24 +92,6 @@ void AUDIO(context &ctx) {
         });
     }
 
-    clover::io::system_audio_config system;
-    clover::io::stream stream;
-
-    auto audio_callback   = create_audio_callback(ctx.grid, ctx.graph, ctx.sequencers);
-    stream.audio_callback = audio_callback;
-    // system.print();
-    stream.open(clover::io::stream::settings{
-            .device_index_in  = system.no_device(),
-            .chan_count_in    = 0,
-            .device_index_out = system.default_output().index,
-            .chan_count_out   = ctx.channel_count_out,
-            .sample_rate      = int(ctx.fs),
-            .latency_ms       = 0});
-
-    ctx.audio_ready.release();
-    // props.gui_ready.acquire();
-
-    stream.start();
     ctx.gui_intent_to_exit.acquire();
     stream.stop();
     stream.wait_to_complete();

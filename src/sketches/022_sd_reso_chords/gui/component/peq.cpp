@@ -31,7 +31,7 @@ void peq_gui(const char* id, peq& peq) {
         // could also configure this component with a horizontal/vertical flag.
         // this flag would set the number of columns to either 2 or 2*peq::SIZE
 
-        if (ImGui::BeginTable("##table", 2, 0, ImVec2(200, 100))) {
+        if (ImGui::BeginTable("##table", 2, 0, ImVec2(250, 100))) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
 

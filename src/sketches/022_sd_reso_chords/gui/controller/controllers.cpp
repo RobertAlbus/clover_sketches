@@ -14,16 +14,19 @@
 #include "gui/component/mixer_ui.hpp"
 #include "gui/component/peq.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
+#include <print>
 
 void controller_mixer(const char* id, context& ctx);
 void controller_kick(const char* id, context& ctx);
 void controller_chord(const char* id, context& ctx);
+void controller_chord_echoverb(const char* id, context& ctx);
 
 std::vector<tabbed_controller> tabbed_controllers{
         // clang-format off
         {"mixer", controller_mixer},
         {"kick",  controller_kick},
-        {"chord", controller_chord}
+        {"chord", controller_chord},
+        {"chord echoverb", controller_chord_echoverb}
         // clang-format on
 };
 
@@ -87,5 +90,69 @@ void controller_chord(const char* id, context& ctx) {
 
         ImGui::EndTable();
     }
+    ImGui::PopID();
+}
+
+void controller_chord_echoverb(const char* id, context& ctx) {
+    signal_graph& graph = ctx.graph;
+
+    ImGui::PushID(id);
+    peq_gui("##eq", graph.chord_echoverb.eq);
+    ImGui::NewLine();
+    if (ImGui::Button("set same as fdn_R")) {
+        graph.chord_echoverb.verb_L.patch(graph.chord_echoverb.verb_R.props);
+    }
+    fdn_component("fdn_L", &graph.chord_echoverb.verb_L, nullptr);
+
+    ImGui::NewLine();
+    if (ImGui::Button("set same as fdn_L")) {
+        graph.chord_echoverb.verb_R.patch(graph.chord_echoverb.verb_L.props);
+    }
+    fdn_component("fdn_R", &graph.chord_echoverb.verb_R, nullptr);
+
+    ImGui::NewLine();
+    if (ImGui::Button("copy echoverb_022_props")) {
+        ImGui::SetClipboardText(graph.chord_echoverb.props.to_str().c_str());
+    }
+    float delay_samples_min = 4;
+    float delay_samples_max = graph.chord_echoverb.max_length_samples - 4;
+
+    ImGui::PushItemWidth(65);
+    ImGui::DragFloat(
+            "##delay samples  drag",
+            &graph.chord_echoverb.props.delay_samples,
+            1,
+            delay_samples_min,
+            delay_samples_max);
+    ImGui::PopItemWidth();
+
+    ImGui::SameLine();
+    ImGui::SliderFloat(
+            "delay samples", &graph.chord_echoverb.props.delay_samples, delay_samples_min, delay_samples_max);
+
+    auto delay_bars           = (float)graph.grid.samples_to_bars(graph.chord_echoverb.props.delay_samples);
+    const auto delay_bars_min = (float)graph.grid.samples_to_bars(delay_samples_min);
+    const auto delay_bars_max = (float)graph.grid.samples_to_bars(delay_samples_max);
+
+    ImGui::PushItemWidth(65);
+    if (ImGui::DragFloat("##delay bars drag", &delay_bars, 1, delay_bars_min, delay_bars_max)) {
+        auto as_samples = (float)graph.grid.bars_to_samples(delay_bars);
+        as_samples      = std::clamp(as_samples, delay_samples_min, delay_samples_max);
+
+        graph.chord_echoverb.props.delay_samples = as_samples;
+    }
+    ImGui::PopItemWidth();
+
+    ImGui::SameLine();
+    if (ImGui::SliderFloat("delay bars", &delay_bars, delay_bars_min, delay_bars_max)) {
+        auto as_samples = (float)graph.grid.bars_to_samples(delay_bars);
+        as_samples      = std::clamp(as_samples, delay_samples_min, delay_samples_max);
+
+        graph.chord_echoverb.props.delay_samples = as_samples;
+    }
+
+    ImGui::SliderFloat("fb", &graph.chord_echoverb.props.fb, 0, 1.2);
+    ImGui::SliderFloat("verb wet", &graph.chord_echoverb.props.verb_wet, 0, 2);
+    ImGui::SliderFloat("verb dry", &graph.chord_echoverb.props.verb_dry, 0, 2);
     ImGui::PopID();
 }

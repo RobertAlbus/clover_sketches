@@ -27,9 +27,7 @@ std::pair<float, float> signal_graph::tick() {
 
     float kick_dry  = kick.tick();
     float kick_send = kick_dry * audio_mixer.at("kick send");
-    ;
     kick_dry *= audio_mixer.at("kick dry");
-    ;
     auto [kick_send_eq, _] = kick_preverb_peq.tick(kick_send, kick_send);
 
     float kick_wet = kick_verb.tick(kick_send_eq) * audio_mixer.at("kick wet") * kick_auto_verb_send.tick();
@@ -74,8 +72,19 @@ std::pair<float, float> signal_graph::tick() {
 
     auto [chord_post_eq_L, chord_post_eq_R] = chord_peq.tick(chord_post_eq_in_L, chord_post_eq_in_R);
 
-    float chord_sum_L = chord_post_eq_L * audio_mixer.at("chord bus");
-    float chord_sum_R = chord_post_eq_R * audio_mixer.at("chord bus");
+    chord_post_eq_L *= audio_mixer.at("chord bus");
+    chord_post_eq_R *= audio_mixer.at("chord bus");
+
+    float chord_echoverb_send_L = chord_L * audio_mixer.at("chord echoverb send");
+    float chord_echoverb_send_R = chord_R * audio_mixer.at("chord echoverb send");
+
+    auto [chord_echoverb_L, chord_echoverb_R] =
+            chord_echoverb.tick(chord_echoverb_send_L, chord_echoverb_send_R);
+    chord_echoverb_L *= audio_mixer.at("chord echoverb return");
+    chord_echoverb_R *= audio_mixer.at("chord echoverb return");
+
+    float chord_sum_L = chord_post_eq_L + chord_echoverb_L;
+    float chord_sum_R = chord_post_eq_R + chord_echoverb_R;
 
     // ----------------
     // SUMMING

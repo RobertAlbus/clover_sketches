@@ -18,7 +18,11 @@ patch_mix_t::patch_mix_t() {
             {.name = "chord bus", .gain = 0.34},
             {.name = "chord dry", .gain = 0.326087},
             {.name = "chord send", .gain = 0.423913},
-            {.name = "chord wet", .gain = 1.2391305}};
+            {.name = "chord wet", .gain = 1.2391305},
+            {.spacer = true},
+            {.name = "chord echoverb send", .gain = 0.62260866},
+            {.name = "chord echoverb return", .gain = 0.38043475},
+    };
 
     main_peq_props = {
             peq_props{

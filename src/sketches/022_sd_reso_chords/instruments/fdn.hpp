@@ -39,7 +39,7 @@ struct fdn_8_019 {
     fdn_8_props_019 props;
     std::array<fdn_section_012, 8> sections;
 
-    fdn_8_019(float fs, const fdn_8_props_019& props, bool has_gui = false);
+    fdn_8_019(float fs, const fdn_8_props_019& props, bool has_gui = true);
     void patch(fdn_8_props_019 props);
 
     void update_from_props();

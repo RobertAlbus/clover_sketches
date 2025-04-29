@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "composition/mix.hpp"
+#include "instruments/022_echoverb.hpp"
 #include "instruments/fdn.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
@@ -32,6 +33,11 @@ struct patch_synth_t {
     fdn_8_props_019 chord_fdn_props;
     std::array<peq_props, peq::SIZE> chord_preverb_peq_props;
     std::array<peq_props, peq::SIZE> chord_peq_props;
+
+    echoverb_022_props echoverb_props;
+    std::array<peq_props, peq::SIZE> chord_echoverb_peq_props;
+    fdn_8_props_019 chord_echoverb_fdn_L_props;
+    fdn_8_props_019 chord_echoverb_fdn_R_props;
 };
 
 struct patch_mix_t {
