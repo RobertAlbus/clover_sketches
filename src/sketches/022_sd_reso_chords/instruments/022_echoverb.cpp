@@ -6,7 +6,7 @@
 
 #include "clover/dsp/fractional_delay.hpp"
 
-#include "fdn.hpp"
+#include "lib/fdn/fdn.hpp"
 #include "peq.hpp"
 
 #include "022_echoverb.hpp"

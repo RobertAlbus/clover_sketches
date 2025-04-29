@@ -9,10 +9,10 @@
 
 #include "controllers.hpp"
 
-#include "gui/component/fdn_ui.hpp"
 #include "gui/component/gui_logger_component.hpp"
 #include "gui/component/mixer_ui.hpp"
 #include "gui/component/peq.hpp"
+#include "lib/fdn/draw_fdn.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
 #include <print>
 

@@ -6,9 +6,9 @@
 
 #include "composition/mix.hpp"
 #include "instruments/022_echoverb.hpp"
-#include "instruments/fdn.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
+#include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
 struct patch_drums_t {

@@ -8,8 +8,8 @@
 
 #include "clover/dsp/fractional_delay.hpp"
 
-#include "instruments/fdn.hpp"
 #include "instruments/peq.hpp"
+#include "lib/fdn/fdn.hpp"
 
 struct echoverb_022_props {
     float delay_samples;

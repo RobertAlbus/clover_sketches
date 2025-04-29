@@ -8,7 +8,7 @@
 #include "imgui.h"
 using namespace ImGui;
 
-#include "fdn_ui.hpp"
+#include "draw_fdn.hpp"
 
 void fdn_component(const char* id, fdn_8_019* fdn_L, fdn_8_019* fdn_R) {
     PushID(id);

@@ -11,9 +11,9 @@
 
 #include "instruments/022_echoverb.hpp"
 #include "instruments/env_bp.hpp"
-#include "instruments/fdn.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
+#include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
 #include "composition/mix.hpp"
