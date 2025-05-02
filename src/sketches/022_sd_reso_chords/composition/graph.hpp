@@ -9,7 +9,7 @@
 #include "clover/dsp/filter.hpp"
 #include "infrastructure/bar_grid.hpp"
 
-#include "instruments/022_echoverb.hpp"
+#include "instruments/022_echo.hpp"
 #include "instruments/env_bp.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
@@ -63,13 +63,14 @@ struct signal_graph {
             grid.fs, patch::synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
     peq chord_peq{grid.fs, patch::synth.chord_peq_props};
 
-    echoverb_022 chord_echoverb{
+    echoverb_022 chord_echo{
             grid.fs,
             float(grid.bars_to_samples(2)),
             patch::synth.echoverb_props,
-            patch::synth.chord_echoverb_peq_props,
-            patch::synth.chord_echoverb_fdn_L_props,
-            patch::synth.chord_echoverb_fdn_R_props};
+            patch::synth.chord_echoverb_peq_props};
+
+    fdn8_000 chord_echo_fb_verb_L{grid.fs, patch::synth.chord_echoverb_fdn_L_props};
+    fdn8_000 chord_echo_fb_verb_R{grid.fs, patch::synth.chord_echoverb_fdn_R_props};
 
     // --------------------------------
     // MAIN BUS

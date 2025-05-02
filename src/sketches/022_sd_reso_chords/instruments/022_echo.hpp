@@ -9,12 +9,9 @@
 #include "clover/dsp/fractional_delay.hpp"
 
 #include "instruments/peq.hpp"
-#include "lib/fdn/fdn.hpp"
 
 struct echoverb_022_props {
     float delay_samples;
-    float verb_dry;
-    float verb_wet;
     float fb;
 
     // WARNING: heap allocation
@@ -27,16 +24,13 @@ struct echoverb_022 {
             float fs,
             float max_length_samples,
             const echoverb_022_props& new_props,
-            const std::array<peq_props, peq::SIZE>& eq_props,
-            const fdn8_props_000& verb_props_L,
-            const fdn8_props_000& verb_props_R);
+            const std::array<peq_props, peq::SIZE>& eq_props);
     void patch(echoverb_022_props new_props);
 
     echoverb_022_props props;
 
     peq eq;
-    fdn8_000 verb_L;
-    fdn8_000 verb_R;
+
     clover::dsp::fdl_lagrange_2 fdl;
     float max_length_samples;
 

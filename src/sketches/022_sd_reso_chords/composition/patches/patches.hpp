@@ -5,7 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "composition/mix.hpp"
-#include "instruments/022_echoverb.hpp"
+#include "instruments/022_echo.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "lib/fdn/fdn.hpp"

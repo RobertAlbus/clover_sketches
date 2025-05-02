@@ -20,8 +20,10 @@ patch_mix_t::patch_mix_t() {
             {.name = "chord send", .gain = 0.423913},
             {.name = "chord wet", .gain = 1.2391305},
             {.spacer = true},
-            {.name = "chord echoverb send", .gain = 0.62260866},
-            {.name = "chord echoverb return", .gain = 0.38043475},
+            {.name = "chord echo send", .gain = 0.62260866},
+            {.name = "chord echo return", .gain = 0.38043475},
+            {.name = "chord echo fbverb dry", .gain = 1},
+            {.name = "chord echo fbverb wet", .gain = 0.461},
     };
 
     main_peq_props = {

@@ -75,16 +75,26 @@ std::pair<float, float> signal_graph::tick() {
     chord_post_eq_L *= audio_mixer.at("chord bus");
     chord_post_eq_R *= audio_mixer.at("chord bus");
 
-    float chord_echoverb_send_L = chord_L * audio_mixer.at("chord echoverb send");
-    float chord_echoverb_send_R = chord_R * audio_mixer.at("chord echoverb send");
+    float chord_echo_send_L = chord_L * audio_mixer.at("chord echo send");
+    float chord_echo_send_R = chord_R * audio_mixer.at("chord echo send");
 
-    auto [chord_echoverb_L, chord_echoverb_R] =
-            chord_echoverb.tick(chord_echoverb_send_L, chord_echoverb_send_R);
-    chord_echoverb_L *= audio_mixer.at("chord echoverb return");
-    chord_echoverb_R *= audio_mixer.at("chord echoverb return");
+    auto [chord_echo_L, chord_echo_R] = chord_echo.tick(chord_echo_send_L, chord_echo_send_R);
+    chord_echo_L *= audio_mixer.at("chord echo return");
+    chord_echo_R *= audio_mixer.at("chord echo return");
 
-    float chord_sum_L = chord_post_eq_L + chord_echoverb_L;
-    float chord_sum_R = chord_post_eq_R + chord_echoverb_R;
+    float chord_echo_fb_verb_wet_L =
+            chord_echo_fb_verb_L.tick(chord_echo.fb.first) * audio_mixer.at("chord echo fbverb wet");
+    float chord_echo_fb_verb_wet_R =
+            chord_echo_fb_verb_R.tick(chord_echo.fb.second) * audio_mixer.at("chord echo fbverb wet");
+
+    float chord_echo_fb_verb_dry_L = chord_echo.fb.first * audio_mixer.at("chord echo fbverb dry");
+    float chord_echo_fb_verb_dry_R = chord_echo.fb.second * audio_mixer.at("chord echo fbverb dry");
+
+    chord_echo.fb.first  = chord_echo_fb_verb_wet_L + chord_echo_fb_verb_dry_L;
+    chord_echo.fb.second = chord_echo_fb_verb_wet_R + chord_echo_fb_verb_dry_R;
+
+    float chord_sum_L = chord_post_eq_L + chord_echo_L;
+    float chord_sum_R = chord_post_eq_R + chord_echo_R;
 
     // ----------------
     // SUMMING

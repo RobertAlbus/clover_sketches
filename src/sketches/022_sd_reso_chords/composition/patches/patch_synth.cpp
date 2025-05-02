@@ -117,7 +117,7 @@ patch_synth_t::patch_synth_t() {
             },
     };
 
-    echoverb_props             = {.delay_samples = 11612.903, .verb_dry = 1, .verb_wet = 0.461, .fb = 1.154};
+    echoverb_props             = {.delay_samples = 11612.903, .fb = 1.154};
     chord_echoverb_fdn_L_props = {
             .taps    = {134.42862, 478.418, 613.966, 1562.802, 1833.898, 2443.864, 2782.734, 3596.022},
             .fb_gain = 0.931,
