@@ -2,14 +2,14 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "composition/mix.hpp"
+#include "lib/mixer/mixer.hpp"
 #include "patches.hpp"
 
 patch_mix_t::patch_mix_t() {
     // alignment sucks...
     // could re-order mixer_track for gain first
     // then format the float to have N decimals.
-    mixer_tracks = std::vector<mixer_track>{
+    mixer_tracks = mixer_list_000{
             {.name = "kick bus", .gain = 0.9},
             {.name = "kick dry", .gain = 0.63043475},
             {.name = "kick send", .gain = 0.69},

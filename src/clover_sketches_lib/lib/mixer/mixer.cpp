@@ -5,15 +5,11 @@
 #include <format>
 #include <string>
 
-#include "mix.hpp"
-#include "patches/patches.hpp"
+#include "mixer.hpp"
 
-std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer =
-        build_audio_mixer(patch::mix.mixer_tracks);
+mixer_map_000 build_mixer_map(mixer_list_000& mixer_tracks) {
+    mixer_map_000 audio_mixer;
 
-std::unordered_map<std::string, std::reference_wrapper<float>> build_audio_mixer(
-        std::vector<mixer_track>& mixer_tracks) {
-    std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer;
     for (auto& mixer_track : mixer_tracks)
         if (!mixer_track.spacer)
             audio_mixer.emplace(std::pair{mixer_track.name, std::ref(mixer_track.gain)});
@@ -21,7 +17,7 @@ std::unordered_map<std::string, std::reference_wrapper<float>> build_audio_mixer
     return audio_mixer;
 }
 
-std::string to_str(std::vector<mixer_track>& mixer_tracks) {
+std::string to_str(mixer_list_000& mixer_tracks) {
     std::string preset = "{";
 
     for (auto& mixer_track : mixer_tracks) {

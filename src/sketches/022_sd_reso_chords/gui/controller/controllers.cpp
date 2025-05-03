@@ -2,19 +2,20 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include <print>
+
 #include "imgui.h"
 #include "implot.h"
 
-#include "context.hpp"
-
-#include "controllers.hpp"
-
-#include "gui/component/mixer_ui.hpp"
-#include "gui/component/peq.hpp"
 #include "lib/fdn/draw_fdn.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
 #include "lib/logging/draw_gui_log_canvas.hpp"
-#include <print>
+#include "lib/mixer/draw_mixer.hpp"
+
+#include "context.hpp"
+#include "controllers.hpp"
+
+#include "gui/component/peq.hpp"
 
 void controller_mixer(const char* id, context& ctx);
 void controller_kick(const char* id, context& ctx);
@@ -49,7 +50,7 @@ void controller_mixer(const char* id, context& ctx) {
         }
     }
 
-    mixer_component("new_mix", &graph.mixer_tracks);
+    draw_mixer_000("new_mix", &graph.mixer_tracks);
     peq_gui("##master_peq", graph.main_eq);
 
     ImGui::PopID();

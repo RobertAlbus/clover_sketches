@@ -4,7 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "composition/mix.hpp"
+#include "mixer.hpp"
 
 // void mixer_component(const char* id, composition_mix* mixer);
-void mixer_component(const char* id, std::vector<mixer_track>* mixer);
+void draw_mixer_000(const char* id, mixer_list_000* mixer);

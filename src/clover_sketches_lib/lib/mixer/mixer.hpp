@@ -8,13 +8,14 @@
 #include <unordered_map>
 #include <vector>
 
-struct mixer_track {
+struct mixer_track_000 {
     const std::string name = "";
     float gain             = 0.5;
     bool spacer            = false;
 };
 
-std::unordered_map<std::string, std::reference_wrapper<float>> build_audio_mixer(
-        std::vector<mixer_track>& mixer_tracks);
+using mixer_map_000  = std::unordered_map<std::string, std::reference_wrapper<float>>;
+using mixer_list_000 = std::vector<mixer_track_000>;
 
-std::string to_str(std::vector<mixer_track>& mixer_tracks);
+mixer_map_000 build_mixer_map(mixer_list_000& mixer_tracks);
+std::string to_str(mixer_list_000& mixer_tracks);

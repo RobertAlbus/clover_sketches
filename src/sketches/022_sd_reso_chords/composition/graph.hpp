@@ -7,22 +7,24 @@
 #include <cmath>
 
 #include "clover/dsp/filter.hpp"
+
 #include "infrastructure/bar_grid.hpp"
+
+#include "lib/fdn/fdn.hpp"
+#include "lib/kick_drum/kick_drum.hpp"
+#include "lib/mixer/mixer.hpp"
 
 #include "instruments/022_echo.hpp"
 #include "instruments/env_bp.hpp"
 #include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
-#include "lib/fdn/fdn.hpp"
-#include "lib/kick_drum/kick_drum.hpp"
 
-#include "composition/mix.hpp"
 #include "patches/patches.hpp"
 
 struct signal_graph {
     bar_grid& grid;
 
-    std::vector<mixer_track> mixer_tracks;
+    std::vector<mixer_track_000> mixer_tracks;
     std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer;
 
     std::pair<float, float> tick();
