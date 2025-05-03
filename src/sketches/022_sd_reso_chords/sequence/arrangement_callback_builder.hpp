@@ -9,10 +9,9 @@
 #include <stdexcept>
 #include <vector>
 
-#include "concurrentqueue.h"
+#include "lib/logging/logger.hpp"
 
 #include "infrastructure/bar_grid.hpp"
-#include "infrastructure/logger.hpp"
 
 #include "event.hpp"
 #include "instruments/frsq.hpp"
@@ -20,10 +19,13 @@
 
 template <typename voice_t, frsq_data_base event_t>
 std::function<void(frsq<voice_t, event_t>&, const event_meta_sq&)> callback_for(
-        logger& logger, bar_grid& grid, std::vector<pattern_t<event_t>>& patterns, std::string logging_name) {
+        log_bus_000& logger,
+        bar_grid& grid,
+        std::vector<pattern_t<event_t>>& patterns,
+        std::string logging_name) {
     return [&logger, logging_name, &patterns, &grid](
                    frsq<voice_t, event_t>& voice, const event_meta_sq& event) mutable {
-        gui_log_message msg;
+        log_message_000 msg;
         snprintf(
                 msg.text,
                 sizeof(msg.text),

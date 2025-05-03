@@ -9,11 +9,11 @@
 
 #include "controllers.hpp"
 
-#include "gui/component/gui_logger_component.hpp"
 #include "gui/component/mixer_ui.hpp"
 #include "gui/component/peq.hpp"
 #include "lib/fdn/draw_fdn.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
+#include "lib/logging/draw_gui_log_canvas.hpp"
 #include <print>
 
 void controller_mixer(const char* id, context& ctx);
@@ -34,8 +34,8 @@ void controller_mixer(const char* id, context& ctx) {
     signal_graph& graph = ctx.graph;
 
     ImGui::PushID(id);
-
-    gui_logger_component(ctx);
+    static log_canvas_000 canvas;
+    draw_gui_log_canvas_000("log_canvas", canvas, ctx.logger, nullptr);
 
     static double x = 0.5f;
     static double y = 0.5f;

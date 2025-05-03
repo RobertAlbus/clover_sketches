@@ -22,14 +22,14 @@
 //  my_log.AddLog("Hello %d world\n", 123);
 //  my_log.Draw("title");
 
-struct ExampleAppLog {
-    ImGuiTextBuffer Buf;
-    ImGuiTextFilter Filter;
-    ImVector<int> LineOffsets;  // Index to lines offset. We maintain this with AddLog() calls.
-    bool AutoScroll;            // Keep scrolling if already at the bottom.
+struct log_canvas_000 {
+    ImGuiTextBuffer buffer;
+    ImGuiTextFilter filter;
+    ImVector<int> line_offsets;  // Index to lines offset. We maintain this with AddLog() calls.
+    bool auto_scroll;            // Keep scrolling if already at the bottom.
 
-    ExampleAppLog();
-    void Clear();
-    void AddLog(const char* fmt, ...) IM_FMTARGS(2);
-    void Draw(const char* title, bool* p_open = nullptr);
+    log_canvas_000();
+    void clear();
+    void add_log(const char* fmt, ...) IM_FMTARGS(2);
+    void draw(const char* title, bool* p_open = nullptr);
 };

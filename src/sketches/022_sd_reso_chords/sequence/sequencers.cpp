@@ -12,7 +12,7 @@
 #include "sequence/patterns.hpp"
 #include "sequencers.hpp"
 
-sequencers::sequencers(signal_graph& graph, bar_grid& grid, logger& log)
+sequencers::sequencers(signal_graph& graph, bar_grid& grid, log_bus_000& log)
     : log{log}, grid{grid}, graph{graph} {
     set_up();
 }
@@ -81,7 +81,7 @@ void sequencers::set_up_arrangement_print(signal_graph& graph) {
     frsq_arrangement_print.set_pattern(
             arrangement::bar, grid.bars_to_samples(grid.duration_bars), grid.duration_bars);
     frsq_arrangement_print.callback_start = [&](event& voice, const event& event) {
-        gui_log_message msg;
+        log_message_000 msg;
         snprintf(msg.text, sizeof(msg.text), "\n--------\n bar: %d", int(event.start_time));
         log.gui.try_enqueue(msg);
     };

@@ -4,8 +4,9 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/logging/logger.hpp"
+
 #include "infrastructure/bar_grid.hpp"
-#include "infrastructure/logger.hpp"
 
 #include "composition/graph.hpp"
 #include "instruments/frsq.hpp"
@@ -14,7 +15,7 @@
 #include "sequence/event.hpp"
 
 struct sequencers {
-    logger& log;
+    log_bus_000& log;
     bar_grid& grid;
     signal_graph& graph;
 
@@ -30,7 +31,7 @@ struct sequencers {
     frsq<frsq<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
     frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_chord;
 
-    sequencers(signal_graph& graph, bar_grid& grid, logger& log);
+    sequencers(signal_graph& graph, bar_grid& grid, log_bus_000& log);
     void tick();
 
     void set_up();

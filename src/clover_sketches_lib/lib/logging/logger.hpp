@@ -6,10 +6,10 @@
 
 #include "concurrentqueue.h"
 
-struct gui_log_message {
+struct log_message_000 {
     char text[256];
 };
 
-struct logger {
-    moodycamel::ConcurrentQueue<gui_log_message> gui;
+struct log_bus_000 {
+    moodycamel::ConcurrentQueue<log_message_000> gui;
 };

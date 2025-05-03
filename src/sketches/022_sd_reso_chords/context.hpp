@@ -9,7 +9,7 @@
 #include "clover/io/stream.hpp"
 
 #include "composition/graph.hpp"
-#include "infrastructure/logger.hpp"
+#include "lib/logging/logger.hpp"
 #include "sequence/sequencers.hpp"
 
 struct context {
@@ -24,7 +24,7 @@ struct context {
     int channel_count_out = 2;
     const std::string render_name{"022_sd_reso_chords"};
 
-    logger logger;
+    log_bus_000 logger;
 
     bar_grid grid{fs, bpm, duration_bars, should_loop};
     signal_graph graph{grid};
