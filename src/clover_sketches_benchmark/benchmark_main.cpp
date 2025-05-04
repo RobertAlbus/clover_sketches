@@ -4,12 +4,11 @@
 
 #include "benchmark/benchmark.h"
 
-#include "clover_sketches/example.hpp"
-
 static void BM_example(benchmark::State& state) {
     long n = state.range(0);
+    int x  = 0;
     for (auto _ : state) {
-        benchmark::DoNotOptimize(clover_sketches::example());
+        benchmark::DoNotOptimize(1 + 1);
     }
 }
 

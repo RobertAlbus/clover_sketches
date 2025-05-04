@@ -4,8 +4,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-namespace clover_sketches {
+#include "peq.hpp"
 
-auto example() -> int;
-
-};
+void draw_peq_000(const char* id, peq_000& peq);

@@ -2,8 +2,12 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <gtest/gtest.h>
+#include "patches.hpp"
 
-TEST(Example, ExampleTest) {
-    EXPECT_EQ(0, 0);
-}
+namespace patch {
+
+patch_drums_t drums{};
+patch_synth_t synth{};
+patch_mix_t mix{};
+
+}  // namespace patch
