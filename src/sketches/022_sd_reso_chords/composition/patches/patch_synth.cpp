@@ -76,29 +76,29 @@ patch_synth_t::patch_synth_t() {
             .hpf_res = 0.707,
     };
 
-    std::array<peq_props, peq::SIZE> chord_preverb_peq_props{
-            peq_props{
+    std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props{
+            peq_props_000{
                     .freq    = 5657.1,
                     .reso    = 3,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = false,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = false,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,
@@ -108,7 +108,7 @@ patch_synth_t::patch_synth_t() {
     };
 
     chord_peq_props = {
-            peq_props{
+            peq_props_000{
                     .freq    = 180.1,
                     .reso    = .707,
                     .gain    = 0,
@@ -136,28 +136,28 @@ patch_synth_t::patch_synth_t() {
     };
 
     chord_echoverb_peq_props = {
-            peq_props{
+            peq_props_000{
                     .freq    = 6099.6,
                     .reso    = 0.6,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 248.1,
                     .reso    = 0.6,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 477,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::notch,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 1599.2,
                     .reso    = 0.5,
                     .gain    = -3.2,

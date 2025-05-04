@@ -7,9 +7,9 @@
 #include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
+#include "lib/peq/peq.hpp"
 
 #include "instruments/022_echo.hpp"
-#include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
 
 struct patch_drums_t {
@@ -20,8 +20,8 @@ struct patch_drums_t {
 
     kick_props_000 kick_drum_props;
     fdn8_props_000 kick_fdn_props;
-    std::array<peq_props, peq::SIZE> kick_preverb_peq_props;
-    std::array<peq_props, peq::SIZE> kick_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> kick_preverb_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> kick_peq_props;
 };
 
 struct patch_synth_t {
@@ -32,11 +32,11 @@ struct patch_synth_t {
 
     subtractive_synth_props chord_props;
     fdn8_props_000 chord_fdn_props;
-    std::array<peq_props, peq::SIZE> chord_preverb_peq_props;
-    std::array<peq_props, peq::SIZE> chord_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> chord_peq_props;
 
     echoverb_022_props echoverb_props;
-    std::array<peq_props, peq::SIZE> chord_echoverb_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> chord_echoverb_peq_props;
     fdn8_props_000 chord_echoverb_fdn_L_props;
     fdn8_props_000 chord_echoverb_fdn_R_props;
 };
@@ -49,7 +49,7 @@ struct patch_mix_t {
     // --------------------------------
     // MASTER
 
-    std::array<peq_props, peq::SIZE> main_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> main_peq_props;
 };
 
 namespace patch {

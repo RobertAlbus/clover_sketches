@@ -42,28 +42,28 @@ patch_drums_t::patch_drums_t() {
     };
 
     kick_preverb_peq_props = {
-            peq_props{
+            peq_props_000{
                     .freq    = 20,
                     .reso    = .707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20,
                     .reso    = .707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = false,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 10,
                     .reso    = 0.707,
                     .gain    = 0,
@@ -73,28 +73,28 @@ patch_drums_t::patch_drums_t() {
     };
 
     kick_peq_props = {
-            peq_props{
+            peq_props_000{
                     .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 81.3,
                     .reso    = 1.1,
                     .gain    = 6.3,
                     .enabled = true,
                     .type    = peq_filter_type::ls,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 10,
                     .reso    = 0.707,
                     .gain    = 0,

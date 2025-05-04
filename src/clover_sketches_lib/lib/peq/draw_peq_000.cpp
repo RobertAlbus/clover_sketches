@@ -2,7 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "instruments/peq.hpp"
+#include "peq.hpp"
 #include <ranges>
 
 #include "imgui-knobs.h"
@@ -10,21 +10,13 @@
 
 #include "peq.hpp"
 
-/*
-PEQ TODO
-
-- needs presets
-- neither GUI nor Audio thread update the coeffs every tick right now
-    - maybe the GUI can own this for now in the prototyping version for simplicity.
-*/
-
-void peq_gui(const char* id, peq& peq) {
+void draw_peq_000(const char* id, peq_000& peq) {
     ImGui::PushID(id);
     const float knob_size = 30;
     if (ImGui::Button("get peq patch")) {
         ImGui::SetClipboardText(peq.to_str().c_str());
     }
-    for (auto [i, these_props] : std::views::zip(std::views::iota(0, int(peq::SIZE)), peq.props)) {
+    for (auto [i, these_props] : std::views::zip(std::views::iota(0, int(peq_000::SIZE)), peq.props)) {
         ImGui::PushID(&these_props);
 
         // it would be good to use one table for all segments.

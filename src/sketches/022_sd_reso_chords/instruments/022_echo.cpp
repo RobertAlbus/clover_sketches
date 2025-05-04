@@ -6,7 +6,7 @@
 
 #include "clover/dsp/fractional_delay.hpp"
 
-#include "peq.hpp"
+#include "lib/peq/peq.hpp"
 
 #include "022_echo.hpp"
 
@@ -24,7 +24,7 @@ echoverb_022::echoverb_022(
         float fs,
         float max_length_samples,
         const echoverb_022_props& new_props,
-        const std::array<peq_props, peq::SIZE>& eq_props)
+        const std::array<peq_props_000, peq_000::SIZE>& eq_props)
     : eq{fs, eq_props}, fdl{size_t((2 * max_length_samples) + 1)}, max_length_samples{max_length_samples} {
     patch(new_props);
 }

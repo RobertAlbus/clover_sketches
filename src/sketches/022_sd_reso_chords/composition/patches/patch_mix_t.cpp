@@ -27,28 +27,28 @@ patch_mix_t::patch_mix_t() {
     };
 
     main_peq_props = {
-            peq_props{
+            peq_props_000{
                     .freq    = 10,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 10,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,

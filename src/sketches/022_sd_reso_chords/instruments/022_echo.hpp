@@ -8,7 +8,7 @@
 
 #include "clover/dsp/fractional_delay.hpp"
 
-#include "instruments/peq.hpp"
+#include "lib/peq/peq.hpp"
 
 struct echoverb_022_props {
     float delay_samples;
@@ -24,12 +24,12 @@ struct echoverb_022 {
             float fs,
             float max_length_samples,
             const echoverb_022_props& new_props,
-            const std::array<peq_props, peq::SIZE>& eq_props);
+            const std::array<peq_props_000, peq_000::SIZE>& eq_props);
     void patch(echoverb_022_props new_props);
 
     echoverb_022_props props;
 
-    peq eq;
+    peq_000 eq;
 
     clover::dsp::fdl_lagrange_2 fdl;
     float max_length_samples;

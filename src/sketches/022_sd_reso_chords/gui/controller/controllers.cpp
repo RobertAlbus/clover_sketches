@@ -15,7 +15,7 @@
 #include "context.hpp"
 #include "controllers.hpp"
 
-#include "gui/component/peq.hpp"
+#include "lib/peq/draw_peq.hpp"
 
 void controller_mixer(const char* id, context& ctx);
 void controller_kick(const char* id, context& ctx);
@@ -51,7 +51,7 @@ void controller_mixer(const char* id, context& ctx) {
     }
 
     draw_mixer_000("new_mix", &graph.mixer_tracks);
-    peq_gui("##master_peq", graph.main_eq);
+    draw_peq_000("##master_peq", graph.main_eq);
 
     ImGui::PopID();
 }
@@ -64,10 +64,10 @@ void controller_kick(const char* id, context& ctx) {
     draw_kick_drum_000("kick_synth", graph.kick);
     if (ImGui::BeginTable("##kick_table", 2)) {
         ImGui::TableNextColumn();
-        peq_gui("##kick_preverb_peq", graph.kick_preverb_peq);
+        draw_peq_000("##kick_preverb_peq", graph.kick_preverb_peq);
         ImGui::TableNextColumn();
         ImGui::Text("kick postverb peq");
-        peq_gui("##kick_out_peq", graph.kick_out_peq);
+        draw_peq_000("##kick_out_peq", graph.kick_out_peq);
         ImGui::EndTable();
     }
     fdn_component("##kick_fdn", &graph.kick_verb, nullptr);
@@ -83,11 +83,11 @@ void controller_chord(const char* id, context& ctx) {
     if (ImGui::BeginTable("##peq_table", 2)) {
         ImGui::TableNextColumn();
         ImGui::Text("chord preverb peq");
-        peq_gui("##preverb_peq", graph.chord_preverb_peq);
+        draw_peq_000("##preverb_peq", graph.chord_preverb_peq);
 
         ImGui::TableNextColumn();
         ImGui::Text("chord out peq");
-        peq_gui("##postverb_peq", graph.chord_peq);
+        draw_peq_000("##postverb_peq", graph.chord_peq);
 
         ImGui::EndTable();
     }
@@ -98,7 +98,7 @@ void controller_chord_echo(const char* id, context& ctx) {
     signal_graph& graph = ctx.graph;
 
     ImGui::PushID(id);
-    peq_gui("##eq", graph.chord_echo.eq);
+    draw_peq_000("##eq", graph.chord_echo.eq);
     ImGui::NewLine();
     if (ImGui::Button("set same as fdn_R")) {
         graph.chord_echo_fb_verb_L.patch(graph.chord_echo_fb_verb_R.props);

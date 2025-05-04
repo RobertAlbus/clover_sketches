@@ -20,7 +20,14 @@ enum struct peq_filter_type {
     ls,
     eq,
 };
-constexpr std::array<peq_filter_type, 7> peq_filter_types{
+
+constexpr size_t PEQ_TYPE_SIZE = 7;
+using peq_filter_type_list_000 = std::array<peq_filter_type, PEQ_TYPE_SIZE>;
+using peq_filter_name_list_000 = std::array<const char*, PEQ_TYPE_SIZE>;
+using peq_filter_func_list_000 =
+        std::array<clover::dsp::iir_coeffs (*)(float, float, float, float), PEQ_TYPE_SIZE>;
+
+constexpr peq_filter_type_list_000 peq_filter_types{
         peq_filter_type::lp,
         peq_filter_type::hp,
         peq_filter_type::bp,
@@ -29,7 +36,7 @@ constexpr std::array<peq_filter_type, 7> peq_filter_types{
         peq_filter_type::ls,
         peq_filter_type::eq,
 };
-constexpr std::array<const char*, 7> peq_filter_str{
+constexpr peq_filter_name_list_000 peq_filter_str{
         "lp",
         "hp",
         "bp",
@@ -39,7 +46,7 @@ constexpr std::array<const char*, 7> peq_filter_str{
         "eq",
 };
 
-constexpr std::array<clover::dsp::iir_coeffs (*)(float, float, float, float), 7> filter_func = {
+constexpr peq_filter_func_list_000 filter_func = {
         +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
             return clover::dsp::lpf(fs, f0, reso);
         },
@@ -63,7 +70,7 @@ constexpr std::array<clover::dsp::iir_coeffs (*)(float, float, float, float), 7>
         },
 };
 
-struct peq_props {
+struct peq_props_000 {
     float freq           = 20000;
     float reso           = 0.707;
     float gain           = 0;
@@ -75,18 +82,18 @@ struct peq_props {
     std::string to_str();
 };
 
-bool operator==(const peq_props& a, const peq_props& b);
-bool operator!=(const peq_props& a, const peq_props& b);
-peq_props lerp(const peq_props& a, const peq_props& b, float lerp_amount);
+bool operator==(const peq_props_000& a, const peq_props_000& b);
+bool operator!=(const peq_props_000& a, const peq_props_000& b);
+peq_props_000 lerp(const peq_props_000& a, const peq_props_000& b, float lerp_amount);
 
-struct peq {
+struct peq_000 {
     static const size_t SIZE = 4;
-    std::array<peq_props, peq::SIZE> props;
-    std::array<clover::dsp::filter_2, peq::SIZE> filters;
+    std::array<peq_props_000, peq_000::SIZE> props;
+    std::array<clover::dsp::filter_2, peq_000::SIZE> filters;
     float fs;
 
-    peq(float fs, const std::array<peq_props, peq::SIZE>& new_props);
-    void patch(std::array<peq_props, peq::SIZE> new_props);
+    peq_000(float fs, const std::array<peq_props_000, peq_000::SIZE>& new_props);
+    void patch(std::array<peq_props_000, peq_000::SIZE> new_props);
     std::string to_str();
 
     std::pair<float, float> tick(float in);
@@ -103,11 +110,11 @@ struct peq {
 };
 
 struct peq_gui_model {
-    peq_gui_model(std::array<peq_props, peq::SIZE> new_props) : props{new_props} {
+    peq_gui_model(std::array<peq_props_000, peq_000::SIZE> new_props) : props{new_props} {
         dirty.fill(false);
     }
-    alignas(64) std::array<peq_props, peq::SIZE> props;
-    alignas(64) std::array<bool, peq::SIZE> dirty;
+    alignas(64) std::array<peq_props_000, peq_000::SIZE> props;
+    alignas(64) std::array<bool, peq_000::SIZE> dirty;
 };
 
-void update_peq_from_gui(peq_gui_model& gui_model, peq& audio_model);
+void update_peq_from_gui(peq_gui_model& gui_model, peq_000& audio_model);

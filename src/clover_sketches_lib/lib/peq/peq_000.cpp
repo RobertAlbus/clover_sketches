@@ -13,9 +13,9 @@
 
 #include "peq.hpp"
 
-std::string peq_props::to_str() {
+std::string peq_props_000::to_str() {
     return std::format(
-            R"(peq_props{{
+            R"(peq_props_000{{
         .freq = {},
         .reso = {},
         .gain = {},
@@ -40,7 +40,7 @@ bool nearly_equal(float a, float b) {
     return diff <= std::numeric_limits<float>::epsilon() * std::max(1.0f, largest);
 }
 
-bool operator==(const peq_props& a, const peq_props& b) {
+bool operator==(const peq_props_000& a, const peq_props_000& b) {
     return                                             //
             a.type == b.type &&                        //
             a.enabled == b.enabled &&                  //
@@ -55,11 +55,11 @@ bool operator==(const peq_props& a, const peq_props& b) {
             );
 }
 
-bool operator!=(const peq_props& a, const peq_props& b) {
+bool operator!=(const peq_props_000& a, const peq_props_000& b) {
     return !(a == b);
 }
 
-peq_props lerp(const peq_props& a, const peq_props& b, float lerp_amount) {
+peq_props_000 lerp(const peq_props_000& a, const peq_props_000& b, float lerp_amount) {
     if (a == b || lerp_amount == 0.0f)
         return a;
     if (lerp_amount == 1.0f)
@@ -72,9 +72,12 @@ peq_props lerp(const peq_props& a, const peq_props& b, float lerp_amount) {
             .type    = b.type};
 }
 
-void update_peq_from_gui(peq_gui_model& gui_model, peq& audio_model) {
+void update_peq_from_gui(peq_gui_model& gui_model, peq_000& audio_model) {
     for (auto [i, gui_dirty, gui, audio] : std::views::zip(
-                 std::views::iota(0, int(peq::SIZE)), gui_model.dirty, gui_model.props, audio_model.props))
+                 std::views::iota(0, int(peq_000::SIZE)),
+                 gui_model.dirty,
+                 gui_model.props,
+                 audio_model.props))
         if (gui_dirty) {
             if (gui != audio) {
                 if (audio.type != gui.type || (gui.enabled && !audio.enabled)) {
@@ -88,18 +91,18 @@ void update_peq_from_gui(peq_gui_model& gui_model, peq& audio_model) {
         }
 }
 
-peq::peq(float fs, const std::array<peq_props, peq::SIZE>& new_props) : fs{fs} {
+peq_000::peq_000(float fs, const std::array<peq_props_000, peq_000::SIZE>& new_props) : fs{fs} {
     patch(new_props);
 }
-void peq::patch(std::array<peq_props, peq::SIZE> new_props) {
+void peq_000::patch(std::array<peq_props_000, peq_000::SIZE> new_props) {
     props = std::move(new_props);
-    for (auto i : std::views::iota(0, int(peq::SIZE)))
+    for (auto i : std::views::iota(0, int(peq_000::SIZE)))
         if (props[i].enabled) {
             calculate_coefficients(i);
             clear_filter_state(filters[i]);
         }
 }
-std::string peq::to_str() {
+std::string peq_000::to_str() {
     std::string output = "{\n";
 
     for (auto& prop : props) {
@@ -113,13 +116,13 @@ std::string peq::to_str() {
     return output;
 }
 
-std::pair<float, float> peq::tick(float in) {
+std::pair<float, float> peq_000::tick(float in) {
     return tick({in, in});
 }
-std::pair<float, float> peq::tick(float in_L, float in_R) {
+std::pair<float, float> peq_000::tick(float in_L, float in_R) {
     return tick({in_L, in_R});
 }
-std::pair<float, float> peq::tick(std::pair<float, float> in) {
+std::pair<float, float> peq_000::tick(std::pair<float, float> in) {
     std::pair<float, float> out{in};
     for (auto [filter, props] : std::views::zip(filters, props)) {
         if (props.enabled) {
@@ -130,7 +133,7 @@ std::pair<float, float> peq::tick(std::pair<float, float> in) {
     return out;
 }
 
-void peq::set(size_t i, float new_freq, float new_reso, float new_gain) {
+void peq_000::set(size_t i, float new_freq, float new_reso, float new_gain) {
     props[i].freq = new_freq;
     props[i].reso = new_reso;
     props[i].gain = new_gain;
@@ -139,28 +142,28 @@ void peq::set(size_t i, float new_freq, float new_reso, float new_gain) {
     }
 }
 
-void peq::freq(size_t i, float value) {
+void peq_000::freq(size_t i, float value) {
     if (nearly_equal(props[i].freq, value))
         return;
     props[i].freq = value;
     calculate_coefficients(i);
 }
 
-void peq::reso(size_t i, float value) {
+void peq_000::reso(size_t i, float value) {
     if (nearly_equal(props[i].reso, value))
         return;
     props[i].reso = value;
     calculate_coefficients(i);
 }
 
-void peq::gain(size_t i, float value) {
+void peq_000::gain(size_t i, float value) {
     if (nearly_equal(props[i].gain, value))
         return;
     props[i].gain = value;
     calculate_coefficients(i);
 }
 
-void peq::type(size_t i, peq_filter_type value) {
+void peq_000::type(size_t i, peq_filter_type value) {
     if (props[i].type == value)
         return;
     props[i].type = value;
@@ -170,7 +173,7 @@ void peq::type(size_t i, peq_filter_type value) {
     }
 }
 
-void peq::enabled(size_t i, bool value) {
+void peq_000::enabled(size_t i, bool value) {
     if (props[i].enabled == value)
         return;
     props[i].enabled = value;
@@ -180,6 +183,6 @@ void peq::enabled(size_t i, bool value) {
     }
 }
 
-void peq::calculate_coefficients(size_t i) {
+void peq_000::calculate_coefficients(size_t i) {
     filters[i].m_coeffs = filter_func[int(props[i].type)](fs, props[i].freq, props[i].reso, props[i].gain);
 }
