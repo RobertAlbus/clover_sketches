@@ -7,14 +7,14 @@
 #include "composition/instruments/filter_block.hpp"
 #include "composition/instruments/kick.hpp"
 #include "composition/instruments/nx_osc.hpp"
-#include "composition/instruments/stsq.hpp"
+#include "lib/stsq/stsq.hpp"
 
 #include "patterns.hpp"
 #include <ranges>
 
 struct sequencers {
-    stsq<int> kick_sequencer;
-    stsq<std::array<float, 4>> chord_sequencer;
+    stsq_000<int> kick_sequencer;
+    stsq_000<std::array<float, 4>> chord_sequencer;
 
     sequencers(
             double fs,

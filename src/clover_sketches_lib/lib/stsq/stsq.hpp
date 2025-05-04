@@ -8,7 +8,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 template <typename step_data_t>
-struct stsq {
+struct stsq_000 {
     std::unordered_map<int, step_data_t>* pattern;
     double pattern_duration_samples = 0;
     double pattern_clock            = 0;
