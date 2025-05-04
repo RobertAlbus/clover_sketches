@@ -4,10 +4,11 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/kick_drum/kick_drum.hpp"
+
 #include "composition/composition.hpp"
 #include "instruments/cymbal.hpp"
 #include "instruments/frsq.hpp"
-#include "instruments/kick.hpp"
 #include "instruments/nx_osc.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "sequence/event.hpp"
@@ -25,7 +26,7 @@ struct sequencers {
     frsq<event, event> frsq_arrangement_print;
 
     // pattern sequencers
-    frsq<kick_drum, event> frsq_kick;
+    frsq<kick_drum_000, event> frsq_kick;
     frsq<subtractive_synth, event_midi> frsq_bass;
     frsq<cymbal, event> frsq_hh1;
     frsq<cymbal, event> frsq_hh2;
@@ -39,7 +40,7 @@ struct sequencers {
     frsq<subtractive_synth, event_midi> frsq_pad;
 
     // meta sequencers
-    frsq<frsq<kick_drum, event>, event_meta_sq> meta_frsq_kick;
+    frsq<frsq<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
     frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_bass;
     frsq<frsq<cymbal, event>, event_meta_sq> meta_frsq_hh1;
     frsq<frsq<cymbal, event>, event_meta_sq> meta_frsq_hh2;

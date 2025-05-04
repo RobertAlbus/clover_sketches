@@ -4,10 +4,11 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/fdn/fdn.hpp"
+#include "lib/peq/peq.hpp"
+
 #include "clover/math.hpp"
-#include "instruments/fdn.hpp"
 #include "instruments/nx_osc.hpp"
-#include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "sequence/notes.h"
 
@@ -85,7 +86,7 @@ struct patch_synth_t {
             .amp_r             = 100,
     };
 
-    std::array<peq_props, peq::SIZE> lead_peq_props{};
+    std::array<peq_props_000, peq_000::SIZE> lead_peq_props{};
 
     // --------------------------------
     // CHORD
@@ -124,7 +125,7 @@ struct patch_synth_t {
                     .res_r                = 100,
             }};
 
-    fdn_8_props_019 chord_fdn_props = {
+    fdn8_props_000 chord_fdn_props = {
             .taps    = {2090.261, 2285.848, 2677.022, 3524.565, 4502.5, 5415.239, 6197.587, 6653.957},
             .fb_gain = 0.918,
             .lpf_cut = 3052,
@@ -133,29 +134,29 @@ struct patch_synth_t {
             .hpf_res = 0.707,
     };
 
-    std::array<peq_props, peq::SIZE> chord_preverb_peq_props{
-            peq_props{
+    std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props{
+            peq_props_000{
                     .freq    = 5657.1,
                     .reso    = 3,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = false,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = false,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,
@@ -163,8 +164,8 @@ struct patch_synth_t {
                     .type    = peq_filter_type::lp,
             },
     };
-    std::array<peq_props, peq::SIZE> chord_peq_props{
-            peq_props{
+    std::array<peq_props_000, peq_000::SIZE> chord_peq_props{
+            peq_props_000{
                     .freq    = 180.1,
                     .reso    = .707,
                     .gain    = 0,
@@ -212,29 +213,29 @@ struct patch_synth_t {
                     .res_r                = 1,
             }};
 
-    std::array<peq_props, peq::SIZE> pad_preverb_peq_props{
-            peq_props{
+    std::array<peq_props_000, peq_000::SIZE> pad_preverb_peq_props{
+            peq_props_000{
                     .freq    = 18000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 18000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 273.4,
                     .reso    = 1,
                     .gain    = 15,
                     .enabled = true,
                     .type    = peq_filter_type::eq,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20,
                     .reso    = 0.707,
                     .gain    = 0,
@@ -242,7 +243,7 @@ struct patch_synth_t {
                     .type    = peq_filter_type::hp,
             },
     };
-    fdn_8_props_019 pad_fdn_props = {
+    fdn8_props_000 pad_fdn_props = {
             // clang-format off
                 .taps = {
                     48000 / (midi_to_frequency(note::Fs3) / 8 / 2),
@@ -261,29 +262,29 @@ struct patch_synth_t {
             .hpf_cut = 293,
             .hpf_res = 0.707,
     };
-    std::array<peq_props, peq::SIZE> pad_peq_props{
-            peq_props{
+    std::array<peq_props_000, peq_000::SIZE> pad_peq_props{
+            peq_props_000{
                     .freq    = 18000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 18000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 448.4,
                     .reso    = 0.2,
                     .gain    = 11.7,
                     .enabled = true,
                     .type    = peq_filter_type::eq,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 100,
                     .reso    = 0.707,
                     .gain    = 0,
@@ -292,29 +293,29 @@ struct patch_synth_t {
             },
     };
 
-    std::array<peq_props, peq::SIZE> master_peq_props{
-            peq_props{
+    std::array<peq_props_000, peq_000::SIZE> master_peq_props{
+            peq_props_000{
                     .freq    = 10,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 78.4,
                     .reso    = 0.9,
                     .gain    = -2.8,
                     .enabled = true,
                     .type    = peq_filter_type::ls,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,
                     .enabled = false,
                     .type    = peq_filter_type::lp,
             },
-            peq_props{
+            peq_props_000{
                     .freq    = 20000,
                     .reso    = 0.707,
                     .gain    = 0,

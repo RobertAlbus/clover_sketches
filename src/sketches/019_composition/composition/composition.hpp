@@ -7,12 +7,12 @@
 #include <cmath>
 #include <cstdint>
 
+#include "lib/fdn/fdn.hpp"
+#include "lib/kick_drum/kick_drum.hpp"
+
 #include "instruments/cymbal.hpp"
 #include "instruments/env_bp.hpp"
-#include "instruments/fdn.hpp"
-#include "instruments/kick.hpp"
 #include "instruments/nx_osc.hpp"
-#include "instruments/peq.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "patches/patch_drums.hpp"
 #include "patches/patch_mix.hpp"
@@ -48,10 +48,10 @@ struct composition {
     static constexpr bool COMPONENT_HAS_GUI = true;
 
     struct {
-        kick_drum drum{fs, patch_drums.kick_drum_props};
-        peq preverb_peq{fs, patch_drums.kick_preverb_peq_props};
-        fdn_8_019 verb{fs, patch_drums.kick_fdn_props, COMPONENT_HAS_GUI};
-        peq out_peq{fs, patch_drums.kick_peq_props};
+        kick_drum_000 drum{fs, patch_drums.kick_drum_props};
+        peq_000 preverb_peq{fs, patch_drums.kick_preverb_peq_props};
+        fdn8_000 verb{fs, patch_drums.kick_fdn_props, COMPONENT_HAS_GUI};
+        peq_000 out_peq{fs, patch_drums.kick_peq_props};
 
         env_bp auto_hp;
         env_bp auto_verb_send;
@@ -62,7 +62,7 @@ struct composition {
 
     struct {
         subtractive_synth synth{fs, patch_drums.bass_props};
-        peq out_peq{fs, patch_drums.bass_peq_props};
+        peq_000 out_peq{fs, patch_drums.bass_peq_props};
     } bass;
 
     struct {
@@ -70,13 +70,13 @@ struct composition {
         cymbal hh2{fs, patch_drums.hh2_props};
         subtractive_synth hh3{fs, patch_drums.hh3_props};
 
-        peq hh_preverb_peq{fs, patch_drums.hh_preverb_peq_props};
-        fdn_8_019 hh_verb_L{fs, patch_drums.hh_fdn_props, COMPONENT_HAS_GUI};
-        fdn_8_019 hh_verb_R{fs, patch_drums.hh_fdn_props, COMPONENT_HAS_GUI};
-        peq hh_peq{fs, patch_drums.hh_peq_props};
+        peq_000 hh_preverb_peq{fs, patch_drums.hh_preverb_peq_props};
+        fdn8_000 hh_verb_L{fs, patch_drums.hh_fdn_props, COMPONENT_HAS_GUI};
+        fdn8_000 hh_verb_R{fs, patch_drums.hh_fdn_props, COMPONENT_HAS_GUI};
+        peq_000 hh_peq{fs, patch_drums.hh_peq_props};
 
         cymbal ride{fs, patch_drums.ride_props};
-        peq ride_peq{fs, patch_drums.ride_peq_props};
+        peq_000 ride_peq{fs, patch_drums.ride_peq_props};
 
     } cymbals;
 
@@ -99,11 +99,11 @@ struct composition {
 
         nx_osc lead_b_lfo{fs, patch_synth.lead_b_lfo_props};
 
-        peq lead_peq{fs, patch_synth.lead_peq_props};
+        peq_000 lead_peq{fs, patch_synth.lead_peq_props};
 
-        fdn_8_019 lead_verb_L{
+        fdn8_000 lead_verb_L{
                 fs, patch_synth.chord_fdn_props.taps_mult(.495f).taps_add(82.f), COMPONENT_HAS_GUI};
-        fdn_8_019 lead_verb_R{
+        fdn8_000 lead_verb_R{
                 fs, patch_synth.chord_fdn_props.taps_mult(.5f).taps_add(90.4f), COMPONENT_HAS_GUI};
 
         env_bp autogain_lead_1;
@@ -117,11 +117,11 @@ struct composition {
                 subtractive_synth{fs, patch_synth.chord_props},
                 subtractive_synth{fs, patch_synth.chord_props}};
 
-        peq chord_preverb_peq{fs, patch_synth.chord_preverb_peq_props};
-        fdn_8_019 chord_verb_L{fs, patch_synth.chord_fdn_props, COMPONENT_HAS_GUI};
-        fdn_8_019 chord_verb_R{
+        peq_000 chord_preverb_peq{fs, patch_synth.chord_preverb_peq_props};
+        fdn8_000 chord_verb_L{fs, patch_synth.chord_fdn_props, COMPONENT_HAS_GUI};
+        fdn8_000 chord_verb_R{
                 fs, patch_synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
-        peq chord_peq{fs, patch_synth.chord_peq_props};
+        peq_000 chord_peq{fs, patch_synth.chord_peq_props};
 
         std::array<subtractive_synth, 12> pad{
                 subtractive_synth{fs, patch_synth.pad_props},
@@ -137,12 +137,12 @@ struct composition {
                 subtractive_synth{fs, patch_synth.pad_props},
                 subtractive_synth{fs, patch_synth.pad_props}};
 
-        peq pad_preverb_peq{fs, patch_synth.pad_preverb_peq_props};
-        fdn_8_019 pad_verb_L{fs, patch_synth.pad_fdn_props, COMPONENT_HAS_GUI};
-        fdn_8_019 pad_verb_R{fs, patch_synth.pad_fdn_props.taps_add(9.345), COMPONENT_HAS_GUI};
-        peq pad_peq{fs, patch_synth.pad_peq_props};
+        peq_000 pad_preverb_peq{fs, patch_synth.pad_preverb_peq_props};
+        fdn8_000 pad_verb_L{fs, patch_synth.pad_fdn_props, COMPONENT_HAS_GUI};
+        fdn8_000 pad_verb_R{fs, patch_synth.pad_fdn_props.taps_add(9.345), COMPONENT_HAS_GUI};
+        peq_000 pad_peq{fs, patch_synth.pad_peq_props};
 
     } synth;
 
-    peq master_peq{fs, patch_synth.master_peq_props};
+    peq_000 master_peq{fs, patch_synth.master_peq_props};
 };

@@ -5,8 +5,9 @@
 #include <map>
 #include <print>
 
+#include "lib/kick_drum/kick_drum.hpp"
+
 #include "composition/composition.hpp"
-#include "instruments/kick.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "sequence/event.hpp"
 #include "sequence/pattern_meta.hpp"
@@ -115,13 +116,13 @@ void sequencers::tick() {
 }
 
 void sequencers::set_up_kick(composition& comp) {
-    frsq_kick.voices            = std::span<kick_drum>(&comp.kick.drum, 1);
+    frsq_kick.voices            = std::span<kick_drum_000>(&comp.kick.drum, 1);
     frsq_kick.duration_absolute = comp.bar;
     frsq_kick.duration_relative = 4.;
     // frsq_kick.set_pattern(drum_patterns.patterns_kick[active_scene["kick"]]);
 
-    frsq_kick.callback_start = [](kick_drum& voice, const event& data) { voice.key_on(); };
-    frsq_kick.callback_end   = [](kick_drum& voice) { voice.key_off(); };
+    frsq_kick.callback_start = [](kick_drum_000& voice, const event& data) { voice.key_on(); };
+    frsq_kick.callback_end   = [](kick_drum_000& voice) { voice.key_off(); };
 }
 void sequencers::set_up_bass(composition& comp) {
     frsq_bass.voices            = std::span<subtractive_synth>(&comp.bass.synth, 1);
@@ -296,7 +297,7 @@ void sequencers::set_up_meta_sq(composition& comp) {
     meta_frsq_lead_b2.duration_relative = 226;
     meta_frsq_pad.duration_relative     = 226;
 
-    meta_frsq_kick.callback_start = [&](frsq<kick_drum, event>& voice, const event_meta_sq& event) {
+    meta_frsq_kick.callback_start = [&](frsq<kick_drum_000, event>& voice, const event_meta_sq& event) {
         std::println(" - frsq_kick:    {} @ {}", event.pattern_index, event.start_time);
         voice.set_pattern(this->drum_patterns.patterns_kick[event.pattern_index]);
     };
