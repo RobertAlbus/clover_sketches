@@ -32,7 +32,7 @@ void controller_kick(const char* id, composition* comp) {
         draw_peq_000("##kick_out_peq", comp->kick.out_peq);
         ImGui::EndTable();
     }
-    fdn_component("##kick_fdn", &comp->kick.verb, nullptr);
+    draw_fdn8_000("##kick_fdn", &comp->kick.verb, nullptr);
 
     ImGui::PopID();
 }
@@ -48,7 +48,7 @@ void view_bass(const char* id, composition* comp) {
 void view_cymbal(const char* id, composition* comp) {
     ImGui::PushID(id);
 
-    fdn_component("hh_reverb", &comp->cymbals.hh_verb_L, &comp->cymbals.hh_verb_R);
+    draw_fdn8_000("hh_reverb", &comp->cymbals.hh_verb_L, &comp->cymbals.hh_verb_R);
     ImGui::Separator();
 
     // TODO: need a cymbal GUI.
@@ -84,7 +84,7 @@ void view_lead_b(const char* id, composition* comp) {
 
 void controller_chord(const char* id, composition* comp) {
     ImGui::PushID(id);
-    fdn_component("fdn", &comp->synth.chord_verb_L, &comp->synth.chord_verb_R);
+    draw_fdn8_000("fdn", &comp->synth.chord_verb_L, &comp->synth.chord_verb_R);
     if (ImGui::BeginTable("##peq_table", 2)) {
         ImGui::TableNextColumn();
         ImGui::Text("chord preverb peq");
@@ -101,7 +101,7 @@ void controller_chord(const char* id, composition* comp) {
 
 void view_pad(const char* id, composition* comp) {
     ImGui::PushID(id);
-    fdn_component("fdn", &comp->synth.pad_verb_L, &comp->synth.pad_verb_R);
+    draw_fdn8_000("fdn", &comp->synth.pad_verb_L, &comp->synth.pad_verb_R);
     if (ImGui::BeginTable("##peq_table", 2)) {
         ImGui::TableNextColumn();
         ImGui::Text("pad preverb peq");
