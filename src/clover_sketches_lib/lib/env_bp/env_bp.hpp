@@ -6,20 +6,20 @@
 
 #include <span>
 
-struct bp_event {
+struct bp_event_000 {
     double start;
     float value;
 };
 
-struct env_bp {
+struct env_bp_000 {
     double duration_abs;
     double duration_rel;
     double current_time_abs;
 
-    using pattern_t = std::span<bp_event>;
+    using pattern_t = std::span<bp_event_000>;
 
-    env_bp() = default;
-    env_bp(pattern_t new_pattern);
+    env_bp_000() = default;
+    env_bp_000(pattern_t new_pattern);
 
     pattern_t pattern;
     pattern_t pattern_next;

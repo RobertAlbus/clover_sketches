@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#include "instruments/env_bp.hpp"
+#include "lib/env_bp/env_bp.hpp"
 
 // clang-format off
 struct automation_patterns {
@@ -19,7 +19,7 @@ struct automation_patterns {
         // {.start_time = 137, .pattern_index = 1},
         // {.start_time = 161, .pattern_index = 2},
         // {.start_time = 161, .pattern_index = 0},
-    std::vector<bp_event> bp_env_lead_a {
+    std::vector<bp_event_000> bp_env_lead_a {
         {.start = 0,   .value = 1},
         {.start = 24,  .value = 1},
         {.start = 30,  .value = 0},
@@ -32,7 +32,7 @@ struct automation_patterns {
         {.start = 133, .value = 1},
     };
 
-    std::vector<bp_event> bp_env_lead_b {
+    std::vector<bp_event_000> bp_env_lead_b {
         {.start = 0,   .value = 0},
         {.start = 89,  .value = 0},
         {.start = 97,  .value = 1},
@@ -52,7 +52,7 @@ struct automation_patterns {
             // {.start_time = 137, .pattern_index = 1},
             // {.start_time = 177, .pattern_index = 0},
             // {.start_time = 185, .pattern_index = 1},
-    std::vector<bp_event> bp_env_kick_hp {
+    std::vector<bp_event_000> bp_env_kick_hp {
         /*
         mod range in octaves
         - 0   = 10 hz
@@ -77,7 +77,7 @@ struct automation_patterns {
         {.start = 184,  .value = 0},
     };
 
-    std::vector<bp_event> bp_env_kick_verb_send {
+    std::vector<bp_event_000> bp_env_kick_verb_send {
         {.start = 0,   .value = 0.0},
         // {.start = 0.0,   .value = 1},
         // {.start = 0.5,   .value = 1},

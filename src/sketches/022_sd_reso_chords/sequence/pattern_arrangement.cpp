@@ -26,7 +26,7 @@ std::vector<event> bar = std::views::iota(0, 4) |
                             { return event{.start_time = double(i)}; }) |
                          std::ranges::to<std::vector>();
 
-std::vector<bp_event> bp_env_kick_hp{
+std::vector<bp_event_000> bp_env_kick_hp{
         /*
         mod range in octaves
         - 0   = 10 hz
@@ -38,7 +38,7 @@ std::vector<bp_event> bp_env_kick_hp{
         {.start = 14, .value = 4}
 };
 
-std::vector<bp_event> bp_env_kick_verb_send{
+std::vector<bp_event_000> bp_env_kick_verb_send{
         {.start = 0, .value = 1.0},
         {.start = 1, .value = 1.0}
 };

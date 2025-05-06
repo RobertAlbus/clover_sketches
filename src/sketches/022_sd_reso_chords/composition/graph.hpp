@@ -16,8 +16,8 @@
 #include "lib/peq/peq.hpp"
 
 #include "instruments/022_echo.hpp"
-#include "instruments/env_bp.hpp"
 #include "instruments/subtractive_synth.hpp"
+#include "lib/env_bp/env_bp.hpp"
 
 #include "patches/patches.hpp"
 
@@ -44,8 +44,8 @@ struct signal_graph {
     fdn8_000 kick_verb{grid.fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
     peq_000 kick_out_peq{grid.fs, patch::drums.kick_peq_props};
 
-    env_bp kick_auto_hp;
-    env_bp kick_auto_verb_send;
+    env_bp_000 kick_auto_hp;
+    env_bp_000 kick_auto_verb_send;
     filter kick_hpf{};
 
     // --------------------------------

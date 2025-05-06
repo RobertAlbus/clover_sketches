@@ -7,11 +7,11 @@
 #include <cmath>
 #include <cstdint>
 
+#include "lib/env_bp/env_bp.hpp"
 #include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
 #include "instruments/cymbal.hpp"
-#include "instruments/env_bp.hpp"
 #include "instruments/nx_osc.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "patches/patch_drums.hpp"
@@ -53,8 +53,8 @@ struct composition {
         fdn8_000 verb{fs, patch_drums.kick_fdn_props, COMPONENT_HAS_GUI};
         peq_000 out_peq{fs, patch_drums.kick_peq_props};
 
-        env_bp auto_hp;
-        env_bp auto_verb_send;
+        env_bp_000 auto_hp;
+        env_bp_000 auto_verb_send;
 
         filter hpf{};
 
@@ -106,8 +106,8 @@ struct composition {
         fdn8_000 lead_verb_R{
                 fs, patch_synth.chord_fdn_props.taps_mult(.5f).taps_add(90.4f), COMPONENT_HAS_GUI};
 
-        env_bp autogain_lead_1;
-        env_bp autogain_lead_2;
+        env_bp_000 autogain_lead_1;
+        env_bp_000 autogain_lead_2;
 
         std::array<subtractive_synth, 6> chord{
                 subtractive_synth{fs, patch_synth.chord_props},

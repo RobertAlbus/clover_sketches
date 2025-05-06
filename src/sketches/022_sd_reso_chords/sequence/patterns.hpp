@@ -6,8 +6,8 @@
 
 #include <vector>
 
-#include "instruments/env_bp.hpp"
 #include "instruments/frsq.hpp"
+#include "lib/env_bp/env_bp.hpp"
 #include "sequence/event.hpp"
 
 template <frsq_data_base event_t>
@@ -36,7 +36,7 @@ extern std::vector<event_meta_sq> kick;
 extern std::vector<event_meta_sq> chord;
 extern std::vector<event> bar;
 
-extern std::vector<bp_event> bp_env_kick_hp;
-extern std::vector<bp_event> bp_env_kick_verb_send;
+extern std::vector<bp_event_000> bp_env_kick_hp;
+extern std::vector<bp_event_000> bp_env_kick_verb_send;
 
 }  // namespace arrangement
