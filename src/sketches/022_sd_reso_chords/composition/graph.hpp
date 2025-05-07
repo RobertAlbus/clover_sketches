@@ -51,13 +51,13 @@ struct signal_graph {
     // --------------------------------
     // CHORD
 
-    std::array<subtractive_synth, 6> chord{
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props}};
+    std::array<subtractive_synth_000, 6> chord{
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props}};
 
     peq_000 chord_preverb_peq{grid.fs, patch::synth.chord_preverb_peq_props};
     fdn8_000 chord_verb_L{grid.fs, patch::synth.chord_fdn_props, COMPONENT_HAS_GUI};

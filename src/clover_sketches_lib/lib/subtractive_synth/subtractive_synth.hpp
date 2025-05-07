@@ -7,18 +7,18 @@
 #include "filter_block.hpp"
 #include "nx_osc.hpp"
 
-struct subtractive_synth_props {
-    nx_osc_props osc_props;
-    filter_block_props filter_props;
+struct subtractive_synth_props_000 {
+    nx_osc_props_000 osc_props;
+    filter_block_props_000 filter_props;
 };
 
-struct subtractive_synth {
+struct subtractive_synth_000 {
     float fs;
-    nx_osc osc;
-    filter_block filter;
+    nx_osc_000 osc;
+    filter_block_000 filter;
 
-    subtractive_synth(float fs, const subtractive_synth_props& new_props);
-    void patch(subtractive_synth_props new_props);
+    subtractive_synth_000(float fs, const subtractive_synth_props_000& new_props);
+    void patch(subtractive_synth_props_000 new_props);
     void key_on(float midi_note);
     void key_off();
     std::pair<float, float> tick();

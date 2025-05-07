@@ -14,18 +14,20 @@ using namespace dsp;
 
 #include "filter_block.hpp"
 
-filter_t str_to_filter_t(std::string_view str) noexcept {
-    auto it = std::find(filter_t_str.begin(), filter_t_str.end(), str);
-    return it != filter_t_str.end() ? filter_t::none : static_cast<filter_t>(it - filter_t_str.begin());
+filter_t_000 str_to_filter_t(std::string_view str) noexcept {
+    auto it = std::find(filter_t_str_000.begin(), filter_t_str_000.end(), str);
+    return it != filter_t_str_000.end() ? filter_t_000::none
+                                        : static_cast<filter_t_000>(it - filter_t_str_000.begin());
 }
-const char* filter_t_to_str(filter_t filter_type) noexcept {
-    return filter_t_str[size_t(filter_type)];
+const char* filter_t_to_str(filter_t_000 filter_type) noexcept {
+    return filter_t_str_000[size_t(filter_type)];
 }
-std::function<clover::dsp::iir_coeffs(float, float, float)> filter_t_to_func(filter_t filter_type) noexcept {
-    return filter_t_func[size_t(filter_type)];
+std::function<clover::dsp::iir_coeffs(float, float, float)> filter_t_to_func(
+        filter_t_000 filter_type) noexcept {
+    return filter_t_func_000[size_t(filter_type)];
 }
 
-std::string filter_block_props::to_str() {
+std::string filter_block_props_000::to_str() {
     return std::format(
             "\
 filter_block_props patch = {{\n\
@@ -58,42 +60,42 @@ filter_block_props patch = {{\n\
             res_r);
 }
 
-filter_block::filter_block(float fs, const filter_block_props& new_props) : fs{fs} {
+filter_block_000::filter_block_000(float fs, const filter_block_props_000& new_props) : fs{fs} {
     patch(new_props);
 }
 
-void filter_block::key_on() {
+void filter_block_000::key_on() {
     adsr_cut.key_on();
     adsr_res.key_on();
 }
 
-void filter_block::key_off() {
+void filter_block_000::key_off() {
     adsr_cut.key_off();
     adsr_res.key_off();
 }
 
-void filter_block::patch(filter_block_props new_props) {
+void filter_block_000::patch(filter_block_props_000 new_props) {
     props = std::move(new_props);
 
     adsr_cut.set(props.cut_a, props.cut_d, props.cut_s, props.cut_r);
     adsr_res.set(props.res_a, props.res_d, props.res_s, props.res_r);
 
-    auto coeffs     = filter_t_func[size_t(props.filter_type)](fs, props.cutoff, props.res);
+    auto coeffs     = filter_t_func_000[size_t(props.filter_type)](fs, props.cutoff, props.res);
     filt_L.m_coeffs = coeffs;
     filt_R.m_coeffs = coeffs;
 }
 
-std::pair<float, float> filter_block::tick(const std::pair<float, float>& input) {
+std::pair<float, float> filter_block_000::tick(const std::pair<float, float>& input) {
     return tick(input.first, input.second);
 }
 
-std::pair<float, float> filter_block::tick(float in_L, float in_R) {
+std::pair<float, float> filter_block_000::tick(float in_L, float in_R) {
     float cut_env = adsr_cut.tick();
     float cut     = frequency_by_octave_difference(props.cutoff, props.cutoff_range_octaves * cut_env);
     float res_env = adsr_res.tick();
     float res     = frequency_by_octave_difference(props.res, props.res_range_octaves * res_env);
 
-    iir_coeffs coeffs = filter_t_func[size_t(props.filter_type)](fs, cut, res);
+    iir_coeffs coeffs = filter_t_func_000[size_t(props.filter_type)](fs, cut, res);
     filt_L.m_coeffs   = coeffs;
     filt_R.m_coeffs   = coeffs;
 

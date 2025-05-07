@@ -110,7 +110,7 @@ struct patch_drums_t {
     // --------------------------------
     // BASS
 
-    subtractive_synth_props bass_props{
+    subtractive_synth_props_000 bass_props{
             .osc_props =
                     {
                             .tuning            = -24,
@@ -118,7 +118,7 @@ struct patch_drums_t {
                             .pitch_env_octaves = 0,
                             .osc_tunings       = {0, 12.10f, 11.90f},
                             .osc_pans          = {0, -0.5f, 0.5f},
-                            .waveforms         = {waveform::saw, waveform::saw, waveform::saw},
+                            .waveforms         = {waveform_000::saw, waveform_000::saw, waveform_000::saw},
                             .retrigger         = true,
                             .pitch_a           = 20,
                             .pitch_d           = 1000,
@@ -134,7 +134,7 @@ struct patch_drums_t {
                     .cutoff_range_octaves = 4,
                     .res                  = 0.907,
                     .res_range_octaves    = 0,
-                    .filter_type          = filter_t::lpf,
+                    .filter_type          = filter_t_000::lpf,
                     .cut_a                = 100,
                     .cut_d                = 2000,
                     .cut_s                = 0.3,
@@ -237,7 +237,7 @@ struct patch_drums_t {
     //         .cut_s = 0,
     //         .cut_r = 100,
     // };
-    subtractive_synth_props hh3_props{
+    subtractive_synth_props_000 hh3_props{
             .osc_props =
                     {
                             .tuning            = 0,
@@ -245,7 +245,7 @@ struct patch_drums_t {
                             .pitch_env_octaves = 0,
                             .osc_tunings       = {0},
                             .osc_pans          = {-0.1f, -0.4f},
-                            .waveforms         = {waveform::noise, waveform::noise},
+                            .waveforms         = {waveform_000::noise, waveform_000::noise},
                             .retrigger         = false,
                             .pitch_a           = 10,
                             .pitch_d           = 10,
@@ -261,7 +261,7 @@ struct patch_drums_t {
                     .cutoff_range_octaves = 2,
                     .res                  = 1,
                     .res_range_octaves    = 1,
-                    .filter_type          = filter_t::bpf,
+                    .filter_type          = filter_t_000::bpf,
                     .cut_a                = 10,
                     .cut_d                = 1500,
                     .cut_s                = 0,

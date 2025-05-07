@@ -17,30 +17,31 @@ struct patch_synth_t {
     // --------------------------------
     // LEAD
 
-    subtractive_synth_props lead_a_props{
+    subtractive_synth_props_000 lead_a_props{
             .osc_props{
                     .tuning            = -12,
                     .portamento_time   = 50,
                     .pitch_env_octaves = 2,
                     .osc_tunings       = {0, 0.2, -0.2, 0},
                     .osc_pans          = {0, -1.f, 1.f, 0},
-                    .waveforms         = {waveform::saw, waveform::saw, waveform::saw, waveform::noise},
-                    .retrigger         = true,
-                    .pitch_a           = 200,
-                    .pitch_d           = 800,
-                    .pitch_s           = 0,
-                    .pitch_r           = 100,
-                    .amp_a             = 1000,
-                    .amp_d             = 2000,
-                    .amp_s             = 0.6,
-                    .amp_r             = 1000,
+                    .waveforms =
+                            {waveform_000::saw, waveform_000::saw, waveform_000::saw, waveform_000::noise},
+                    .retrigger = true,
+                    .pitch_a   = 200,
+                    .pitch_d   = 800,
+                    .pitch_s   = 0,
+                    .pitch_r   = 100,
+                    .amp_a     = 1000,
+                    .amp_d     = 2000,
+                    .amp_s     = 0.6,
+                    .amp_r     = 1000,
             },
             .filter_props{
                     .cutoff               = 1500,
                     .cutoff_range_octaves = 3,
                     .res                  = 1,
                     .res_range_octaves    = 0,
-                    .filter_type          = filter_t::lpf,
+                    .filter_type          = filter_t_000::lpf,
                     .cut_a                = 200,
                     .cut_d                = 800,
                     .cut_s                = 0.1,
@@ -51,13 +52,13 @@ struct patch_synth_t {
                     .res_r                = 100,
             }};
 
-    nx_osc_props lead_b_props{
+    nx_osc_props_000 lead_b_props{
             .tuning            = -24,
             .portamento_time   = 0,
             .pitch_env_octaves = 4,
             .osc_tunings       = {0, 5},
             .osc_pans          = {0, 0},
-            .waveforms         = {waveform::saw, waveform::sine},
+            .waveforms         = {waveform_000::saw, waveform_000::sine},
             .retrigger         = true,
             .pitch_a           = 1,
             .pitch_d           = 3000,
@@ -69,13 +70,13 @@ struct patch_synth_t {
             .amp_r             = 100,
     };
 
-    nx_osc_props lead_b_lfo_props{
+    nx_osc_props_000 lead_b_lfo_props{
             .tuning            = -12,
             .portamento_time   = 1000,
             .pitch_env_octaves = 0.5,
             .osc_tunings       = {0},
             .osc_pans          = {0},
-            .waveforms         = {waveform::saw},
+            .waveforms         = {waveform_000::saw},
             .retrigger         = true,
             .pitch_a           = 1,
             .pitch_d           = 500,
@@ -92,14 +93,14 @@ struct patch_synth_t {
     // --------------------------------
     // CHORD
 
-    subtractive_synth_props chord_props{
+    subtractive_synth_props_000 chord_props{
             .osc_props{
                     .tuning            = 0,
                     .portamento_time   = 0,
                     .pitch_env_octaves = 0,
                     .osc_tunings       = {0.2, 7.2},
                     .osc_pans          = {-1.f, 1.0f},
-                    .waveforms         = {waveform::square, waveform::square},
+                    .waveforms         = {waveform_000::square, waveform_000::square},
                     .retrigger         = true,
                     .pitch_a           = 10,
                     .pitch_d           = 10,
@@ -115,7 +116,7 @@ struct patch_synth_t {
                     .cutoff_range_octaves = 2,
                     .res                  = 1,
                     .res_range_octaves    = 0,
-                    .filter_type          = filter_t::lpf,
+                    .filter_type          = filter_t_000::lpf,
                     .cut_a                = 10,
                     .cut_d                = 1000,
                     .cut_s                = 0.1,
@@ -178,7 +179,7 @@ struct patch_synth_t {
     // --------------------------------
     // PAD
 
-    subtractive_synth_props pad_props{
+    subtractive_synth_props_000 pad_props{
             .osc_props{
                     // clang-format off
                     .tuning            = 0,
@@ -186,7 +187,7 @@ struct patch_synth_t {
                     .pitch_env_octaves = 0,
                     .osc_tunings       = {0.1, -0.1, 0.2, -0.2,0,0},
                     .osc_pans  = {-1.f, 0.5f, -0.5f, 1.f, 1,-1},
-                    .waveforms = {waveform::saw, waveform::saw, waveform::square, waveform::square, waveform::noise, waveform::noise},
+                    .waveforms = {waveform_000::saw, waveform_000::saw, waveform_000::square, waveform_000::square, waveform_000::noise, waveform_000::noise},
                     .retrigger = true,
                     .pitch_a   = 1,
                     .pitch_d   = 1,
@@ -203,7 +204,7 @@ struct patch_synth_t {
                     .cutoff_range_octaves = 3,
                     .res                  = 1,
                     .res_range_octaves    = 0,
-                    .filter_type          = filter_t::lpf,
+                    .filter_type          = filter_t_000::lpf,
                     .cut_a                = 100000,
                     .cut_d                = 100000,
                     .cut_s                = 1,

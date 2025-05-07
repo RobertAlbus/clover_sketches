@@ -21,19 +21,20 @@ using namespace dsp;
 // --------------------------------
 // nx_osc_props
 
-waveform str_to_waveform(std::string_view str) noexcept {
-    auto it = std::find(waveform_str.begin(), waveform_str.end(), str);
-    return it != waveform_str.end() ? waveform::none : static_cast<waveform>(it - waveform_str.begin());
+waveform_000 str_to_waveform(std::string_view str) noexcept {
+    auto it = std::find(waveform_str_000.begin(), waveform_str_000.end(), str);
+    return it != waveform_str_000.end() ? waveform_000::none
+                                        : static_cast<waveform_000>(it - waveform_str_000.begin());
 }
 
-const char* waveform_to_str(waveform wave) noexcept {
-    return waveform_str[size_t(wave)];
+const char* waveform_to_str(waveform_000 wave) noexcept {
+    return waveform_str_000[size_t(wave)];
 }
-std::function<float(float)> waveform_to_func(waveform wave) noexcept {
-    return waveform_func[size_t(wave)];
+std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept {
+    return waveform_func_000[size_t(wave)];
 }
 
-std::string nx_osc_props::to_str() {
+std::string nx_osc_props_000::to_str() {
     return std::format(
             "\
 nx_osc_props patch = {{\n\
@@ -69,7 +70,7 @@ nx_osc_props patch = {{\n\
             amp_s,
             amp_r);
 }
-std::string nx_osc_props::build_str_list_osc_tunings() {
+std::string nx_osc_props_000::build_str_list_osc_tunings() {
     std::string result = "{";
     for (auto& osc_tuning : osc_tunings)
         result += std::format("{}, ", std::to_string(osc_tuning));
@@ -77,7 +78,7 @@ std::string nx_osc_props::build_str_list_osc_tunings() {
     result += "}";
     return result;
 }
-std::string nx_osc_props::build_str_list_osc_pans() {
+std::string nx_osc_props_000::build_str_list_osc_pans() {
     std::string result = "{";
     for (auto& osc_pan : osc_pans)
         result += std::format("{}, ", std::to_string(osc_pan));
@@ -85,7 +86,7 @@ std::string nx_osc_props::build_str_list_osc_pans() {
     result += "}";
     return result;
 }
-std::string nx_osc_props::build_str_list_waveforms_i() {
+std::string nx_osc_props_000::build_str_list_waveforms_i() {
     std::string result = "{";
     for (auto& waveform : waveforms)
         result += std::format("waveform::{}, ", waveform_to_str(waveform));
@@ -97,15 +98,15 @@ std::string nx_osc_props::build_str_list_waveforms_i() {
 // --------------------------------
 // nx_osc
 
-nx_osc::nx_osc(float fs, const nx_osc_props& new_props) : fs{fs} {
+nx_osc_000::nx_osc_000(float fs, const nx_osc_props_000& new_props) : fs{fs} {
     patch(new_props);
 }
 
-void nx_osc::note(float midi_note) {
+void nx_osc_000::note(float midi_note) {
     portamento.set(midi_note, props.portamento_time);
 }
 
-void nx_osc::key_on() {
+void nx_osc_000::key_on() {
     adsr_pitch.key_on();
     adsr_amp.key_on();
     if (retrigger)
@@ -113,12 +114,12 @@ void nx_osc::key_on() {
             osc.phase(0);
 }
 
-void nx_osc::key_off() {
+void nx_osc_000::key_off() {
     adsr_pitch.key_off();
     adsr_amp.key_off();
 }
 
-void nx_osc::patch(nx_osc_props new_props) {
+void nx_osc_000::patch(nx_osc_props_000 new_props) {
     props = std::move(new_props);
 
     for (auto waveform_i : props.waveforms) {
@@ -139,7 +140,7 @@ void nx_osc::patch(nx_osc_props new_props) {
     adsr_amp.set(props.amp_a, props.amp_d, props.amp_s, props.amp_r);
 }
 
-std::pair<float, float> nx_osc::tick() {
+std::pair<float, float> nx_osc_000::tick() {
     float current_midi_note = portamento.tick() + props.tuning;
     float pitch_env         = adsr_pitch.tick();
 

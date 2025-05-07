@@ -30,7 +30,7 @@ struct patch_synth_t {
     // --------------------------------
     // CHORD
 
-    subtractive_synth_props chord_props;
+    subtractive_synth_props_000 chord_props;
     fdn8_props_000 chord_fdn_props;
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props;
     std::array<peq_props_000, peq_000::SIZE> chord_peq_props;
