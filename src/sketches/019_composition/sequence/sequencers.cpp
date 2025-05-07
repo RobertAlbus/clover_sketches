@@ -297,64 +297,65 @@ void sequencers::set_up_meta_sq(composition& comp) {
     meta_frsq_lead_b2.duration_relative = 226;
     meta_frsq_pad.duration_relative     = 226;
 
-    meta_frsq_kick.callback_start = [&](frsq<kick_drum_000, event>& voice, const event_meta_sq& event) {
+    meta_frsq_kick.callback_start = [&](frsq_019<kick_drum_000, event>& voice, const event_meta_sq& event) {
         std::println(" - frsq_kick:    {} @ {}", event.pattern_index, event.start_time);
         voice.set_pattern(this->drum_patterns.patterns_kick[event.pattern_index]);
     };
-    meta_frsq_bass.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
+    meta_frsq_bass.callback_start = [&](frsq_019<subtractive_synth, event_midi>& voice,
                                         const event_meta_sq& event) {
         std::println(" - frsq_bass:    {} @ {}", event.pattern_index, event.start_time);
         voice.set_pattern(this->drum_patterns.patterns_bass[event.pattern_index]);
     };
-    meta_frsq_hh1.callback_start = [&](frsq<cymbal, event>& voice, const event_meta_sq& event) {
+    meta_frsq_hh1.callback_start = [&](frsq_019<cymbal, event>& voice, const event_meta_sq& event) {
         std::println(" - frsq_hh1:     {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->drum_patterns.patterns_hh1[event.pattern_index]);
     };
-    meta_frsq_hh2.callback_start = [&](frsq<cymbal, event>& voice, const event_meta_sq& event) {
+    meta_frsq_hh2.callback_start = [&](frsq_019<cymbal, event>& voice, const event_meta_sq& event) {
         std::println(" - frsq_hh2:     {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->drum_patterns.patterns_hh2[event.pattern_index]);
     };
-    meta_frsq_hh3.callback_start = [&](frsq<subtractive_synth, event>& voice, const event_meta_sq& event) {
+    meta_frsq_hh3.callback_start = [&](frsq_019<subtractive_synth, event>& voice,
+                                       const event_meta_sq& event) {
         std::println(" - frsq_hh3:     {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->drum_patterns.patterns_hh3[event.pattern_index]);
     };
-    meta_frsq_ride.callback_start = [&](frsq<cymbal, event>& voice, const event_meta_sq& event) {
+    meta_frsq_ride.callback_start = [&](frsq_019<cymbal, event>& voice, const event_meta_sq& event) {
         std::println(" - frsq_ride:    {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->drum_patterns.patterns_ride[event.pattern_index]);
     };
-    meta_frsq_chord.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
+    meta_frsq_chord.callback_start = [&](frsq_019<subtractive_synth, event_midi>& voice,
                                          const event_meta_sq& event) {
         std::println(" - frsq_chord:   {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->synth_patterns.patterns_chord[event.pattern_index]);
     };
-    meta_frsq_lead_a1.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
+    meta_frsq_lead_a1.callback_start = [&](frsq_019<subtractive_synth, event_midi>& voice,
                                            const event_meta_sq& event) {
         std::println(" - frsq_lead_a1: {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->synth_patterns.patterns_lead_a[event.pattern_index]);
     };
-    meta_frsq_lead_a2.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
+    meta_frsq_lead_a2.callback_start = [&](frsq_019<subtractive_synth, event_midi>& voice,
                                            const event_meta_sq& event) {
         std::println(" - frsq_lead_a2: {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->synth_patterns.patterns_lead_a[event.pattern_index]);
     };
-    meta_frsq_lead_b1.callback_start = [&](frsq<nx_osc, event_midi>& voice, const event_meta_sq& event) {
+    meta_frsq_lead_b1.callback_start = [&](frsq_019<nx_osc, event_midi>& voice, const event_meta_sq& event) {
         std::println(" - frsq_lead_b1: {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->synth_patterns.patterns_lead_b[event.pattern_index]);
     };
-    meta_frsq_lead_b2.callback_start = [&](frsq<nx_osc, event_midi>& voice, const event_meta_sq& event) {
+    meta_frsq_lead_b2.callback_start = [&](frsq_019<nx_osc, event_midi>& voice, const event_meta_sq& event) {
         std::println(" - frsq_lead_b2: {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->synth_patterns.patterns_lead_b[event.pattern_index]);
     };
-    meta_frsq_pad.callback_start = [&](frsq<subtractive_synth, event_midi>& voice,
+    meta_frsq_pad.callback_start = [&](frsq_019<subtractive_synth, event_midi>& voice,
                                        const event_meta_sq& event) {
         std::println(" - frsq_pad:     {} @ {}", event.pattern_index, event.start_time);
         voice.set_pattern(this->synth_patterns.patterns_pad[event.pattern_index]);

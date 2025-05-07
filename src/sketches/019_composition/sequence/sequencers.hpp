@@ -22,35 +22,35 @@ struct sequencers {
 
     // need a placeholder for the voices, so reusing the event
     // this is fine because there is no need for a voice - will just println in the callback.
-    frsq<event, event> frsq_arrangement_print;
+    frsq_019<event, event> frsq_arrangement_print;
 
     // pattern sequencers
-    frsq<kick_drum_000, event> frsq_kick;
-    frsq<subtractive_synth, event_midi> frsq_bass;
-    frsq<cymbal, event> frsq_hh1;
-    frsq<cymbal, event> frsq_hh2;
-    frsq<subtractive_synth, event> frsq_hh3;
-    frsq<cymbal, event> frsq_ride;
-    frsq<subtractive_synth, event_midi> frsq_chord;
-    frsq<subtractive_synth, event_midi> frsq_lead_a1;
-    frsq<subtractive_synth, event_midi> frsq_lead_a2;
-    frsq<nx_osc, event_midi> frsq_lead_b1;
-    frsq<nx_osc, event_midi> frsq_lead_b2;
-    frsq<subtractive_synth, event_midi> frsq_pad;
+    frsq_019<kick_drum_000, event> frsq_kick;
+    frsq_019<subtractive_synth, event_midi> frsq_bass;
+    frsq_019<cymbal, event> frsq_hh1;
+    frsq_019<cymbal, event> frsq_hh2;
+    frsq_019<subtractive_synth, event> frsq_hh3;
+    frsq_019<cymbal, event> frsq_ride;
+    frsq_019<subtractive_synth, event_midi> frsq_chord;
+    frsq_019<subtractive_synth, event_midi> frsq_lead_a1;
+    frsq_019<subtractive_synth, event_midi> frsq_lead_a2;
+    frsq_019<nx_osc, event_midi> frsq_lead_b1;
+    frsq_019<nx_osc, event_midi> frsq_lead_b2;
+    frsq_019<subtractive_synth, event_midi> frsq_pad;
 
     // meta sequencers
-    frsq<frsq<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
-    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_bass;
-    frsq<frsq<cymbal, event>, event_meta_sq> meta_frsq_hh1;
-    frsq<frsq<cymbal, event>, event_meta_sq> meta_frsq_hh2;
-    frsq<frsq<subtractive_synth, event>, event_meta_sq> meta_frsq_hh3;
-    frsq<frsq<cymbal, event>, event_meta_sq> meta_frsq_ride;
-    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_chord;
-    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_lead_a1;
-    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_lead_a2;
-    frsq<frsq<nx_osc, event_midi>, event_meta_sq> meta_frsq_lead_b1;
-    frsq<frsq<nx_osc, event_midi>, event_meta_sq> meta_frsq_lead_b2;
-    frsq<frsq<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_pad;
+    frsq_019<frsq_019<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
+    frsq_019<frsq_019<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_bass;
+    frsq_019<frsq_019<cymbal, event>, event_meta_sq> meta_frsq_hh1;
+    frsq_019<frsq_019<cymbal, event>, event_meta_sq> meta_frsq_hh2;
+    frsq_019<frsq_019<subtractive_synth, event>, event_meta_sq> meta_frsq_hh3;
+    frsq_019<frsq_019<cymbal, event>, event_meta_sq> meta_frsq_ride;
+    frsq_019<frsq_019<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_chord;
+    frsq_019<frsq_019<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_lead_a1;
+    frsq_019<frsq_019<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_lead_a2;
+    frsq_019<frsq_019<nx_osc, event_midi>, event_meta_sq> meta_frsq_lead_b1;
+    frsq_019<frsq_019<nx_osc, event_midi>, event_meta_sq> meta_frsq_lead_b2;
+    frsq_019<frsq_019<subtractive_synth, event_midi>, event_meta_sq> meta_frsq_pad;
 
     sequencers(composition& comp);
     void tick();
