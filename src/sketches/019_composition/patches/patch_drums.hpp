@@ -178,7 +178,7 @@ struct patch_drums_t {
     // --------------------------------
     // CYMBALS
 
-    cymbal_props hh1_props{
+    cymbal_props_000 hh1_props{
             .freqs            = {31, 82, 215, 227, 248, 278},
             .hpf_f0           = 1992,
             .hpf_fmod_octaves = 2.3,
@@ -198,7 +198,7 @@ struct patch_drums_t {
             .cut_r = 100,
     };
 
-    cymbal_props hh2_props{
+    cymbal_props_000 hh2_props{
             .freqs            = {100, 150, 175, 225, 66.6},
             .hpf_f0           = 100,
             .hpf_fmod_octaves = 5,
@@ -340,7 +340,7 @@ struct patch_drums_t {
                     .type    = peq_filter_type::hp,
             },
     };
-    cymbal_props ride_props{
+    cymbal_props_000 ride_props{
             .freqs            = {150, 404, 1533, 1751, 13456, 17500},
             .hpf_f0           = 100,
             .hpf_fmod_octaves = 6,

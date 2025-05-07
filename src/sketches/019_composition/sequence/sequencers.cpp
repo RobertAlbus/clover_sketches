@@ -137,23 +137,23 @@ void sequencers::set_up_bass(composition& comp) {
 }
 
 void sequencers::set_up_hh1(composition& comp) {
-    frsq_hh1.voices            = std::span<cymbal>(&comp.cymbals.hh1, 1);
+    frsq_hh1.voices            = std::span<cymbal_000>(&comp.cymbals.hh1, 1);
     frsq_hh1.duration_absolute = comp.beat * 2;
     frsq_hh1.duration_relative = 2.;
     // frsq_hh1.set_pattern(drum_patterns.patterns_hh1[active_scene["hh1"]]);
 
-    frsq_hh1.callback_start = [](cymbal& voice, const event& data) { voice.key_on(); };
-    frsq_hh1.callback_end   = [](cymbal& voice) { voice.key_off(); };
+    frsq_hh1.callback_start = [](cymbal_000& voice, const event& data) { voice.key_on(); };
+    frsq_hh1.callback_end   = [](cymbal_000& voice) { voice.key_off(); };
 }
 
 void sequencers::set_up_hh2(composition& comp) {
-    frsq_hh2.voices            = std::span<cymbal>(&comp.cymbals.hh2, 1);
+    frsq_hh2.voices            = std::span<cymbal_000>(&comp.cymbals.hh2, 1);
     frsq_hh2.duration_absolute = comp.beat * 2;
     frsq_hh2.duration_relative = 2.;
     // frsq_hh2.set_pattern(drum_patterns.patterns_hh2[active_scene["hh2"]]);
 
-    frsq_hh2.callback_start = [](cymbal& voice, const event& data) { voice.key_on(); };
-    frsq_hh2.callback_end   = [](cymbal& voice) { voice.key_off(); };
+    frsq_hh2.callback_start = [](cymbal_000& voice, const event& data) { voice.key_on(); };
+    frsq_hh2.callback_end   = [](cymbal_000& voice) { voice.key_off(); };
 }
 
 void sequencers::set_up_hh3(composition& comp) {
@@ -167,13 +167,13 @@ void sequencers::set_up_hh3(composition& comp) {
 }
 
 void sequencers::set_up_ride(composition& comp) {
-    frsq_ride.voices            = std::span<cymbal>(&comp.cymbals.ride, 1);
+    frsq_ride.voices            = std::span<cymbal_000>(&comp.cymbals.ride, 1);
     frsq_ride.duration_absolute = comp.beat;
     frsq_ride.duration_relative = 1.;
     // frsq_ride.set_pattern(drum_patterns.patterns_ride[active_scene["ride"]]);
 
-    frsq_ride.callback_start = [](cymbal& voice, const event& data) { voice.key_on(); };
-    frsq_ride.callback_end   = [](cymbal& voice) { voice.key_off(); };
+    frsq_ride.callback_start = [](cymbal_000& voice, const event& data) { voice.key_on(); };
+    frsq_ride.callback_end   = [](cymbal_000& voice) { voice.key_off(); };
 }
 
 void sequencers::set_up_chord(composition& comp) {
@@ -306,12 +306,12 @@ void sequencers::set_up_meta_sq(composition& comp) {
         std::println(" - frsq_bass:    {} @ {}", event.pattern_index, event.start_time);
         voice.set_pattern(this->drum_patterns.patterns_bass[event.pattern_index]);
     };
-    meta_frsq_hh1.callback_start = [&](frsq_019<cymbal, event>& voice, const event_meta_sq& event) {
+    meta_frsq_hh1.callback_start = [&](frsq_019<cymbal_000, event>& voice, const event_meta_sq& event) {
         std::println(" - frsq_hh1:     {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->drum_patterns.patterns_hh1[event.pattern_index]);
     };
-    meta_frsq_hh2.callback_start = [&](frsq_019<cymbal, event>& voice, const event_meta_sq& event) {
+    meta_frsq_hh2.callback_start = [&](frsq_019<cymbal_000, event>& voice, const event_meta_sq& event) {
         std::println(" - frsq_hh2:     {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->drum_patterns.patterns_hh2[event.pattern_index]);
@@ -322,7 +322,7 @@ void sequencers::set_up_meta_sq(composition& comp) {
 
         voice.set_pattern(this->drum_patterns.patterns_hh3[event.pattern_index]);
     };
-    meta_frsq_ride.callback_start = [&](frsq_019<cymbal, event>& voice, const event_meta_sq& event) {
+    meta_frsq_ride.callback_start = [&](frsq_019<cymbal_000, event>& voice, const event_meta_sq& event) {
         std::println(" - frsq_ride:    {} @ {}", event.pattern_index, event.start_time);
 
         voice.set_pattern(this->drum_patterns.patterns_ride[event.pattern_index]);

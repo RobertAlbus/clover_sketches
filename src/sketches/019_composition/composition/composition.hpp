@@ -65,8 +65,8 @@ struct composition {
     } bass;
 
     struct {
-        cymbal hh1{fs, patch_drums.hh1_props};
-        cymbal hh2{fs, patch_drums.hh2_props};
+        cymbal_000 hh1{fs, patch_drums.hh1_props};
+        cymbal_000 hh2{fs, patch_drums.hh2_props};
         subtractive_synth hh3{fs, patch_drums.hh3_props};
 
         peq_000 hh_preverb_peq{fs, patch_drums.hh_preverb_peq_props};
@@ -74,7 +74,7 @@ struct composition {
         fdn8_000 hh_verb_R{fs, patch_drums.hh_fdn_props, COMPONENT_HAS_GUI};
         peq_000 hh_peq{fs, patch_drums.hh_peq_props};
 
-        cymbal ride{fs, patch_drums.ride_props};
+        cymbal_000 ride{fs, patch_drums.ride_props};
         peq_000 ride_peq{fs, patch_drums.ride_peq_props};
 
     } cymbals;
