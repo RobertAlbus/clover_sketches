@@ -4,10 +4,10 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/cymbal/cymbal.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
 #include "composition/composition.hpp"
-#include "instruments/cymbal.hpp"
 #include "instruments/frsq.hpp"
 #include "instruments/nx_osc.hpp"
 #include "instruments/subtractive_synth.hpp"

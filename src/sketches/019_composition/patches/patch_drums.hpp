@@ -4,12 +4,12 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/cymbal/cymbal.hpp"
 #include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/peq/peq.hpp"
 
 #include "clover/math.hpp"
-#include "instruments/cymbal.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "sequence/notes.h"
 

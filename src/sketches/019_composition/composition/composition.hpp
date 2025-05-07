@@ -7,11 +7,11 @@
 #include <cmath>
 #include <cstdint>
 
+#include "lib/cymbal/cymbal.hpp"
 #include "lib/env_bp/env_bp.hpp"
 #include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
-#include "instruments/cymbal.hpp"
 #include "instruments/nx_osc.hpp"
 #include "instruments/subtractive_synth.hpp"
 #include "patches/patch_drums.hpp"
