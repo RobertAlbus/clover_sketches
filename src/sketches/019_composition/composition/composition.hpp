@@ -12,8 +12,7 @@
 #include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
-#include "instruments/nx_osc.hpp"
-#include "instruments/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth.hpp"
 #include "patches/patch_drums.hpp"
 #include "patches/patch_mix.hpp"
 #include "patches/patch_synth.hpp"

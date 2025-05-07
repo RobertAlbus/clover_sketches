@@ -5,8 +5,9 @@
 #include <print>
 
 #include "composition/graph.hpp"
-#include "instruments/subtractive_synth.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
+#include "lib/subtractive_synth/subtractive_synth.hpp"
+
 #include "sequence/arrangement_callback_builder.hpp"
 #include "sequence/event.hpp"
 #include "sequence/patterns.hpp"

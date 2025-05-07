@@ -4,12 +4,13 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "clover/math.hpp"
+
 #include "lib/fdn/fdn.hpp"
 #include "lib/peq/peq.hpp"
+#include "lib/subtractive_synth/nx_osc.hpp"
+#include "lib/subtractive_synth/subtractive_synth.hpp"
 
-#include "clover/math.hpp"
-#include "instruments/nx_osc.hpp"
-#include "instruments/subtractive_synth.hpp"
 #include "sequence/notes.h"
 
 struct patch_synth_t {

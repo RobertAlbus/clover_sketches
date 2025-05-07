@@ -4,14 +4,14 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/kick_drum/kick_drum.hpp"
 #include "lib/logging/logger.hpp"
+#include "lib/subtractive_synth/subtractive_synth.hpp"
 
 #include "infrastructure/bar_grid.hpp"
 
 #include "composition/graph.hpp"
 #include "instruments/frsq.hpp"
-#include "instruments/subtractive_synth.hpp"
-#include "lib/kick_drum/kick_drum.hpp"
 #include "sequence/event.hpp"
 
 struct sequencers {

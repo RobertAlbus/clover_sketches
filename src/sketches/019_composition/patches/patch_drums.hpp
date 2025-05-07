@@ -8,9 +8,9 @@
 #include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/peq/peq.hpp"
+#include "lib/subtractive_synth/subtractive_synth.hpp"
 
 #include "clover/math.hpp"
-#include "instruments/subtractive_synth.hpp"
 #include "sequence/notes.h"
 
 struct patch_drums_t {

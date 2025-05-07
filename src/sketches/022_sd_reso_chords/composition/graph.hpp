@@ -10,14 +10,14 @@
 
 #include "infrastructure/bar_grid.hpp"
 
+#include "lib/env_bp/env_bp.hpp"
 #include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
+#include "lib/subtractive_synth/subtractive_synth.hpp"
 
 #include "instruments/022_echo.hpp"
-#include "instruments/subtractive_synth.hpp"
-#include "lib/env_bp/env_bp.hpp"
 
 #include "patches/patches.hpp"
 

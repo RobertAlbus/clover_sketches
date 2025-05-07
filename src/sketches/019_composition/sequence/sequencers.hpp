@@ -6,11 +6,10 @@
 
 #include "lib/cymbal/cymbal.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
+#include "lib/subtractive_synth/subtractive_synth.hpp"
 
 #include "composition/composition.hpp"
 #include "instruments/frsq.hpp"
-#include "instruments/nx_osc.hpp"
-#include "instruments/subtractive_synth.hpp"
 #include "sequence/event.hpp"
 #include "sequence/pattern_drum.hpp"
 #include "sequence/pattern_meta.hpp"

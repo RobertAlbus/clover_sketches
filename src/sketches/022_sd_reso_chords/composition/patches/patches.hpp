@@ -8,9 +8,9 @@
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
+#include "lib/subtractive_synth/subtractive_synth.hpp"
 
 #include "instruments/022_echo.hpp"
-#include "instruments/subtractive_synth.hpp"
 
 struct patch_drums_t {
     patch_drums_t();
