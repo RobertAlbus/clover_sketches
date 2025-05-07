@@ -6,11 +6,11 @@
 
 #include <vector>
 
-#include "instruments/frsq.hpp"
+#include "lib/sq/frsq.hpp"
 #include "lib/env_bp/env_bp.hpp"
 #include "sequence/event.hpp"
 
-template <frsq_data_base event_t>
+template <frsq_data_base_000 event_t>
 struct pattern_t {
     double duration_bar;
     double duration_rel;

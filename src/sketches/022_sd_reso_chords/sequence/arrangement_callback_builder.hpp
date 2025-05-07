@@ -14,17 +14,17 @@
 #include "infrastructure/bar_grid.hpp"
 
 #include "event.hpp"
-#include "instruments/frsq.hpp"
+#include "lib/sq/frsq.hpp"
 #include "sequence/patterns.hpp"
 
-template <typename voice_t, frsq_data_base event_t>
-std::function<void(frsq<voice_t, event_t>&, const event_meta_sq&)> callback_for(
+template <typename voice_t, frsq_data_base_000 event_t>
+std::function<void(frsq_000<voice_t, event_t>&, const event_meta_sq&)> callback_for(
         log_bus_000& logger,
         bar_grid& grid,
         std::vector<pattern_t<event_t>>& patterns,
         std::string logging_name) {
     return [&logger, logging_name, &patterns, &grid](
-                   frsq<voice_t, event_t>& voice, const event_meta_sq& event) mutable {
+                   frsq_000<voice_t, event_t>& voice, const event_meta_sq& event) mutable {
         log_message_000 msg;
         snprintf(
                 msg.text,
@@ -46,13 +46,13 @@ std::function<void(frsq<voice_t, event_t>&, const event_meta_sq&)> callback_for(
 }
 
 // template <typename voice_t, frsq_data_base event_t>
-// std::function<void(frsq<voice_t, event_t>& voice, const event_meta_sq& event)> callback_for(
-//         frsq<frsq<voice_t, event_t>, event_meta_sq>& meta_frsq,
-//         frsq<voice_t, event_t>& voice,
+// std::function<void(frsq_000<voice_t, event_t>& voice, const event_meta_sq& event)> callback_for(
+//         frsq_000<frsq_000<voice_t, event_t>, event_meta_sq>& meta_frsq,
+//         frsq_000<voice_t, event_t>& voice,
 //         logger** logger,
 //         std::vector<std::vector<event_t>> patterns, std::string logging_name) {
 //     return [logger, logging_name, patterns](
-//                    frsq<voice_t, event_t>& voice, const event_meta_sq& event) mutable {
+//                    frsq_000<voice_t, event_t>& voice, const event_meta_sq& event) mutable {
 //         if (logger && *logger) {
 //             gui_log_message msg;
 //             snprintf(

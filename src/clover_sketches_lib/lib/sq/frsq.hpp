@@ -21,14 +21,14 @@
 #include <print>
 
 template <typename T>
-concept frsq_data_base = requires(T t) {
+concept frsq_data_base_000 = requires(T t) {
     { t.start_time } -> std::same_as<double&>;
     { t.duration } -> std::same_as<double&>;
 };
 
-template <typename voice_t, frsq_data_base frsq_data_t>
-struct frsq {
-    frsq() {
+template <typename voice_t, frsq_data_base_000 frsq_data_t>
+struct frsq_000 {
+    frsq_000() {
         voices_time_remaining.fill(std::numeric_limits<int>::min());
         voices_time_elapsed.fill(std::numeric_limits<int>::max());
     }
