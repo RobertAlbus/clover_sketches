@@ -8,9 +8,9 @@
 
 #include "lib/peq/peq.hpp"
 
-#include "022_echo.hpp"
+#include "echo.hpp"
 
-std::string echoverb_022_props::to_str() {
+std::string echo_props_000::to_str() {
     return std::format(
             R"({{
             .delay_samples = {},
@@ -20,23 +20,23 @@ std::string echoverb_022_props::to_str() {
             fb);
 }
 
-echoverb_022::echoverb_022(
+echo_000::echo_000(
         float fs,
         float max_length_samples,
-        const echoverb_022_props& new_props,
+        const echo_props_000& new_props,
         const std::array<peq_props_000, peq_000::SIZE>& eq_props)
     : eq{fs, eq_props}, fdl{size_t((2 * max_length_samples) + 1)}, max_length_samples{max_length_samples} {
     patch(new_props);
 }
-void echoverb_022::patch(echoverb_022_props new_props) {
+void echo_000::patch(echo_props_000 new_props) {
     props = std::move(new_props);
 }
 
-std::pair<float, float> echoverb_022::tick(float L, float R) {
+std::pair<float, float> echo_000::tick(float L, float R) {
     return tick({L, R});
 }
 
-std::pair<float, float> echoverb_022::tick(std::pair<float, float> in) {
+std::pair<float, float> echo_000::tick(std::pair<float, float> in) {
     float stimulus_L  = in.first + fb.first;
     float stimulus_R  = in.second + fb.second;
     auto [eq_L, eq_R] = eq.tick({stimulus_L, stimulus_R});

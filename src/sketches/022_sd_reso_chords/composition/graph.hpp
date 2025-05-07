@@ -10,6 +10,7 @@
 
 #include "infrastructure/bar_grid.hpp"
 
+#include "lib/echo/echo.hpp"
 #include "lib/env_bp/env_bp.hpp"
 #include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
@@ -17,7 +18,6 @@
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
-#include "instruments/022_echo.hpp"
 
 #include "patches/patches.hpp"
 
@@ -65,7 +65,7 @@ struct signal_graph {
             grid.fs, patch::synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
     peq_000 chord_peq{grid.fs, patch::synth.chord_peq_props};
 
-    echoverb_022 chord_echo{
+    echo_000 chord_echo{
             grid.fs,
             float(grid.bars_to_samples(2)),
             patch::synth.echoverb_props,
