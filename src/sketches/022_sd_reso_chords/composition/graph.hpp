@@ -18,7 +18,6 @@
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
-
 #include "patches/patches.hpp"
 
 struct signal_graph {
@@ -60,9 +59,8 @@ struct signal_graph {
             subtractive_synth_000{grid.fs, patch::synth.chord_props}};
 
     peq_000 chord_preverb_peq{grid.fs, patch::synth.chord_preverb_peq_props};
-    fdn8_000 chord_verb_L{grid.fs, patch::synth.chord_fdn_props, COMPONENT_HAS_GUI};
-    fdn8_000 chord_verb_R{
-            grid.fs, patch::synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
+    fdn8_000 chord_verb_L{grid.fs, patch::synth.chord_fdn_props_L, COMPONENT_HAS_GUI};
+    fdn8_000 chord_verb_R{grid.fs, patch::synth.chord_fdn_props_R, COMPONENT_HAS_GUI};
     peq_000 chord_peq{grid.fs, patch::synth.chord_peq_props};
 
     echo_000 chord_echo{

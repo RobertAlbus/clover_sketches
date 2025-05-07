@@ -54,7 +54,7 @@ patch_synth_t::patch_synth_t() {
     //         .hpf_res = 0.707,
     // };
 
-    chord_fdn_props = {
+    chord_fdn_props_L = {
             .taps =
                     {
                             // clang-format off
@@ -75,6 +75,7 @@ patch_synth_t::patch_synth_t() {
             .hpf_cut = 139.60605,
             .hpf_res = 0.707,
     };
+    chord_fdn_props_R = chord_fdn_props_L.taps_mult(12.f / 7.f).taps_add(-22.5f);
 
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props{
             peq_props_000{
