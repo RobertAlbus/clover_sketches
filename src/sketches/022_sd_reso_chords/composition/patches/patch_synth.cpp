@@ -18,7 +18,7 @@ patch_synth_t::patch_synth_t() {
                     .pitch_env_octaves = 0,
                     .osc_tunings       = {0.2, 7.2},
                     .osc_pans          = {-1.f, 1.0f},
-                    .waveforms         = {waveform::square, waveform::square},
+                    .waveforms         = {waveform_000::square, waveform_000::square},
                     .retrigger         = true,
                     .pitch_a           = 10,
                     .pitch_d           = 10,
@@ -34,7 +34,7 @@ patch_synth_t::patch_synth_t() {
                     .cutoff_range_octaves = 2,
                     .res                  = 1,
                     .res_range_octaves    = 0,
-                    .filter_type          = filter_t::lpf,
+                    .filter_type          = filter_t_000::lpf,
                     .cut_a                = 1500,
                     .cut_d                = 1000,
                     .cut_s                = 0.1,
@@ -54,7 +54,7 @@ patch_synth_t::patch_synth_t() {
     //         .hpf_res = 0.707,
     // };
 
-    chord_fdn_props = {
+    chord_fdn_props_L = {
             .taps =
                     {
                             // clang-format off
@@ -75,6 +75,7 @@ patch_synth_t::patch_synth_t() {
             .hpf_cut = 139.60605,
             .hpf_res = 0.707,
     };
+    chord_fdn_props_R = chord_fdn_props_L.taps_mult(12.f / 7.f).taps_add(-22.5f);
 
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props{
             peq_props_000{

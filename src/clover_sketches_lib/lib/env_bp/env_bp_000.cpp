@@ -6,11 +6,11 @@
 #include <cmath>
 #include <stdexcept>
 
-env_bp::env_bp(pattern_t new_pattern) {
+env_bp_000::env_bp_000(pattern_t new_pattern) {
     set_pattern(new_pattern);
 }
 
-void env_bp::set_pattern(pattern_t new_pattern) {
+void env_bp_000::set_pattern(pattern_t new_pattern) {
     /*
     todo: pattern validation
         - must start at time 0
@@ -19,13 +19,13 @@ void env_bp::set_pattern(pattern_t new_pattern) {
     pattern = new_pattern;
 }
 
-void env_bp::key_on() {
+void env_bp_000::key_on() {
     curr_point       = pattern.begin();
     next_point       = curr_point + 1;
     current_time_abs = 0;
 }
 
-float env_bp::tick() {
+float env_bp_000::tick() {
     if (pattern.empty())
         throw std::runtime_error("env_bp was not provided a pattern");
     if (next_point == pattern.end())

@@ -16,50 +16,50 @@
 using namespace clover;
 using namespace dsp;
 
-cymbal::cymbal(clover_float fs, const cymbal_props& new_props)
+cymbal_000::cymbal_000(clover_float fs, const cymbal_props_000& new_props)
     : fs(fs),                       //
       oscs{fs, fs, fs, fs, fs, fs}  //
 {
     patch(new_props);
 }
 
-void cymbal::patch(cymbal_props new_props) {
+void cymbal_000::patch(cymbal_props_000 new_props) {
     props = std::move(new_props);
     set_oscs();
     set_adsrs();
     set_filters();
 }
 
-void cymbal::set_oscs() {
+void cymbal_000::set_oscs() {
     for (auto [osc, freq] : std::views::zip(oscs, props.freqs)) {
         osc.freq(freq);
         osc.waveform = wave_square;
     }
 }
 
-void cymbal::set_adsrs() {
+void cymbal_000::set_adsrs() {
     adsr_amp.set(props.amp_a, props.amp_d, props.amp_s, props.amp_r);
     adsr_cut.set(props.cut_a, props.cut_d, props.cut_s, props.cut_r);
 }
 
-void cymbal::set_filters() {
+void cymbal_000::set_filters() {
     high_pass.m_coeffs = hpf(fs, props.hpf_f0, props.hpf_Q);
     band_pass.m_coeffs = bpf(fs, props.bpf_f0, props.bpf_Q);
 }
 
-void cymbal::key_on() {
+void cymbal_000::key_on() {
     adsr_amp.key_on();
     adsr_cut.key_on();
     adsr_amp.m_elapsed_samples = 0;
     adsr_cut.m_elapsed_samples = 0;
 }
 
-void cymbal::key_off() {
+void cymbal_000::key_off() {
     adsr_amp.key_off();
     adsr_cut.key_off();
 }
 
-clover_float cymbal::tick() {
+clover_float cymbal_000::tick() {
     float amp_env = adsr_amp.tick();
     float cut_env = adsr_cut.tick();
 
@@ -71,7 +71,7 @@ clover_float cymbal::tick() {
     for (auto& osc : oscs)
         harmonics += osc.tick();
 
-    static const float gain = 1.f / std::sqrt(float(cymbal_props::num_oscs));
+    static const float gain = 1.f / std::sqrt(float(cymbal_props_000::num_oscs));
     harmonics *= gain;
 
     float hp = high_pass.tick(harmonics * amp_env);

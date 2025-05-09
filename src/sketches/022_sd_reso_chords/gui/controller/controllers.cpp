@@ -70,7 +70,7 @@ void controller_kick(const char* id, context& ctx) {
         draw_peq_000("##kick_out_peq", graph.kick_out_peq);
         ImGui::EndTable();
     }
-    fdn_component("##kick_fdn", &graph.kick_verb, nullptr);
+    draw_fdn8_000("##kick_fdn", &graph.kick_verb, nullptr);
 
     ImGui::PopID();
 }
@@ -79,7 +79,7 @@ void controller_chord(const char* id, context& ctx) {
     signal_graph& graph = ctx.graph;
 
     ImGui::PushID(id);
-    fdn_component("fdn", &graph.chord_verb_L, &graph.chord_verb_R);
+    draw_fdn8_000("fdn", &graph.chord_verb_L, &graph.chord_verb_R);
     if (ImGui::BeginTable("##peq_table", 2)) {
         ImGui::TableNextColumn();
         ImGui::Text("chord preverb peq");
@@ -103,13 +103,13 @@ void controller_chord_echo(const char* id, context& ctx) {
     if (ImGui::Button("set same as fdn_R")) {
         graph.chord_echo_fb_verb_L.patch(graph.chord_echo_fb_verb_R.props);
     }
-    fdn_component("fdn_L", &graph.chord_echo_fb_verb_L, nullptr);
+    draw_fdn8_000("fdn_L", &graph.chord_echo_fb_verb_L, nullptr);
 
     ImGui::NewLine();
     if (ImGui::Button("set same as fdn_L")) {
         graph.chord_echo_fb_verb_R.patch(graph.chord_echo_fb_verb_L.props);
     }
-    fdn_component("fdn_R", &graph.chord_echo_fb_verb_R, nullptr);
+    draw_fdn8_000("fdn_R", &graph.chord_echo_fb_verb_R, nullptr);
 
     ImGui::NewLine();
     if (ImGui::Button("copy echoverb_022_props")) {

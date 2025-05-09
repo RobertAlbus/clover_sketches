@@ -10,7 +10,7 @@
 
 #include "lib/peq/peq.hpp"
 
-struct echoverb_022_props {
+struct echo_props_000 {
     float delay_samples;
     float fb;
 
@@ -19,15 +19,15 @@ struct echoverb_022_props {
     std::string to_str();
 };
 
-struct echoverb_022 {
-    echoverb_022(
+struct echo_000 {
+    echo_000(
             float fs,
             float max_length_samples,
-            const echoverb_022_props& new_props,
+            const echo_props_000& new_props,
             const std::array<peq_props_000, peq_000::SIZE>& eq_props);
-    void patch(echoverb_022_props new_props);
+    void patch(echo_props_000 new_props);
 
-    echoverb_022_props props;
+    echo_props_000 props;
 
     peq_000 eq;
 

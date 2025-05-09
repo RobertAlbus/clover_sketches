@@ -13,7 +13,7 @@
 using namespace clover;
 using namespace dsp;
 
-struct cymbal_props {
+struct cymbal_props_000 {
     static const int num_oscs = 6;
 
     std::array<float, num_oscs> freqs;
@@ -34,12 +34,12 @@ struct cymbal_props {
     float cut_r = 10;
 };
 
-struct cymbal {
+struct cymbal_000 {
     clover_float fs;
-    cymbal_props props;
+    cymbal_props_000 props;
 
-    cymbal(clover_float fs, const cymbal_props& new_props);
-    void patch(cymbal_props new_props);
+    cymbal_000(clover_float fs, const cymbal_props_000& new_props);
+    void patch(cymbal_props_000 new_props);
 
     void key_on();
     void key_off();
@@ -49,7 +49,7 @@ struct cymbal {
 
     clover_float tick();
 
-    std::array<oscillator, cymbal_props::num_oscs> oscs;
+    std::array<oscillator, cymbal_props_000::num_oscs> oscs;
 
     env_adsr adsr_amp;
     env_adsr adsr_cut;

@@ -10,14 +10,13 @@
 
 #include "infrastructure/bar_grid.hpp"
 
+#include "lib/echo/echo.hpp"
+#include "lib/env_bp/env_bp.hpp"
 #include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
-
-#include "instruments/022_echo.hpp"
-#include "instruments/env_bp.hpp"
-#include "instruments/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth.hpp"
 
 #include "patches/patches.hpp"
 
@@ -44,28 +43,27 @@ struct signal_graph {
     fdn8_000 kick_verb{grid.fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
     peq_000 kick_out_peq{grid.fs, patch::drums.kick_peq_props};
 
-    env_bp kick_auto_hp;
-    env_bp kick_auto_verb_send;
+    env_bp_000 kick_auto_hp;
+    env_bp_000 kick_auto_verb_send;
     filter kick_hpf{};
 
     // --------------------------------
     // CHORD
 
-    std::array<subtractive_synth, 6> chord{
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props},
-            subtractive_synth{grid.fs, patch::synth.chord_props}};
+    std::array<subtractive_synth_000, 6> chord{
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props}};
 
     peq_000 chord_preverb_peq{grid.fs, patch::synth.chord_preverb_peq_props};
-    fdn8_000 chord_verb_L{grid.fs, patch::synth.chord_fdn_props, COMPONENT_HAS_GUI};
-    fdn8_000 chord_verb_R{
-            grid.fs, patch::synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
+    fdn8_000 chord_verb_L{grid.fs, patch::synth.chord_fdn_props_L, COMPONENT_HAS_GUI};
+    fdn8_000 chord_verb_R{grid.fs, patch::synth.chord_fdn_props_R, COMPONENT_HAS_GUI};
     peq_000 chord_peq{grid.fs, patch::synth.chord_peq_props};
 
-    echoverb_022 chord_echo{
+    echo_000 chord_echo{
             grid.fs,
             float(grid.bars_to_samples(2)),
             patch::synth.echoverb_props,
