@@ -8,7 +8,7 @@
 
 #include "clover/io/stream.hpp"
 
-#include "composition/graph.hpp"
+#include "graph/graph.hpp"
 #include "lib/logging/logger.hpp"
 #include "sequence/sequencers.hpp"
 

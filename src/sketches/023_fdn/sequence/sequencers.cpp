@@ -4,7 +4,7 @@
 
 #include <print>
 
-#include "composition/graph.hpp"
+#include "graph/graph.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 

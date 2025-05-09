@@ -10,7 +10,7 @@
 
 #include "infrastructure/bar_grid.hpp"
 
-#include "composition/graph.hpp"
+#include "graph/graph.hpp"
 #include "lib/sq/frsq.hpp"
 #include "sequence/event.hpp"
 

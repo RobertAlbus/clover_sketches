@@ -15,7 +15,7 @@
 #include "context.hpp"
 #include "infrastructure/bar_grid.hpp"
 
-#include "composition/graph.hpp"
+#include "graph/graph.hpp"
 #include "sequence/sequencers.hpp"
 #include "util.hpp"
 
