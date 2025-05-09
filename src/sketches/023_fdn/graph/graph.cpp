@@ -24,7 +24,7 @@ std::pair<float, float> signal_graph::tick() {
     float out_R = 0;
 
     // ----------------
-    // FOUNDATION
+    // KICK
     //
     //
 
@@ -33,79 +33,19 @@ std::pair<float, float> signal_graph::tick() {
     kick_dry *= audio_mixer.at("kick dry");
     auto [kick_send_eq, _] = kick_preverb_peq.tick(kick_send, kick_send);
 
-    float kick_wet = kick_verb.tick(kick_send_eq) * audio_mixer.at("kick wet") * kick_auto_verb_send.tick();
+    float kick_wet = kick_verb.tick(kick_send_eq) * audio_mixer.at("kick wet");
     float kick_sum = (kick_dry + kick_wet) * audio_mixer.at("kick bus");
-
-    kick_hpf.m_coeffs = hpf(grid.fs, frequency_by_octave_difference(10, kick_auto_hp.tick()), 0.707);
-    kick_hpf.m_coeffs = hpf(grid.fs, frequency_by_octave_difference(10, 0), 0.707);
-    kick_sum          = kick_hpf.tick(kick_sum);
 
     auto [kick_post_eq, _] = kick_out_peq.tick(kick_sum, kick_sum);
     kick_sum               = kick_post_eq;
-
-    // ----------------
-    // CHORD
-    //
-    //
-
-    float chord_L = 0;
-    float chord_R = 0;
-    for (auto& chord_voice : chord) {
-        auto chord_voice_signal = chord_voice.tick();
-        chord_L += chord_voice_signal.first;
-        chord_R += chord_voice_signal.second;
-    }
-    float chord_send_L                      = chord_L * audio_mixer.at("chord send");
-    float chord_send_R                      = chord_R * audio_mixer.at("chord send");
-    auto [chord_preverb_L, chord_preverb_R] = chord_preverb_peq.tick(chord_send_L, chord_send_R);
-    chord_preverb_L                         = std::clamp(chord_preverb_L, -1.f, 1.f);
-    chord_preverb_R                         = std::clamp(chord_preverb_R, -1.f, 1.f);
-
-    float chord_verb_out_L = chord_verb_L.tick(chord_preverb_L) * audio_mixer.at("chord wet");
-    float chord_verb_out_R = chord_verb_R.tick(chord_preverb_R) * audio_mixer.at("chord wet");
-
-    chord_verb_out_L = std::clamp(chord_verb_out_L, -1.f, 1.f);
-    chord_verb_out_R = std::clamp(chord_verb_out_R, -1.f, 1.f);
-
-    chord_L *= audio_mixer.at("chord dry");
-    chord_R *= audio_mixer.at("chord dry");
-
-    float chord_post_eq_in_L = std::clamp((chord_L + chord_verb_out_L), -1.f, 1.f);
-    float chord_post_eq_in_R = std::clamp((chord_R + chord_verb_out_R), -1.f, 1.f);
-
-    auto [chord_post_eq_L, chord_post_eq_R] = chord_peq.tick(chord_post_eq_in_L, chord_post_eq_in_R);
-
-    chord_post_eq_L *= audio_mixer.at("chord bus");
-    chord_post_eq_R *= audio_mixer.at("chord bus");
-
-    float chord_echo_send_L = chord_L * audio_mixer.at("chord echo send");
-    float chord_echo_send_R = chord_R * audio_mixer.at("chord echo send");
-
-    auto [chord_echo_L, chord_echo_R] = chord_echo.tick(chord_echo_send_L, chord_echo_send_R);
-    chord_echo_L *= audio_mixer.at("chord echo return");
-    chord_echo_R *= audio_mixer.at("chord echo return");
-
-    float chord_echo_fb_verb_wet_L =
-            chord_echo_fb_verb_L.tick(chord_echo.fb.first) * audio_mixer.at("chord echo fbverb wet");
-    float chord_echo_fb_verb_wet_R =
-            chord_echo_fb_verb_R.tick(chord_echo.fb.second) * audio_mixer.at("chord echo fbverb wet");
-
-    float chord_echo_fb_verb_dry_L = chord_echo.fb.first * audio_mixer.at("chord echo fbverb dry");
-    float chord_echo_fb_verb_dry_R = chord_echo.fb.second * audio_mixer.at("chord echo fbverb dry");
-
-    chord_echo.fb.first  = chord_echo_fb_verb_wet_L + chord_echo_fb_verb_dry_L;
-    chord_echo.fb.second = chord_echo_fb_verb_wet_R + chord_echo_fb_verb_dry_R;
-
-    float chord_sum_L = chord_post_eq_L + chord_echo_L;
-    float chord_sum_R = chord_post_eq_R + chord_echo_R;
 
     // ----------------
     // SUMMING
     //
     //
 
-    out_L = kick_sum + chord_sum_L;
-    out_R = kick_sum + chord_sum_R;
+    out_L = kick_sum;
+    out_R = kick_sum;
 
     auto main_eq_out = main_eq.tick(out_L, out_R);
     out_L            = main_eq_out.first;
