@@ -8,12 +8,13 @@
 
 #include "infrastructure/bar_grid.hpp"
 
-#include "lib/fdn/fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
 
 #include "patches/patches.hpp"
+
+#include "instruments/fdn/fdn.hpp"
 
 struct signal_graph {
     bar_grid& grid;
@@ -35,7 +36,7 @@ struct signal_graph {
     // KICK
     kick_drum_000 kick{grid.fs, patch::drums.kick_drum_props};
     peq_000 kick_preverb_peq{grid.fs, patch::drums.kick_preverb_peq_props};
-    fdn8_000 kick_verb{grid.fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
+    fdn8_023 kick_verb{grid.fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
     peq_000 kick_out_peq{grid.fs, patch::drums.kick_peq_props};
 
     peq_000 main_eq{grid.fs, patch::mix.main_peq_props};

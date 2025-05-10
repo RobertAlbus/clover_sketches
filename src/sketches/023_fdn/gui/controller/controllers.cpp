@@ -7,7 +7,7 @@
 #include "imgui.h"
 #include "implot.h"
 
-#include "lib/fdn/draw_fdn.hpp"
+#include "instruments/fdn/draw_fdn.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
 #include "lib/logging/draw_gui_log_canvas.hpp"
 #include "lib/mixer/draw_mixer.hpp"
@@ -66,7 +66,7 @@ void controller_kick(const char* id, context& ctx) {
         draw_peq_000("##kick_out_peq", graph.kick_out_peq);
         ImGui::EndTable();
     }
-    draw_fdn8_000("##kick_fdn", &graph.kick_verb, nullptr);
+    draw_fdn8_023("##kick_fdn", &graph.kick_verb, nullptr);
 
     ImGui::PopID();
 }
