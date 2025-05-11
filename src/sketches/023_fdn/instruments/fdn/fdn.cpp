@@ -86,24 +86,26 @@ float fdn8_023::process(float x) {
     std::array<float, 8> delay_outputs;
     delay_outputs.fill(0);
 
+    for (auto [fb, delay_output, lpf, hpf] : std::views::zip(fbs, delay_outputs, lpfs, hpfs)) {
+        float input      = fb + x;
+        float hpf_result = hpf.tick(input);
+        float lpf_result = lpf.tick(hpf_result);
+
+        delay_output = lpf_result;
+    }
     for (auto [tap, fb, fdl, delay_output] : std::views::zip(props.taps, fbs, fdls, delay_outputs)) {
-        float feedback = fb * props.fb_gain;
-        fdl.tick(x + feedback);
+        fdl.tick(delay_output);
         delay_output = fdl.at(tap);
     }
 
-    std::array<float, 8> feedback = process_hadamard<8>(delay_outputs);
-
-    for (auto [fb, lpf, hpf] : std::views::zip(fbs, lpfs, hpfs)) {
-        float hpf_result = hpf.tick(fb);
-        float lpf_result = lpf.tick(hpf_result);
-
-        fb = lpf_result;
+    delay_outputs = process_hadamard<8>(delay_outputs);
+    for (auto [fb, delay_output] : std::views::zip(fbs, delay_outputs)) {
+        fb = delay_output * props.fb_gain;
     }
 
-    float output = std::accumulate(feedback.cbegin(), feedback.cend() - 1, 0.f) * scale(8);
+    float output = std::accumulate(delay_outputs.cbegin(), delay_outputs.cend(), 0.f);
 
-    output *= scale(8);
+    output *= scale(8) * scale(8);
     return output;
 }
 
