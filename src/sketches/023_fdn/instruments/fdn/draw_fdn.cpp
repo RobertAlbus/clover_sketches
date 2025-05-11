@@ -31,9 +31,11 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
                     20,
                     22000,
                     "%.3f",
-                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat) &&
-            fdn_R) {
-            fdn_R->props.lpf_cut = fdn_L->props.lpf_cut;
+                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
+            fdn_L->set_lpf(fdn_L->props.lpf_cut);
+            if (fdn_R) {
+                fdn_R->set_lpf(fdn_L->props.lpf_cut);
+            }
         }
 
         // one control for all hpf filters
@@ -46,6 +48,10 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
                     ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat) &&
             fdn_R) {
             fdn_R->props.hpf_cut = fdn_L->props.hpf_cut;
+            fdn_L->set_hpf(fdn_L->props.hpf_cut);
+            if (fdn_R) {
+                fdn_R->set_hpf(fdn_L->props.hpf_cut);
+            }
         }
 
         ImGui::NewLine();

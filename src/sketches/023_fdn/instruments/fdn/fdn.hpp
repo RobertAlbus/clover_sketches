@@ -4,7 +4,11 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "fdn_section.hpp"
+#include <array>
+#include <string>
+
+#include "clover/dsp/filter.hpp"
+#include "clover/dsp/fractional_delay.hpp"
 
 float fb_coefficient(float reduction_db, float delay_line_duration_samples, float decay_duration_samples);
 
@@ -25,22 +29,31 @@ struct fdn8_props_023 {
 struct fdn8_023 {
     float fs;
 
-    /*
-    TODO: remove this hack.
-    - has_gui is a flag to reconfigure internal components every sample
-        - needed when state is changed, e.g. from GUI
-        - could also programmatically change the state
-    - is there a way for the GUI to own the responsibility of calling the update?
-        - ^ that is not a good architecture but reasonable for prototyping
-    */
-    bool has_gui;
     fdn8_props_023 props;
-    std::array<fdn_section_012, 8> sections;
 
-    fdn8_023(float fs, const fdn8_props_023& props, bool has_gui = true);
+    std::array<float, 8> fbs{0, 0, 0, 0, 0, 0, 0, 0};
+    std::array<clover::dsp::fdl_lagrange, 8> fdls{
+            clover::dsp::fdl_lagrange{48000},
+            clover::dsp::fdl_lagrange{48000},
+            clover::dsp::fdl_lagrange{48000},
+            clover::dsp::fdl_lagrange{48000},
+            clover::dsp::fdl_lagrange{48000},
+            clover::dsp::fdl_lagrange{48000},
+            clover::dsp::fdl_lagrange{48000},
+            clover::dsp::fdl_lagrange{48000}};
+    std::array<clover::dsp::filter, 8> lpfs;
+    std::array<clover::dsp::filter, 8> hpfs;
+
+    float fb_coeff;
+
+    void set_lpf(float f0);
+    void set_lpf(float f0, float q);
+    void set_hpf(float f0);
+    void set_hpf(float f0, float q);
+
+    fdn8_023(float fs, const fdn8_props_023& props);
     void patch(fdn8_props_023 props);
 
-    void update_from_props();
     float tick(float x);
     float process(float x);
 };
