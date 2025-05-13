@@ -11,8 +11,8 @@ patch_drums_t::patch_drums_t() {
     // --------------------------------
     // KICK
     kick_drum_props = {
-            .trim              = 0.631,
-            .drive             = 2.738,
+            .trim              = 1,
+            .drive             = 1.191,
             .amp_a             = 30,
             .amp_d             = 12142.683,
             .amp_s             = 0,
@@ -28,7 +28,7 @@ patch_drums_t::patch_drums_t() {
             .pitch_r           = 1000,
             .pitch_fundamental = midi_to_frequency(note::F2) / 2,
             .cut_fundamental   = 100,
-            .pitch_range       = 1.17,
+            .pitch_range       = 1,
             .cut_range         = 3,
     };
 
