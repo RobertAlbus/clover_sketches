@@ -40,12 +40,47 @@ std::pair<float, float> signal_graph::tick() {
     kick_sum               = kick_post_eq;
 
     // ----------------
+    // CHORD
+    //
+    //
+
+    float chord_L = 0;
+    float chord_R = 0;
+    for (auto& chord_voice : chord) {
+        auto chord_voice_signal = chord_voice.tick();
+        chord_L += chord_voice_signal.first;
+        chord_R += chord_voice_signal.second;
+    }
+    float chord_send_L                      = chord_L * audio_mixer.at("chord send");
+    float chord_send_R                      = chord_R * audio_mixer.at("chord send");
+    auto [chord_preverb_L, chord_preverb_R] = chord_preverb_peq.tick(chord_send_L, chord_send_R);
+    chord_preverb_L                         = std::clamp(chord_preverb_L, -1.f, 1.f);
+    chord_preverb_R                         = std::clamp(chord_preverb_R, -1.f, 1.f);
+
+    float chord_verb_out_L = chord_verb_L.tick(chord_preverb_L) * audio_mixer.at("chord wet");
+    float chord_verb_out_R = chord_verb_R.tick(chord_preverb_R) * audio_mixer.at("chord wet");
+
+    chord_verb_out_L = std::clamp(chord_verb_out_L, -1.f, 1.f);
+    chord_verb_out_R = std::clamp(chord_verb_out_R, -1.f, 1.f);
+
+    chord_L *= audio_mixer.at("chord dry");
+    chord_R *= audio_mixer.at("chord dry");
+
+    float chord_post_eq_in_L = std::clamp((chord_L + chord_verb_out_L), -1.f, 1.f);
+    float chord_post_eq_in_R = std::clamp((chord_R + chord_verb_out_R), -1.f, 1.f);
+
+    auto [chord_post_eq_L, chord_post_eq_R] = chord_peq.tick(chord_post_eq_in_L, chord_post_eq_in_R);
+
+    float chord_sum_L = chord_post_eq_L *= audio_mixer.at("chord bus");
+    float chord_sum_R = chord_post_eq_R *= audio_mixer.at("chord bus");
+
+    // ----------------
     // SUMMING
     //
     //
 
-    out_L = kick_sum;
-    out_R = kick_sum;
+    out_L = kick_sum + chord_sum_L;
+    out_R = kick_sum + chord_sum_R;
 
     auto main_eq_out = main_eq.tick(out_L, out_R);
     out_L            = main_eq_out.first;

@@ -15,6 +15,11 @@ patch_mix_t::patch_mix_t() {
             {.name = "kick dry", .gain = 0.63043475},
             {.name = "kick send", .gain = 0.69},
             {.name = "kick wet", .gain = 0.46739125},
+            {.spacer = true},
+            {.name = "chord bus", .gain = 0.34},
+            {.name = "chord dry", .gain = 0.326087},
+            {.name = "chord send", .gain = 0.423913},
+            {.name = "chord wet", .gain = 1.2391305},
     };
 
     main_peq_props = {

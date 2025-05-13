@@ -19,11 +19,13 @@
 
 void controller_mixer(const char* id, context& ctx);
 void controller_kick(const char* id, context& ctx);
+void controller_chord(const char* id, context& ctx);
 
 std::vector<tabbed_controller> tabbed_controllers{
         // clang-format off
         {"mixer", controller_mixer},
         {"kick",  controller_kick},
+        {"chord",  controller_chord},
         // clang-format on
 };
 
@@ -68,5 +70,24 @@ void controller_kick(const char* id, context& ctx) {
     }
     draw_fdn8_023("##kick_fdn", &graph.kick_verb, nullptr);
 
+    ImGui::PopID();
+}
+
+void controller_chord(const char* id, context& ctx) {
+    signal_graph& graph = ctx.graph;
+
+    ImGui::PushID(id);
+    draw_fdn8_023("fdn", &graph.chord_verb_L, &graph.chord_verb_R);
+    if (ImGui::BeginTable("##peq_table", 2)) {
+        ImGui::TableNextColumn();
+        ImGui::Text("chord preverb peq");
+        draw_peq_000("##preverb_peq", graph.chord_preverb_peq);
+
+        ImGui::TableNextColumn();
+        ImGui::Text("chord out peq");
+        draw_peq_000("##postverb_peq", graph.chord_peq);
+
+        ImGui::EndTable();
+    }
     ImGui::PopID();
 }

@@ -7,6 +7,7 @@
 namespace patch {
 
 patch_drums_t drums{};
+patch_synth_t synth{};
 patch_mix_t mix{};
 
 }  // namespace patch

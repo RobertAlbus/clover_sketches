@@ -12,6 +12,7 @@
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
 
+#include "lib/subtractive_synth/subtractive_synth.hpp"
 #include "patches/patches.hpp"
 
 #include "instruments/fdn/fdn.hpp"
@@ -40,4 +41,20 @@ struct signal_graph {
     peq_000 kick_out_peq{grid.fs, patch::drums.kick_peq_props};
 
     peq_000 main_eq{grid.fs, patch::mix.main_peq_props};
+
+    // --------------------------------
+    // CHORD
+
+    std::array<subtractive_synth_000, 6> chord{
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props},
+            subtractive_synth_000{grid.fs, patch::synth.chord_props}};
+
+    peq_000 chord_preverb_peq{grid.fs, patch::synth.chord_preverb_peq_props};
+    fdn8_023 chord_verb_L{grid.fs, patch::synth.chord_fdn_props_L};
+    fdn8_023 chord_verb_R{grid.fs, patch::synth.chord_fdn_props_R};
+    peq_000 chord_peq{grid.fs, patch::synth.chord_peq_props};
 };

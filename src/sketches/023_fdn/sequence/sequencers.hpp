@@ -6,11 +6,11 @@
 
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/logging/logger.hpp"
+#include "lib/sq/frsq.hpp"
 
 #include "infrastructure/bar_grid.hpp"
 
 #include "graph/graph.hpp"
-#include "lib/sq/frsq.hpp"
 #include "sequence/event.hpp"
 
 struct sequencers {
@@ -25,11 +25,15 @@ struct sequencers {
     frsq_000<kick_drum_000, event> frsq_kick;
     frsq_000<frsq_000<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
 
+    frsq_000<subtractive_synth_000, event_midi> frsq_chord;
+    frsq_000<frsq_000<subtractive_synth_000, event_midi>, event_meta_sq> meta_frsq_chord;
+
     sequencers(signal_graph& graph, bar_grid& grid, log_bus_000& log);
     void tick();
 
     void set_up();
     void set_up_kick(signal_graph& graph);
+    void set_up_chord(signal_graph& graph);
     void set_up_meta_sq(signal_graph& graph);
     void set_up_arrangement_print(signal_graph& graph);
 };
