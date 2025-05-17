@@ -12,7 +12,7 @@ using namespace ImGui;
 
 void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
     PushID(id);
-    if (ImGui::BeginTable("##fdn_table", 3)) {
+    if (ImGui::BeginTable("##fdn_table", 2)) {
         ImGui::TableNextColumn();
         if (ImGui::Button("get fdn patch")) {
             ImGui::SetClipboardText(fdn_L->props.to_str().c_str());
@@ -26,7 +26,7 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
 
         // one control for all lpf filters
         if (SliderFloat(
-                    "lpf_cut",
+                    "lpf cut",
                     &fdn_L->props.lpf_cut,
                     20,
                     22000,
@@ -40,14 +40,12 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
 
         // one control for all hpf filters
         if (SliderFloat(
-                    "hpf_cut",
+                    "hpf cut",
                     &fdn_L->props.hpf_cut,
                     20,
                     22000,
                     "%.3f",
-                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat) &&
-            fdn_R) {
-            fdn_R->props.hpf_cut = fdn_L->props.hpf_cut;
+                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
             fdn_L->set_hpf(fdn_L->props.hpf_cut);
             if (fdn_R) {
                 fdn_R->set_hpf(fdn_L->props.hpf_cut);
@@ -57,23 +55,76 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
         ImGui::NewLine();
 
         ImGui::TableNextColumn();
+        float drag_speed = ImGui::GetIO().KeyShift ? 0.01f : 1.0f;
+
+        float tap_max   = fdn_L->fdls[0].m_max_idx;
+        float tap_min   = 3;
+        float tap_range = tap_max - tap_min;
+
+        float available_width = ImGui::GetContentRegionAvail().x;
+
         if (fdn_R) {
             for (auto [i, tap_L, tap_R] :
                  std::views::zip(std::views::iota(0, 8), fdn_L->props.taps, fdn_R->props.taps)) {
                 PushID(&tap_L);
 
-                if (SliderFloat("fdl_tap", &tap_L, 4, 12000)) {
+                float tap_value = (tap_L - tap_min) / tap_range;
+                PushItemWidth(available_width * 0.1f);
+                bool changed_drag = DragFloat(
+                        "##tap_drag",
+                        &tap_L,
+                        0.01,
+                        tap_min,
+                        tap_max,
+                        "%.3f",
+                        ImGuiSliderFlags_NoRoundToFormat | ImGuiSliderFlags_Logarithmic);
+                PopItemWidth();
+                SameLine();
+                PushItemWidth(available_width * 0.9f);
+                bool changed_slider = SliderFloat(
+                        "##tap_slider",
+                        &tap_value,
+                        0,
+                        1,
+                        "",
+                        ImGuiSliderFlags_NoRoundToFormat | ImGuiSliderFlags_Logarithmic);
+                PopItemWidth();
+
+                if (changed_slider) {
+                    tap_L = (tap_value * tap_range) + tap_min;
                     tap_R = tap_L;
                 }
-
                 PopID();
             }
         } else {
             for (auto& tap_L : fdn_L->props.taps) {
                 PushID(&tap_L);
 
-                SliderFloat("fdl_tap", &tap_L, 4, 12000);
+                float tap_value = (tap_L - tap_min) / tap_range;
+                PushItemWidth(available_width * 0.1f);
+                bool changed_drag = DragFloat(
+                        "##tap_drag",
+                        &tap_L,
+                        0.01,
+                        tap_min,
+                        tap_max,
+                        "%.3f",
+                        ImGuiSliderFlags_NoRoundToFormat | ImGuiSliderFlags_Logarithmic);
+                PopItemWidth();
+                SameLine();
+                PushItemWidth(available_width * 0.9f);
+                bool changed_slider = SliderFloat(
+                        "##tap_slider",
+                        &tap_value,
+                        0,
+                        1,
+                        "",
+                        ImGuiSliderFlags_NoRoundToFormat | ImGuiSliderFlags_Logarithmic);
+                PopItemWidth();
 
+                if (changed_slider) {
+                    tap_L = (tap_value * tap_range) + tap_min;
+                }
                 PopID();
             }
         }

@@ -103,3 +103,39 @@ patch_drums_t::patch_drums_t() {
             },
     };
 }
+
+/*
+
+kick_props patch{
+    .trim              = 1,
+    .drive             = 8.095,
+    .amp_a             = 30,
+    .amp_d             = 12142.683,
+    .amp_s             = 0,
+    .amp_r             = 1000,
+    .cut_a             = 1,
+    .cut_d             = 3905.1545,
+    .cut_s             = 0,
+    .cut_r             = 1.0000596,
+    .filt_q            = 1.3999405,
+    .pitch_a           = 1,
+    .pitch_d           = 1690.4856,
+    .pitch_s           = 0,
+    .pitch_r           = 1000,
+    .pitch_fundamental = 43.653526,
+    .cut_fundamental   = 100,
+    .pitch_range       = 1,
+    .cut_range         = 3,
+};
+
+{
+    .taps     = {143.64656, 306.9764, 691.9881, 647.5939, 653.7563, 659.9776, 19813.223, 20002.62},
+    .fb_gain  = 0.87402976,
+    .lpf_cut  = 534.5768,
+    .lpf_res  = 0.707,
+    .hpf_cut  = 223.08412,
+    .hpf_res  = 0.707,
+};
+
+
+*/
