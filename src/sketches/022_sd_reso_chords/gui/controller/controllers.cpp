@@ -7,7 +7,7 @@
 #include "imgui.h"
 #include "implot.h"
 
-#include "lib/fdn/draw_fdn.hpp"
+#include "lib/fdn/draw_fdn8_000.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
 #include "lib/logging/draw_gui_log_canvas.hpp"
 #include "lib/mixer/draw_mixer.hpp"

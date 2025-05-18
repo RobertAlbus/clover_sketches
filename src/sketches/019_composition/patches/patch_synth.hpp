@@ -6,7 +6,7 @@
 
 #include "clover/math.hpp"
 
-#include "lib/fdn/fdn.hpp"
+#include "lib/fdn/fdn8_000.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/nx_osc.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"

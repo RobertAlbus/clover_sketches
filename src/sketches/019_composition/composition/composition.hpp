@@ -9,7 +9,7 @@
 
 #include "lib/cymbal/cymbal.hpp"
 #include "lib/env_bp/env_bp.hpp"
-#include "lib/fdn/fdn.hpp"
+#include "lib/fdn/fdn8_000.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
 #include "lib/subtractive_synth/subtractive_synth.hpp"

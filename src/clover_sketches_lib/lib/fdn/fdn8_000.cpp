@@ -11,7 +11,7 @@
 using namespace clover;
 using namespace dsp;
 
-#include "fdn.hpp"
+#include "fdn8_000.hpp"
 #include "hadamard.hpp"
 
 std::string fdn8_props_000::to_str() {
