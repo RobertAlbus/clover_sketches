@@ -11,7 +11,7 @@
 using namespace clover;
 using namespace dsp;
 
-#include "fdn.hpp"
+#include "fdn8_000.hpp"
 #include "hadamard.hpp"
 
 std::string fdn8_props_000::to_str() {
@@ -101,4 +101,29 @@ float fdn8_000::tick(float x) {
     if (has_gui)
         update_from_props();
     return process(x);
+}
+
+// --------------------------------
+// fdn_section
+
+fdn8_section_000::fdn8_section_000(float fs) : fs{fs}, fdl{size_t(fs)} {
+    lpf.m_coeffs = dsp::lpf(fs, cut_lpf, res_lpf);
+    hpf.m_coeffs = dsp::hpf(fs, cut_hpf, res_hpf);
+}
+
+void fdn8_section_000::set_lpf(float f0, float q) {
+    lpf.m_coeffs = dsp::lpf(fs, f0, q);
+    cut_lpf      = f0;
+    res_lpf      = q;
+}
+void fdn8_section_000::set_hpf(float f0, float q) {
+    hpf.m_coeffs = dsp::hpf(fs, f0, q);
+    cut_hpf      = f0;
+    res_hpf      = q;
+}
+void fdn8_section_000::set_time(float taps) {
+    fdl_tap = taps;
+}
+void fdn8_section_000::set_fb_coeff(float fb) {
+    fb_coef = fb;
 }

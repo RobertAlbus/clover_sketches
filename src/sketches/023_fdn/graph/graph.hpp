@@ -6,13 +6,9 @@
 
 #include <cmath>
 
-#include "clover/dsp/filter.hpp"
-
 #include "infrastructure/bar_grid.hpp"
 
-#include "lib/echo/echo.hpp"
-#include "lib/env_bp/env_bp.hpp"
-#include "lib/fdn/fdn8_000.hpp"
+#include "lib/fdn/fdn8_023.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
@@ -40,12 +36,10 @@ struct signal_graph {
     // KICK
     kick_drum_000 kick{grid.fs, patch::drums.kick_drum_props};
     peq_000 kick_preverb_peq{grid.fs, patch::drums.kick_preverb_peq_props};
-    fdn8_000 kick_verb{grid.fs, patch::drums.kick_fdn_props, COMPONENT_HAS_GUI};
+    fdn8_023 kick_verb{grid.fs, patch::drums.kick_fdn_props};
     peq_000 kick_out_peq{grid.fs, patch::drums.kick_peq_props};
 
-    env_bp_000 kick_auto_hp;
-    env_bp_000 kick_auto_verb_send;
-    filter kick_hpf{};
+    peq_000 main_eq{grid.fs, patch::mix.main_peq_props};
 
     // --------------------------------
     // CHORD
@@ -59,21 +53,7 @@ struct signal_graph {
             subtractive_synth_000{grid.fs, patch::synth.chord_props}};
 
     peq_000 chord_preverb_peq{grid.fs, patch::synth.chord_preverb_peq_props};
-    fdn8_000 chord_verb_L{grid.fs, patch::synth.chord_fdn_props_L, COMPONENT_HAS_GUI};
-    fdn8_000 chord_verb_R{grid.fs, patch::synth.chord_fdn_props_R, COMPONENT_HAS_GUI};
+    fdn8_023 chord_verb_L{grid.fs, patch::synth.chord_fdn_props_L};
+    fdn8_023 chord_verb_R{grid.fs, patch::synth.chord_fdn_props_R};
     peq_000 chord_peq{grid.fs, patch::synth.chord_peq_props};
-
-    echo_000 chord_echo{
-            grid.fs,
-            float(grid.bars_to_samples(2)),
-            patch::synth.echoverb_props,
-            patch::synth.chord_echoverb_peq_props};
-
-    fdn8_000 chord_echo_fb_verb_L{grid.fs, patch::synth.chord_echoverb_fdn_L_props};
-    fdn8_000 chord_echo_fb_verb_R{grid.fs, patch::synth.chord_echoverb_fdn_R_props};
-
-    // --------------------------------
-    // MAIN BUS
-
-    peq_000 main_eq{grid.fs, patch::mix.main_peq_props};
 };

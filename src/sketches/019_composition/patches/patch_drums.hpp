@@ -5,7 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "lib/cymbal/cymbal.hpp"
-#include "lib/fdn/fdn.hpp"
+#include "lib/fdn/fdn8_000.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"

@@ -8,7 +8,7 @@
 #include "imgui.h"
 using namespace ImGui;
 
-#include "draw_fdn.hpp"
+#include "draw_fdn8_000.hpp"
 
 void draw_fdn8_000(const char* id, fdn8_000* fdn_L, fdn8_000* fdn_R) {
     PushID(id);
