@@ -8,14 +8,13 @@
 
 #include "infrastructure/bar_grid.hpp"
 
+#include "lib/fdn/fdn8_023.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
-
 #include "lib/subtractive_synth/subtractive_synth.hpp"
-#include "patches/patches.hpp"
 
-#include "instruments/fdn/fdn.hpp"
+#include "patches/patches.hpp"
 
 struct signal_graph {
     bar_grid& grid;

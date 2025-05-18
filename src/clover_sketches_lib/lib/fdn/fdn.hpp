@@ -6,8 +6,6 @@
 
 #include "fdn_section.hpp"
 
-float fb_coefficient(float reduction_db, float delay_line_duration_samples, float decay_duration_samples);
-
 struct fdn8_props_000 {
     std::array<float, 8> taps;
     float fb_gain;

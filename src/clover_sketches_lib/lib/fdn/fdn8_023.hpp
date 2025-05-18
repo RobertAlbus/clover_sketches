@@ -10,8 +10,6 @@
 #include "clover/dsp/filter.hpp"
 #include "clover/dsp/fractional_delay.hpp"
 
-float fb_coefficient(float reduction_db, float delay_line_duration_samples, float decay_duration_samples);
-
 struct fdn8_props_023 {
     std::array<float, 8> taps;
     float fb_gain;

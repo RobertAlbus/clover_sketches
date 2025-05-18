@@ -8,7 +8,7 @@
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
 
-#include "instruments/fdn/fdn.hpp"
+#include "lib/fdn/fdn8_023.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
 struct patch_drums_t {

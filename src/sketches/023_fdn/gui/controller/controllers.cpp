@@ -7,15 +7,14 @@
 #include "imgui.h"
 #include "implot.h"
 
-#include "instruments/fdn/draw_fdn.hpp"
+#include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
 #include "lib/logging/draw_gui_log_canvas.hpp"
 #include "lib/mixer/draw_mixer.hpp"
+#include "lib/peq/draw_peq.hpp"
 
 #include "context.hpp"
 #include "controllers.hpp"
-
-#include "lib/peq/draw_peq.hpp"
 
 void controller_mixer(const char* id, context& ctx);
 void controller_kick(const char* id, context& ctx);
