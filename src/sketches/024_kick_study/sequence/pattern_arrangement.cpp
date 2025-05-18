@@ -18,10 +18,13 @@ std::vector<event_meta_sq> kick{
 
 std::vector<event_meta_sq> chord{
         {.start_time = 0, .pattern_index = 1},
-        {.start_time = 3, .pattern_index = 3},
+        {.start_time = 0, .pattern_index = 1},
 };
 
-std::vector<event> bar = std::views::iota(0, 4) |
+// TODO
+// - patterns should be a constructable object
+// - use ctx to configure the duration of the print statement   
+std::vector<event> bar = std::views::iota(0, 32) |
                          std::views::transform([](int i)
                             { return event{.start_time = double(i)}; }) |
                          std::ranges::to<std::vector>();

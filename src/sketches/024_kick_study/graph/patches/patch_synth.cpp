@@ -22,7 +22,7 @@ patch_synth_t::patch_synth_t() {
                     .pitch_d           = 10,
                     .pitch_s           = 0,
                     .pitch_r           = 10,
-                    .amp_a             = 1500,
+                    .amp_a             = 3500,
                     .amp_d             = 2000,
                     .amp_s             = 0.6,
                     .amp_r             = 1000,
@@ -33,7 +33,7 @@ patch_synth_t::patch_synth_t() {
                     .res                  = 1,
                     .res_range_octaves    = 0,
                     .filter_type          = filter_t_000::lpf,
-                    .cut_a                = 1500,
+                    .cut_a                = 3500,
                     .cut_d                = 1000,
                     .cut_s                = 0.1,
                     .cut_r                = 1000,
@@ -44,22 +44,23 @@ patch_synth_t::patch_synth_t() {
             }};
 
     chord_fdn_props_L = {
-            .taps    = {70.644, 403.867, 1536.822, 2936.355, 3136.289, 4869.044, 7801.4, 10733.756},
-            .fb_gain = 0.918,
-            .lpf_cut = 6391.762,
+            .taps = {97.24235, 107.83797, 123.84126, 341.46677, 353.70355, 1197.1913, 13131.191, 13605.827},
+            .fb_gain = 0.944,
+            .lpf_cut = 734.1833,
             .lpf_res = 0.707,
-            .hpf_cut = 139.60605,
+            .hpf_cut = 71.12249,
             .hpf_res = 0.707,
     };
-    chord_fdn_props_R = chord_fdn_props_L.taps_mult(12.f / 7.f).taps_add(-22.5f);
+    // chord_fdn_props_R = chord_fdn_props_L.taps_mult(12.f / 7.f).taps_add(-22.5f);
+    chord_fdn_props_R = chord_fdn_props_L;
 
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props{
             peq_props_000{
-                    .freq    = 3186.4,
-                    .reso    = 0.3,
+                    .freq    = 129,
+                    .reso    = 1.1,
                     .gain    = 0,
                     .enabled = true,
-                    .type    = peq_filter_type::lp,
+                    .type    = peq_filter_type::notch,
             },
             peq_props_000{
                     .freq    = 20000,
@@ -86,7 +87,7 @@ patch_synth_t::patch_synth_t() {
 
     chord_peq_props = {
             peq_props_000{
-                    .freq    = 180.1,
+                    .freq    = 73,
                     .reso    = .707,
                     .gain    = 0,
                     .enabled = true,

@@ -18,7 +18,7 @@ struct context {
     }
     float fs            = 48000;
     float bpm           = 124;
-    float duration_bars = 4;
+    float duration_bars = 32;
     bool should_loop    = true;
 
     int channel_count_out = 2;

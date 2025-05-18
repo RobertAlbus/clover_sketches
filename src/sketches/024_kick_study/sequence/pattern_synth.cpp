@@ -7,39 +7,47 @@
 #include "sequence/notes.h"
 
 namespace pattern {
+
 std::vector<pattern_t<event_midi>> chord{
         {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
-        {.duration_bar = 1,
-         .duration_rel = 4.,
+        {.duration_bar = 2,
+         .duration_rel = 8.,
          .pattern =
-                 {{.start_time = 1.5, .duration = 0.5, .note = note::E3},
-                  {.start_time = 1.5, .duration = 0.5, .note = note::Gs3},
-                  {.start_time = 1.5, .duration = 0.5, .note = note::B3},
-                  {.start_time = 1.5, .duration = 0.5, .note = note::Cs3},
-                  {.start_time = 1.5, .duration = 0.5, .note = note::Fs3 + 12}}},
-        {.duration_bar = 1,
-         .duration_rel = 4.,
+                 {
+                         //
+                         {.start_time = 1.5, .duration = 0.75, .note = -17 + note::C4},
+                         {.start_time = 1.5, .duration = 0.75, .note = -17 + note::Eb4},
+                         {.start_time = 1.5, .duration = 0.75, .note = -17 + note::G4},
+                         {.start_time = 1.5, .duration = 0.75, .note = -17 + note::Bb4},
+                         {.start_time = 1.5, .duration = 0.75, .note = -17 + note::F4},
+                 }},
+        {.duration_bar = 2,
+         .duration_rel = 8.,
          .pattern =
-                 {{.start_time = 3, .duration = 0.5, .note = note::Fs3},
-                  {.start_time = 3, .duration = 0.5, .note = note::B3},
-                  {.start_time = 3, .duration = 0.5, .note = note::Cs3},
-                  {.start_time = 3, .duration = 0.5, .note = note::E3},
-                  {.start_time = 3, .duration = 0.5, .note = note::Gs3 + 12}}},
-        {.duration_bar = 1,
-         .duration_rel = 4.,
+                 {
+                         // (F–A–C–E♭–G♯)
+                         {.start_time = 3, .duration = 0.75, .note = note::F4},
+                         {.start_time = 3, .duration = 0.75, .note = note::A4},
+                         {.start_time = 3, .duration = 0.75, .note = note::C4},
+                         {.start_time = 3, .duration = 0.75, .note = note::Eb4},
+                         {.start_time = 3, .duration = 0.75, .note = note::Gs4},
+                 }},
+        {.duration_bar = 2,
+         .duration_rel = 8.,
          .pattern =
-                 {{.start_time = 1.5, .duration = 0.5, .note = note::E3},
-                  {.start_time = 1.5, .duration = 0.5, .note = note::Gs3},
-                  {.start_time = 1.5, .duration = 0.5, .note = note::B3},
-                  //   {.start_time = 1.5, .duration = 0.5, .note = note::A3},
-                  {.start_time = 1.5, .duration = 0.5, .note = note::Cs4},
-                  {.start_time = 1.5, .duration = 0.5, .note = note::Fs3 + 12},
+                 {
+                         //
+                         {.start_time = 1.5, .duration = 0.75, .note = note::C4},
+                         {.start_time = 1.5, .duration = 0.75, .note = note::Eb4},
+                         {.start_time = 1.5, .duration = 0.75, .note = note::G4},
+                         {.start_time = 1.5, .duration = 0.75, .note = note::Bb4},
+                         {.start_time = 1.5, .duration = 0.75, .note = note::F4},
 
-                  {.start_time = 3, .duration = 0.5, .note = note::Fs3},
-                  {.start_time = 3, .duration = 0.5, .note = note::B3},
-                  {.start_time = 3, .duration = 0.5, .note = note::Cs3},
-                  //   {.start_time = 3, .duration = 0.5, .note = note::Ds4},
-                  {.start_time = 3, .duration = 0.5, .note = note::E3},
-                  {.start_time = 3, .duration = 0.5, .note = note::Gs3 + 12}}},
+                         {.start_time = 6.5, .duration = 0.75, .note = note::F4},
+                         {.start_time = 6.5, .duration = 0.75, .note = note::A4},
+                         {.start_time = 6.5, .duration = 0.75, .note = note::C4},
+                         {.start_time = 6.5, .duration = 0.75, .note = note::Eb4},
+                         {.start_time = 6.5, .duration = 0.75, .note = note::Gs4},
+                 }},
 };
 }  // namespace pattern
