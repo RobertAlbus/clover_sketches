@@ -22,7 +22,7 @@ struct context {
     bool should_loop    = true;
 
     int channel_count_out = 2;
-    const std::string render_name{"024_kick_study"};
+    const std::string render_name{"024_dub"};
 
     log_bus_000 logger;
 
