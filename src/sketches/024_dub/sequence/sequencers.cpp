@@ -5,7 +5,7 @@
 #include <print>
 
 #include "graph/graph.hpp"
-#include "lib/cymbal/cymbal_000.hpp"
+#include "lib/cymbal/cymbal_024.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
 #include "sequence/arrangement_callback_builder.hpp"
@@ -42,9 +42,9 @@ void sequencers::set_up_kick(signal_graph& graph) {
 }
 
 void sequencers::set_up_ride(signal_graph& graph) {
-    frsq_ride.voices         = std::span<cymbal_000>(&graph.ride, 1);
-    frsq_ride.callback_start = [](cymbal_000& voice, const event& data) { voice.key_on(); };
-    frsq_ride.callback_end   = [](cymbal_000& voice) { voice.key_off(); };
+    frsq_ride.voices         = std::span<cymbal_024>(&graph.ride, 1);
+    frsq_ride.callback_start = [](cymbal_024& voice, const event& data) { voice.key_on(); };
+    frsq_ride.callback_end   = [](cymbal_024& voice) { voice.key_off(); };
 }
 
 void sequencers::set_up_chord(signal_graph& graph) {
@@ -69,7 +69,7 @@ void sequencers::set_up_meta_sq(signal_graph& graph) {
     meta_frsq_chord.duration_relative = grid.duration_bars;
 
     meta_frsq_kick.callback_start = callback_for<kick_drum_000, event>(log, grid, pattern::kick, "frsq_kick");
-    meta_frsq_ride.callback_start = callback_for<cymbal_000, event>(log, grid, pattern::ride, "frsq_ride");
+    meta_frsq_ride.callback_start = callback_for<cymbal_024, event>(log, grid, pattern::ride, "frsq_ride");
 
     meta_frsq_chord.callback_start =
             callback_for<subtractive_synth_000, event_midi>(log, grid, pattern::chord, "frsq_chord");

@@ -8,7 +8,7 @@
 
 #include "infrastructure/bar_grid.hpp"
 
-#include "lib/cymbal/cymbal_000.hpp"
+#include "lib/cymbal/cymbal_024.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
@@ -30,13 +30,13 @@ struct signal_graph {
 
     // --------------------------------
     // KICK
-    
+
     kick_drum_000 kick{grid.fs, patch::drums.kick_drum_props};
     peq_000 kick_preverb_peq{grid.fs, patch::drums.kick_preverb_peq_props};
     fdn8_023 kick_verb{grid.fs, patch::drums.kick_fdn_props};
     peq_000 kick_out_peq{grid.fs, patch::drums.kick_peq_props};
 
-    cymbal_000 ride{grid.fs, patch::drums.ride_props};
+    cymbal_024 ride{grid.fs, patch::drums.ride_props};
     peq_000 ride_peq{grid.fs, patch::drums.ride_peq_props};
 
     // --------------------------------

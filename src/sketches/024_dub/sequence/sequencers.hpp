@@ -4,7 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "lib/cymbal/cymbal_000.hpp"
+#include "lib/cymbal/cymbal_024.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/logging/logger.hpp"
 #include "lib/sq/frsq.hpp"
@@ -26,8 +26,8 @@ struct sequencers {
     frsq_000<kick_drum_000, event> frsq_kick;
     frsq_000<frsq_000<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
 
-    frsq_000<cymbal_000, event> frsq_ride;
-    frsq_000<frsq_000<cymbal_000, event>, event_meta_sq> meta_frsq_ride;
+    frsq_000<cymbal_024, event> frsq_ride;
+    frsq_000<frsq_000<cymbal_024, event>, event_meta_sq> meta_frsq_ride;
 
     frsq_000<subtractive_synth_000, event_midi> frsq_chord;
     frsq_000<frsq_000<subtractive_synth_000, event_midi>, event_meta_sq> meta_frsq_chord;
