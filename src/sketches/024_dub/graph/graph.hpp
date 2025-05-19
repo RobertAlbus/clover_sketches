@@ -8,7 +8,7 @@
 
 #include "infrastructure/bar_grid.hpp"
 
-#include "lib/cymbal/cymbal.hpp"
+#include "lib/cymbal/cymbal_000.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"

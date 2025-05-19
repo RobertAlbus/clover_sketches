@@ -4,7 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "lib/cymbal/cymbal.hpp"
+#include "lib/cymbal/cymbal_000.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 

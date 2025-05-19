@@ -11,7 +11,7 @@
 #include "clover/dsp/wave.hpp"
 #include "clover/math.hpp"
 
-#include "cymbal.hpp"
+#include "cymbal_000.hpp"
 
 using namespace clover;
 using namespace dsp;

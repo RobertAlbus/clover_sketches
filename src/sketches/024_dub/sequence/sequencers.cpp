@@ -5,7 +5,7 @@
 #include <print>
 
 #include "graph/graph.hpp"
-#include "lib/cymbal/cymbal.hpp"
+#include "lib/cymbal/cymbal_000.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
 #include "sequence/arrangement_callback_builder.hpp"

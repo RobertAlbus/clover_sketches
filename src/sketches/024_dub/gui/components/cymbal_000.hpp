@@ -5,7 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "imgui.h"
-#include "lib/cymbal/cymbal.hpp"
+#include "lib/cymbal/cymbal_000.hpp"
 
 #include "draw_drag_slider.hpp"
 
