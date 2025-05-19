@@ -40,6 +40,14 @@ std::pair<float, float> signal_graph::tick() {
     kick_sum               = kick_post_eq;
 
     // ----------------
+    // CYMBALS
+    //
+    //
+
+    float ride_cymbal     = ride.tick() * audio_mixer.at("ride") * 0.2f;
+    auto [ride_L, ride_R] = ride_peq.tick(ride_cymbal);
+
+    // ----------------
     // CHORD
     //
     //
@@ -79,8 +87,8 @@ std::pair<float, float> signal_graph::tick() {
     //
     //
 
-    out_L = kick_sum + chord_sum_L;
-    out_R = kick_sum + chord_sum_R;
+    out_L = kick_sum + ride_L + chord_sum_L;
+    out_R = kick_sum + ride_R + chord_sum_R;
 
     auto main_eq_out = main_eq.tick(out_L, out_R);
     out_L            = main_eq_out.first;

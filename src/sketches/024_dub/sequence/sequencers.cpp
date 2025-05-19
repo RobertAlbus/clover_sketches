@@ -5,6 +5,7 @@
 #include <print>
 
 #include "graph/graph.hpp"
+#include "lib/cymbal/cymbal.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 
 #include "sequence/arrangement_callback_builder.hpp"
@@ -19,6 +20,7 @@ sequencers::sequencers(signal_graph& graph, bar_grid& grid, log_bus_000& log)
 
 void sequencers::set_up() {
     set_up_kick(graph);
+    set_up_ride(graph);
     set_up_chord(graph);
     set_up_arrangement_print(graph);
     set_up_meta_sq(graph);
@@ -26,8 +28,10 @@ void sequencers::set_up() {
 void sequencers::tick() {
     frsq_arrangement_print.tick();
     meta_frsq_kick.tick();
+    meta_frsq_ride.tick();
     meta_frsq_chord.tick();
     frsq_kick.tick();
+    frsq_ride.tick();
     frsq_chord.tick();
 }
 
@@ -35,6 +39,12 @@ void sequencers::set_up_kick(signal_graph& graph) {
     frsq_kick.voices         = std::span<kick_drum_000>(&graph.kick, 1);
     frsq_kick.callback_start = [](kick_drum_000& voice, const event& data) { voice.key_on(); };
     frsq_kick.callback_end   = [](kick_drum_000& voice) { voice.key_off(); };
+}
+
+void sequencers::set_up_ride(signal_graph& graph) {
+    frsq_ride.voices         = std::span<cymbal_000>(&graph.ride, 1);
+    frsq_ride.callback_start = [](cymbal_000& voice, const event& data) { voice.key_on(); };
+    frsq_ride.callback_end   = [](cymbal_000& voice) { voice.key_off(); };
 }
 
 void sequencers::set_up_chord(signal_graph& graph) {
@@ -47,21 +57,30 @@ void sequencers::set_up_chord(signal_graph& graph) {
 
 void sequencers::set_up_meta_sq(signal_graph& graph) {
     meta_frsq_kick.voices  = std::span(&frsq_kick, 1);
+    meta_frsq_ride.voices  = std::span(&frsq_ride, 1);
     meta_frsq_chord.voices = std::span(&frsq_chord, 1);
 
     meta_frsq_kick.duration_absolute  = grid.bars_to_samples(grid.duration_bars);
+    meta_frsq_ride.duration_absolute  = grid.bars_to_samples(grid.duration_bars);
     meta_frsq_chord.duration_absolute = grid.bars_to_samples(grid.duration_bars);
 
     meta_frsq_kick.duration_relative  = grid.duration_bars;
+    meta_frsq_ride.duration_relative  = grid.duration_bars;
     meta_frsq_chord.duration_relative = grid.duration_bars;
 
     meta_frsq_kick.callback_start = callback_for<kick_drum_000, event>(log, grid, pattern::kick, "frsq_kick");
+    meta_frsq_ride.callback_start = callback_for<cymbal_000, event>(log, grid, pattern::ride, "frsq_ride");
 
     meta_frsq_chord.callback_start =
             callback_for<subtractive_synth_000, event_midi>(log, grid, pattern::chord, "frsq_chord");
 
     meta_frsq_kick.set_pattern(
             arrangement::kick,
+            grid.bars_to_samples(grid.duration_bars),
+            grid.duration_bars,
+            arrangement::playback_start);
+    meta_frsq_ride.set_pattern(
+            arrangement::ride,
             grid.bars_to_samples(grid.duration_bars),
             grid.duration_bars,
             arrangement::playback_start);

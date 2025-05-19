@@ -4,11 +4,11 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/cymbal/cymbal.hpp"
+#include "lib/fdn/fdn8_023.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
-
-#include "lib/fdn/fdn8_023.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
 struct patch_drums_t {
@@ -21,6 +21,11 @@ struct patch_drums_t {
     fdn8_props_023 kick_fdn_props;
     std::array<peq_props_000, peq_000::SIZE> kick_preverb_peq_props;
     std::array<peq_props_000, peq_000::SIZE> kick_peq_props;
+
+    // --------------------------------
+    // RIDE
+    std::array<peq_props_000, peq_000::SIZE> ride_peq_props;
+    cymbal_props_000 ride_props;
 };
 
 struct patch_synth_t {

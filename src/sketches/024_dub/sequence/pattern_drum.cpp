@@ -22,5 +22,14 @@ std::vector<pattern_t<event>> kick{
                   {.start_time = 1.5, .duration = 0.5},
                   {.start_time = 3.0, .duration = 0.5}}},
 };
-
+std::vector<pattern_t<event>> ride{
+        {},
+        {.duration_bar = 0.25,
+         .duration_rel = 1.,
+         .pattern =
+                 {
+                         {.start_time = 0.0, .duration = 0.01},
+                         {.start_time = 0.5, .duration = 0.01},
+                 }},
+};
 }  // namespace pattern

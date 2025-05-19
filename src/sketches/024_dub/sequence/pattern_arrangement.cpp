@@ -16,6 +16,11 @@ std::vector<event_meta_sq> kick{
         {.start_time = 0, .pattern_index = 1},
 };
 
+std::vector<event_meta_sq> ride{
+        {.start_time = 0,  .pattern_index = 1},
+        {.start_time = 24, .pattern_index = 1},
+};
+
 std::vector<event_meta_sq> chord{
         {.start_time = 0, .pattern_index = 1},
         {.start_time = 0, .pattern_index = 1},

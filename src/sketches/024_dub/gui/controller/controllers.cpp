@@ -4,6 +4,7 @@
 
 #include <print>
 
+#include "gui/components/cymbal_000.hpp"
 #include "imgui.h"
 #include "implot.h"
 
@@ -18,12 +19,14 @@
 
 void controller_mixer(const char* id, context& ctx);
 void controller_kick(const char* id, context& ctx);
+void controller_ride(const char* id, context& ctx);
 void controller_chord(const char* id, context& ctx);
 
 std::vector<tabbed_controller> tabbed_controllers{
         // clang-format off
         {"mixer", controller_mixer},
         {"kick",  controller_kick},
+        {"ride",  controller_ride},
         {"chord",  controller_chord},
         // clang-format on
 };
@@ -68,6 +71,16 @@ void controller_kick(const char* id, context& ctx) {
         ImGui::EndTable();
     }
     draw_fdn8_023("##kick_fdn", &graph.kick_verb, nullptr);
+
+    ImGui::PopID();
+}
+
+void controller_ride(const char* id, context& ctx) {
+    signal_graph& graph = ctx.graph;
+    ImGui::PushID(id);
+
+    draw_cymbal_000(graph.ride);
+    draw_peq_000("##ride_eq", graph.ride_peq);
 
     ImGui::PopID();
 }

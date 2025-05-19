@@ -114,4 +114,55 @@ patch_drums_t::patch_drums_t() {
                     .type    = peq_filter_type::lp,
             },
     };
+
+    ride_props = {
+            .freqs            = {150, 404, 1533, 1751, 13456, 17500},
+            .hpf_f0           = 100,
+            .hpf_fmod_octaves = 6,
+            .hpf_Q            = 1,
+
+            .bpf_f0 = 3000,
+            .bpf_Q  = 1.3,
+
+            .amp_a = 50,
+            .amp_d = 500,
+            .amp_s = 0.5,
+            .amp_r = 25000,
+
+            .cut_a = 60,
+            .cut_d = 1000,
+            .cut_s = 0.5,
+            .cut_r = 2500000,
+    };
+
+    ride_peq_props = {
+            peq_props_000{
+                    .freq    = 5938.7,
+                    .reso    = 0.9,
+                    .gain    = 14,
+                    .enabled = true,
+                    .type    = peq_filter_type::eq,
+            },
+            peq_props_000{
+                    .freq    = 10,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
+            peq_props_000{
+                    .freq    = 20,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+            peq_props_000{
+                    .freq    = 20,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+    };
 }

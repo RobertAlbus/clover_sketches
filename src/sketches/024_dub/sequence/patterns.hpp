@@ -20,6 +20,7 @@ struct pattern_t {
 namespace pattern {
 
 extern std::vector<pattern_t<event>> kick;
+extern std::vector<pattern_t<event>> ride;
 extern std::vector<pattern_t<event_midi>> chord;
 
 }  // namespace pattern
@@ -33,6 +34,7 @@ namespace arrangement {
 extern double playback_start;
 
 extern std::vector<event_meta_sq> kick;
+extern std::vector<event_meta_sq> ride;
 extern std::vector<event_meta_sq> chord;
 extern std::vector<event> bar;
 
