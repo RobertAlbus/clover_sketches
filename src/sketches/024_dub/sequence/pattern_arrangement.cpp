@@ -17,7 +17,9 @@ std::vector<event_meta_sq> kick{
 };
 
 std::vector<event_meta_sq> ride{
-        {.start_time = 0,  .pattern_index = 1},
+        {.start_time = 0,  .pattern_index = 0},
+        {.start_time = 12, .pattern_index = 1},
+        {.start_time = 16, .pattern_index = 0},
         {.start_time = 24, .pattern_index = 1},
 };
 

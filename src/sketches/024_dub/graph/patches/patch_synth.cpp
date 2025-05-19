@@ -45,14 +45,13 @@ patch_synth_t::patch_synth_t() {
 
     chord_fdn_props_L = {
             .taps = {97.24235, 107.83797, 123.84126, 341.46677, 353.70355, 1197.1913, 13131.191, 13605.827},
-            .fb_gain = 0.944,
+            .fb_gain = 0.857,
             .lpf_cut = 734.1833,
             .lpf_res = 0.707,
             .hpf_cut = 71.12249,
             .hpf_res = 0.707,
     };
-    // chord_fdn_props_R = chord_fdn_props_L.taps_mult(12.f / 7.f).taps_add(-22.5f);
-    chord_fdn_props_R = chord_fdn_props_L;
+    chord_fdn_props_R = chord_fdn_props_L.taps_mult(1.005);
 
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props{
             peq_props_000{
