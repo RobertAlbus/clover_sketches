@@ -28,13 +28,9 @@ struct signal_graph {
     float gain_master = 0.5f;
     signal_graph(bar_grid& grid);
 
-    // HACK: semantically meaning label used as a flag for fdn
-    // - FDN needs to be updated after props change.
-    // - see TODO in FDN
-    static constexpr bool COMPONENT_HAS_GUI = true;
-
     // --------------------------------
     // KICK
+    
     kick_drum_000 kick{grid.fs, patch::drums.kick_drum_props};
     peq_000 kick_preverb_peq{grid.fs, patch::drums.kick_preverb_peq_props};
     fdn8_023 kick_verb{grid.fs, patch::drums.kick_fdn_props};
