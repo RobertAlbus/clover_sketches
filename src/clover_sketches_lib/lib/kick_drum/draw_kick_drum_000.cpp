@@ -6,7 +6,7 @@
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/kick_drum/kick_drum_drawable_000.hpp"
 
-#include "lib/adsr/draw_adsr.hpp"
+#include "lib/_component/adsr/draw_adsr.hpp"
 
 void draw_kick_drum_000(const char* id, kick_drum_drawable_000 auto& kick) {
     ImGui::PushID(id);
