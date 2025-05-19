@@ -10,6 +10,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
     include(FetchContent)
     FetchContent_Declare(
         benchmark
+        GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/google/benchmark.git
         GIT_TAG ${CLOVER_SKETCHES_FETCH_GOOGLE_BENCHMARK_VERSION_TAG}
     )

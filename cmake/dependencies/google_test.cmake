@@ -7,6 +7,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES AND CLOVER_SKETCHES_FETCH_GOOGLE_TEST)
     include(FetchContent)
     FetchContent_Declare(
         googletest
+        GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/google/googletest.git
         GIT_TAG ${CLOVER_SKETCHES_FETCH_GOOGLE_TEST_VERSION_TAG}
     )
