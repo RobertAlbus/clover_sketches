@@ -10,15 +10,15 @@
 #include <vector>
 
 #include "lib/logging/logger.hpp"
+#include "lib/sq/frsq.hpp"
 
 #include "infrastructure/bar_grid.hpp"
 
 #include "event.hpp"
-#include "lib/sq/frsq.hpp"
 #include "sequence/patterns.hpp"
 
 template <typename voice_t, frsq_data_base_000 event_t>
-std::function<void(frsq_000<voice_t, event_t>&, const event_meta_sq&)> callback_for(
+std::function<void(frsq_000<voice_t, event_t>&, const event_meta_sq&)> arrangement_callback_for(
         log_bus_000& logger,
         bar_grid& grid,
         std::vector<pattern_t<event_t>>& patterns,
