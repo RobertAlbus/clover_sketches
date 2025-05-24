@@ -8,8 +8,7 @@
 #include <bits/ranges_algo.h>
 #include <bits/sat_arith.h>
 #include <cmath>
-#include <concepts>
-#include <cstddef>
+#include <cstdint>
 #include <format>
 #include <functional>
 #include <iterator>
@@ -18,17 +17,15 @@
 #include <span>
 #include <stdexcept>
 
-#include <print>
+#include "lib/debug_utils/demangle_type_name.hpp"
 
-template <typename T>
-concept frsq_data_base_000 = requires(T t) {
-    { t.start_time } -> std::same_as<double&>;
-    { t.duration } -> std::same_as<double&>;
-};
+#include "frsq.hpp"
+
 
 template <typename voice_t, frsq_data_base_000 frsq_data_t>
-struct frsq_000 {
-    frsq_000() {
+struct frsq_024 {
+    frsq_024(const frsq_024&) = delete;
+    frsq_024() {
         voices_time_remaining.fill(std::numeric_limits<int>::min());
         voices_time_elapsed.fill(std::numeric_limits<int>::max());
     }
@@ -41,12 +38,11 @@ struct frsq_000 {
     using pattern_it = std::span<frsq_data_t>::iterator;
     pattern_it last_event;
 
-    double duration_absolute     = 0;  // in samples
-    double duration_relative     = 0;  // arbitrary musical reference duration
-    double current_time_absolute = 0;  // in samples
+    double duration_absolute = 0;  // in samples
+    double duration_relative = 0;  // arbitrary musical reference duration
 
-    bool loop_wrap_pending     = false;
-    bool initial_pattern_start = false;
+    int64_t current_time_absolute         = 0;  // in samples
+    double current_time_absolute_fraction = 0;  // arbitrary musical reference duration
 
     std::function<void(voice_t& voice, const frsq_data_t& data)> callback_start =
             [](voice_t& voice, const frsq_data_t& data) {};
@@ -59,15 +55,6 @@ struct frsq_000 {
         voices_time_elapsed.fill(std::numeric_limits<int>::max());
     }
 
-    void set_from_time(double from_time_relative) {
-        from_time_relative = std::fmod(from_time_relative, duration_relative);
-
-        if (from_time_relative < 0)
-            from_time_relative += duration_relative;
-
-        current_time_absolute = (from_time_relative / duration_relative) * duration_absolute;
-        determine_last_event();
-    }
     void set_pattern(
             std::span<frsq_data_t> new_pattern_data,
             double new_duration_samples,
@@ -75,50 +62,70 @@ struct frsq_000 {
             double from_time_relative) {
         duration_absolute = new_duration_samples;
         duration_relative = new_duration_relative;
-        if (current_time_absolute > duration_absolute) {
-            current_time_absolute = fmod(current_time_absolute, duration_absolute);
+        pattern_data      = new_pattern_data;
+
+        if (from_time_relative == 0) {
+            current_time_absolute = 0;
+        } else if (from_time_relative > duration_relative) {
+            from_time_relative    = std::fmod(from_time_relative, duration_relative);
+            current_time_absolute = (from_time_relative / duration_relative) * duration_absolute;
+        } else if (from_time_relative < 0) {
+            from_time_relative = std::fmod(from_time_relative, duration_relative);
+            from_time_relative += duration_relative;
+            current_time_absolute = (from_time_relative / duration_relative) * duration_absolute;
         }
-        pattern_data = new_pattern_data;
-        set_from_time(from_time_relative);
+        determine_last_event();
     }
+
+    double current_time_relative() {
+        double current_time_abs = double(current_time_absolute) + current_time_absolute;
+        return (current_time_abs / duration_absolute) * duration_relative;
+    }
+
     void set_pattern(
             std::span<frsq_data_t> new_pattern_data,
             double new_duration_samples,
             double new_duration_relative) {
-        duration_absolute = new_duration_samples;
-        duration_relative = new_duration_relative;
-        if (current_time_absolute > duration_absolute) {
-            current_time_absolute = fmod(current_time_absolute, duration_absolute);
-        }
-        pattern_data = new_pattern_data;
-        determine_last_event();
+        set_pattern(new_pattern_data, new_duration_samples, new_duration_relative, current_time_relative());
     }
+
     void determine_last_event() {
         if (!pattern_data.size()) {
             last_event = pattern_data.end();
             return;
         }
 
-        double current_time_relative =
-                (std::floor(current_time_absolute) / duration_absolute) * duration_relative;
-        auto next_event = std::ranges::lower_bound(
-                pattern_data, current_time_relative, std::ranges::less{}, &frsq_data_t::start_time);
-
-        if (next_event != pattern_data.begin()) {
-            last_event            = next_event - 1;
-            initial_pattern_start = false;
-        } else {
-            last_event            = pattern_data.end() - 1;
-            initial_pattern_start = true;
+        if (current_time_absolute == 0) {
+            last_event = pattern_data.end() - 1;
+            return;
         }
+
+        auto next_event = std::ranges::lower_bound(
+                pattern_data, current_time_relative(), std::ranges::less{}, &frsq_data_t::start_time);
+
+        if (next_event == pattern_data.begin()) {
+            last_event = pattern_data.end() - 1;
+            return;
+        }
+
+        last_event = next_event - 1;
     }
 
     void tick() {
+        if (pattern_data.empty()) {
+            return;
+        }
+
+        if (current_time_absolute_fraction >= 1) {
+            current_time_absolute_fraction -= 1;
+            return;
+        }
+
         // no voices
         if (voices.empty())
             throw std::runtime_error("no voices assigned to frsq");
 
-        // too many voices
+        // more voices than counters
         if (voices.size() > voices_time_remaining.size()) {
             throw std::runtime_error("too many voices assigned to frsq");
         }
@@ -128,62 +135,50 @@ struct frsq_000 {
             int& t_remain  = voices_time_remaining[i];
             int& t_elapsed = voices_time_elapsed[i];
 
-            // time to end a voice
             if (t_remain == 0) {
                 callback_end(voice);
             }
 
-            // incr/decr counters
             if (t_remain > std::numeric_limits<int>::min())
                 t_remain -= 1;
             if (t_elapsed < std::numeric_limits<int>::max())
                 t_elapsed += 1;
         }
 
-        // no pattern
-        if (pattern_data.empty()) {
-            return;
-        }
-
         // make sure the last event is valid
         if (last_event == pattern_data.end())
             throw std::runtime_error("frsq last_event should never be pattern_data.end() at this point");
-        if (!(last_event >= pattern_data.begin() && last_event < pattern_data.end())) {
+        if (last_event < pattern_data.begin() || last_event >= pattern_data.end()) {
             throw std::runtime_error(std::format(
-                    "frsq {} last_event should always be between .begin() and .end()\n end distance: {}\ncur "
-                    "distance: {}",
-                    size_t(this),
+                    "{} last_event should always be between .begin() and .end()\n"
+                    "  end distance: {}\n  cur distance: {}",
+                    demangle_type_name(this),
                     std::distance(pattern_data.begin(), pattern_data.end()),
                     std::distance(pattern_data.begin(), last_event)));
         }
 
-        // find next event
         auto next_event = last_event + 1;
+        if (next_event == pattern_data.end() && current_time_absolute == 0) {
+            // finished all events in the pattern and playing again
+            next_event = pattern_data.begin();
 
-        // wrap back around to the beginning if needed
-        auto next_event_cache = next_event;
-        if (initial_pattern_start) {
-            next_event            = pattern_data.begin();
-            initial_pattern_start = false;
-        } else if (next_event == pattern_data.end()) {
-            // add epsilon to prevent false negative for certain BPMs (eg. @160)
-            if (!(int(current_time_absolute) >= int(next_event->start_time))) {
-                loop_wrap_pending = true;
+        } else if (next_event == pattern_data.end() && current_time_absolute > 0) {
+            // finished all events in the pattern but not yet finished duration
+            if (current_time_absolute >= ((last_event->start_time / duration_relative) * duration_absolute)) {
+                increment_time();
+                return;
             }
             next_event = pattern_data.begin();
         }
 
-        int next_event_time_absolute = int((next_event->start_time / duration_relative) * duration_absolute);
+        int64_t next_event_time_absolute =
+                int64_t((next_event->start_time / duration_relative) * duration_absolute);
 
         // <= is used to account for when caller manipulates next_event::start_time in real time
         // because it could jump behind the frsq discrete time play head.
-        bool is_event_start =
-                !loop_wrap_pending && int(next_event_time_absolute) <= int(current_time_absolute);
+        bool is_event_start = next_event_time_absolute <= current_time_absolute;
 
-        int events_this_sample = 0;
         while (is_event_start) {
-            ++events_this_sample;
-
             // find oldest inactive voice
             voice_t* selected_voice = nullptr;
             int selected_index      = -1;
@@ -220,24 +215,28 @@ struct frsq_000 {
             t_elapsed = 0;
 
             callback_start(*selected_voice, *next_event);
-
             last_event = next_event;
 
             if (++next_event == pattern_data.end()) {
-                loop_wrap_pending = true;
-                next_event        = pattern_data.begin();
+                increment_time();
+                return;
             }
             next_event_time_absolute = int((next_event->start_time / duration_relative) * duration_absolute);
 
             // <= is used to account for when caller manipulates next_event::start_time in real time
             // because it could jump behind the frsq discrete time play head.
-            is_event_start = !loop_wrap_pending && next_event_time_absolute <= int(current_time_absolute);
+            is_event_start = next_event_time_absolute <= current_time_absolute;
         }
 
+        increment_time();
+    }
+
+    void increment_time() {
         current_time_absolute += 1;
         if (current_time_absolute >= duration_absolute) {
-            loop_wrap_pending = false;
-            current_time_absolute -= duration_absolute;
+            auto truncated_duration = int64_t(duration_absolute);
+            current_time_absolute_fraction += (duration_absolute - double(truncated_duration));
+            current_time_absolute = 0;
         }
     }
 };
