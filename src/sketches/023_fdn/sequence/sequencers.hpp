@@ -6,7 +6,7 @@
 
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/logging/logger.hpp"
-#include "lib/sq/frsq.hpp"
+#include "lib/sq/frsq_000.hpp"
 
 #include "infrastructure/bar_grid.hpp"
 

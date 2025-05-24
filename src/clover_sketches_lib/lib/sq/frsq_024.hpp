@@ -19,8 +19,7 @@
 
 #include "lib/debug_utils/demangle_type_name.hpp"
 
-#include "frsq.hpp"
-
+#include "frsq_000.hpp"
 
 template <typename voice_t, frsq_data_base_000 frsq_data_t>
 struct frsq_024 {
@@ -65,14 +64,20 @@ struct frsq_024 {
         pattern_data      = new_pattern_data;
 
         if (from_time_relative == 0) {
-            current_time_absolute = 0;
+            current_time_absolute          = 0;
+            current_time_absolute_fraction = 0;
         } else if (from_time_relative > duration_relative) {
-            from_time_relative    = std::fmod(from_time_relative, duration_relative);
-            current_time_absolute = (from_time_relative / duration_relative) * duration_absolute;
+            from_time_relative = std::fmod(from_time_relative, duration_relative);
+
+            double current_time_samples    = (from_time_relative / duration_relative) * duration_absolute;
+            current_time_absolute          = int64_t(current_time_samples);
+            current_time_absolute_fraction = current_time_samples - current_time_absolute;
         } else if (from_time_relative < 0) {
             from_time_relative = std::fmod(from_time_relative, duration_relative);
-            from_time_relative += duration_relative;
-            current_time_absolute = (from_time_relative / duration_relative) * duration_absolute;
+
+            double current_time_samples    = (from_time_relative / duration_relative) * duration_absolute;
+            current_time_absolute          = int64_t(current_time_samples);
+            current_time_absolute_fraction = current_time_samples - current_time_absolute;
         }
         determine_last_event();
     }

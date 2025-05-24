@@ -14,7 +14,7 @@
 #include "infrastructure/bar_grid.hpp"
 
 #include "event.hpp"
-#include "lib/sq/frsq.hpp"
+#include "lib/sq/frsq_000.hpp"
 #include "sequence/patterns.hpp"
 
 template <typename voice_t, frsq_data_base_000 event_t>

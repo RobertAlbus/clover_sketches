@@ -7,7 +7,7 @@
 #include "lib/cymbal/cymbal_024.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/logging/logger.hpp"
-#include "lib/sq/frsq.hpp"
+#include "lib/sq/frsq_024.hpp"
 
 #include "infrastructure/bar_grid.hpp"
 
@@ -21,16 +21,16 @@ struct sequencers {
 
     // need a placeholder for the voices, so reusing the event
     // this is fine because there is no need for a voice - will just println in the callback.
-    frsq_000<event, event> frsq_arrangement_print;
+    frsq_024<event, event> frsq_arrangement_print;
 
-    frsq_000<kick_drum_000, event> frsq_kick;
-    frsq_000<frsq_000<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
+    frsq_024<kick_drum_000, event> frsq_kick;
+    frsq_024<frsq_024<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
 
-    frsq_000<cymbal_024, event> frsq_ride;
-    frsq_000<frsq_000<cymbal_024, event>, event_meta_sq> meta_frsq_ride;
+    frsq_024<cymbal_024, event> frsq_ride;
+    frsq_024<frsq_024<cymbal_024, event>, event_meta_sq> meta_frsq_ride;
 
-    frsq_000<subtractive_synth_000, event_midi> frsq_chord;
-    frsq_000<frsq_000<subtractive_synth_000, event_midi>, event_meta_sq> meta_frsq_chord;
+    frsq_024<subtractive_synth_000, event_midi> frsq_chord;
+    frsq_024<frsq_024<subtractive_synth_000, event_midi>, event_meta_sq> meta_frsq_chord;
 
     sequencers(signal_graph& graph, bar_grid& grid, log_bus_000& log);
     void tick();

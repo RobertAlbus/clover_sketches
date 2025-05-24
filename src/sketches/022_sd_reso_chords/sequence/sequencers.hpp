@@ -11,7 +11,7 @@
 #include "infrastructure/bar_grid.hpp"
 
 #include "composition/graph.hpp"
-#include "lib/sq/frsq.hpp"
+#include "lib/sq/frsq_000.hpp"
 #include "sequence/event.hpp"
 
 struct sequencers {
