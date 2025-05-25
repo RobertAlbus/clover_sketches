@@ -44,7 +44,7 @@ std::pair<float, float> signal_graph::tick() {
     //
     //
 
-    float ride_cymbal     = ride.tick() * audio_mixer.at("ride") * 0.2f;
+    float ride_cymbal     = ride.tick() * audio_mixer.at("ride") * 0.05f;
     auto [ride_L, ride_R] = ride_peq.tick(ride_cymbal);
 
     // ----------------

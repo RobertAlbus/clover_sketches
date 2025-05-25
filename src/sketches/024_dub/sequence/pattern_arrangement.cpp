@@ -12,7 +12,8 @@ double playback_start = 0;
 
 // clang-format off
 std::vector<event_meta_sq> kick{
-        {.start_time = 0, .pattern_index = 1},
+        {.start_time = 0,  .pattern_index = 1},
+        {.start_time = 28, .pattern_index = 0},
 };
 
 std::vector<event_meta_sq> ride{
@@ -20,10 +21,15 @@ std::vector<event_meta_sq> ride{
         {.start_time = 12, .pattern_index = 1},
         {.start_time = 16, .pattern_index = 0},
         {.start_time = 24, .pattern_index = 1},
+        {.start_time = 28, .pattern_index = 0},
 };
 
 std::vector<event_meta_sq> chord{
-        {.start_time = 0, .pattern_index = 1},
+        {.start_time = 0,  .pattern_index = 1},
+        {.start_time = 14, .pattern_index = 2},
+        {.start_time = 16, .pattern_index = 1},
+        {.start_time = 28, .pattern_index = 2},
+        {.start_time = 30, .pattern_index = 1},
 };
 
 // TODO
