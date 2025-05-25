@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "lib/env_bp/env_bp.hpp"
-#include "lib/sq/frsq_000.hpp"
+#include "lib/sq/frsq_000.hpp"  // for frsq_data_base_000
 
 #include "sequence/event.hpp"
 
