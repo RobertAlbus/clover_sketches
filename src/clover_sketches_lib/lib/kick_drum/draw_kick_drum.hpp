@@ -7,3 +7,6 @@
 #include "lib/kick_drum/kick_drum_drawable_000.hpp"
 
 void draw_kick_drum_000(const char* id, kick_drum_drawable_000 auto& kick);
+
+#include "lib/kick_drum/kick_drum.hpp"  // IWYU pragma: keep
+extern template void draw_kick_drum_000<kick_drum_000>(const char*, kick_drum_000&);

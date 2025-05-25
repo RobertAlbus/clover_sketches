@@ -11,6 +11,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
     set(GLFW_INSTALL OFF)
     FetchContent_Declare(
         glfw3
+        GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/glfw/glfw.git
         GIT_TAG        "3.3.4"
     )
@@ -21,6 +22,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
     set(HELLOIMGUI_INSTALL          OFF CACHE BOOL "HELLOIMGUI_INSTALL" FORCE)
     FetchContent_Declare(
         hello_imgui
+        GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/pthom/hello_imgui.git
         GIT_TAG        "1d8abf8fa1a3daf001a41f1fe5ceb2cc58f7980f"
     )
@@ -51,6 +53,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
 
     FetchContent_Declare(
         imgui_knobs
+        GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/altschuler/imgui-knobs.git
         GIT_TAG        "091dda7aed58fd44535023c61595facd32aea7fc"
     )
@@ -59,6 +62,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
     
     FetchContent_Declare(
         implot
+        GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/epezent/implot.git
         GIT_TAG        "f1b0792cd3e239f615d4f20b9647d37594de8c56"
     )
@@ -67,6 +71,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
     
     FetchContent_Declare(
         implot3d
+        GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/brenocq/implot3d.git
         GIT_TAG        "4be7ae65624b04cd43bf847f02e4b75e4469cb72"
     )

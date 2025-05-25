@@ -6,6 +6,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
 
     FetchContent_Declare(
         concurrentqueue
+        GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/cameron314/concurrentqueue.git
         GIT_TAG ${CLOVER_SKETCHES_FETCH_CONCURRENT_QUEUE_VERSION_TAG}
     )

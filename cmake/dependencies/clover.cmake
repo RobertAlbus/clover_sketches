@@ -10,6 +10,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
     include(FetchContent)
     FetchContent_Declare(
         Clover
+        GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/RobertAlbus/clover.git
         GIT_TAG ${CLOVER_SKETCHES_FETCH_CLOVER_VERSION_TAG}
     )

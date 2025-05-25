@@ -18,27 +18,27 @@ using namespace dsp;
 std::string kick_props_000::to_str() {
     return std::format(
             "\
-kick_props patch{{     \n\
-    .trim              = {}, \n\
-    .drive             = {}, \n\
-    .amp_a             = {}, \n\
-    .amp_d             = {}, \n\
-    .amp_s             = {}, \n\
-    .amp_r             = {}, \n\
-    .cut_a             = {}, \n\
-    .cut_d             = {}, \n\
-    .cut_s             = {}, \n\
-    .cut_r             = {}, \n\
-    .filt_q            = {}, \n\
-    .pitch_a           = {}, \n\
-    .pitch_d           = {}, \n\
-    .pitch_s           = {}, \n\
-    .pitch_r           = {}, \n\
-    .pitch_fundamental = {}, \n\
-    .cut_fundamental   = {}, \n\
-    .pitch_range       = {}, \n\
-    .cut_range         = {}, \n\
-}};",
+{{     \n\
+            .trim              = {}, \n\
+            .drive             = {}, \n\
+            .amp_a             = {}, \n\
+            .amp_d             = {}, \n\
+            .amp_s             = {}, \n\
+            .amp_r             = {}, \n\
+            .cut_a             = {}, \n\
+            .cut_d             = {}, \n\
+            .cut_s             = {}, \n\
+            .cut_r             = {}, \n\
+            .filt_q            = {}, \n\
+            .pitch_a           = {}, \n\
+            .pitch_d           = {}, \n\
+            .pitch_s           = {}, \n\
+            .pitch_r           = {}, \n\
+            .pitch_fundamental = {}, \n\
+            .cut_fundamental   = {}, \n\
+            .pitch_range       = {}, \n\
+            .cut_range         = {}, \n\
+        }};",
             trim,
             drive,
             amp_a,
