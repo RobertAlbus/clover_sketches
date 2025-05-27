@@ -2,6 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include <algorithm>
 #include <cmath>
 
 #include "clover/math.hpp"
@@ -15,8 +16,8 @@ clover_float cymbal_024::tick() {
     float amp_env = adsr_amp.tick();
     float cut_env = adsr_cut.tick();
 
-    float hpf_freq = frequency_by_octave_difference(props.hpf_f0, props.hpf_fmod_octaves * cut_env);
-
+    float hpf_freq = clover::frequency_by_octave_difference(props.hpf_f0, props.hpf_fmod_octaves * cut_env);
+    hpf_freq       = std::clamp(hpf_freq, 20.f, 20000.f);
     high_pass.m_coeffs = hpf(fs, hpf_freq, props.hpf_Q);
 
     float harmonics = 0;
