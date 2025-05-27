@@ -79,7 +79,7 @@ void controller_ride(const char* id, context& ctx) {
     signal_graph& graph = ctx.graph;
     ImGui::PushID(id);
 
-    draw_cymbal_000(graph.ride);
+    draw_cymbal_000("ride", graph.ride);
     draw_peq_000("##ride_eq", graph.ride_peq);
 
     ImGui::PopID();

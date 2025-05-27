@@ -7,15 +7,13 @@
 #include "imgui.h"
 #include "lib/cymbal/cymbal_000.hpp"
 
-#include "draw_drag_slider.hpp"
+#include "lib/_atom/drag_slider_025.hpp"
 
 void draw_cymbal_000(cymbal_000& cymbal) {
-    float available_width = ImGui::GetContentRegionAvail().x;
-
     for (auto& osc : cymbal.oscs) {
         float freq = osc.freq();
         ImGui::PushID(&osc);
-        if (draw_drag_slider(freq, 0, 24000, available_width)) {
+        if (drag_slider_h_025(freq, 0, 24000)) {
             osc.freq(freq);
         }
         ImGui::PopID();
