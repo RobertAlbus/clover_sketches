@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
+#include <string>
 
 #include "clover/dsp/env_adsr.hpp"
 #include "clover/dsp/filter.hpp"
@@ -32,6 +33,10 @@ struct cymbal_props_000 {
     float cut_d = 100;
     float cut_s = 0;
     float cut_r = 10;
+
+    // WARNING: heap allocation
+    // do not call from the audio thread
+    std::string to_str();
 };
 
 struct cymbal_000 {

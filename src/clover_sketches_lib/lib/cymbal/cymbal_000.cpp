@@ -2,7 +2,9 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include <algorithm>
 #include <cmath>
+#include <format>
 #include <ranges>
 
 #include "clover/dsp/env_adsr.hpp"
@@ -15,6 +17,46 @@
 
 using namespace clover;
 using namespace dsp;
+
+std::string cymbal_props_000::to_str() {
+    return std::format(
+
+            R"({{
+            .freqs            = {{ {}, {}, {}, {}, {}, {} }},
+            .hpf_f0           = {},
+            .hpf_fmod_octaves = {},
+            .hpf_Q            = {},
+            .bpf_f0           = {},
+            .bpf_Q            = {},
+            .amp_a            = {},
+            .amp_d            = {},
+            .amp_s            = {},
+            .amp_r            = {},
+            .cut_a            = {},
+            .cut_d            = {},
+            .cut_s            = {},
+            .cut_r            = {},
+    }};)",
+            freqs[0],
+            freqs[1],
+            freqs[2],
+            freqs[3],
+            freqs[4],
+            freqs[5],
+            hpf_f0,
+            hpf_fmod_octaves,
+            hpf_Q,
+            bpf_f0,
+            bpf_Q,
+            amp_a,
+            amp_d,
+            amp_s,
+            amp_r,
+            cut_a,
+            cut_d,
+            cut_s,
+            cut_r);
+}
 
 cymbal_000::cymbal_000(clover_float fs, const cymbal_props_000& new_props)
     : fs(fs),                       //
@@ -43,6 +85,9 @@ void cymbal_000::set_adsrs() {
 }
 
 void cymbal_000::set_filters() {
+    props.hpf_f0 = std::clamp(props.hpf_f0, 20.f, 20000.f);
+    props.bpf_f0 = std::clamp(props.bpf_f0, 20.f, 20000.f);
+
     high_pass.m_coeffs = hpf(fs, props.hpf_f0, props.hpf_Q);
     band_pass.m_coeffs = bpf(fs, props.bpf_f0, props.bpf_Q);
 }
@@ -64,7 +109,7 @@ clover_float cymbal_000::tick() {
     float cut_env = adsr_cut.tick();
 
     float hpf_freq = clover::frequency_by_octave_difference(props.hpf_f0, props.hpf_fmod_octaves * cut_env);
-
+    hpf_freq       = std::clamp(hpf_freq, 20.f, 20000.f);
     high_pass.m_coeffs = hpf(fs, hpf_freq, props.hpf_Q);
 
     float harmonics = 0;
