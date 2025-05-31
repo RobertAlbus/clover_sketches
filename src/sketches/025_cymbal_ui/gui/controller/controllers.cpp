@@ -2,6 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include <complex>
 #include <print>
 
 #include "gui/components/cymbal_000.hpp"
@@ -13,6 +14,8 @@
 #include "lib/logging/draw_gui_log_canvas.hpp"
 #include "lib/mixer/draw_mixer.hpp"
 #include "lib/peq/draw_peq.hpp"
+
+#include "util/filter_response.hpp"
 
 #include "context.hpp"
 #include "controllers.hpp"
@@ -41,10 +44,36 @@ void controller_mixer(const char* id, context& ctx) {
     static double x = 0.5f;
     static double y = 0.5f;
 
-    static bool show_plot = false;
+    static bool show_plot = true;
+    static std::vector<float> freqs(2000, 0);
+    static complex_response response_cplx_0(2000, 0);
+    static complex_response response_cplx_1(2000, 0);
+    static complex_response response_cplx_2(2000, 0);
+    static complex_response response_cplx_3(2000, 0);
+    static complex_response response_cplx_all(2000, 0);
+    static computed_response response_cmpt{2000};
+
+    static bool init_response = true;
+    if (init_response) {
+        log_spaced_freqs(freqs, 20, 24000);
+        compute_response(ctx.graph.main_eq.filters[0].m_coeffs, response_cplx_0, freqs);
+        compute_response(ctx.graph.main_eq.filters[1].m_coeffs, response_cplx_1, freqs);
+        compute_response(ctx.graph.main_eq.filters[2].m_coeffs, response_cplx_2, freqs);
+        compute_response(ctx.graph.main_eq.filters[3].m_coeffs, response_cplx_3, freqs);
+
+        for (auto [cr0, cr1, cr2, cr3, cra] : std::views::zip(
+                     response_cplx_0, response_cplx_1, response_cplx_2, response_cplx_3, response_cplx_all)) {
+            cra = cr0 * cr1 * cr2 * cr3;
+        }
+        compute_spectrum(response_cplx_all, response_cmpt);
+        unwrap_phase(response_cmpt.angles);
+        init_response = false;
+    }
     ImGui::Checkbox("show plot", &show_plot);
     if (show_plot) {
         if (ImPlot::BeginPlot("Draggable Point")) {
+            ImPlot::PlotLine("magnitude", freqs.data(), response_cmpt.magnitudes.data(), (int)freqs.size());
+            ImPlot::PlotLine("phase", freqs.data(), response_cmpt.angles.data(), (int)freqs.size());
             ImPlot::DragPoint(0, &x, &y, ImVec4(1, 0, 0, 1), 4, ImPlotDragToolFlags_None);
             ImPlot::EndPlot();
         }

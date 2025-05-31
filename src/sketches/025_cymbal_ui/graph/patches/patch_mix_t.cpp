@@ -33,11 +33,11 @@ patch_mix_t::patch_mix_t() {
                     .type    = peq_filter_type::hp,
             },
             peq_props_000{
-                    .freq    = 10,
-                    .reso    = 0.707,
-                    .gain    = 0,
+                    .freq    = 10000,
+                    .reso    = 2.707,
+                    .gain    = 6,
                     .enabled = true,
-                    .type    = peq_filter_type::hp,
+                    .type    = peq_filter_type::eq,
             },
             peq_props_000{
                     .freq    = 20000,
