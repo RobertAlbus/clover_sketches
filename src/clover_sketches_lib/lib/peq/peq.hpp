@@ -19,9 +19,10 @@ enum struct peq_filter_type {
     hs,
     ls,
     eq,
+    ap,
 };
 
-constexpr size_t PEQ_TYPE_SIZE = 7;
+constexpr size_t PEQ_TYPE_SIZE = 8;
 using peq_filter_type_list_000 = std::array<peq_filter_type, PEQ_TYPE_SIZE>;
 using peq_filter_name_list_000 = std::array<const char*, PEQ_TYPE_SIZE>;
 using peq_filter_func_list_000 =
@@ -35,6 +36,7 @@ constexpr peq_filter_type_list_000 peq_filter_types{
         peq_filter_type::hs,
         peq_filter_type::ls,
         peq_filter_type::eq,
+        peq_filter_type::ap,
 };
 constexpr peq_filter_name_list_000 peq_filter_str{
         "lp",
@@ -44,6 +46,7 @@ constexpr peq_filter_name_list_000 peq_filter_str{
         "hs",
         "ls",
         "eq",
+        "ap",
 };
 
 constexpr peq_filter_func_list_000 filter_func = {
@@ -67,6 +70,9 @@ constexpr peq_filter_func_list_000 filter_func = {
         },
         +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
             return clover::dsp::eq(fs, f0, reso, gain);
+        },
+        +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
+            return clover::dsp::apf(fs, f0, reso);
         },
 };
 
