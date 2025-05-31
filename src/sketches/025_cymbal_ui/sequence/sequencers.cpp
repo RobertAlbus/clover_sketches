@@ -61,13 +61,12 @@ void sequencers::set_up_meta_sq(signal_graph& graph) {
     meta_frsq_ride.voices  = std::span(&frsq_ride, 1);
     meta_frsq_chord.voices = std::span(&frsq_chord, 1);
 
-    meta_frsq_kick.duration_absolute  = grid.bars_to_samples(grid.duration_bars);
-    meta_frsq_ride.duration_absolute  = grid.bars_to_samples(grid.duration_bars);
-    meta_frsq_chord.duration_absolute = grid.bars_to_samples(grid.duration_bars);
+    double duration_bars = grid.duration_bars;
 
-    meta_frsq_kick.duration_relative  = grid.duration_bars;
-    meta_frsq_ride.duration_relative  = grid.duration_bars;
-    meta_frsq_chord.duration_relative = grid.duration_bars;
+    // looping ? playback : render
+    if (grid.should_loop) {
+        duration_bars /= 2;
+    }
 
     meta_frsq_kick.callback_start =
             arrangement_callback_for<kick_drum_000, event>(log, grid, pattern::kick, "frsq_kick");
@@ -80,18 +79,18 @@ void sequencers::set_up_meta_sq(signal_graph& graph) {
 
     meta_frsq_kick.set_pattern(
             arrangement::kick,
-            grid.bars_to_samples(grid.duration_bars),
-            grid.duration_bars,
+            grid.bars_to_samples(duration_bars),
+            duration_bars,
             arrangement::playback_start);
     meta_frsq_ride.set_pattern(
             arrangement::ride,
-            grid.bars_to_samples(grid.duration_bars),
-            grid.duration_bars,
+            grid.bars_to_samples(duration_bars),
+            duration_bars,
             arrangement::playback_start);
     meta_frsq_chord.set_pattern(
             arrangement::chord,
-            grid.bars_to_samples(grid.duration_bars),
-            grid.duration_bars,
+            grid.bars_to_samples(duration_bars),
+            duration_bars,
             arrangement::playback_start);
 }
 
