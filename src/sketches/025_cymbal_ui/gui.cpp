@@ -32,7 +32,7 @@ static void glfw_error_callback(int error, const char* description) {
 }
 
 // Main code
-void GUI(context& props) {
+void GUI(context& ctx) {
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
 
@@ -143,7 +143,7 @@ void GUI(context& props) {
         glfwSwapBuffers(window);
     }
 
-    props.gui_intent_to_exit.release();
+    ctx.gui_intent_to_exit.release();
 
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();

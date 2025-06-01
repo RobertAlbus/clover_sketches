@@ -6,5 +6,5 @@
 
 #include "context.hpp"
 
-void view_setup(context& props);
-bool view_draw(context& props);
+void view_setup(context& ctx);
+bool view_draw(context& ctx);

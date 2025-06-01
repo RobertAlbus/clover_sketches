@@ -11,44 +11,44 @@ using namespace ImGui;
 
 #include "shared_props.hpp"
 
-void GUI(context& props) {
-    props.audio_ready.acquire();
+void GUI(context& ctx) {
+    ctx.audio_ready.acquire();
     // gui setup before audio starts
-    props.gui_ready.release();
+    ctx.gui_ready.release();
 
     auto guiFunction = [&]() {
         if (ImGui::BeginTabBar("Main Layout Tabs")) {
             if (ImGui::BeginTabItem("mixer")) {
-                controller_mixer("##kick_drum_gui", props.composition);
+                controller_mixer("##kick_drum_gui", ctx.composition);
 
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("kick")) {
-                controller_kick("kick", props.composition);
+                controller_kick("kick", ctx.composition);
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("bass")) {
-                view_bass("bass", props.composition);
+                view_bass("bass", ctx.composition);
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("cymbal")) {
-                view_cymbal("cymbal", props.composition);
+                view_cymbal("cymbal", ctx.composition);
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("lead_a")) {
-                view_lead_a("lead_a", props.composition);
+                view_lead_a("lead_a", ctx.composition);
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("lead_b")) {
-                view_lead_b("lead_b", props.composition);
+                view_lead_b("lead_b", ctx.composition);
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("chord")) {
-                controller_chord("chord", props.composition);
+                controller_chord("chord", ctx.composition);
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("pad")) {
-                view_pad("pad", props.composition);
+                view_pad("pad", ctx.composition);
                 ImGui::EndTabItem();
             }
 
@@ -64,7 +64,7 @@ void GUI(context& props) {
 
     HelloImGui::RunnerParams params{};
 
-    params.callbacks.EnqueueBeforeExit([&]() { props.gui_intent_to_exit.release(); });
+    params.callbacks.EnqueueBeforeExit([&]() { ctx.gui_intent_to_exit.release(); });
 
     params.callbacks.ShowGui           = guiFunction;
     params.appWindowParams.windowTitle = "019_composition gui";
