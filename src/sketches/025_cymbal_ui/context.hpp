@@ -9,6 +9,7 @@
 #include "clover/io/stream.hpp"
 
 #include "graph/graph.hpp"
+#include "gui/view.hpp"
 #include "lib/logging/logger.hpp"
 #include "sequence/sequencers.hpp"
 
@@ -31,6 +32,8 @@ struct context {
     bar_grid grid{fs, bpm, duration_bars, should_loop};
     signal_graph graph{grid};
     sequencers sequencers{graph, grid, logger};
+    view view{graph, logger};
+
     clover::io::stream* stream = nullptr;
 
     std::binary_semaphore gui_ready{0};

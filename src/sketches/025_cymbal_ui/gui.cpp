@@ -12,7 +12,6 @@
 // - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
 // - Introduction, links and more at the top of imgui.cpp
 
-#include "gui/view.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -33,7 +32,7 @@ static void glfw_error_callback(int error, const char* description) {
 }
 
 // Main code
-void GUI(context& props) {
+void GUI(context& ctx) {
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
 
@@ -96,8 +95,10 @@ void GUI(context& props) {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    // Our state
-    view_setup(props);
+    ctx.audio_ready.acquire();
+    // perform gui setup before audio starts
+    ctx.gui_ready.release();
+
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // Main loop
@@ -122,7 +123,7 @@ void GUI(context& props) {
         ImGui::NewFrame();
 
         // Show window
-        if (!view_draw(props)) {
+        if (!ctx.view.draw()) {
             glfwSetWindowShouldClose(window, true);
         }
 
@@ -142,7 +143,7 @@ void GUI(context& props) {
         glfwSwapBuffers(window);
     }
 
-    props.gui_intent_to_exit.release();
+    ctx.gui_intent_to_exit.release();
 
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();

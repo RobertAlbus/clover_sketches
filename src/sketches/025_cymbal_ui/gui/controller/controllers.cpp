@@ -4,7 +4,9 @@
 
 #include <complex>
 #include <print>
+#include <ranges>
 
+#include "graph/graph.hpp"
 #include "gui/components/cymbal_000.hpp"
 #include "imgui.h"
 #include "implot.h"
@@ -17,29 +19,12 @@
 
 #include "util/filter_response.hpp"
 
-#include "context.hpp"
 #include "controllers.hpp"
 
-void controller_mixer(const char* id, context& ctx);
-void controller_kick(const char* id, context& ctx);
-void controller_ride(const char* id, context& ctx);
-void controller_chord(const char* id, context& ctx);
-
-std::vector<tabbed_controller> tabbed_controllers{
-        // clang-format off
-        {"mixer", controller_mixer},
-        {"kick",  controller_kick},
-        {"ride",  controller_ride},
-        {"chord",  controller_chord},
-        // clang-format on
-};
-
-void controller_mixer(const char* id, context& ctx) {
-    signal_graph& graph = ctx.graph;
-
+void controller_mixer::draw(const char* id, signal_graph& graph, log_bus_000& logger) {
     ImGui::PushID(id);
     static log_canvas_000 canvas;
-    draw_gui_log_canvas_000("log_canvas", canvas, ctx.logger, nullptr);
+    draw_gui_log_canvas_000("log_canvas", canvas, logger, nullptr);
 
     static double x = 0.5f;
     static double y = 0.5f;
@@ -56,10 +41,10 @@ void controller_mixer(const char* id, context& ctx) {
     static bool init_response = true;
     if (init_response) {
         log_spaced_freqs(freqs, 20, 24000);
-        compute_response(ctx.graph.main_eq.filters[0].m_coeffs, response_cplx_0, freqs);
-        compute_response(ctx.graph.main_eq.filters[1].m_coeffs, response_cplx_1, freqs);
-        compute_response(ctx.graph.main_eq.filters[2].m_coeffs, response_cplx_2, freqs);
-        compute_response(ctx.graph.main_eq.filters[3].m_coeffs, response_cplx_3, freqs);
+        compute_response(graph.main_eq.filters[0].m_coeffs, response_cplx_0, freqs);
+        compute_response(graph.main_eq.filters[1].m_coeffs, response_cplx_1, freqs);
+        compute_response(graph.main_eq.filters[2].m_coeffs, response_cplx_2, freqs);
+        compute_response(graph.main_eq.filters[3].m_coeffs, response_cplx_3, freqs);
 
         for (auto [cr0, cr1, cr2, cr3, cra] : std::views::zip(
                      response_cplx_0, response_cplx_1, response_cplx_2, response_cplx_3, response_cplx_all)) {
@@ -85,9 +70,7 @@ void controller_mixer(const char* id, context& ctx) {
     ImGui::PopID();
 }
 
-void controller_kick(const char* id, context& ctx) {
-    signal_graph& graph = ctx.graph;
-
+void controller_kick::draw(const char* id, signal_graph& graph, log_bus_000& logger) {
     ImGui::PushID(id);
 
     draw_kick_drum_000("kick_synth", graph.kick);
@@ -104,8 +87,7 @@ void controller_kick(const char* id, context& ctx) {
     ImGui::PopID();
 }
 
-void controller_ride(const char* id, context& ctx) {
-    signal_graph& graph = ctx.graph;
+void controller_ride::draw(const char* id, signal_graph& graph, log_bus_000& logger) {
     ImGui::PushID(id);
 
     draw_cymbal_000("ride", graph.ride);
@@ -114,9 +96,7 @@ void controller_ride(const char* id, context& ctx) {
     ImGui::PopID();
 }
 
-void controller_chord(const char* id, context& ctx) {
-    signal_graph& graph = ctx.graph;
-
+void controller_chord::draw(const char* id, signal_graph& graph, log_bus_000& logger) {
     ImGui::PushID(id);
     draw_fdn8_023("fdn", &graph.chord_verb_L, &graph.chord_verb_R);
     if (ImGui::BeginTable("##peq_table", 2)) {

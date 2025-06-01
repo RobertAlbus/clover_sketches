@@ -4,18 +4,26 @@
 
 #include "imgui.h"
 
-#include "context.hpp"
+#include "lib/logging/logger.hpp"
 
 #include "controller/controllers.hpp"
+#include "graph/graph.hpp"
 #include "view.hpp"
 
-void view_setup(context& context) {
-    context.audio_ready.acquire();
-    // gui setup before audio starts
-    context.gui_ready.release();
+view::view(signal_graph& graph, log_bus_000& logger) : graph{graph}, logger{logger} {
+    tabs = std::move(create_tabs());
 }
 
-bool view_draw(context& context) {
+std::vector<std::unique_ptr<tabbed_controller>> view::create_tabs() {
+    std::vector<std::unique_ptr<tabbed_controller>> new_tabs;
+    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer"));
+    new_tabs.emplace_back(std::make_unique<controller_kick>("kick"));
+    new_tabs.emplace_back(std::make_unique<controller_ride>("ride"));
+    new_tabs.emplace_back(std::make_unique<controller_chord>("chord"));
+    return new_tabs;
+}
+
+bool view::draw() {
     // Fullscreen Docking Node (single node replaces window content)
     ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -33,16 +41,16 @@ bool view_draw(context& context) {
     ImGui::Begin("MainDockSpaceHost", nullptr, window_flags);
     ImGui::PopStyleVar(2);
 
-    // Optional: create a dockspace, even if unused
     ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
     ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
 
-    // ----------------
+    // ----------------------------------------------------------------
+    // TABS
 
     if (ImGui::BeginTabBar("Main Layout Tabs")) {
-        for (auto& tabbed_controller : tabbed_controllers) {
-            if (ImGui::BeginTabItem(tabbed_controller.name)) {
-                tabbed_controller.controller(tabbed_controller.name, context);
+        for (auto& tabbed_controller : tabs) {
+            if (ImGui::BeginTabItem(tabbed_controller->name)) {
+                tabbed_controller->draw(tabbed_controller->name, graph, logger);
 
                 ImGui::EndTabItem();
             }
@@ -51,15 +59,19 @@ bool view_draw(context& context) {
         ImGui::EndTabBar();
     }
 
+    // ----------------------------------------------------------------
+
     ImGui::NewLine();
     ImGui::NewLine();
     ImGui::Text("Framerate: %.2f", ImGui::GetIO().Framerate);
 
     if (ImGui::Button("Bye!")) {
         ImGui::End();
-        return false;
+        bool should_continue = false;
+        return should_continue;
     }
 
     ImGui::End();  // End "MainDockSpaceHost"
-    return true;
+    bool should_continue = true;
+    return should_continue;
 }

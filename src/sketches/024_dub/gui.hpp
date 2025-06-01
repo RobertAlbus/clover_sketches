@@ -6,4 +6,4 @@
 
 #include "context.hpp"
 
-void GUI(context& props);
+void GUI(context& ctx);

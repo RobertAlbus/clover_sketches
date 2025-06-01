@@ -33,7 +33,7 @@ static void glfw_error_callback(int error, const char* description) {
 }
 
 // Main code
-void GUI(context& props) {
+void GUI(context& ctx) {
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
 
@@ -97,7 +97,7 @@ void GUI(context& props) {
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Our state
-    view_setup(props);
+    view_setup(ctx);
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // Main loop
@@ -122,7 +122,7 @@ void GUI(context& props) {
         ImGui::NewFrame();
 
         // Show window
-        if (!view_draw(props)) {
+        if (!view_draw(ctx)) {
             glfwSetWindowShouldClose(window, true);
         }
 
@@ -142,7 +142,7 @@ void GUI(context& props) {
         glfwSwapBuffers(window);
     }
 
-    props.gui_intent_to_exit.release();
+    ctx.gui_intent_to_exit.release();
 
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
