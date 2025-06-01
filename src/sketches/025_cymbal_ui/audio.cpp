@@ -58,8 +58,9 @@ void AUDIO(context &ctx) {
     ctx.audio_ready.release();
     stream.start();
 
+    bool abort_render = false;
     if (SHOULD_RENDER) {
-        render_thread = std::thread([]() {
+        render_thread = std::thread([&abort_render]() {
             context render_ctx{SHOULD_RENDER};
 
             std::println("starting render: {}", render_ctx.render_name);
@@ -74,6 +75,10 @@ void AUDIO(context &ctx) {
                     size_t(render_ctx.grid.duration_samples() * render_ctx.channel_count_out), 0.f);
 
             for (auto frame : std::views::iota(0, int(render_ctx.grid.duration_samples()))) {
+                if (abort_render) {
+                    std::println("canceled render: {}", render_ctx.render_name);
+                    return;
+                }
                 auto result = audio_callback({
                         .clock_time     = frame,
                         .chan_count_in  = 0,
@@ -97,6 +102,7 @@ void AUDIO(context &ctx) {
     stream.stop();
     stream.wait_to_complete();
     if (render_thread && render_thread->joinable()) {
+        abort_render = true;
         render_thread->join();
     }
 }

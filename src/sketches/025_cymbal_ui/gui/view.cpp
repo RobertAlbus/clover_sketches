@@ -14,15 +14,13 @@ view::view(signal_graph& graph, log_bus_000& logger) : graph{graph}, logger{logg
     tabs = std::move(create_tabs());
 }
 
-std::vector<tabbed_controller> view::create_tabs() {
-    return {
-            // clang-format off
-            {"mixer", controller_mixer},
-            {"kick",  controller_kick},
-            {"ride",  controller_ride},
-            {"chord",  controller_chord},
-            // clang-format on
-    };
+std::vector<std::unique_ptr<tabbed_controller>> view::create_tabs() {
+    std::vector<std::unique_ptr<tabbed_controller>> new_tabs;
+    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer"));
+    new_tabs.emplace_back(std::make_unique<controller_kick>("kick"));
+    new_tabs.emplace_back(std::make_unique<controller_ride>("ride"));
+    new_tabs.emplace_back(std::make_unique<controller_chord>("chord"));
+    return new_tabs;
 }
 
 bool view::draw() {
@@ -51,8 +49,8 @@ bool view::draw() {
 
     if (ImGui::BeginTabBar("Main Layout Tabs")) {
         for (auto& tabbed_controller : tabs) {
-            if (ImGui::BeginTabItem(tabbed_controller.name)) {
-                tabbed_controller.controller(tabbed_controller.name, graph, logger);
+            if (ImGui::BeginTabItem(tabbed_controller->name)) {
+                tabbed_controller->draw(tabbed_controller->name, graph, logger);
 
                 ImGui::EndTabItem();
             }

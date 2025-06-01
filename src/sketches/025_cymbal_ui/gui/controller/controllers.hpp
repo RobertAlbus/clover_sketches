@@ -9,11 +9,30 @@
 #include "graph/graph.hpp"
 
 struct tabbed_controller {
+    // tabbed_controller(tabbed_controller&&) = default;
+    tabbed_controller(const char* name) : name{name} {};
+    virtual ~tabbed_controller() = default;
+
     const char* name;
-    void (*controller)(const char*, signal_graph&, log_bus_000&);
+    virtual void draw(const char* id, signal_graph& graph, log_bus_000& logger) = 0;
 };
 
-void controller_mixer(const char* id, signal_graph& graph, log_bus_000& logger);
-void controller_kick(const char* id, signal_graph& graph, log_bus_000& logger);
-void controller_ride(const char* id, signal_graph& graph, log_bus_000& logger);
-void controller_chord(const char* id, signal_graph& graph, log_bus_000& logger);
+struct controller_mixer : public tabbed_controller {
+    using tabbed_controller::tabbed_controller;
+    void draw(const char* id, signal_graph& graph, log_bus_000& logger) override;
+};
+
+struct controller_kick : public tabbed_controller {
+    using tabbed_controller::tabbed_controller;
+    void draw(const char* id, signal_graph& graph, log_bus_000& logger) override;
+};
+
+struct controller_ride : public tabbed_controller {
+    using tabbed_controller::tabbed_controller;
+    void draw(const char* id, signal_graph& graph, log_bus_000& logger) override;
+};
+
+struct controller_chord : public tabbed_controller {
+    using tabbed_controller::tabbed_controller;
+    void draw(const char* id, signal_graph& graph, log_bus_000& logger) override;
+};
