@@ -4,16 +4,16 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <vector>
+#include "lib/logging/logger.hpp"
 
-#include "context.hpp"
-
-// TODO: could set up `map<const char*, view_fn> tab_views;`
-// then auto populate the tabs into the GUI
+#include "graph/graph.hpp"
 
 struct tabbed_controller {
     const char* name;
-    void (*controller)(const char*, context&);
+    void (*controller)(const char*, signal_graph&, log_bus_000&);
 };
 
-extern std::vector<tabbed_controller> tabbed_controllers;
+void controller_mixer(const char* id, signal_graph& graph, log_bus_000& logger);
+void controller_kick(const char* id, signal_graph& graph, log_bus_000& logger);
+void controller_ride(const char* id, signal_graph& graph, log_bus_000& logger);
+void controller_chord(const char* id, signal_graph& graph, log_bus_000& logger);

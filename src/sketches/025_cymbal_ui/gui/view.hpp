@@ -4,7 +4,18 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "context.hpp"
+#include "graph/graph.hpp"
+#include <vector>
 
-void view_setup(context& props);
-bool view_draw(context& props);
+#include "controller/controllers.hpp"
+#include "lib/logging/logger.hpp"
+
+struct view {
+    std::vector<tabbed_controller> tabs;
+    signal_graph& graph;
+    log_bus_000& logger;
+
+    view(signal_graph& graph, log_bus_000& logger);
+    std::vector<tabbed_controller> create_tabs();
+    bool draw();
+};
