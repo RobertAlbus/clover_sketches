@@ -68,8 +68,8 @@ void GUI(context& ctx) {
     // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
 
-    // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", nullptr, nullptr);
+    auto window_name   = std::format("clover sketch: {}", ctx.render_name);
+    GLFWwindow* window = glfwCreateWindow(1280, 720, window_name.c_str(), nullptr, nullptr);
     if (window == nullptr) {
         // TODO - RETURN CODE: CAN'T RETURN 1, WHAT SHOULD I DO?
         return;
