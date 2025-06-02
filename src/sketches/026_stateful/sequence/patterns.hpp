@@ -18,28 +18,35 @@ struct pattern_t {
     std::vector<event_t> pattern;
 };
 
-namespace pattern {
+// OPEN QUESTION:
+// do I prefer creating patterns
+// - in functions (patterns struct)
+// - in ctor      (arrangement struct)
 
-extern std::vector<pattern_t<event>> kick;
-extern std::vector<pattern_t<event>> ride;
-extern std::vector<pattern_t<event_midi>> chord;
+struct patterns {
+    std::vector<pattern_t<event>> kick       = create_pattern_kick();
+    std::vector<pattern_t<event>> ride       = create_pattern_ride();
+    std::vector<pattern_t<event_midi>> chord = create_pattern_chord();
 
-}  // namespace pattern
+    std::vector<pattern_t<event>> create_pattern_kick();
+    std::vector<pattern_t<event>> create_pattern_ride();
+    std::vector<pattern_t<event_midi>> create_pattern_chord();
+};
 
-namespace arrangement {
+struct arrangement {
+    arrangement();
 
-// WARNING: this won't work for now
-// - env_bp in composition arn't aware of global time.
-// - meta frsq can handle different start times, but not
-//   yet propagating downward to instrument frsqs
-extern double playback_start;
+    // WARNING: this won't work for now
+    // - env_bp in composition arn't aware of global time.
+    // - meta frsq can handle different start times, but not
+    //   yet propagating downward to instrument frsqs
+    double playback_start;
 
-extern std::vector<event_meta_sq> kick;
-extern std::vector<event_meta_sq> ride;
-extern std::vector<event_meta_sq> chord;
-extern std::vector<event> bar;
+    std::vector<event_meta_sq> kick;
+    std::vector<event_meta_sq> ride;
+    std::vector<event_meta_sq> chord;
+    std::vector<event> bar;
 
-extern std::vector<bp_event_000> bp_env_kick_hp;
-extern std::vector<bp_event_000> bp_env_kick_verb_send;
-
-}  // namespace arrangement
+    std::vector<bp_event_000> bp_env_kick_hp;
+    std::vector<bp_event_000> bp_env_kick_verb_send;
+};

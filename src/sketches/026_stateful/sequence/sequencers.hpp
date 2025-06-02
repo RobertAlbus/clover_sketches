@@ -13,8 +13,12 @@
 
 #include "graph/graph.hpp"
 #include "sequence/event.hpp"
+#include "sequence/patterns.hpp"
 
 struct sequencers {
+    patterns patterns;
+    arrangement arrangement;
+
     log_bus_000& log;
     bar_grid& grid;
     signal_graph& graph;
