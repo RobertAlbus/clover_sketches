@@ -67,13 +67,6 @@ void draw_cymbal_000(const char* id, cymbal_000& cymbal) {
             cymbal.band_pass.m_coeffs = clover::dsp::bpf(cymbal.fs, cymbal.props.bpf_f0, cymbal.props.bpf_Q);
         }
 
-        /*
-            float hpf_f0           = 100;
-            float hpf_fmod_octaves = 8;
-            float hpf_Q            = 1;
-            float bpf_f0           = 3000;
-            float bpf_Q            = 1.3;
-        */
         ImGui::EndTable();
     }
     for (auto& osc : cymbal.oscs) {

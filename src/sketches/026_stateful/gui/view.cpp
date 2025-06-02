@@ -62,15 +62,11 @@ bool view::draw() {
 
     ImGui::NewLine();
     ImGui::NewLine();
+
     ImGui::Text("Framerate: %.2f", ImGui::GetIO().Framerate);
 
-    if (ImGui::Button("Bye!")) {
-        ImGui::End();
-        bool should_continue = false;
-        return should_continue;
-    }
+    bool should_continue = !ImGui::Button("Bye!");
 
     ImGui::End();  // End "MainDockSpaceHost"
-    bool should_continue = true;
     return should_continue;
 }

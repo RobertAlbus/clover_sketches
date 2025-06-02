@@ -24,6 +24,7 @@ struct patch_drums_t {
 
     // --------------------------------
     // RIDE
+
     std::array<peq_props_000, peq_000::SIZE> ride_peq_props;
     cymbal_props_000 ride_props;
 };

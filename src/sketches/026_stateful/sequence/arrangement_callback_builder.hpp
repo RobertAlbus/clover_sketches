@@ -45,31 +45,3 @@ std::function<void(frsq_024<voice_t, event_t>&, const event_meta_sq&)> arrangeme
                 0);
     };
 }
-
-// template <typename voice_t, frsq_data_base event_t>
-// std::function<void(frsq_024<voice_t, event_t>& voice, const event_meta_sq& event)> callback_for(
-//         frsq_024<frsq_024<voice_t, event_t>, event_meta_sq>& meta_frsq,
-//         frsq_024<voice_t, event_t>& voice,
-//         logger** logger,
-//         std::vector<std::vector<event_t>> patterns, std::string logging_name) {
-//     return [logger, logging_name, patterns](
-//                    frsq_024<voice_t, event_t>& voice, const event_meta_sq& event) mutable {
-//         if (logger && *logger) {
-//             gui_log_message msg;
-//             snprintf(
-//                     msg.text,
-//                     sizeof(msg.text),
-//                     " - %-16s %zu @ %f",
-//                     logging_name.c_str(),
-//                     event.pattern_index,
-//                     event.start_time);
-//             bool sent = (*logger)->gui.try_enqueue(msg);
-//             if (!sent) {
-//                 std::fprintf(
-//                         stderr, "failed to log to gui: arrangement callback for %s\n",
-//                         logging_name.c_str());
-//             }
-//         }
-//         voice.set_pattern(patterns[event.pattern_index]);
-//     };
-// }

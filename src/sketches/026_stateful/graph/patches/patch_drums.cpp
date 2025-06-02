@@ -10,6 +10,7 @@
 patch_drums_t::patch_drums_t() {
     // --------------------------------
     // KICK
+
     kick_drum_props = {
             .trim              = 0.976,
             .drive             = 2.024,
@@ -41,18 +42,6 @@ patch_drums_t::patch_drums_t() {
             .hpf_res = 0.707,
     };
 
-    /*
-
-    {
-        .taps     = {84.76161, 90.78044, 95.58359, 153.78731, 10288.444, 10688.31, 11003.869, 11241.436},
-        .fb_gain  = 0.87402976,
-        .lpf_cut  = 792.2515,
-        .lpf_res  = 0.707,
-        .hpf_cut  = 181.85687,
-        .hpf_res  = 0.707,
-    };
-
-    */
     kick_preverb_peq_props = {
             peq_props_000{
                     .freq    = 20,
@@ -114,6 +103,9 @@ patch_drums_t::patch_drums_t() {
                     .type    = peq_filter_type::lp,
             },
     };
+
+    // --------------------------------
+    // RIDE
 
     ride_props = {
             .freqs            = {150, 404, 1533, 1751, 13456, 17500},

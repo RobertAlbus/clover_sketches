@@ -29,7 +29,6 @@ void sequencers::tick() {
     frsq_arrangement_print.tick();
     meta_frsq_kick.tick();
     meta_frsq_ride.tick();
-    // std::println("==== we tickin ====");
     meta_frsq_chord.tick();
     frsq_kick.tick();
     frsq_ride.tick();
@@ -62,11 +61,6 @@ void sequencers::set_up_meta_sq(signal_graph& graph) {
     meta_frsq_chord.voices = std::span(&frsq_chord, 1);
 
     double duration_bars = grid.duration_bars;
-
-    // looping ? playback : render
-    if (grid.should_loop) {
-        duration_bars /= 2;
-    }
 
     meta_frsq_kick.callback_start =
             arrangement_callback_for<kick_drum_000, event>(log, grid, patterns.kick, "frsq_kick");

@@ -6,9 +6,6 @@
 #include "patches.hpp"
 
 patch_mix_t::patch_mix_t() {
-    // alignment sucks...
-    // could re-order mixer_track for gain first
-    // then format the float to have N decimals.
     mixer_tracks = mixer_list_000{
             {.name = "kick bus", .gain = 0.9},
             {.spacer = true},

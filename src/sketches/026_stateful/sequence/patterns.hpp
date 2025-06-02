@@ -20,7 +20,7 @@ struct pattern_t {
 
 // OPEN QUESTION:
 // do I prefer creating patterns
-// - in functions (patterns struct)
+// - in functions (patterns struct) (could also use free functions)
 // - in ctor      (arrangement struct)
 
 struct patterns {
@@ -36,9 +36,9 @@ struct patterns {
 struct arrangement {
     arrangement();
 
-    // WARNING: this won't work for now
-    // - env_bp in composition arn't aware of global time.
-    // - meta frsq can handle different start times, but not
+    // WARNING: playback_start won't work for now
+    // - env_bp in composition aren't aware of global time.
+    // - meta frsq can handle different start times (still true?), but not
     //   yet propagating downward to instrument frsqs
     double playback_start;
 

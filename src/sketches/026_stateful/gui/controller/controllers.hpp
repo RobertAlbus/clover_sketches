@@ -9,7 +9,6 @@
 #include "graph/graph.hpp"
 
 struct tabbed_controller {
-    // tabbed_controller(tabbed_controller&&) = default;
     tabbed_controller(const char* name) : name{name} {};
     virtual ~tabbed_controller() = default;
 

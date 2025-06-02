@@ -12,8 +12,6 @@ struct bar_grid {
     double duration_bars;
     bool should_loop;
 
-    // int_fast64_t duration = int_fast64_t(sp_bar * duration_bars) + 1;
-
     bar_grid(float fs, double bpm, double duration_bars, bool should_loop, double beats_per_bar = 4);
 
     double bars_to_samples(double bars);
