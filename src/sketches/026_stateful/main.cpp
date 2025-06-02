@@ -13,10 +13,10 @@ using namespace clover;
 using namespace io;
 
 int main(int, char *[]) {
-    context sharedProps;
+    context ctx;
 
-    std::thread Audio(AUDIO, std::ref(sharedProps));
-    std::thread Gui(GUI, std::ref(sharedProps));
+    std::thread Audio(AUDIO, std::ref(ctx));
+    std::thread Gui(GUI, std::ref(ctx));
 
     Audio.join();
     Gui.join();
