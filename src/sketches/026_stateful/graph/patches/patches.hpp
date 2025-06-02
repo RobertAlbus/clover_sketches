@@ -53,10 +53,8 @@ struct patch_mix_t {
     std::array<peq_props_000, peq_000::SIZE> main_peq_props;
 };
 
-namespace patch {
-
-extern patch_drums_t drums;
-extern patch_synth_t synth;
-extern patch_mix_t mix;
-
-}  // namespace patch
+struct patch {
+    patch_drums_t drums;
+    patch_synth_t synth;
+    patch_mix_t mix;
+};
