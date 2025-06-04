@@ -107,6 +107,7 @@ struct peq_000 {
     std::pair<float, float> tick(std::pair<float, float> in);
 
     void set(size_t i, float new_freq, float new_reso, float new_gain);
+    void set(size_t i, const peq_props_000& props);
     void freq(size_t i, float value);
     void reso(size_t i, float value);
     void gain(size_t i, float value);

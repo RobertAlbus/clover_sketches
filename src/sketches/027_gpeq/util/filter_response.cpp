@@ -21,7 +21,7 @@ void log_spaced_freqs(std::vector<float>& out, float start_freq, float stop_freq
     }
 }
 
-void compute_response(
+void compute_complex_response(
         const clover::dsp::iir_coeffs& coeffs, complex_response& out, const std::vector<float>& freqs) {
     if (out.size() != freqs.size())
         throw std::invalid_argument(std::format(
