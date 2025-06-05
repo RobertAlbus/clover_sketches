@@ -41,18 +41,23 @@ bool nearly_equal(float a, float b) {
 }
 
 bool operator==(const peq_props_000& a, const peq_props_000& b) {
-    return                                             //
-            a.type == b.type &&                        //
-            a.enabled == b.enabled &&                  //
-            nearly_equal(a.freq, b.freq) &&            //
-            nearly_equal(a.reso, b.reso) &&            //
-            (                                          //
-                    (a.type == peq_filter_type::ls ||  //
-                     a.type == peq_filter_type::hs ||  //
-                     a.type == peq_filter_type::eq     //
-                     ) &&                              //
-                    nearly_equal(a.gain, b.gain)       //
+    bool is_equal =                          //
+            a.type == b.type &&              //
+            a.enabled == b.enabled &&        //
+            nearly_equal(a.freq, b.freq) &&  //
+            nearly_equal(a.reso, b.reso);
+    bool has_gain =
+            (a.type == peq_filter_type::ls ||  //
+             a.type == peq_filter_type::hs ||  //
+             a.type == peq_filter_type::eq     //
             );
+
+    if (has_gain) {
+        bool is_gain_equal = nearly_equal(a.gain, b.gain);
+        return is_equal && is_gain_equal;
+    }
+
+    return is_equal;
 }
 
 bool operator!=(const peq_props_000& a, const peq_props_000& b) {
@@ -137,6 +142,13 @@ void peq_000::set(size_t i, float new_freq, float new_reso, float new_gain) {
     props[i].freq = new_freq;
     props[i].reso = new_reso;
     props[i].gain = new_gain;
+    if (props[i].enabled) {
+        calculate_coefficients(i);
+    }
+}
+
+void peq_000::set(size_t i, const peq_props_000& new_props) {
+    props[i] = new_props;
     if (props[i].enabled) {
         calculate_coefficients(i);
     }
