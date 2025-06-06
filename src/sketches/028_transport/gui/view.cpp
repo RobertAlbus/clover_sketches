@@ -10,13 +10,14 @@
 #include "graph/graph.hpp"
 #include "view.hpp"
 
-view::view(signal_graph& graph, log_bus_000& logger) : graph{graph}, logger{logger} {
+view::view(sequencers& sqs, signal_graph& graph, log_bus_000& logger)
+    : sqs{sqs}, graph{graph}, logger{logger} {
     tabs = std::move(create_tabs());
 }
 
 std::vector<std::unique_ptr<tabbed_controller>> view::create_tabs() {
     std::vector<std::unique_ptr<tabbed_controller>> new_tabs;
-    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer", graph.main_eq));
+    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer", sqs, graph.main_eq));
     new_tabs.emplace_back(std::make_unique<controller_kick>("kick"));
     new_tabs.emplace_back(std::make_unique<controller_ride>("ride"));
     new_tabs.emplace_back(std::make_unique<controller_chord>("chord"));

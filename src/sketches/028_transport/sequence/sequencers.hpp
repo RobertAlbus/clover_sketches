@@ -39,6 +39,11 @@ struct sequencers {
     sequencers(signal_graph& graph, bar_grid& grid, log_bus_000& log);
     void tick();
 
+    bool is_playing = false;
+    void play_from_bar(double bar);
+    void play();
+    void stop();
+
     void set_up();
     void set_up_kick(signal_graph& graph);
     void set_up_ride(signal_graph& graph);

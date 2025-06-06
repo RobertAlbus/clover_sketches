@@ -26,6 +26,8 @@ void sequencers::set_up() {
     set_up_meta_sq(graph);
 }
 void sequencers::tick() {
+    if (!is_playing)
+        return;
     frsq_arrangement_print.tick();
     meta_frsq_kick.tick();
     meta_frsq_ride.tick();
@@ -33,6 +35,33 @@ void sequencers::tick() {
     frsq_kick.tick();
     frsq_ride.tick();
     frsq_chord.tick();
+}
+
+void sequencers::play() {
+    play_from_bar(0);
+}
+
+void sequencers::play_from_bar(double bar) {
+    double duration_bars   = grid.duration_bars;
+    double bars_in_samples = grid.bars_to_samples(duration_bars);
+
+    meta_frsq_kick.set_pattern(arrangement.kick, bars_in_samples, duration_bars, bar);
+    meta_frsq_ride.set_pattern(arrangement.ride, bars_in_samples, duration_bars, bar);
+    meta_frsq_chord.set_pattern(arrangement.chord, bars_in_samples, duration_bars, bar);
+
+    is_playing = true;
+}
+
+void sequencers::stop() {
+    frsq_arrangement_print.choke_all();
+    meta_frsq_kick.choke_all();
+    meta_frsq_ride.choke_all();
+    meta_frsq_chord.choke_all();
+    frsq_kick.choke_all();
+    frsq_ride.choke_all();
+    frsq_chord.choke_all();
+
+    is_playing = false;
 }
 
 void sequencers::set_up_kick(signal_graph& graph) {
@@ -70,16 +99,6 @@ void sequencers::set_up_meta_sq(signal_graph& graph) {
 
     meta_frsq_chord.callback_start = arrangement_callback_for<subtractive_synth_000, event_midi>(
             log, grid, patterns.chord, "frsq_chord");
-
-    meta_frsq_kick.set_pattern(
-            arrangement.kick, grid.bars_to_samples(duration_bars), duration_bars, arrangement.playback_start);
-    meta_frsq_ride.set_pattern(
-            arrangement.ride, grid.bars_to_samples(duration_bars), duration_bars, arrangement.playback_start);
-    meta_frsq_chord.set_pattern(
-            arrangement.chord,
-            grid.bars_to_samples(duration_bars),
-            duration_bars,
-            arrangement.playback_start);
 }
 
 void sequencers::set_up_arrangement_print(signal_graph& graph) {

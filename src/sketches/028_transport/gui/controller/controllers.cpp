@@ -27,6 +27,16 @@ void controller_mixer::draw(const char* id, signal_graph& graph, log_bus_000& lo
     static double y = 0.5f;
 
     static bool show_plot = true;
+
+    if (ImGui::Button("play")) {
+        sqs.play();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("stop")) {
+        sqs.stop();
+    }
+    ImGui::Spacing();
+
     ImGui::Checkbox("show plot", &show_plot);
     if (show_plot) {
         master_peq.draw();
