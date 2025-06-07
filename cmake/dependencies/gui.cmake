@@ -13,7 +13,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
         glfw3
         GIT_SHALLOW TRUE
         GIT_REPOSITORY https://github.com/glfw/glfw.git
-        GIT_TAG        "3.3.4"
+        GIT_TAG        "3.4"
     )
 
     # --------------------------------
