@@ -54,6 +54,10 @@ struct frsq_024 {
         voices_time_elapsed.fill(std::numeric_limits<int>::max());
     }
 
+    void trigger_most_recent_event() {
+        callback_start(voices[0], *last_event);
+    }
+
     void set_pattern(
             std::span<frsq_data_t> new_pattern_data,
             double new_duration_samples,
@@ -63,27 +67,18 @@ struct frsq_024 {
         duration_relative = new_duration_relative;
         pattern_data      = new_pattern_data;
 
-        if (from_time_relative == 0) {
-            current_time_absolute          = 0;
-            current_time_absolute_fraction = 0;
-        } else if (from_time_relative > duration_relative) {
-            from_time_relative = std::fmod(from_time_relative, duration_relative);
+        from_time_relative = std::fmod(from_time_relative, duration_relative);
+        if (from_time_relative < 0)
+            from_time_relative += duration_relative;
 
-            double current_time_samples    = (from_time_relative / duration_relative) * duration_absolute;
-            current_time_absolute          = int64_t(current_time_samples);
-            current_time_absolute_fraction = current_time_samples - current_time_absolute;
-        } else if (from_time_relative < 0) {
-            from_time_relative = std::fmod(from_time_relative, duration_relative);
-
-            double current_time_samples    = (from_time_relative / duration_relative) * duration_absolute;
-            current_time_absolute          = int64_t(current_time_samples);
-            current_time_absolute_fraction = current_time_samples - current_time_absolute;
-        }
+        double current_time_samples    = (from_time_relative / duration_relative) * duration_absolute;
+        current_time_absolute          = int64_t(current_time_samples);
+        current_time_absolute_fraction = current_time_samples - current_time_absolute;
         determine_last_event();
     }
 
     double current_time_relative() {
-        double current_time_abs = double(current_time_absolute) + current_time_absolute;
+        double current_time_abs = double(current_time_absolute) + current_time_absolute_fraction;
         return (current_time_abs / duration_absolute) * duration_relative;
     }
 

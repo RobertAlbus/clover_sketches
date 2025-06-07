@@ -28,8 +28,13 @@ void controller_mixer::draw(const char* id, signal_graph& graph, log_bus_000& lo
 
     static bool show_plot = true;
 
+    static float bar = 0;
+    ImGui::PushItemWidth(100);
+    ImGui::DragFloat("##bar", &bar, 0.1f, 0, 31, "%.1f");
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
     if (ImGui::Button("play")) {
-        sqs.play();
+        sqs.play_from_bar(bar);
     }
     ImGui::SameLine();
     if (ImGui::Button("stop")) {

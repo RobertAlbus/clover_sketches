@@ -73,6 +73,7 @@ void AUDIO(context &ctx) {
             buffer.data.resize(
                     size_t(render_ctx.grid.duration_samples() * render_ctx.channel_count_out), 0.f);
 
+            render_ctx.sequencers.play();
             for (auto frame : std::views::iota(0, int(render_ctx.grid.duration_samples()))) {
                 if (abort_render) {
                     std::println("canceled render: {}", render_ctx.render_name);

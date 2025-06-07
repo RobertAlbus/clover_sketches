@@ -41,13 +41,19 @@ void sequencers::play() {
     play_from_bar(0);
 }
 
-void sequencers::play_from_bar(double bar) {
-    double duration_bars   = grid.duration_bars;
-    double bars_in_samples = grid.bars_to_samples(duration_bars);
+void sequencers::play_from_bar(double start_bar) {
+    double duration_bars            = grid.duration_bars;
+    double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
 
-    meta_frsq_kick.set_pattern(arrangement.kick, bars_in_samples, duration_bars, bar);
-    meta_frsq_ride.set_pattern(arrangement.ride, bars_in_samples, duration_bars, bar);
-    meta_frsq_chord.set_pattern(arrangement.chord, bars_in_samples, duration_bars, bar);
+    frsq_arrangement_print.set_pattern(arrangement.bar, duration_bars_in_samples, duration_bars, start_bar);
+    meta_frsq_kick.set_pattern(arrangement.kick, duration_bars_in_samples, duration_bars, start_bar);
+    meta_frsq_ride.set_pattern(arrangement.ride, duration_bars_in_samples, duration_bars, start_bar);
+    meta_frsq_chord.set_pattern(arrangement.chord, duration_bars_in_samples, duration_bars, start_bar);
+
+    frsq_arrangement_print.trigger_most_recent_event();
+    meta_frsq_kick.trigger_most_recent_event();
+    meta_frsq_ride.trigger_most_recent_event();
+    meta_frsq_chord.trigger_most_recent_event();
 
     is_playing = true;
 }
@@ -91,25 +97,21 @@ void sequencers::set_up_meta_sq(signal_graph& graph) {
 
     double duration_bars = grid.duration_bars;
 
-    meta_frsq_kick.callback_start =
-            arrangement_callback_for<kick_drum_000, event>(log, grid, patterns.kick, "frsq_kick");
+    meta_frsq_kick.callback_start = arrangement_callback_for<kick_drum_000, event>(
+            meta_frsq_kick, log, grid, patterns.kick, "frsq_kick");
 
-    meta_frsq_ride.callback_start =
-            arrangement_callback_for<cymbal_024, event>(log, grid, patterns.ride, "frsq_ride");
+    meta_frsq_ride.callback_start = arrangement_callback_for<cymbal_024, event>(
+            meta_frsq_ride, log, grid, patterns.ride, "frsq_ride");
 
     meta_frsq_chord.callback_start = arrangement_callback_for<subtractive_synth_000, event_midi>(
-            log, grid, patterns.chord, "frsq_chord");
+            meta_frsq_chord, log, grid, patterns.chord, "frsq_chord");
 }
 
 void sequencers::set_up_arrangement_print(signal_graph& graph) {
     frsq_arrangement_print.voices            = std::span(arrangement.bar.begin(), 1);
     frsq_arrangement_print.duration_absolute = grid.bars_to_samples(grid.duration_bars);
     frsq_arrangement_print.duration_relative = grid.duration_bars;
-    frsq_arrangement_print.set_pattern(
-            arrangement.bar,
-            grid.bars_to_samples(grid.duration_bars),
-            grid.duration_bars,
-            arrangement.playback_start);
+
     frsq_arrangement_print.callback_start = [&](event& voice, const event& event) {
         log_message_000 msg;
         snprintf(msg.text, sizeof(msg.text), "\n--------\n bar: %d", int(event.start_time));
