@@ -17,7 +17,7 @@
 
 struct gpeq_ui_028 {
     const char* name;
-    gpeq_ui_028(const char* name, size_t num_graph_points, peq_000& peq);
+    gpeq_ui_028(const char* name, peq_000& peq, size_t num_graph_points = 500);
 
     std::array<complex_response, peq_000::SIZE> complex_responses;
     complex_response cumulative_complex_response;

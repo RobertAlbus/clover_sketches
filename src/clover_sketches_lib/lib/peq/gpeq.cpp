@@ -24,11 +24,11 @@ static inline double transform_inverse_log2(double v, void*) {
     return exp2(v);
 }
 
-gpeq_ui_028::gpeq_ui_028(const char* name, size_t num_graph_points, peq_000& peq)
+gpeq_ui_028::gpeq_ui_028(const char* name, peq_000& peq, size_t num_graph_points)
     :  //
       name(name),
       peq(peq),
-      computed(num_graph_points){
+      computed(num_graph_points) {
     gui_peq_props = peq.props;
 
     freqs.resize(num_graph_points);
