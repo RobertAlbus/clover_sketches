@@ -17,7 +17,7 @@
 
 struct gpeq_ui_028 {
     const char* name;
-    gpeq_ui_028(const char* name, size_t resolution, peq_000& peq);
+    gpeq_ui_028(const char* name, size_t num_graph_points, peq_000& peq);
 
     std::array<complex_response, peq_000::SIZE> complex_responses;
     complex_response cumulative_complex_response;
@@ -27,9 +27,6 @@ struct gpeq_ui_028 {
 
     std::array<peq_props_000, peq_000::SIZE> gui_peq_props;
     peq_000& peq;
-    size_t resolution;
-
-    std::vector<float> magnitudes_cache;
 
     void update();
     void update_all();

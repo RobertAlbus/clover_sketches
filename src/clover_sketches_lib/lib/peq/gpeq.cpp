@@ -24,15 +24,14 @@ static inline double transform_inverse_log2(double v, void*) {
     return exp2(v);
 }
 
-gpeq_ui_028::gpeq_ui_028(const char* name, size_t resolution, peq_000& peq)
+gpeq_ui_028::gpeq_ui_028(const char* name, size_t num_graph_points, peq_000& peq)
     :  //
       name(name),
       peq(peq),
-      computed(resolution),
-      resolution(resolution) {
+      computed(num_graph_points){
     gui_peq_props = peq.props;
 
-    freqs.resize(resolution);
+    freqs.resize(num_graph_points);
     log_spaced_freqs(freqs, 20, 24000);
     axis_ticks.reserve(133);
     for (auto i : std::views::iota(1, 12) | std::views::reverse) {
@@ -49,12 +48,10 @@ gpeq_ui_028::gpeq_ui_028(const char* name, size_t resolution, peq_000& peq)
     axis_ticks.emplace_back(24000);
 
     for (auto& complex_response : complex_responses)
-        complex_response.resize(resolution);
-    cumulative_complex_response.resize(resolution);
-    computed.angles.resize(resolution);
-    computed.magnitudes.resize(resolution);
-
-    magnitudes_cache.resize(resolution);
+        complex_response.resize(num_graph_points);
+    cumulative_complex_response.resize(num_graph_points);
+    computed.angles.resize(num_graph_points);
+    computed.magnitudes.resize(num_graph_points);
 
     update_all();
 }
