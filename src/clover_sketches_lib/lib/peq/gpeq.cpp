@@ -123,7 +123,7 @@ bool gpeq_ui_028::draw() {
 }
 
 void gpeq_ui_028::draw_response() {
-    if (ImPlot::BeginPlot(name, ImVec2(-1, 0), ImPlotCond_Always)) {
+    if (ImPlot::BeginPlot(name, ImVec2(-1, 0), ImPlotFlags_Crosshairs)) {
         ImPlot::SetupAxis(ImAxis_X1, nullptr, ImPlotAxisFlags_NoTickLabels);
         ImPlot::SetupAxisTicks(ImAxis_X1, axis_ticks.data(), int(axis_ticks.size()));
         ImPlot::SetupAxisScale(ImAxis_X1, transform_forward_log2, transform_inverse_log2);
