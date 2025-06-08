@@ -59,3 +59,39 @@ struct patch {
     patch_synth_t synth;
     patch_mix_t mix;
 };
+
+/*
+high reso eq boost (with cut mod) into this "kick" chain is mega heady and tribal
+
+{
+    .taps     = {617.7716, 687.3982, 797.0081, 17977.783, 22838.275, 259.32178, 60.076298, 54.269703},
+    .fb_gain  = 0.95,
+    .lpf_cut  = 1290.2051,
+    .lpf_res  = 0.707,
+    .hpf_cut  = 54.57113,
+    .hpf_res  = 0.707,
+};
+
+{
+            .trim              = 0.976,
+            .drive             = 7.024,
+            .amp_a             = 30,
+            .amp_d             = 477.17914,
+            .amp_s             = 0.23809522,
+            .amp_r             = 298.3214,
+            .cut_a             = 1,
+            .cut_d             = 1524.3208,
+            .cut_s             = 0,
+            .cut_r             = 1.0000596,
+            .filt_q            = 1.3999405,
+            .pitch_a           = 1,
+            .pitch_d           = 1690.4856,
+            .pitch_s           = 0,
+            .pitch_r           = 1000,
+            .pitch_fundamental = 43.653526,
+            .cut_fundamental   = 100,
+            .pitch_range       = 1,
+            .cut_range         = 4,
+        };
+
+*/
