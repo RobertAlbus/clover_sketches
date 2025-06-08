@@ -8,7 +8,6 @@
 #include "lib/kick_drum/draw_kick_drum.hpp"
 #include "lib/logging/draw_gui_log_canvas.hpp"
 #include "lib/mixer/draw_mixer.hpp"
-#include "lib/peq/draw_peq.hpp"
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
@@ -39,15 +38,13 @@ void controller_mixer::draw(const char* id, signal_graph& graph, log_bus_000& lo
     if (ImGui::Button("stop")) {
         sqs.stop();
     }
-    ImGui::Spacing();
+    ImGui::NewLine();
 
-    ImGui::Checkbox("show plot", &show_plot);
-    if (show_plot) {
-        master_peq.draw();
-    }
-
+    ImGui::NewLine();
     draw_mixer_000("new_mix", &graph.mixer_tracks);
-    draw_peq_000("##master_peq", graph.main_eq);
+    ImGui::NewLine();
+    master_peq.draw();
+    ImGui::NewLine();
 
     ImGui::PopID();
     ImGui::PopID();
@@ -58,15 +55,13 @@ void controller_kick::draw(const char* id, signal_graph& graph, log_bus_000& log
     ImGui::PushID(id);
 
     draw_kick_drum_000("kick_synth", graph.kick);
-    if (ImGui::BeginTable("##kick_table", 2)) {
-        ImGui::TableNextColumn();
-        draw_peq_000("##kick_preverb_peq", graph.kick_preverb_peq);
-        ImGui::TableNextColumn();
-        ImGui::Text("kick postverb peq");
-        draw_peq_000("##kick_out_peq", graph.kick_out_peq);
-        ImGui::EndTable();
-    }
+    ImGui::NewLine();
+    gpeq_send.draw();
+    ImGui::NewLine();
     draw_fdn8_023("##kick_fdn", &graph.kick_verb, nullptr);
+    ImGui::NewLine();
+    gpeq_post.draw();
+    ImGui::NewLine();
 
     ImGui::PopID();
     ImGui::PopID();
@@ -77,7 +72,9 @@ void controller_ride::draw(const char* id, signal_graph& graph, log_bus_000& log
     ImGui::PushID(id);
 
     draw_cymbal_000("ride", graph.ride);
-    draw_peq_000("##ride_eq", graph.ride_peq);
+    ImGui::NewLine();
+    gpeq_cymbal.draw();
+    ImGui::NewLine();
 
     ImGui::PopID();
     ImGui::PopID();
@@ -86,18 +83,14 @@ void controller_ride::draw(const char* id, signal_graph& graph, log_bus_000& log
 void controller_chord::draw(const char* id, signal_graph& graph, log_bus_000& logger) {
     ImGui::PushID(name);
     ImGui::PushID(id);
+
+    gpeq_send.draw();
+    ImGui::NewLine();
     draw_fdn8_023("fdn", &graph.chord_verb_L, &graph.chord_verb_R);
-    if (ImGui::BeginTable("##peq_table", 2)) {
-        ImGui::TableNextColumn();
-        ImGui::Text("chord preverb peq");
-        draw_peq_000("##preverb_peq", graph.chord_preverb_peq);
+    ImGui::NewLine();
+    gpeq_post.draw();
+    ImGui::NewLine();
 
-        ImGui::TableNextColumn();
-        ImGui::Text("chord out peq");
-        draw_peq_000("##postverb_peq", graph.chord_peq);
-
-        ImGui::EndTable();
-    }
     ImGui::PopID();
     ImGui::PopID();
 }
