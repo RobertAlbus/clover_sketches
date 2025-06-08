@@ -6,7 +6,6 @@
 
 #include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
-#include "lib/logging/draw_gui_log_canvas.hpp"
 #include "lib/mixer/draw_mixer.hpp"
 #include "lib/peq/gpeq.hpp"
 
@@ -17,21 +16,7 @@
 
 void controller_mixer::draw() {
     ImGui::PushID(name);
-    static log_canvas_000 canvas;
-    draw_gui_log_canvas_000("log_canvas", canvas, logger, nullptr);
 
-    static float bar = 0;
-    ImGui::PushItemWidth(100);
-    ImGui::DragFloat("##bar", &bar, 0.1f, 0, 31, "%.1f");
-    ImGui::PopItemWidth();
-    ImGui::SameLine();
-    if (ImGui::Button("play")) {
-        sqs.play_from_bar(bar);
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("stop")) {
-        sqs.stop();
-    }
     ImGui::NewLine();
 
     ImGui::NewLine();
