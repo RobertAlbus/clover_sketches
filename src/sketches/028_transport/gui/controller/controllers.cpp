@@ -15,9 +15,8 @@
 
 #include "controllers.hpp"
 
-void controller_mixer::draw(const char* id, signal_graph& graph, log_bus_000& logger) {
+void controller_mixer::draw() {
     ImGui::PushID(name);
-    ImGui::PushID(id);
     static log_canvas_000 canvas;
     draw_gui_log_canvas_000("log_canvas", canvas, logger, nullptr);
 
@@ -47,12 +46,10 @@ void controller_mixer::draw(const char* id, signal_graph& graph, log_bus_000& lo
     ImGui::NewLine();
 
     ImGui::PopID();
-    ImGui::PopID();
 }
 
-void controller_kick::draw(const char* id, signal_graph& graph, log_bus_000& logger) {
+void controller_kick::draw() {
     ImGui::PushID(name);
-    ImGui::PushID(id);
 
     draw_kick_drum_000("kick_synth", graph.kick);
     ImGui::NewLine();
@@ -64,12 +61,10 @@ void controller_kick::draw(const char* id, signal_graph& graph, log_bus_000& log
     ImGui::NewLine();
 
     ImGui::PopID();
-    ImGui::PopID();
 }
 
-void controller_ride::draw(const char* id, signal_graph& graph, log_bus_000& logger) {
+void controller_ride::draw() {
     ImGui::PushID(name);
-    ImGui::PushID(id);
 
     draw_cymbal_000("ride", graph.ride);
     ImGui::NewLine();
@@ -77,12 +72,10 @@ void controller_ride::draw(const char* id, signal_graph& graph, log_bus_000& log
     ImGui::NewLine();
 
     ImGui::PopID();
-    ImGui::PopID();
 }
 
-void controller_chord::draw(const char* id, signal_graph& graph, log_bus_000& logger) {
+void controller_chord::draw() {
     ImGui::PushID(name);
-    ImGui::PushID(id);
 
     gpeq_send.draw();
     ImGui::NewLine();
@@ -91,6 +84,5 @@ void controller_chord::draw(const char* id, signal_graph& graph, log_bus_000& lo
     gpeq_post.draw();
     ImGui::NewLine();
 
-    ImGui::PopID();
     ImGui::PopID();
 }

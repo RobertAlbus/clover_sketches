@@ -17,12 +17,10 @@ view::view(sequencers& sqs, signal_graph& graph, log_bus_000& logger)
 
 std::vector<std::unique_ptr<tabbed_controller>> view::create_tabs() {
     std::vector<std::unique_ptr<tabbed_controller>> new_tabs;
-    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer", sqs, graph.main_eq));
-    new_tabs.emplace_back(
-            std::make_unique<controller_kick>("kick", graph.kick_preverb_peq, graph.kick_out_peq));
-    new_tabs.emplace_back(std::make_unique<controller_ride>("ride", graph.ride_peq));
-    new_tabs.emplace_back(
-            std::make_unique<controller_chord>("chord", graph.chord_preverb_peq, graph.chord_peq));
+    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer", sqs, graph, logger));
+    new_tabs.emplace_back(std::make_unique<controller_kick>("kick", sqs, graph, logger));
+    new_tabs.emplace_back(std::make_unique<controller_ride>("ride", sqs, graph, logger));
+    new_tabs.emplace_back(std::make_unique<controller_chord>("chord", sqs, graph, logger));
     return new_tabs;
 }
 
@@ -52,7 +50,7 @@ bool view::draw() {
     if (ImGui::BeginTabBar("Main Layout Tabs")) {
         for (auto& tabbed_controller : tabs) {
             if (ImGui::BeginTabItem(tabbed_controller->name)) {
-                tabbed_controller->draw(tabbed_controller->name, graph, logger);
+                tabbed_controller->draw();
 
                 ImGui::EndTabItem();
             }
