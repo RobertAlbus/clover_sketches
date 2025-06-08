@@ -22,7 +22,7 @@ struct controller_mixer : public tabbed_controller {
     controller_mixer(const char* name, sequencers& sqs, peq_000& master_peq)
         : tabbed_controller{name}, sqs(sqs), master_peq("master eq", 1000, master_peq) {};
 
-    gpeq_ui master_peq;
+    gpeq_ui_028 master_peq;
     sequencers& sqs;
 
     void draw(const char* id, signal_graph& graph, log_bus_000& logger) override;

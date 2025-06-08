@@ -32,9 +32,9 @@ static inline double transform_inverse_log2(double v, void*) {
     return exp2(v);
 }
 
-struct gpeq_ui {
+struct gpeq_ui_028 {
     const char* name;
-    gpeq_ui(const char* name, size_t resolution, peq_000& peq)
+    gpeq_ui_028(const char* name, size_t resolution, peq_000& peq)
         :  //
           name(name),
           peq(peq),
