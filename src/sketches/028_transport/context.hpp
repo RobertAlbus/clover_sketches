@@ -15,14 +15,13 @@
 
 const float base_duration_bars = 32;
 struct context {
-    context(bool render_mode = false)
-        : duration_bars(render_mode ? base_duration_bars * 2.f : base_duration_bars) {
+    context(bool render_mode = false) {
         should_loop = !render_mode;
     }
-    float fs  = 48000;
-    float bpm = 124;
-    float duration_bars;
-    bool should_loop = true;
+    float fs            = 48000;
+    float bpm           = 124;
+    float duration_bars = 32;
+    bool should_loop    = true;
 
     int channel_count_out = 2;
     const std::string render_name{"028_transport"};
