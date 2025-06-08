@@ -123,14 +123,27 @@ bool gpeq_ui_028::draw() {
 }
 
 void gpeq_ui_028::draw_response() {
+    float x_offset = ImGui::GetCursorPosX();
     if (ImPlot::BeginPlot(name, ImVec2(-1, 0), ImPlotFlags_Crosshairs)) {
         ImPlot::SetupAxis(ImAxis_X1, nullptr, ImPlotAxisFlags_NoTickLabels);
         ImPlot::SetupAxisTicks(ImAxis_X1, axis_ticks.data(), int(axis_ticks.size()));
         ImPlot::SetupAxisScale(ImAxis_X1, transform_forward_log2, transform_inverse_log2);
-        ImPlot::PlotLine("magnitude", freqs.data(), computed.magnitudes.data(), (int)freqs.size());
-        ImPlot::PlotLine("phase", freqs.data(), computed.angles.data(), (int)freqs.size(), ImPlotCond_Always);
+
+        if (should_draw_magnitude) {
+            ImPlot::PlotLine("magnitude", freqs.data(), computed.magnitudes.data(), (int)freqs.size());
+        }
+
+        if (should_draw_phase) {
+            ImPlot::PlotLine(
+                    "phase", freqs.data(), computed.angles.data(), (int)freqs.size(), ImPlotCond_Always);
+        }
+
         ImPlot::EndPlot();
     }
+    ImGui::SetCursorPosX(x_offset);
+    ImGui::Checkbox("magnitude", &should_draw_magnitude);
+    ImGui::SameLine();
+    ImGui::Checkbox("phase", &should_draw_phase);
 }
 
 bool gpeq_ui_028::draw_controls() {

@@ -25,6 +25,9 @@ struct gpeq_ui_028 {
     std::vector<double> axis_ticks;
     computed_response computed;
 
+    bool should_draw_magnitude = true;
+    bool should_draw_phase     = false;
+
     std::array<peq_props_000, peq_000::SIZE> gui_peq_props;
     peq_000& peq;
 
