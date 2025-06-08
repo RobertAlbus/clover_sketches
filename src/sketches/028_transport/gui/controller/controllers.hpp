@@ -4,8 +4,8 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "gui/components/gpeq.hpp"
 #include "lib/logging/logger.hpp"
+#include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
 #include "sequence/sequencers.hpp"

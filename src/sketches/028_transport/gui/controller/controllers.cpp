@@ -2,11 +2,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <print>
-
-#include "graph/graph.hpp"
-#include "gui/components/cymbal_000.hpp"
-#include "gui/components/gpeq.hpp"
 #include "imgui.h"
 
 #include "lib/fdn/draw_fdn8_023.hpp"
@@ -14,6 +9,10 @@
 #include "lib/logging/draw_gui_log_canvas.hpp"
 #include "lib/mixer/draw_mixer.hpp"
 #include "lib/peq/draw_peq.hpp"
+#include "lib/peq/gpeq.hpp"
+
+#include "graph/graph.hpp"
+#include "gui/components/cymbal_000.hpp"
 
 #include "controllers.hpp"
 

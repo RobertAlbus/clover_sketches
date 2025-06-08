@@ -5,7 +5,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <algorithm>
-#include <print>
 #include <ranges>
 
 #include "imgui-knobs.h"
@@ -16,7 +15,7 @@
 #include "implot.h"
 #include "lib/peq/peq.hpp"
 
-#include "util/filter_response.hpp"
+#include "filter_response.hpp"
 
 /*
 # first iteration
