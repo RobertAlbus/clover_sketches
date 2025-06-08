@@ -18,7 +18,11 @@ void transport_ui_028::draw() {
     ImGui::PopItemWidth();
     ImGui::SameLine();
     if (ImGui::Button(is_playing ? "stop" : "play")) {
-        is_playing ? stop_action() : play_action(bar);
-        is_playing = !is_playing;
+        toggle_state();
     }
+}
+
+void transport_ui_028::toggle_state() {
+    is_playing ? stop_action() : play_action(bar);
+    is_playing = !is_playing;
 }

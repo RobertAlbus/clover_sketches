@@ -49,6 +49,12 @@ bool view::draw() {
     ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
 
     // ----------------------------------------------------------------
+    // KEY HANDLING
+    if (ImGui::IsKeyPressed(ImGuiKey_Space, false)) {
+        transport.toggle_state();
+    }
+
+    // ----------------------------------------------------------------
     // MENU BAR
 
     if (ImGui::BeginMainMenuBar()) {

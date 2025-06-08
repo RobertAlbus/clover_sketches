@@ -14,4 +14,5 @@ struct transport_ui_028 {
     std::function<void(float)> play_action;
     std::function<void()> stop_action;
     void draw();
+    void toggle_state();
 };
