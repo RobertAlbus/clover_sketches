@@ -20,11 +20,6 @@ void controller_mixer::draw() {
     static log_canvas_000 canvas;
     draw_gui_log_canvas_000("log_canvas", canvas, logger, nullptr);
 
-    static double x = 0.5f;
-    static double y = 0.5f;
-
-    static bool show_plot = true;
-
     static float bar = 0;
     ImGui::PushItemWidth(100);
     ImGui::DragFloat("##bar", &bar, 0.1f, 0, 31, "%.1f");
