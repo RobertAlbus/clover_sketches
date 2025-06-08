@@ -60,20 +60,21 @@ void AUDIO(context &ctx) {
     if (SHOULD_RENDER) {
         render_thread = std::thread([&abort_render]() {
             context render_ctx{SHOULD_RENDER};
-
             std::println("starting render: {}", render_ctx.render_name);
 
-            auto audio_callback =
-                    create_audio_callback(render_ctx.grid, render_ctx.graph, render_ctx.sequencers);
+            int render_repeat_count     = 2;
+            int render_duration_samples = int(render_repeat_count * render_ctx.grid.duration_samples()) + 1;
+            int render_data_size        = render_duration_samples * render_ctx.channel_count_out;
 
             audio_buffer buffer;
             buffer.channels    = render_ctx.channel_count_out;
             buffer.sample_rate = int(render_ctx.grid.fs);
-            buffer.data.resize(
-                    size_t(render_ctx.grid.duration_samples() * render_ctx.channel_count_out), 0.f);
+            buffer.data.resize(render_data_size, 0.f);
 
+            auto audio_callback =
+                    create_audio_callback(render_ctx.grid, render_ctx.graph, render_ctx.sequencers);
             render_ctx.sequencers.play();
-            for (auto frame : std::views::iota(0, int(render_ctx.grid.duration_samples()))) {
+            for (auto frame : std::views::iota(0, render_duration_samples)) {
                 if (abort_render) {
                     std::println("canceled render: {}", render_ctx.render_name);
                     return;
