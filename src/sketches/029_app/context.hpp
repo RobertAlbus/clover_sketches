@@ -33,10 +33,5 @@ struct context {
     sequencers sequencers{graph, grid, logger};
     view view{sequencers, graph, logger};
 
-    clover::io::stream* stream = nullptr;
-
-    std::binary_semaphore gui_ready{0};
     std::binary_semaphore gui_intent_to_exit{0};
-
-    std::binary_semaphore audio_ready{0};
 };

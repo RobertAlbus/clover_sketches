@@ -87,10 +87,6 @@ void app::graphics_thread() {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    live_ctx.audio_ready.acquire();
-    // perform gui setup before audio starts
-    live_ctx.gui_ready.release();
-
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // Main loop
