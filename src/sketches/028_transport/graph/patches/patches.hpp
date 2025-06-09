@@ -94,4 +94,51 @@ high reso eq boost (with cut mod) into this "kick" chain is mega heady and triba
             .cut_range         = 4,
         };
 
+PULSING CHORDS BIG KICK
+
+kick
+{
+            .trim              = 0.976,
+            .drive             = 7.262,
+            .amp_a             = 30,
+            .amp_d             = 12857.822,
+            .amp_s             = 0,
+            .amp_r             = 262.64288,
+            .cut_a             = 1,
+            .cut_d             = 1191.4169,
+            .cut_s             = 0,
+            .cut_r             = 1.0000596,
+            .filt_q            = 1.3999405,
+            .pitch_a           = 1,
+            .pitch_d           = 2143.643,
+            .pitch_s           = 0,
+            .pitch_r           = 226.96426,
+            .pitch_fundamental = 43.653526,
+            .cut_fundamental   = 100,
+            .pitch_range       = 1,
+            .cut_range         = 3,
+        };
+
+        kick verb
+{
+    .taps     = {62.60503, 68.16708, 78.93622, 111.50018, 156.06538, 218.93523, 376.53464, 1683.6116},
+    .fb_gain  = 0.981,
+    .lpf_cut  = 978.7971,
+    .lpf_res  = 0.707,
+    .hpf_cut  = 94.818924,
+    .hpf_res  = 0.707,
+};
+
+chord verb
+{
+    .taps     = {164.07095, 421.93472, 1540.1703, 1600.0818, 1540.1703, 22919.785, 22343.027, 3754.2483},
+    .fb_gain  = 0.857,
+    .lpf_cut  = 9744.787,
+    .lpf_res  = 0.707,
+    .hpf_cut  = 69.70979,
+    .hpf_res  = 0.707,
+};
+
+
+
 */

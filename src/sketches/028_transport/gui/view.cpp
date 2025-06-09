@@ -4,23 +4,27 @@
 
 #include "imgui.h"
 
-#include "lib/logging/logger.hpp"
+#include "lib/logging/draw_gui_log_canvas.hpp"
+#include "lib/transport/transport_ui_028.hpp"
 
 #include "controller/controllers.hpp"
 #include "graph/graph.hpp"
 #include "view.hpp"
 
 view::view(sequencers& sqs, signal_graph& graph, log_bus_000& logger)
-    : sqs{sqs}, graph{graph}, logger{logger} {
+    : sqs{sqs},
+      graph{graph},
+      logger{logger},
+      transport([&](float bar) { sqs.play_from_bar(bar); }, [&]() { sqs.stop(); }) {
     tabs = std::move(create_tabs());
 }
 
 std::vector<std::unique_ptr<tabbed_controller>> view::create_tabs() {
     std::vector<std::unique_ptr<tabbed_controller>> new_tabs;
-    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer", sqs, graph.main_eq));
-    new_tabs.emplace_back(std::make_unique<controller_kick>("kick"));
-    new_tabs.emplace_back(std::make_unique<controller_ride>("ride"));
-    new_tabs.emplace_back(std::make_unique<controller_chord>("chord"));
+    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer", sqs, graph, logger));
+    new_tabs.emplace_back(std::make_unique<controller_kick>("kick", sqs, graph, logger));
+    new_tabs.emplace_back(std::make_unique<controller_ride>("ride", sqs, graph, logger));
+    new_tabs.emplace_back(std::make_unique<controller_chord>("chord", sqs, graph, logger));
     return new_tabs;
 }
 
@@ -45,12 +49,32 @@ bool view::draw() {
     ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
 
     // ----------------------------------------------------------------
+    // KEY HANDLING
+    if (ImGui::IsKeyPressed(ImGuiKey_Space, false)) {
+        transport.toggle_state();
+    }
+
+    // ----------------------------------------------------------------
+    // MENU BAR
+
+    if (ImGui::BeginMainMenuBar()) {
+        transport.draw();
+        ImGui::SameLine(ImGui::GetWindowWidth() - 100);
+        ImGui::Checkbox("show logs", &show_log_canvas);
+        ImGui::EndMainMenuBar();
+    }
+
+    if (show_log_canvas) {
+        draw_gui_log_canvas_000("log_canvas", canvas, logger, nullptr);
+    }
+
+    // ----------------------------------------------------------------
     // TABS
 
     if (ImGui::BeginTabBar("Main Layout Tabs")) {
         for (auto& tabbed_controller : tabs) {
             if (ImGui::BeginTabItem(tabbed_controller->name)) {
-                tabbed_controller->draw(tabbed_controller->name, graph, logger);
+                tabbed_controller->draw();
 
                 ImGui::EndTabItem();
             }

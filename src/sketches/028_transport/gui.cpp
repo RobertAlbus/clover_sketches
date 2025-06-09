@@ -82,6 +82,11 @@ void GUI(context& ctx) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImPlot::CreateContext();
+    ImPlot::GetInputMap().ZoomMod     = ImGuiMod_Ctrl;
+    ImPlot::GetInputMap().SelectMod   = ImGuiMod_Ctrl;
+    ImPlot::GetInputMap().PanMod      = ImGuiMod_Ctrl;
+    ImPlot::GetInputMap().OverrideMod = ImGuiMod_Shift;
+
     ImGuiIO& io = ImGui::GetIO();
     (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
