@@ -6,8 +6,9 @@
 
 #include "clover/io/audio_file.hpp"
 
+#include "lib/render/convert_sample_rate.hpp"
+
 #include "app.hpp"
-#include "util.hpp"
 
 void app::audio_render_thread(std::stop_token st) {
     std::println("starting render: {}", render_ctx.render_name);
@@ -36,7 +37,7 @@ void app::audio_render_thread(std::stop_token st) {
                 .output         = &(buffer.data[static_cast<size_t>(frame) * render_ctx.channel_count_out]),
         });
     }
-    sketch_016_convert_sample_rate(buffer, 44100);
+    convert_sample_rate_016(buffer, 44100);
     clover::io::audio_file::write(
             render_ctx.render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
 

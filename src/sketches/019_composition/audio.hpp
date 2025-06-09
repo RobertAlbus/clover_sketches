@@ -14,11 +14,12 @@
 #include "clover/io/stream.hpp"
 #include "clover/io/system_audio.hpp"
 
+#include "lib/render/convert_sample_rate.hpp"
+
 #include "composition/composition.hpp"
 #include "sequence/sequencers.hpp"
 
 #include "shared_props.hpp"
-#include "util.hpp"
 
 std::string render_name{"019_composition"};
 
@@ -68,7 +69,7 @@ void AUDIO(context& props) {
                 });
             }
 
-            sketch_016_convert_sample_rate(buffer, 44100);
+            convert_sample_rate_016(buffer, 44100);
             clover::io::audio_file::write(
                     render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
             std::cout << "finished render: " << render_name.c_str() << std::endl;

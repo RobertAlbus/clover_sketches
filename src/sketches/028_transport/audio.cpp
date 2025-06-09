@@ -11,12 +11,13 @@
 #include "clover/io/stream.hpp"
 #include "clover/io/system_audio.hpp"
 
+#include "lib/render/convert_sample_rate.hpp"
+
 #include "context.hpp"
 #include "infrastructure/bar_grid.hpp"
 
 #include "graph/graph.hpp"
 #include "sequence/sequencers.hpp"
-#include "util.hpp"
 
 #include "audio.hpp"
 
@@ -87,7 +88,7 @@ void AUDIO(context& ctx) {
                         .output = &(buffer.data[static_cast<size_t>(frame) * render_ctx.channel_count_out]),
                 });
             }
-            sketch_016_convert_sample_rate(buffer, 44100);
+            convert_sample_rate_016(buffer, 44100);
             clover::io::audio_file::write(
                     render_ctx.render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
 
