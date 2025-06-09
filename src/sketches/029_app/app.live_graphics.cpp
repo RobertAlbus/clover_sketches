@@ -2,37 +2,25 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-// Dear ImGui: standalone example application for GLFW + OpenGL 3, using programmable pipeline
-// (GLFW is a cross-platform general purpose library for handling windows, inputs, OpenGL/Vulkan/Metal
-// graphics context creation, etc.)
-
-// Learn about Dear ImGui:
-// - FAQ                  https://dearimgui.com/faq
-// - Getting Started      https://dearimgui.com/getting-started
-// - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
-// - Introduction, links and more at the top of imgui.cpp
+#if defined(IMGUI_IMPL_OPENGL_ES2)
+#define GL_SILENCE_DEPRECATION
+#include <GLES2/gl2.h>
+#endif
+#include <GLFW/glfw3.h>  // Will drag system OpenGL headers
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "implot.h"
-#define GL_SILENCE_DEPRECATION
-#if defined(IMGUI_IMPL_OPENGL_ES2)
-#include <GLES2/gl2.h>
-#endif
-#include <GLFW/glfw3.h>  // Will drag system OpenGL headers
 
-using namespace ImGui;
-
+#include "app.hpp"
 #include "context.hpp"
-#include "gui.hpp"
 
 static void glfw_error_callback(int error, const char* description) {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
-// Main code
-void GUI(context& ctx) {
+void app::graphics_thread() {
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
 
@@ -68,7 +56,7 @@ void GUI(context& ctx) {
     // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
 
-    auto window_name   = std::format("clover sketch: {}", ctx.render_name);
+    auto window_name   = std::format("clover sketch: {}", live_ctx.render_name);
     GLFWwindow* window = glfwCreateWindow(1280, 720, window_name.c_str(), nullptr, nullptr);
     if (window == nullptr) {
         // TODO - RETURN CODE: CAN'T RETURN 1, WHAT SHOULD I DO?
@@ -99,22 +87,22 @@ void GUI(context& ctx) {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    ctx.audio_ready.acquire();
+    live_ctx.audio_ready.acquire();
     // perform gui setup before audio starts
-    ctx.gui_ready.release();
+    live_ctx.gui_ready.release();
 
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // Main loop
     while (!glfwWindowShouldClose(window)) {
         // Poll and handle events (inputs, window resize, etc.)
-        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to
-        // use your inputs.
-        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or
-        // clear/overwrite your copy of the mouse data.
+        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants
+        // to use your inputs.
+        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application,
+        // or clear/overwrite your copy of the mouse data.
         // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main
-        // application, or clear/overwrite your copy of the keyboard data. Generally you may always pass all
-        // inputs to dear imgui, and hide them from your application based on those two flags.
+        // application, or clear/overwrite your copy of the keyboard data. Generally you may always pass
+        // all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
         if (glfwGetWindowAttrib(window, GLFW_ICONIFIED) != 0) {
             ImGui_ImplGlfw_Sleep(10);
@@ -127,7 +115,7 @@ void GUI(context& ctx) {
         ImGui::NewFrame();
 
         // Show window
-        if (!ctx.view.draw()) {
+        if (!live_ctx.view.draw()) {
             glfwSetWindowShouldClose(window, true);
         }
 
@@ -147,7 +135,7 @@ void GUI(context& ctx) {
         glfwSwapBuffers(window);
     }
 
-    ctx.gui_intent_to_exit.release();
+    live_ctx.gui_intent_to_exit.release();
 
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
