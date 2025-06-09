@@ -20,10 +20,10 @@
 
 #include "audio.hpp"
 
-auto create_audio_callback(bar_grid &grid, signal_graph &comp, sequencers &sqs) {
+auto create_audio_callback(bar_grid& grid, signal_graph& comp, sequencers& sqs) {
     return [&](clover::io::callback_args data) {
-        float &L = *(data.output);
-        float &R = *(data.output + 1);
+        float& L = *(data.output);
+        float& R = *(data.output + 1);
 
         sqs.tick();
         std::tie(L, R) = comp.tick();
@@ -35,7 +35,7 @@ auto create_audio_callback(bar_grid &grid, signal_graph &comp, sequencers &sqs) 
     };
 }
 
-void AUDIO(context &ctx) {
+void AUDIO(context& ctx) {
     std::optional<std::thread> render_thread;
     constexpr bool SHOULD_RENDER = true;
 

@@ -11,7 +11,7 @@
 using namespace clover;
 using namespace io;
 
-int main(int, char *[]) {
+int main(int, char*[]) {
     context ctx;
 
     std::thread Audio(AUDIO, std::ref(ctx));

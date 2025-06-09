@@ -22,10 +22,10 @@
 
 std::string render_name{"019_composition"};
 
-auto create_audio_callback(composition &comp, sequencers &sqs) {
+auto create_audio_callback(composition& comp, sequencers& sqs) {
     return [&](clover::io::callback_args data) {
-        float &L = *(data.output);
-        float &R = *(data.output + 1);
+        float& L = *(data.output);
+        float& R = *(data.output + 1);
 
         sqs.tick();
         std::tie(L, R) = comp.tick();
@@ -37,7 +37,7 @@ auto create_audio_callback(composition &comp, sequencers &sqs) {
     };
 }
 
-void AUDIO(context &props) {
+void AUDIO(context& props) {
     composition comp;
     sequencers sqs{comp};
 

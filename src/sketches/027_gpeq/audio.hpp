@@ -9,4 +9,4 @@
 #include "context.hpp"
 
 extern std::string render_name;
-void AUDIO(context &props);
+void AUDIO(context& props);
