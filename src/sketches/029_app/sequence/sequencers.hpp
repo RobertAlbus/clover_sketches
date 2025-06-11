@@ -19,9 +19,7 @@ struct sequencers {
     patterns patterns;
     arrangement arrangement;
 
-    log_bus_000& log;
     bar_grid& grid;
-    signal_graph& graph;
 
     frsq_024<log_bus_000, event> frsq_arrangement_print;
 
@@ -42,9 +40,9 @@ struct sequencers {
     void play();
     void stop();
 
-    void set_up();
-    void set_up_kick(signal_graph& graph);
-    void set_up_ride(signal_graph& graph);
-    void set_up_chord(signal_graph& graph);
-    void set_up_arrangement_print(signal_graph& graph);
+    void set_up(signal_graph& graph, log_bus_000& log);
+    void set_up_kick(signal_graph& graph, log_bus_000& log);
+    void set_up_ride(signal_graph& graph, log_bus_000& log);
+    void set_up_chord(signal_graph& graph, log_bus_000& log);
+    void set_up_arrangement_print(log_bus_000& log);
 };
