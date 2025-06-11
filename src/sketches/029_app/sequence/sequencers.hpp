@@ -23,8 +23,7 @@ struct sequencers {
     bar_grid& grid;
     signal_graph& graph;
 
-    // need a placeholder for the voices, so reusing the event
-    // this is fine because there is no need for a voice - will just println in the callback.
+    // could use log_bus_000 as voice_t
     frsq_024<event, event> frsq_arrangement_print;
 
     frsq_024<kick_drum_000, event> frsq_kick;
@@ -48,6 +47,5 @@ struct sequencers {
     void set_up_kick(signal_graph& graph);
     void set_up_ride(signal_graph& graph);
     void set_up_chord(signal_graph& graph);
-    void set_up_meta_sq(signal_graph& graph);
     void set_up_arrangement_print(signal_graph& graph);
 };
