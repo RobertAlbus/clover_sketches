@@ -17,6 +17,28 @@
 #include "event.hpp"
 #include "sequence/patterns.hpp"
 
+// this assumes one sequencer per meta sequencer.
+// this has been true *so far*
+// but I could want to control multiple sequencers from a single meta sequencer!
+template <typename voice_t, typename event_t>
+void set_up_sequencing(
+        std::span<voice_t> voices,
+        frsq_024<voice_t, event_t>& sq,
+        typename frsq_024<voice_t, event_t>::callback_start_t callback_start,
+        typename frsq_024<voice_t, event_t>::callback_end_t callback_end,
+        frsq_024<frsq_024<voice_t, event_t>, event_meta_sq>& meta_sq,
+        log_bus_000& logger,
+        bar_grid& grid,
+        std::vector<pattern_t<event_t>>& patterns,
+        std::string logging_name) {
+    sq.voices         = voices;
+    sq.callback_start = callback_start;
+    sq.callback_end   = callback_end;
+
+    meta_sq.voices         = std::span(&sq, 1);
+    meta_sq.callback_start = arrangement_callback_for(meta_sq, logger, grid, patterns, logging_name);
+}
+
 template <typename voice_t, frsq_data_base_000 event_t>
 std::function<void(frsq_024<voice_t, event_t>&, const event_meta_sq&)> arrangement_callback_for(
         frsq_024<frsq_024<voice_t, event_t>, event_meta_sq>& meta_frsq,

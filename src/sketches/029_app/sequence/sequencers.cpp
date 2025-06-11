@@ -8,9 +8,10 @@
 #include "lib/kick_drum/kick_drum.hpp"
 
 #include "graph/graph.hpp"
-#include "sequence/arrangement_callback_builder.hpp"
+#include "lib/sq/frsq_024.hpp"
 #include "sequence/event.hpp"
 #include "sequence/patterns.hpp"
+#include "sequence/set_up_sequencing.hpp"
 #include "sequencers.hpp"
 
 sequencers::sequencers(signal_graph& graph, bar_grid& grid, log_bus_000& log) : grid{grid} {
@@ -73,35 +74,42 @@ void sequencers::stop() {
 }
 
 void sequencers::set_up_kick(signal_graph& graph, log_bus_000& log) {
-    frsq_kick.voices         = std::span<kick_drum_000>(&graph.kick, 1);
-    frsq_kick.callback_start = [](kick_drum_000& voice, const event& data) { voice.key_on(); };
-    frsq_kick.callback_end   = [](kick_drum_000& voice) { voice.key_off(); };
-
-    meta_frsq_kick.voices         = std::span(&frsq_kick, 1);
-    meta_frsq_kick.callback_start = arrangement_callback_for<kick_drum_000, event>(
-            meta_frsq_kick, log, grid, patterns.kick, "frsq_kick");
+    set_up_sequencing(
+            std::span<kick_drum_000>(&graph.kick, 1),
+            frsq_kick,
+            [](kick_drum_000& voice, const event& data) { voice.key_on(); },
+            [](kick_drum_000& voice) { voice.key_off(); },
+            meta_frsq_kick,
+            log,
+            grid,
+            patterns.kick,
+            "frsq_kick");
 }
 
 void sequencers::set_up_ride(signal_graph& graph, log_bus_000& log) {
-    frsq_ride.voices         = std::span<cymbal_024>(&graph.ride, 1);
-    frsq_ride.callback_start = [](cymbal_024& voice, const event& data) { voice.key_on(); };
-    frsq_ride.callback_end   = [](cymbal_024& voice) { voice.key_off(); };
-
-    meta_frsq_ride.voices         = std::span(&frsq_ride, 1);
-    meta_frsq_ride.callback_start = arrangement_callback_for<cymbal_024, event>(
-            meta_frsq_ride, log, grid, patterns.ride, "frsq_ride");
+    set_up_sequencing(
+            std::span<cymbal_024>(&graph.ride, 1),
+            frsq_ride,
+            [](cymbal_024& voice, const event& data) { voice.key_on(); },
+            [](cymbal_024& voice) { voice.key_off(); },
+            meta_frsq_ride,
+            log,
+            grid,
+            patterns.ride,
+            "frsq_ride");
 }
 
 void sequencers::set_up_chord(signal_graph& graph, log_bus_000& log) {
-    frsq_chord.voices         = std::span<subtractive_synth_000>(graph.chord.begin(), graph.chord.end());
-    frsq_chord.callback_start = [](subtractive_synth_000& voice, const event_midi& data) {
-        voice.key_on(data.note);
-    };
-    frsq_chord.callback_end = [](subtractive_synth_000& voice) { voice.key_off(); };
-
-    meta_frsq_chord.voices         = std::span(&frsq_chord, 1);
-    meta_frsq_chord.callback_start = arrangement_callback_for<subtractive_synth_000, event_midi>(
-            meta_frsq_chord, log, grid, patterns.chord, "frsq_chord");
+    set_up_sequencing(
+            std::span<subtractive_synth_000>(graph.chord),
+            frsq_chord,
+            [](subtractive_synth_000& voice, const event_midi& data) { voice.key_on(data.note); },
+            [](subtractive_synth_000& voice) { voice.key_off(); },
+            meta_frsq_chord,
+            log,
+            grid,
+            patterns.chord,
+            "frsq_chord");
 }
 
 void sequencers::set_up_arrangement_print(log_bus_000& log) {
