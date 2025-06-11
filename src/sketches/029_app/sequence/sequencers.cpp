@@ -82,10 +82,10 @@ void sequencers::set_up_kick(signal_graph& graph, log_bus_000& log) {
             log,
             grid,
             patterns.kick,
+            arrangement.kick,
+            grid.duration_bars,
+            grid.bars_to_samples(grid.duration_bars),
             "frsq_kick");
-    double duration_bars            = grid.duration_bars;
-    double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
-    meta_frsq_kick.set_pattern(arrangement.kick, duration_bars_in_samples, duration_bars, 0);
 }
 
 void sequencers::set_up_ride(signal_graph& graph, log_bus_000& log) {
@@ -98,10 +98,10 @@ void sequencers::set_up_ride(signal_graph& graph, log_bus_000& log) {
             log,
             grid,
             patterns.ride,
+            arrangement.ride,
+            grid.duration_bars,
+            grid.bars_to_samples(grid.duration_bars),
             "frsq_ride");
-    double duration_bars            = grid.duration_bars;
-    double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
-    meta_frsq_ride.set_pattern(arrangement.ride, duration_bars_in_samples, duration_bars, 0);
 }
 
 void sequencers::set_up_chord(signal_graph& graph, log_bus_000& log) {
@@ -114,10 +114,10 @@ void sequencers::set_up_chord(signal_graph& graph, log_bus_000& log) {
             log,
             grid,
             patterns.chord,
+            arrangement.chord,
+            grid.duration_bars,
+            grid.bars_to_samples(grid.duration_bars),
             "frsq_chord");
-    double duration_bars            = grid.duration_bars;
-    double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
-    meta_frsq_chord.set_pattern(arrangement.chord, duration_bars_in_samples, duration_bars, 0);
 }
 
 void sequencers::set_up_arrangement_print(log_bus_000& log) {

@@ -30,6 +30,9 @@ void set_up_sequencing(
         log_bus_000& logger,
         bar_grid& grid,
         std::vector<pattern_t<event_t>>& patterns,
+        std::vector<event_meta_sq>& arrangement,
+        double duration_bars,
+        double duration_bars_in_samples,
         std::string logging_name) {
     sq.voices         = voices;
     sq.callback_start = callback_start;
@@ -37,6 +40,7 @@ void set_up_sequencing(
 
     meta_sq.voices         = std::span(&sq, 1);
     meta_sq.callback_start = arrangement_callback_for(meta_sq, logger, grid, patterns, logging_name);
+    meta_sq.set_pattern(arrangement, duration_bars_in_samples, duration_bars, 0);
 }
 
 template <typename voice_t, frsq_data_base_000 event_t>
