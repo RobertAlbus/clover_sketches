@@ -28,8 +28,8 @@ struct context {
 
     log_bus_000 logger;
 
+    signal_graph graph{fs};
     bar_grid grid{fs, bpm, duration_bars, should_loop};
-    signal_graph graph{grid};
     sequencers sequencers{graph, grid, logger};
     view view{sequencers, graph, logger};
 

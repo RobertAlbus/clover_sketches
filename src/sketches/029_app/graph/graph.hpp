@@ -4,8 +4,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <cmath>
-
 #include "infrastructure/bar_grid.hpp"
 
 #include "lib/cymbal/cymbal_024.hpp"
@@ -18,7 +16,7 @@
 #include "patches/patches.hpp"
 
 struct signal_graph {
-    bar_grid& grid;
+    float fs;
     patch patch;
 
     std::vector<mixer_track_000> mixer_tracks;
@@ -27,34 +25,34 @@ struct signal_graph {
     std::pair<float, float> tick();
 
     float gain_master = 0.5f;
-    signal_graph(bar_grid& grid);
+    signal_graph(float fs);
 
     // --------------------------------
     // KICK
 
-    kick_drum_000 kick{grid.fs, patch.drums.kick_drum_props};
-    peq_000 kick_preverb_peq{grid.fs, patch.drums.kick_preverb_peq_props};
-    fdn8_023 kick_verb{grid.fs, patch.drums.kick_fdn_props};
-    peq_000 kick_out_peq{grid.fs, patch.drums.kick_peq_props};
+    kick_drum_000 kick{fs, patch.drums.kick_drum_props};
+    peq_000 kick_preverb_peq{fs, patch.drums.kick_preverb_peq_props};
+    fdn8_023 kick_verb{fs, patch.drums.kick_fdn_props};
+    peq_000 kick_out_peq{fs, patch.drums.kick_peq_props};
 
-    cymbal_024 ride{grid.fs, patch.drums.ride_props};
-    peq_000 ride_peq{grid.fs, patch.drums.ride_peq_props};
+    cymbal_024 ride{fs, patch.drums.ride_props};
+    peq_000 ride_peq{fs, patch.drums.ride_peq_props};
 
     // --------------------------------
     // CHORD
 
     std::array<subtractive_synth_000, 6> chord{
-            subtractive_synth_000{grid.fs, patch.synth.chord_props},
-            subtractive_synth_000{grid.fs, patch.synth.chord_props},
-            subtractive_synth_000{grid.fs, patch.synth.chord_props},
-            subtractive_synth_000{grid.fs, patch.synth.chord_props},
-            subtractive_synth_000{grid.fs, patch.synth.chord_props},
-            subtractive_synth_000{grid.fs, patch.synth.chord_props}};
+            subtractive_synth_000{fs, patch.synth.chord_props},
+            subtractive_synth_000{fs, patch.synth.chord_props},
+            subtractive_synth_000{fs, patch.synth.chord_props},
+            subtractive_synth_000{fs, patch.synth.chord_props},
+            subtractive_synth_000{fs, patch.synth.chord_props},
+            subtractive_synth_000{fs, patch.synth.chord_props}};
 
-    peq_000 chord_preverb_peq{grid.fs, patch.synth.chord_preverb_peq_props};
-    fdn8_023 chord_verb_L{grid.fs, patch.synth.chord_fdn_props_L};
-    fdn8_023 chord_verb_R{grid.fs, patch.synth.chord_fdn_props_R};
-    peq_000 chord_peq{grid.fs, patch.synth.chord_peq_props};
+    peq_000 chord_preverb_peq{fs, patch.synth.chord_preverb_peq_props};
+    fdn8_023 chord_verb_L{fs, patch.synth.chord_fdn_props_L};
+    fdn8_023 chord_verb_R{fs, patch.synth.chord_fdn_props_R};
+    peq_000 chord_peq{fs, patch.synth.chord_peq_props};
 
-    peq_000 main_eq{grid.fs, patch.mix.main_peq_props};
+    peq_000 main_eq{fs, patch.mix.main_peq_props};
 };

@@ -12,7 +12,7 @@
 #include "graph.hpp"
 #include "patches/patches.hpp"
 
-signal_graph::signal_graph(bar_grid& grid) : grid{grid} {
+signal_graph::signal_graph(float fs) : fs{fs} {
     for (auto& t : patch.mix.mixer_tracks)
         mixer_tracks.emplace_back(t);
 
