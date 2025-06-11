@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <functional>
+#include <memory>
 #include <print>
 #include <stdexcept>
 #include <vector>
@@ -16,6 +17,39 @@
 
 #include "event.hpp"
 #include "sequence/patterns.hpp"
+#include "sequence/sequencers.hpp"
+
+template <typename voice_t, typename event_t>
+frsq_pair create_sequencers(
+        std::span<voice_t> voices,
+        typename frsq_024<voice_t, event_t>::callback_start_t callback_start,
+        typename frsq_024<voice_t, event_t>::callback_end_t callback_end,
+        log_bus_000& logger,
+        bar_grid& grid,
+        std::vector<pattern_t<event_t>>& patterns,
+        std::vector<event_meta_sq>& arrangement,
+        double duration_bars,
+        double duration_bars_in_samples,
+        std::string logging_name) {
+    auto sq      = std::make_unique<frsq_024<voice_t, event_t>>();
+    auto meta_sq = std::make_unique<frsq_024<frsq_024<voice_t, event_t>, event_meta_sq>>();
+
+    set_up_sequencing(
+            voices,
+            *sq,
+            callback_start,
+            callback_end,
+            *meta_sq,
+            logger,
+            grid,
+            patterns,
+            arrangement,
+            duration_bars,
+            duration_bars_in_samples,
+            logging_name);
+
+    return {std::move(sq), std::move(meta_sq)};
+}
 
 // this assumes one sequencer per meta sequencer.
 // this has been true *so far*

@@ -28,13 +28,13 @@ void sequencers::set_up(signal_graph& graph, log_bus_000& log) {
 void sequencers::tick() {
     if (!is_playing)
         return;
+
     frsq_arrangement_print.tick();
-    meta_frsq_kick.tick();
-    meta_frsq_ride.tick();
-    meta_frsq_chord.tick();
-    frsq_kick.tick();
-    frsq_ride.tick();
-    frsq_chord.tick();
+
+    for (auto& frsq_pair : frsq_pairs) {
+        frsq_pair.meta_sq->tick();
+        frsq_pair.sq->tick();
+    }
 }
 
 void sequencers::play() {
@@ -46,78 +46,71 @@ void sequencers::play_from_bar(double start_bar) {
     double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
 
     frsq_arrangement_print.set_time(start_bar);
-    meta_frsq_kick.set_time(start_bar);
-    meta_frsq_ride.set_time(start_bar);
-    meta_frsq_chord.set_time(start_bar);
+
+    for (auto& frsq_pair : frsq_pairs) {
+        frsq_pair.meta_sq->set_time(start_bar);
+    }
     is_playing = true;
 
     if (start_bar == 0)
         return;
 
     frsq_arrangement_print.trigger_most_recent_event();
-    meta_frsq_kick.trigger_most_recent_event();
-    meta_frsq_ride.trigger_most_recent_event();
-    meta_frsq_chord.trigger_most_recent_event();
+    for (auto& frsq_pair : frsq_pairs) {
+        frsq_pair.meta_sq->trigger_most_recent_event();
+    }
 }
 
 void sequencers::stop() {
     frsq_arrangement_print.choke_all();
-    meta_frsq_kick.choke_all();
-    meta_frsq_ride.choke_all();
-    meta_frsq_chord.choke_all();
-    frsq_kick.choke_all();
-    frsq_ride.choke_all();
-    frsq_chord.choke_all();
+    for (auto& frsq_pair : frsq_pairs) {
+        frsq_pair.sq->choke_all();
+        frsq_pair.meta_sq->choke_all();
+    }
 
     is_playing = false;
 }
 
 void sequencers::set_up_kick(signal_graph& graph, log_bus_000& log) {
-    set_up_sequencing(
+    frsq_pairs.emplace_back(create_sequencers(
             std::span<kick_drum_000>(&graph.kick, 1),
-            frsq_kick,
             [](kick_drum_000& voice, const event& data) { voice.key_on(); },
             [](kick_drum_000& voice) { voice.key_off(); },
-            meta_frsq_kick,
             log,
             grid,
             patterns.kick,
             arrangement.kick,
             grid.duration_bars,
             grid.bars_to_samples(grid.duration_bars),
-            "frsq_kick");
+            "frsq_kick"));
 }
 
 void sequencers::set_up_ride(signal_graph& graph, log_bus_000& log) {
-    set_up_sequencing(
+    frsq_pairs.emplace_back(create_sequencers(
             std::span<cymbal_024>(&graph.ride, 1),
-            frsq_ride,
             [](cymbal_024& voice, const event& data) { voice.key_on(); },
             [](cymbal_024& voice) { voice.key_off(); },
-            meta_frsq_ride,
             log,
             grid,
             patterns.ride,
             arrangement.ride,
             grid.duration_bars,
             grid.bars_to_samples(grid.duration_bars),
-            "frsq_ride");
+            "frsq_ride"));
 }
 
 void sequencers::set_up_chord(signal_graph& graph, log_bus_000& log) {
-    set_up_sequencing(
+    frsq_pairs.emplace_back(create_sequencers(
             std::span<subtractive_synth_000>(graph.chord),
-            frsq_chord,
             [](subtractive_synth_000& voice, const event_midi& data) { voice.key_on(data.note); },
             [](subtractive_synth_000& voice) { voice.key_off(); },
-            meta_frsq_chord,
             log,
             grid,
             patterns.chord,
             arrangement.chord,
             grid.duration_bars,
             grid.bars_to_samples(grid.duration_bars),
-            "frsq_chord");
+            "frsq_chord"));
 }
 
 void sequencers::set_up_arrangement_print(log_bus_000& log) {

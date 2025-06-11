@@ -4,8 +4,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "lib/cymbal/cymbal_024.hpp"
-#include "lib/kick_drum/kick_drum.hpp"
 #include "lib/logging/logger.hpp"
 #include "lib/sq/frsq_024.hpp"
 
@@ -14,6 +12,12 @@
 #include "graph/graph.hpp"
 #include "sequence/event.hpp"
 #include "sequence/patterns.hpp"
+#include <memory>
+
+struct frsq_pair {
+    std::unique_ptr<frsq_base_024> sq;
+    std::unique_ptr<frsq_base_024> meta_sq;
+};
 
 struct sequencers {
     patterns patterns;
@@ -23,14 +27,7 @@ struct sequencers {
 
     frsq_024<log_bus_000, event> frsq_arrangement_print;
 
-    frsq_024<kick_drum_000, event> frsq_kick;
-    frsq_024<frsq_024<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;
-
-    frsq_024<cymbal_024, event> frsq_ride;
-    frsq_024<frsq_024<cymbal_024, event>, event_meta_sq> meta_frsq_ride;
-
-    frsq_024<subtractive_synth_000, event_midi> frsq_chord;
-    frsq_024<frsq_024<subtractive_synth_000, event_midi>, event_meta_sq> meta_frsq_chord;
+    std::vector<frsq_pair> frsq_pairs;
 
     sequencers(signal_graph& graph, bar_grid& grid, log_bus_000& log);
     void tick();

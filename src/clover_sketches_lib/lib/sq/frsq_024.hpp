@@ -22,6 +22,7 @@
 #include "frsq_000.hpp"
 
 struct frsq_base_024 {
+    virtual ~frsq_base_024()                         = default;
     virtual void choke_all()                         = 0;
     virtual void trigger_most_recent_event()         = 0;
     virtual void set_time(double from_time_relative) = 0;
