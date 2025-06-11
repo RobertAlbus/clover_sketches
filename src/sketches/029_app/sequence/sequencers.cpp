@@ -37,7 +37,7 @@ void sequencers::tick() {
 }
 
 void sequencers::play() {
-    play_from_bar(0);
+    is_playing = true;
 }
 
 void sequencers::play_from_bar(double start_bar) {

@@ -15,7 +15,7 @@ view::view(sequencers& sqs, signal_graph& graph, log_bus_000& logger)
     : sqs{sqs},
       graph{graph},
       logger{logger},
-      transport([&](float bar) { sqs.play_from_bar(bar); }, [&]() { sqs.stop(); }) {
+      transport([&](float bar) { sqs.play_from_bar(bar); }, [&]() { sqs.play(); }, [&]() { sqs.stop(); }) {
     tabs = std::move(create_tabs());
 }
 
@@ -50,8 +50,10 @@ bool view::draw() {
 
     // ----------------------------------------------------------------
     // KEY HANDLING
-    if (ImGui::IsKeyPressed(ImGuiKey_Space, false)) {
-        transport.toggle_state();
+    if (ImGui::IsKeyChordPressed(ImGuiMod_Ctrl | ImGuiKey_Space)) {
+        transport.toggle_state_play();
+    } else if (ImGui::IsKeyPressed(ImGuiKey_Space, false)) {
+        transport.toggle_state_start();
     }
 
     // ----------------------------------------------------------------
