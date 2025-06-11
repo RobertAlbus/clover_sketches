@@ -45,11 +45,10 @@ void sequencers::play_from_bar(double start_bar) {
     double duration_bars            = grid.duration_bars;
     double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
 
-    frsq_arrangement_print.set_pattern(arrangement.bar, duration_bars_in_samples, duration_bars, start_bar);
-    meta_frsq_kick.set_pattern(arrangement.kick, duration_bars_in_samples, duration_bars, start_bar);
-    meta_frsq_ride.set_pattern(arrangement.ride, duration_bars_in_samples, duration_bars, start_bar);
-    meta_frsq_chord.set_pattern(arrangement.chord, duration_bars_in_samples, duration_bars, start_bar);
-
+    frsq_arrangement_print.set_time(start_bar);
+    meta_frsq_kick.set_time(start_bar);
+    meta_frsq_ride.set_time(start_bar);
+    meta_frsq_chord.set_time(start_bar);
     is_playing = true;
 
     if (start_bar == 0)
@@ -84,6 +83,9 @@ void sequencers::set_up_kick(signal_graph& graph, log_bus_000& log) {
             grid,
             patterns.kick,
             "frsq_kick");
+    double duration_bars            = grid.duration_bars;
+    double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
+    meta_frsq_kick.set_pattern(arrangement.kick, duration_bars_in_samples, duration_bars, 0);
 }
 
 void sequencers::set_up_ride(signal_graph& graph, log_bus_000& log) {
@@ -97,6 +99,9 @@ void sequencers::set_up_ride(signal_graph& graph, log_bus_000& log) {
             grid,
             patterns.ride,
             "frsq_ride");
+    double duration_bars            = grid.duration_bars;
+    double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
+    meta_frsq_ride.set_pattern(arrangement.ride, duration_bars_in_samples, duration_bars, 0);
 }
 
 void sequencers::set_up_chord(signal_graph& graph, log_bus_000& log) {
@@ -110,6 +115,9 @@ void sequencers::set_up_chord(signal_graph& graph, log_bus_000& log) {
             grid,
             patterns.chord,
             "frsq_chord");
+    double duration_bars            = grid.duration_bars;
+    double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
+    meta_frsq_chord.set_pattern(arrangement.chord, duration_bars_in_samples, duration_bars, 0);
 }
 
 void sequencers::set_up_arrangement_print(log_bus_000& log) {
@@ -122,4 +130,8 @@ void sequencers::set_up_arrangement_print(log_bus_000& log) {
         snprintf(msg.text, sizeof(msg.text), "\n--------\n bar: %d", int(event.start_time));
         voice.gui.try_enqueue(msg);
     };
+
+    double duration_bars            = grid.duration_bars;
+    double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
+    frsq_arrangement_print.set_pattern(arrangement.bar, duration_bars_in_samples, duration_bars, 0);
 }

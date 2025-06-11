@@ -21,8 +21,15 @@
 
 #include "frsq_000.hpp"
 
+struct frsq_base_024 {
+    virtual void choke_all()                         = 0;
+    virtual void trigger_most_recent_event()         = 0;
+    virtual void set_time(double from_time_relative) = 0;
+    virtual void tick()                              = 0;
+};
+
 template <typename voice_t, frsq_data_base_000 frsq_data_t>
-struct frsq_024 {
+struct frsq_024 : public frsq_base_024 {
     frsq_024(const frsq_024&) = delete;
     frsq_024() {
         voices_time_remaining.fill(std::numeric_limits<int>::min());
@@ -43,21 +50,41 @@ struct frsq_024 {
     int64_t current_time_absolute         = 0;  // in samples
     double current_time_absolute_fraction = 0;  // arbitrary musical reference duration
 
-    std::function<void(voice_t& voice, const frsq_data_t& data)> callback_start =
-            [](voice_t& voice, const frsq_data_t& data) {};
-    std::function<void(voice_t& voice)> callback_end = [](voice_t& voice) {};
+    using callback_start_t          = std::function<void(voice_t& voice, const frsq_data_t& data)>;
+    callback_start_t callback_start = [](voice_t& voice, const frsq_data_t& data) {};
 
-    void choke_all() {
+    using callback_end_t        = std::function<void(voice_t& voice)>;
+    callback_end_t callback_end = [](voice_t& voice) {};
+
+    void choke_all() override {
         for (auto& voice : voices)
             callback_end(voice);
         voices_time_remaining.fill(std::numeric_limits<int>::min());
         voices_time_elapsed.fill(std::numeric_limits<int>::max());
     }
 
-    void trigger_most_recent_event() {
+    void trigger_most_recent_event() override {
         callback_start(voices[0], *last_event);
     }
 
+    // TODO: this is needed for generalizing the sequencing setup
+    /*
+        - base class frsq_base_024 with virtual methods
+            - tick, choke, set_time etc
+        - set up sequencers and meta sequencers once
+        - sqs.start_from(float) just needs to meta_sq.set_time(from_time_relative)
+            and avoids needing any type info
+    */
+    void set_time(double from_time_relative) override {
+        from_time_relative = std::fmod(from_time_relative, duration_relative);
+        if (from_time_relative < 0)
+            from_time_relative += duration_relative;
+
+        double current_time_samples    = (from_time_relative / duration_relative) * duration_absolute;
+        current_time_absolute          = int64_t(current_time_samples);
+        current_time_absolute_fraction = current_time_samples - current_time_absolute;
+        determine_last_event();
+    }
     void set_pattern(
             std::span<frsq_data_t> new_pattern_data,
             double new_duration_samples,
@@ -67,14 +94,7 @@ struct frsq_024 {
         duration_relative = new_duration_relative;
         pattern_data      = new_pattern_data;
 
-        from_time_relative = std::fmod(from_time_relative, duration_relative);
-        if (from_time_relative < 0)
-            from_time_relative += duration_relative;
-
-        double current_time_samples    = (from_time_relative / duration_relative) * duration_absolute;
-        current_time_absolute          = int64_t(current_time_samples);
-        current_time_absolute_fraction = current_time_samples - current_time_absolute;
-        determine_last_event();
+        set_time(from_time_relative);
     }
 
     double current_time_relative() {
@@ -111,7 +131,7 @@ struct frsq_024 {
         last_event = next_event - 1;
     }
 
-    void tick() {
+    void tick() override {
         if (pattern_data.empty()) {
             return;
         }
