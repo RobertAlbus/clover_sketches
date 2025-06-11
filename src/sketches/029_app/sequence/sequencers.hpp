@@ -23,8 +23,7 @@ struct sequencers {
     bar_grid& grid;
     signal_graph& graph;
 
-    // could use log_bus_000 as voice_t
-    frsq_024<event, event> frsq_arrangement_print;
+    frsq_024<log_bus_000, event> frsq_arrangement_print;
 
     frsq_024<kick_drum_000, event> frsq_kick;
     frsq_024<frsq_024<kick_drum_000, event>, event_meta_sq> meta_frsq_kick;

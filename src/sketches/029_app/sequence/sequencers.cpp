@@ -103,13 +103,13 @@ void sequencers::set_up_chord(signal_graph& graph) {
 }
 
 void sequencers::set_up_arrangement_print(signal_graph& graph) {
-    frsq_arrangement_print.voices            = std::span(arrangement.bar.begin(), 1);
+    frsq_arrangement_print.voices            = std::span(&log, 1);
     frsq_arrangement_print.duration_absolute = grid.bars_to_samples(grid.duration_bars);
     frsq_arrangement_print.duration_relative = grid.duration_bars;
 
-    frsq_arrangement_print.callback_start = [&](event& voice, const event& event) {
+    frsq_arrangement_print.callback_start = [&](log_bus_000& voice, const event& event) {
         log_message_000 msg;
         snprintf(msg.text, sizeof(msg.text), "\n--------\n bar: %d", int(event.start_time));
-        log.gui.try_enqueue(msg);
+        voice.gui.try_enqueue(msg);
     };
 }
