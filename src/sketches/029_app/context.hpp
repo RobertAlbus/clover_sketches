@@ -6,8 +6,6 @@
 
 #include <semaphore>
 
-#include "clover/io/stream.hpp"
-
 #include "graph/graph.hpp"
 #include "gui/view.hpp"
 #include "lib/logging/logger.hpp"
