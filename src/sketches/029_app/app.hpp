@@ -4,6 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include <semaphore>
 #include <stop_token>
 
 #include "clover/io/audio_callback.hpp"
@@ -18,6 +19,8 @@ struct app {
     void audio_thread();
     void graphics_thread();
     void audio_render_thread(std::stop_token st);
+
+    std::binary_semaphore gui_intent_to_exit{0};
 
     std::function<clover::io::callback_status(clover::io::callback_args data)> create_audio_callback(
             bar_grid& grid, signal_graph& comp, sequencers& sqs);

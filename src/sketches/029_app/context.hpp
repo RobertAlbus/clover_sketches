@@ -4,8 +4,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <semaphore>
-
 #include "graph/graph.hpp"
 #include "gui/view.hpp"
 #include "lib/logging/logger.hpp"
@@ -37,6 +35,4 @@ struct context {
     arrangement arrangement;
     sequencers sequencers{build_frsq_pairs(graph, grid, logger, patterns, arrangement), grid, logger};
     view view{sequencers, graph, logger};
-
-    std::binary_semaphore gui_intent_to_exit{0};
 };

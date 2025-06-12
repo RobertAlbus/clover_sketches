@@ -25,7 +25,7 @@ void app::audio_thread() {
 
     stream.start();
 
-    live_ctx.gui_intent_to_exit.acquire();
+    gui_intent_to_exit.acquire();
     stream.stop();
     stream.wait_to_complete();
 }

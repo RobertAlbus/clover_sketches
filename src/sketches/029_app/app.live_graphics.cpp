@@ -131,7 +131,7 @@ void app::graphics_thread() {
         glfwSwapBuffers(window);
     }
 
-    live_ctx.gui_intent_to_exit.release();
+    gui_intent_to_exit.release();
 
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
