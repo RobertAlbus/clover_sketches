@@ -4,10 +4,10 @@
 
 #include <print>
 
-#include "gui/components/cymbal_000.hpp"
 #include "imgui.h"
 #include "implot.h"
 
+#include "lib/cymbal/draw_cymbal_000.hpp"
 #include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
 #include "lib/logging/draw_gui_log_canvas.hpp"
@@ -79,7 +79,7 @@ void controller_ride(const char* id, context& ctx) {
     signal_graph& graph = ctx.graph;
     ImGui::PushID(id);
 
-    draw_cymbal_000(graph.ride);
+    draw_cymbal_000("##ride_cymbal", graph.ride);
     draw_peq_000("##ride_eq", graph.ride_peq);
 
     ImGui::PopID();
