@@ -4,7 +4,7 @@
 
 #include "graph/graph.hpp"
 #include "lib/logging/logger.hpp"
-#include "lib/sq/bar_grid.hpp"
+#include "lib/sq/bar_grid_029.hpp"
 #include "sequence/sequencers.hpp"
 #include "sequence/set_up_sequencing.hpp"
 
@@ -25,29 +25,29 @@ std::vector<frsq_pair> build_frsq_pairs(
             arrangement.kick,
             grid.duration_bars,
             grid.bars_to_samples(grid.duration_bars),
-            "frsq_kick")),
-            frsq_pairs.emplace_back(create_sequencers(
-                    std::span<cymbal_024>(&graph.ride, 1),
-                    [](cymbal_024& voice, const event& data) { voice.key_on(); },
-                    [](cymbal_024& voice) { voice.key_off(); },
-                    log,
-                    grid,
-                    patterns.ride,
-                    arrangement.ride,
-                    grid.duration_bars,
-                    grid.bars_to_samples(grid.duration_bars),
-                    "frsq_ride")),
-            frsq_pairs.emplace_back(create_sequencers(
-                    std::span<subtractive_synth_000>(graph.chord),
-                    [](subtractive_synth_000& voice, const event_midi& data) { voice.key_on(data.note); },
-                    [](subtractive_synth_000& voice) { voice.key_off(); },
-                    log,
-                    grid,
-                    patterns.chord,
-                    arrangement.chord,
-                    grid.duration_bars,
-                    grid.bars_to_samples(grid.duration_bars),
-                    "frsq_chord"));
+            "frsq_kick"));
+    frsq_pairs.emplace_back(create_sequencers(
+            std::span<cymbal_024>(&graph.ride, 1),
+            [](cymbal_024& voice, const event& data) { voice.key_on(); },
+            [](cymbal_024& voice) { voice.key_off(); },
+            log,
+            grid,
+            patterns.ride,
+            arrangement.ride,
+            grid.duration_bars,
+            grid.bars_to_samples(grid.duration_bars),
+            "frsq_ride"));
+    frsq_pairs.emplace_back(create_sequencers(
+            std::span<subtractive_synth_000>(graph.chord),
+            [](subtractive_synth_000& voice, const event_midi& data) { voice.key_on(data.note); },
+            [](subtractive_synth_000& voice) { voice.key_off(); },
+            log,
+            grid,
+            patterns.chord,
+            arrangement.chord,
+            grid.duration_bars,
+            grid.bars_to_samples(grid.duration_bars),
+            "frsq_chord"));
 
     return frsq_pairs;
 }
