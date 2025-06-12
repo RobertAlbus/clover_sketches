@@ -9,7 +9,6 @@
 
 #include "infrastructure/bar_grid.hpp"
 
-#include "graph/graph.hpp"
 #include "sequence/event.hpp"
 #include "sequence/patterns.hpp"
 #include <memory>
@@ -20,6 +19,8 @@ struct frsq_pair {
 };
 
 struct sequencers {
+    sequencers(std::vector<frsq_pair>&& frsq_pairs, bar_grid& grid, log_bus_000& log);
+
     patterns patterns;
     arrangement arrangement;
 
@@ -29,7 +30,6 @@ struct sequencers {
 
     std::vector<frsq_pair> frsq_pairs;
 
-    sequencers(signal_graph& graph, bar_grid& grid, log_bus_000& log);
     void tick();
 
     bool is_playing = false;
@@ -37,9 +37,5 @@ struct sequencers {
     void play();
     void stop();
 
-    void set_up(signal_graph& graph, log_bus_000& log);
-    void set_up_kick(signal_graph& graph, log_bus_000& log);
-    void set_up_ride(signal_graph& graph, log_bus_000& log);
-    void set_up_chord(signal_graph& graph, log_bus_000& log);
     void set_up_arrangement_print(log_bus_000& log);
 };

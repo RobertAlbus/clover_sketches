@@ -5,6 +5,8 @@
 #include <stop_token>
 #include <thread>
 
+#include "clover/io/audio_callback.hpp"
+
 #include "app.hpp"
 
 static void glfw_error_callback(int error, const char* description) {

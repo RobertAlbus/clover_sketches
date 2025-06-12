@@ -8,8 +8,12 @@
 
 #include "graph/graph.hpp"
 #include "gui/view.hpp"
+#include "infrastructure/bar_grid.hpp"
 #include "lib/logging/logger.hpp"
 #include "sequence/sequencers.hpp"
+
+std::vector<frsq_pair> build_frsq_pairs(
+        signal_graph& graph, bar_grid& grid, log_bus_000& log, patterns& patterns, arrangement& arrangement);
 
 const float base_duration_bars = 32;
 struct context {
@@ -28,7 +32,10 @@ struct context {
 
     signal_graph graph{fs};
     bar_grid grid{fs, bpm, duration_bars, should_loop};
-    sequencers sequencers{graph, grid, logger};
+
+    patterns patterns;
+    arrangement arrangement;
+    sequencers sequencers{build_frsq_pairs(graph, grid, logger, patterns, arrangement), grid, logger};
     view view{sequencers, graph, logger};
 
     std::binary_semaphore gui_intent_to_exit{0};

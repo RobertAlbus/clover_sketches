@@ -4,8 +4,11 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "context.hpp"
 #include <stop_token>
+
+#include "clover/io/audio_callback.hpp"
+
+#include "context.hpp"
 
 struct app {
     context live_ctx;
