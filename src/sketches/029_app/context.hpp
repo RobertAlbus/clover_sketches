@@ -4,24 +4,25 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/logging/logger.hpp"
+#include "lib/sq/bar_grid_029.hpp"
+
 #include "graph/graph.hpp"
 #include "gui/view.hpp"
-#include "lib/logging/logger.hpp"
-#include "lib/sq//bar_grid.hpp"
 #include "sequence/sequencers.hpp"
 
 std::vector<frsq_pair> build_frsq_pairs(
-        signal_graph& graph, bar_grid& grid, log_bus_000& log, patterns& patterns, arrangement& arrangement);
+        signal_graph& graph,
+        bar_grid_029& grid,
+        log_bus_000& log,
+        patterns& patterns,
+        arrangement& arrangement);
 
-const float base_duration_bars = 32;
 struct context {
-    context(bool render_mode = false) {
-        should_loop = !render_mode;
-    }
-    float fs            = 48000;
-    float bpm           = 124;
-    float duration_bars = 32;
-    bool should_loop    = true;
+    float fs                   = 48000;
+    float bpm                  = 124;
+    double duration_bars       = 32;
+    double render_repeat_count = 2;
 
     int channel_count_out = 2;
     const std::string render_name{"029_app"};
@@ -29,7 +30,7 @@ struct context {
     log_bus_000 logger;
 
     signal_graph graph{fs};
-    bar_grid grid{fs, bpm, duration_bars, should_loop};
+    bar_grid_029 grid{fs, bpm, duration_bars};
 
     patterns patterns;
     arrangement arrangement;

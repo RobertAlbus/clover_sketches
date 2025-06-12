@@ -28,7 +28,7 @@ void app::start() {
 }
 
 std::function<clover::io::callback_status(clover::io::callback_args data)> app::create_audio_callback(
-        bar_grid& grid, signal_graph& graph, sequencers& sqs) {
+        bar_grid_029& grid, signal_graph& graph, sequencers& sqs) {
     return [&](clover::io::callback_args data) {
         float& L = *(data.output);
         float& R = *(data.output + 1);
@@ -36,9 +36,6 @@ std::function<clover::io::callback_status(clover::io::callback_args data)> app::
         sqs.tick();
         std::tie(L, R) = graph.tick();
 
-        if (!grid.should_loop && data.clock_time == size_t(grid.duration_samples()) + 1) {
-            return clover::io::callback_status::end;
-        }
         return clover::io::callback_status::cont;
     };
 }

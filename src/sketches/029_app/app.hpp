@@ -13,7 +13,7 @@
 
 struct app {
     context live_ctx;
-    context render_ctx{true};
+    context render_ctx;
 
     void start();
     void audio_thread();
@@ -23,5 +23,5 @@ struct app {
     std::binary_semaphore gui_intent_to_exit{0};
 
     std::function<clover::io::callback_status(clover::io::callback_args data)> create_audio_callback(
-            bar_grid& grid, signal_graph& comp, sequencers& sqs);
+            bar_grid_029& grid, signal_graph& comp, sequencers& sqs);
 };

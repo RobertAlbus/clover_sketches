@@ -13,9 +13,9 @@
 void app::audio_render_thread(std::stop_token st) {
     std::println("starting render: {}", render_ctx.render_name);
 
-    int render_repeat_count     = 2;
-    int render_duration_samples = int(render_repeat_count * render_ctx.grid.duration_samples()) + 1;
-    int render_data_size        = render_duration_samples * render_ctx.channel_count_out;
+    int render_duration_samples =
+            int(render_ctx.render_repeat_count * render_ctx.grid.duration_samples()) + 1;
+    int render_data_size = render_duration_samples * render_ctx.channel_count_out;
 
     audio_buffer buffer;
     buffer.channels    = render_ctx.channel_count_out;

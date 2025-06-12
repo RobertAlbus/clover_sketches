@@ -9,7 +9,7 @@
 #include "sequence/patterns.hpp"
 #include "sequencers.hpp"
 
-sequencers::sequencers(std::vector<frsq_pair>&& frsq_pairs, bar_grid& grid, log_bus_000& log)
+sequencers::sequencers(std::vector<frsq_pair>&& frsq_pairs, bar_grid_029& grid, log_bus_000& log)
     : grid{grid}, frsq_pairs{std::move(frsq_pairs)} {
     set_up_arrangement_print(log);
 }

@@ -7,7 +7,7 @@
 #include "lib/logging/logger.hpp"
 #include "lib/sq/frsq_024.hpp"
 
-#include "lib/sq//bar_grid.hpp"
+#include "lib/sq/bar_grid_029.hpp"
 
 #include "sequence/event.hpp"
 #include "sequence/patterns.hpp"
@@ -19,12 +19,12 @@ struct frsq_pair {
 };
 
 struct sequencers {
-    sequencers(std::vector<frsq_pair>&& frsq_pairs, bar_grid& grid, log_bus_000& log);
+    sequencers(std::vector<frsq_pair>&& frsq_pairs, bar_grid_029& grid, log_bus_000& log);
 
     patterns patterns;
     arrangement arrangement;
 
-    bar_grid& grid;
+    bar_grid_029& grid;
 
     frsq_024<log_bus_000, event> frsq_arrangement_print;
 

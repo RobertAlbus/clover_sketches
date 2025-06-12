@@ -4,14 +4,16 @@
 
 #include "graph/graph.hpp"
 #include "lib/logging/logger.hpp"
-#include "lib/sq//bar_grid.hpp"
+#include "lib/sq/bar_grid.hpp"
 #include "sequence/sequencers.hpp"
 #include "sequence/set_up_sequencing.hpp"
 
-#include "context.hpp"
-
 std::vector<frsq_pair> build_frsq_pairs(
-        signal_graph& graph, bar_grid& grid, log_bus_000& log, patterns& patterns, arrangement& arrangement) {
+        signal_graph& graph,
+        bar_grid_029& grid,
+        log_bus_000& log,
+        patterns& patterns,
+        arrangement& arrangement) {
     std::vector<frsq_pair> frsq_pairs;
     frsq_pairs.emplace_back(create_sequencers(
             std::span<kick_drum_000>(&graph.kick, 1),

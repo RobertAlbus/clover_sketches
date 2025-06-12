@@ -13,7 +13,7 @@
 #include "lib/logging/logger.hpp"
 #include "lib/sq/frsq_024.hpp"
 
-#include "lib/sq//bar_grid.hpp"
+#include "lib/sq/bar_grid_029.hpp"
 
 #include "event.hpp"
 #include "sequence/patterns.hpp"
@@ -25,7 +25,7 @@ frsq_pair create_sequencers(
         typename frsq_024<voice_t, event_t>::callback_start_t callback_start,
         typename frsq_024<voice_t, event_t>::callback_end_t callback_end,
         log_bus_000& logger,
-        bar_grid& grid,
+        bar_grid_029& grid,
         std::vector<pattern_t<event_t>>& patterns,
         std::vector<event_meta_sq>& arrangement,
         double duration_bars,
@@ -62,7 +62,7 @@ void set_up_sequencing(
         typename frsq_024<voice_t, event_t>::callback_end_t callback_end,
         frsq_024<frsq_024<voice_t, event_t>, event_meta_sq>& meta_sq,
         log_bus_000& logger,
-        bar_grid& grid,
+        bar_grid_029& grid,
         std::vector<pattern_t<event_t>>& patterns,
         std::vector<event_meta_sq>& arrangement,
         double duration_bars,
@@ -81,7 +81,7 @@ template <typename voice_t, frsq_data_base_000 event_t>
 std::function<void(frsq_024<voice_t, event_t>&, const event_meta_sq&)> arrangement_callback_for(
         frsq_024<frsq_024<voice_t, event_t>, event_meta_sq>& meta_frsq,
         log_bus_000& logger,
-        bar_grid& grid,
+        bar_grid_029& grid,
         std::vector<pattern_t<event_t>>& patterns,
         std::string logging_name) {
     return [&meta_frsq, &logger, logging_name, &patterns, &grid](
