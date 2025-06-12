@@ -19,21 +19,30 @@ std::vector<frsq_pair> build_frsq_pairs(
         arrangement& arrangement);
 
 struct context {
+    // --------------------------------
+    // audio (render & live)
     float fs                   = 48000;
     float bpm                  = 124;
     double duration_bars       = 32;
-    double render_repeat_count = 2;
-
     int channel_count_out = 2;
-    const std::string render_name{"029_app"};
-
-    log_bus_000 logger;
-
-    signal_graph graph{fs};
-    bar_grid_029 grid{fs, bpm, duration_bars};
-
     patterns patterns;
     arrangement arrangement;
+    bar_grid_029 grid{fs, bpm, duration_bars};
     sequencers sequencers{build_frsq_pairs(graph, grid, logger, patterns, arrangement), grid, logger};
+    signal_graph graph{fs};
+
+    // because it's integrated into sequencers (should figure out how to remove. not important though, will not always use sqs logging)
+    log_bus_000 logger;
+
+    // --------------------------------
+    // audio (render only)
+    double render_repeat_count = 2;
+    
+    // --------------------------------
+    // app
+    const std::string render_name{"029_app"}; // gui window name, audio render path
+    
+    // --------------------------------
+    // live playback only
     view view{sequencers, graph, logger};
 };
