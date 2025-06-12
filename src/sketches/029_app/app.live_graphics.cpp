@@ -56,7 +56,7 @@ void app::graphics_thread() {
     // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
 
-    auto window_name   = std::format("clover sketch: {}", live_ctx.render_name);
+    auto window_name   = std::format("clover sketch: {}", live_ctx.window_name);
     GLFWwindow* window = glfwCreateWindow(1280, 720, window_name.c_str(), nullptr, nullptr);
     if (window == nullptr) {
         // TODO - RETURN CODE: CAN'T RETURN 1, WHAT SHOULD I DO?
