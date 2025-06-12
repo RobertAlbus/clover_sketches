@@ -13,7 +13,7 @@
 #include "lib/logging/logger.hpp"
 #include "lib/sq/frsq_024.hpp"
 
-#include "infrastructure/bar_grid.hpp"
+#include "lib/sq//bar_grid.hpp"
 
 #include "event.hpp"
 #include "sequence/patterns.hpp"

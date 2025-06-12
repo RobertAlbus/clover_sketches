@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-#include "infrastructure/bar_grid.hpp"
+#include "lib/sq/bar_grid.hpp"
 
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/kick_drum/kick_drum.hpp"

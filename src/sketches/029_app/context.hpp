@@ -8,8 +8,8 @@
 
 #include "graph/graph.hpp"
 #include "gui/view.hpp"
-#include "infrastructure/bar_grid.hpp"
 #include "lib/logging/logger.hpp"
+#include "lib/sq//bar_grid.hpp"
 #include "sequence/sequencers.hpp"
 
 std::vector<frsq_pair> build_frsq_pairs(

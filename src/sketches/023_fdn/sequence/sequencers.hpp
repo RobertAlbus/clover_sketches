@@ -8,7 +8,7 @@
 #include "lib/logging/logger.hpp"
 #include "lib/sq/frsq_000.hpp"
 
-#include "infrastructure/bar_grid.hpp"
+#include "lib/sq/bar_grid.hpp"
 
 #include "graph/graph.hpp"
 #include "sequence/event.hpp"

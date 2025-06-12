@@ -15,7 +15,7 @@
 #include "lib/render/convert_sample_rate.hpp"
 
 #include "context.hpp"
-#include "infrastructure/bar_grid.hpp"
+#include "lib/sq/bar_grid.hpp"
 
 #include "graph/graph.hpp"
 #include "sequence/sequencers.hpp"

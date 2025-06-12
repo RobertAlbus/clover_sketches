@@ -3,8 +3,8 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "graph/graph.hpp"
-#include "infrastructure/bar_grid.hpp"
 #include "lib/logging/logger.hpp"
+#include "lib/sq//bar_grid.hpp"
 #include "sequence/sequencers.hpp"
 #include "sequence/set_up_sequencing.hpp"
 

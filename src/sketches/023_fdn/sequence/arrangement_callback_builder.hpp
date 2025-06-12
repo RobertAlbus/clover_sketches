@@ -11,7 +11,7 @@
 
 #include "lib/logging/logger.hpp"
 
-#include "infrastructure/bar_grid.hpp"
+#include "lib/sq/bar_grid.hpp"
 
 #include "event.hpp"
 #include "lib/sq/frsq_000.hpp"
