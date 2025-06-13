@@ -6,7 +6,6 @@
 #include "clover/io/system_audio.hpp"
 
 #include "app.hpp"
-#include "context.hpp"
 
 void app::audio_thread() {
     clover::io::system_audio_config system;

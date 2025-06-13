@@ -2,6 +2,8 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include <print>
+#include <ranges>
 #include <stop_token>
 
 #include "clover/io/audio_file.hpp"
@@ -19,7 +21,7 @@ void app::audio_render_thread(std::stop_token st) {
     int runout_duration_samples = render_ctx->render_runout_duration_samples();
     int runout_data_size        = runout_duration_samples * render_ctx->channel_count_out();
 
-    audio_buffer buffer;
+    clover::audio_buffer buffer;
     buffer.channels    = render_ctx->channel_count_out();
     buffer.sample_rate = int(render_ctx->fs());
 

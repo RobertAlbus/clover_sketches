@@ -2,6 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include <format>
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #define GL_SILENCE_DEPRECATION
 #include <GLES2/gl2.h>
@@ -14,7 +15,6 @@
 #include "implot.h"
 
 #include "app.hpp"
-#include "context.hpp"
 
 static void glfw_error_callback(int error, const char* description) {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);

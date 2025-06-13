@@ -10,6 +10,7 @@
 
 #include "graph/graph.hpp"
 #include "gui/view.hpp"
+#include "infra/behaviours_base.hpp"
 #include "sequence/sequencers.hpp"
 
 std::vector<frsq_pair> build_frsq_pairs(
@@ -19,28 +20,12 @@ std::vector<frsq_pair> build_frsq_pairs(
         patterns& patterns,
         arrangement& arrangement);
 
-struct context_base {
-    // render behaviours
-    virtual ~context_base()                      = default;
-    virtual int render_duration_samples()        = 0;
-    virtual int render_runout_duration_samples() = 0;
-    virtual void sequencer_start()               = 0;
-    virtual void sequencer_stop()                = 0;
-    virtual constexpr std::string project_name() = 0;
-
-    // live behaviours
-    virtual bool draw_view()                             = 0;
-    virtual clover::io::callback create_audio_callback() = 0;
-    virtual int channel_count_out()                      = 0;
-    virtual float fs()                                   = 0;
-};
-
-struct context_029 : public context_base {
-    context_029() {
+struct behaviours : public behaviour_base {
+    behaviours() {
         sequencers.set_frsq_pairs(build_frsq_pairs(graph, grid, logger, patterns, arrangement));
     }
 
-    ~context_029() override = default;
+    ~behaviours() override = default;
 
     float bpm                  = 124;
     double duration_bars       = 32;

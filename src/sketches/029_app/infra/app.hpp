@@ -8,22 +8,22 @@
 #include <semaphore>
 #include <stop_token>
 
-#include "context.hpp"
+#include "behaviours_base.hpp"
 
 struct app {
     template <typename context_t>
     static app create() {
         static_assert(
-                std::is_base_of<context_base, context_t>::value, "context_t must derive from context_base");
+                std::is_base_of<behaviour_base, context_t>::value, "context_t must derive from context_base");
         return app{std::make_unique<context_t>(), std::make_unique<context_t>()};
     }
 
-    app(std::unique_ptr<context_base> live, std::unique_ptr<context_base> render)
+    app(std::unique_ptr<behaviour_base> live, std::unique_ptr<behaviour_base> render)
         : live_ctx{std::move(live)}, render_ctx{std::move(render)} {
     }
 
-    std::unique_ptr<context_base> live_ctx;
-    std::unique_ptr<context_base> render_ctx;
+    std::unique_ptr<behaviour_base> live_ctx;
+    std::unique_ptr<behaviour_base> render_ctx;
 
     void start();
     void audio_thread();
