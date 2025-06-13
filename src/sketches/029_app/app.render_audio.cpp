@@ -11,59 +11,59 @@
 #include "app.hpp"
 
 void app::audio_render_thread(std::stop_token st) {
-    std::println("starting render: {}", render_ctx.render_name);
+    std::println("starting render: {}", render_ctx->project_name());
 
-    int render_duration_samples = int(render_ctx.render_repeat_count * render_ctx.grid.duration_samples());
-    int render_data_size        = render_duration_samples * render_ctx.channel_count_out;
+    int render_duration_samples = render_ctx->render_duration_samples();
+    int render_data_size        = render_duration_samples * render_ctx->channel_count_out();
 
-    int runout_duration_samples = int(2.f * render_ctx.grid.bars_to_samples(4)) + 1;
-    int runout_data_size        = runout_duration_samples * render_ctx.channel_count_out;
+    int runout_duration_samples = render_ctx->render_runout_duration_samples();
+    int runout_data_size        = runout_duration_samples * render_ctx->channel_count_out();
 
     audio_buffer buffer;
-    buffer.channels    = render_ctx.channel_count_out;
-    buffer.sample_rate = int(render_ctx.grid.fs);
+    buffer.channels    = render_ctx->channel_count_out();
+    buffer.sample_rate = int(render_ctx->fs());
 
     buffer.data.resize(render_data_size + runout_data_size, 0.f);
 
-    auto audio_callback = create_audio_callback(render_ctx.grid, render_ctx.graph, render_ctx.sequencers);
-    render_ctx.sequencers.play();
+    auto callback = render_ctx->create_audio_callback();
+    render_ctx->sequencer_start();
     for (auto frame : std::views::iota(0, render_duration_samples)) {
         if (st.stop_requested()) {
-            std::println("canceled render: {}", render_ctx.render_name);
+            std::println("canceled render: {}", render_ctx->project_name());
             return;
         }
-        auto result = audio_callback({
+        auto result = callback({
                 .clock_time     = frame,
                 .chan_count_in  = 0,
-                .chan_count_out = render_ctx.channel_count_out,
+                .chan_count_out = render_ctx->channel_count_out(),
                 .input          = nullptr,
-                .output         = &(buffer.data[static_cast<size_t>(frame) * render_ctx.channel_count_out]),
+                .output = &(buffer.data[static_cast<size_t>(frame) * render_ctx->channel_count_out()]),
         });
     }
 
-    render_ctx.sequencers.stop();
+    render_ctx->sequencer_stop();
 
     for (auto frame :
          std::views::iota(render_duration_samples, render_duration_samples + runout_duration_samples)) {
         if (st.stop_requested()) {
-            std::println("canceled render: {}", render_ctx.render_name);
+            std::println("canceled render: {}", render_ctx->project_name());
             return;
         }
-        auto result = audio_callback({
+        auto result = callback({
                 .clock_time     = frame,
                 .chan_count_in  = 0,
-                .chan_count_out = render_ctx.channel_count_out,
+                .chan_count_out = render_ctx->channel_count_out(),
                 .input          = nullptr,
-                .output         = &(buffer.data[static_cast<size_t>(frame) * render_ctx.channel_count_out]),
+                .output = &(buffer.data[static_cast<size_t>(frame) * render_ctx->channel_count_out()]),
         });
     }
 
     convert_sample_rate_016(buffer, 44100);
     clover::io::audio_file::write(
-            render_ctx.render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
+            render_ctx->project_name() + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
 
     clover::io::audio_file::write(
-            render_ctx.render_name + ".mp3", buffer, clover::io::audio_file_settings::mp3_320);
+            render_ctx->project_name() + ".mp3", buffer, clover::io::audio_file_settings::mp3_320);
 
-    std::println("finished render: {}", render_ctx.render_name);
+    std::println("finished render: {}", render_ctx->project_name());
 }

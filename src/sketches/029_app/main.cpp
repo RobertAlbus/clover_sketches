@@ -3,10 +3,11 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "app.hpp"
+#include "context.hpp"
 
 int main(int, char*[]) {
-    app app;
-    app.start();
+    app application = app::create<context_029>();
+    application.start();
 
     return 0;
 }

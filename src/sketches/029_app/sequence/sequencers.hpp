@@ -19,7 +19,9 @@ struct frsq_pair {
 };
 
 struct sequencers {
-    sequencers(std::vector<frsq_pair>&& frsq_pairs, bar_grid_029& grid, log_bus_000& log);
+    sequencers(bar_grid_029& grid, log_bus_000& log);
+    sequencers(std::vector<frsq_pair>&& new_frsq_pairs, bar_grid_029& grid, log_bus_000& log);
+    void set_frsq_pairs(std::vector<frsq_pair>&& new_frsq_pairs);
 
     patterns patterns;
     arrangement arrangement;

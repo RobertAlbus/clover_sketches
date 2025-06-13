@@ -9,9 +9,15 @@
 #include "sequence/patterns.hpp"
 #include "sequencers.hpp"
 
-sequencers::sequencers(std::vector<frsq_pair>&& frsq_pairs, bar_grid_029& grid, log_bus_000& log)
-    : grid{grid}, frsq_pairs{std::move(frsq_pairs)} {
+sequencers::sequencers(bar_grid_029& grid, log_bus_000& log) : sequencers({}, grid, log) {
+}
+sequencers::sequencers(std::vector<frsq_pair>&& new_frsq_pairs, bar_grid_029& grid, log_bus_000& log)
+    : grid{grid}, frsq_pairs{std::move(new_frsq_pairs)} {
     set_up_arrangement_print(log);
+}
+
+void sequencers::set_frsq_pairs(std::vector<frsq_pair>&& new_frsq_pairs) {
+    frsq_pairs = std::move(new_frsq_pairs);
 }
 
 void sequencers::tick() {

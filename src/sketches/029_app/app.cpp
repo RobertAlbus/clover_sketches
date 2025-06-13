@@ -5,13 +5,7 @@
 #include <stop_token>
 #include <thread>
 
-#include "clover/io/audio_callback.hpp"
-
 #include "app.hpp"
-
-static void glfw_error_callback(int error, const char* description) {
-    fprintf(stderr, "GLFW Error %d: %s\n", error, description);
-}
 
 void app::start() {
     app& self = *this;
@@ -25,17 +19,4 @@ void app::start() {
     graphics_live.join();
 
     audio_render.request_stop();
-}
-
-std::function<clover::io::callback_status(clover::io::callback_args data)> app::create_audio_callback(
-        bar_grid_029& grid, signal_graph& graph, sequencers& sqs) {
-    return [&](clover::io::callback_args data) {
-        float& L = *(data.output);
-        float& R = *(data.output + 1);
-
-        sqs.tick();
-        std::tie(L, R) = graph.tick();
-
-        return clover::io::callback_status::cont;
-    };
 }
