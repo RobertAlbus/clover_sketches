@@ -12,7 +12,7 @@
 using namespace clover;
 using namespace io;
 
-int main(int, char *[]) {
+int main(int, char*[]) {
     context sharedProps;
 
     std::thread Audio(AUDIO, std::ref(sharedProps));

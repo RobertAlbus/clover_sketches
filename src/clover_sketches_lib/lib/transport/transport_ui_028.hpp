@@ -7,12 +7,17 @@
 #include <functional>
 
 struct transport_ui_028 {
-    transport_ui_028(std::function<void(float)> play_action, std::function<void()> stop_action);
+    transport_ui_028(
+            std::function<void(float)> start_action,
+            std::function<void()> play_action,
+            std::function<void()> stop_action);
     float bar       = 0;
     bool is_playing = false;
 
-    std::function<void(float)> play_action;
+    std::function<void(float)> start_action;
+    std::function<void()> play_action;
     std::function<void()> stop_action;
     void draw();
-    void toggle_state();
+    void toggle_state_start();
+    void toggle_state_play();
 };

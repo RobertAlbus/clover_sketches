@@ -8,7 +8,7 @@
 
 #include "clover/dsp/filter.hpp"
 
-#include "infrastructure/bar_grid.hpp"
+#include "lib/sq/bar_grid.hpp"
 
 #include "lib/echo/echo.hpp"
 #include "lib/env_bp/env_bp.hpp"

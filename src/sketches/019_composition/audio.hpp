@@ -14,18 +14,19 @@
 #include "clover/io/stream.hpp"
 #include "clover/io/system_audio.hpp"
 
+#include "lib/render/convert_sample_rate.hpp"
+
 #include "composition/composition.hpp"
 #include "sequence/sequencers.hpp"
 
 #include "shared_props.hpp"
-#include "util.hpp"
 
 std::string render_name{"019_composition"};
 
-auto create_audio_callback(composition &comp, sequencers &sqs) {
+auto create_audio_callback(composition& comp, sequencers& sqs) {
     return [&](clover::io::callback_args data) {
-        float &L = *(data.output);
-        float &R = *(data.output + 1);
+        float& L = *(data.output);
+        float& R = *(data.output + 1);
 
         sqs.tick();
         std::tie(L, R) = comp.tick();
@@ -37,7 +38,7 @@ auto create_audio_callback(composition &comp, sequencers &sqs) {
     };
 }
 
-void AUDIO(context &props) {
+void AUDIO(context& props) {
     composition comp;
     sequencers sqs{comp};
 
@@ -68,7 +69,7 @@ void AUDIO(context &props) {
                 });
             }
 
-            sketch_016_convert_sample_rate(buffer, 44100);
+            convert_sample_rate_016(buffer, 44100);
             clover::io::audio_file::write(
                     render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
             std::cout << "finished render: " << render_name.c_str() << std::endl;

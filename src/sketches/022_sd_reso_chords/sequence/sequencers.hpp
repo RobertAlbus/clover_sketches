@@ -8,7 +8,7 @@
 #include "lib/logging/logger.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
-#include "infrastructure/bar_grid.hpp"
+#include "lib/sq/bar_grid.hpp"
 
 #include "composition/graph.hpp"
 #include "lib/sq/frsq_000.hpp"

@@ -9,8 +9,13 @@
 
 #include "transport_ui_028.hpp"
 
-transport_ui_028::transport_ui_028(std::function<void(float)> play_action, std::function<void()> stop_action)
-    : play_action{std::move(play_action)}, stop_action{std::move(stop_action)} {
+transport_ui_028::transport_ui_028(
+        std::function<void(float)> start_action,
+        std::function<void()> play_action,
+        std::function<void()> stop_action)
+    : start_action{std::move(start_action)},
+      play_action{std::move(play_action)},
+      stop_action{std::move(stop_action)} {
 }
 void transport_ui_028::draw() {
     ImGui::PushItemWidth(100);
@@ -18,11 +23,16 @@ void transport_ui_028::draw() {
     ImGui::PopItemWidth();
     ImGui::SameLine();
     if (ImGui::Button(is_playing ? "stop" : "play")) {
-        toggle_state();
+        toggle_state_start();
     }
 }
 
-void transport_ui_028::toggle_state() {
-    is_playing ? stop_action() : play_action(bar);
+void transport_ui_028::toggle_state_start() {
+    is_playing ? stop_action() : start_action(bar);
+    is_playing = !is_playing;
+}
+
+void transport_ui_028::toggle_state_play() {
+    is_playing ? stop_action() : play_action();
     is_playing = !is_playing;
 }
