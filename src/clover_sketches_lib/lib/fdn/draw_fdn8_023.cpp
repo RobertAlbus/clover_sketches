@@ -10,14 +10,7 @@ using namespace ImGui;
 
 #include "draw_fdn8_023.hpp"
 
-bool draw_tap_control(float& tap, float tap_min, float tap_max, float tap_range, float available_width) {
-    return draw_tap_control(tap, tap, tap_min, tap_max, tap_range, available_width);
-}
-
-// TODO: refactor tap_R out of this. Can handle it in the parent context.
-// this is more of a generic spinner-slider input anyway
-bool draw_tap_control(
-        float& tap_L, float& tap_R, float tap_min, float tap_max, float tap_range, float available_width) {
+bool draw_tap_control(float& tap_L, float tap_min, float tap_max, float tap_range, float available_width) {
     PushID(&tap_L);
 
     auto drag_fmt = tap_L < 1000.f ? "%.2f" : "%.f";
@@ -47,7 +40,6 @@ bool draw_tap_control(
     tap_L = (tap_slider_control * tap_range) + tap_min;
     if (changed_slider || changed_drag) {
         tap_L = (tap_slider_control * tap_range) + tap_min;
-        tap_R = tap_L;
     }
     return changed_slider || changed_drag;
 };
@@ -109,13 +101,15 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
         std::array<float, 8>& taps_R = fdn_R ? fdn_R->props.taps : taps_L;
         for (auto [i, tap_L, tap_R] : std::views::zip(std::views::iota(0, 8), taps_L, taps_R)) {
             float tap_slider_control = (tap_L - tap_min) / tap_range;
-            draw_tap_control(
-                    tap_L,  //
-                    tap_R,
-                    tap_min,
-                    tap_max,
-                    tap_range,
-                    available_width);
+            if (draw_tap_control(
+                        tap_L,  //
+                        tap_min,
+                        tap_max,
+                        tap_range,
+                        available_width) &&
+                fdn_R) {
+                tap_R = tap_L;
+            }
         }
 
         ImGui::EndTable();

@@ -38,9 +38,7 @@ concept draw_fdn8_023_concept = requires(T* fdn, float f, float q) {
     { fdn->set_hpf(f, q) };
 };
 
-bool draw_tap_control(float& tap_L, float tap_min, float tap_max, float tap_range, float available_width);
-bool draw_tap_control(
-        float& tap_L, float& tap_R, float tap_min, float tap_max, float tap_range, float available_width);
+bool draw_tap_control(float& tap, float tap_min, float tap_max, float tap_range, float available_width);
 
 template <draw_fdn8_023_concept fdn_t>
 bool draw_fdn8_023_v2(const char* id, fdn_t& fdn) {
@@ -103,7 +101,7 @@ bool draw_fdn8_023_v2(const char* id, fdn_t& fdn) {
                     available_width);
         }
 
-        ImGui::EndTable();    
+        ImGui::EndTable();
     }
     ImGui::PopID();
 
