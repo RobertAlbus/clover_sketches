@@ -6,4 +6,5 @@
 
 #include "fdn8_023.hpp"
 
-void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R);
+void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R = nullptr);
+

@@ -70,7 +70,7 @@ void controller_kick(const char* id, context& ctx) {
         draw_peq_000("##kick_out_peq", graph.kick_out_peq);
         ImGui::EndTable();
     }
-    draw_fdn8_023("##kick_fdn", &graph.kick_verb, nullptr);
+    draw_fdn8_023("##kick_fdn", &graph.kick_verb);
 
     ImGui::PopID();
 }
