@@ -35,7 +35,7 @@ void controller_kick::draw() {
     ImGui::NewLine();
     gpeq_send.draw();
     ImGui::NewLine();
-    draw_fdn8_023("##kick_fdn", &graph.kick_verb);
+    draw_fdn8_023_v2("##kick_fdn", graph.kick_verb);
     ImGui::NewLine();
     gpeq_post.draw();
     ImGui::NewLine();

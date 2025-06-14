@@ -3,13 +3,19 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <ranges>
-#include <string>
 
 #include "imgui.h"
+#include "lib/fdn/fdn8_023.hpp"
 using namespace ImGui;
 
 #include "draw_fdn8_023.hpp"
 
+bool draw_tap_control(float& tap, float tap_min, float tap_max, float tap_range, float available_width) {
+    return draw_tap_control(tap, tap, tap_min, tap_max, tap_range, available_width);
+}
+
+// TODO: refactor tap_R out of this. Can handle it in the parent context.
+// this is more of a generic spinner-slider input anyway
 bool draw_tap_control(
         float& tap_L, float& tap_R, float tap_min, float tap_max, float tap_range, float available_width) {
     PushID(&tap_L);
