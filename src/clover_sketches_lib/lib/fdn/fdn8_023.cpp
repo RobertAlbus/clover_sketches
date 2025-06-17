@@ -69,8 +69,9 @@ void fdn8_023::set_lpf(float f0) {
 void fdn8_023::set_lpf(float f0, float q) {
     props.lpf_cut = f0;
     props.lpf_res = q;
+    auto coeffs   = dsp::lpf(fs, f0, q);
     for (auto& lpf : lpfs)
-        lpf.m_coeffs = dsp::lpf(fs, f0, q);
+        lpf.m_coeffs = coeffs;
 }
 void fdn8_023::set_hpf(float f0) {
     set_hpf(f0, props.hpf_res);
@@ -78,11 +79,13 @@ void fdn8_023::set_hpf(float f0) {
 void fdn8_023::set_hpf(float f0, float q) {
     props.hpf_cut = f0;
     props.hpf_res = q;
+
+    auto coeffs = dsp::hpf(fs, f0, q);
     for (auto& hpf : hpfs)
-        hpf.m_coeffs = dsp::hpf(fs, f0, q);
+        hpf.m_coeffs = coeffs;
 }
 
-float fdn8_023::process(float x) {
+float fdn8_023::tick(float x) {
     std::array<float, 8> delay_outputs;
     delay_outputs.fill(0);
 
@@ -107,8 +110,4 @@ float fdn8_023::process(float x) {
 
     output *= scale(8) * scale(8);
     return output;
-}
-
-float fdn8_023::tick(float x) {
-    return process(x);
 }

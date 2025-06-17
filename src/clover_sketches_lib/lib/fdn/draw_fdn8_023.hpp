@@ -7,29 +7,21 @@
 #include "imgui.h"
 
 #include "fdn8_023.hpp"
+#include <concepts>
 #include <ranges>
 
 void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R = nullptr);
 
 template <typename T>
 concept draw_fdn8_023_concept = requires(T* fdn, float f, float q) {
-    // props member and subfields
-    { fdn->props } -> std::same_as<fdn8_props_023&>;
+    { fdn->props } -> std::convertible_to<fdn8_props_023>;
     { fdn->props.fb_gain } -> std::convertible_to<float&>;
     { fdn->props.lpf_cut } -> std::convertible_to<float&>;
     { fdn->props.hpf_cut } -> std::convertible_to<float&>;
     { fdn->props.taps } -> std::same_as<std::array<float, 8>&>;
     { fdn->props.to_str() } -> std::convertible_to<std::string>;
 
-    // fdls member and m_max_idx access
-    { fdn->fdls } -> std::same_as<std::array<clover::dsp::fdl_lagrange, 8>&>;
-    { fdn->fdls[0].m_max_idx } -> std::convertible_to<float>;
-
-    // fbs member
-    { fdn->fbs } -> std::same_as<std::array<float, 8>&>;
-
-    // fb_coeff member
-    { fdn->fb_coeff } -> std::convertible_to<float&>;
+    { fdn->max_idx } -> std::convertible_to<const float&>;
 
     // filter setters
     { fdn->set_lpf(f) };
@@ -84,7 +76,7 @@ bool draw_fdn8_023_v2(const char* id, fdn_t& fdn) {
         ImGui::TableNextColumn();
         float drag_speed = ImGui::GetIO().KeyShift ? 0.01f : 1.0f;
 
-        float tap_max   = fdn.fdls[0].m_max_idx;
+        float tap_max   = fdn.max_idx;
         float tap_min   = 3;
         float tap_range = tap_max - tap_min;
 

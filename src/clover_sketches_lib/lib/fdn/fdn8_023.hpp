@@ -39,10 +39,9 @@ struct fdn8_023 {
             clover::dsp::fdl_lagrange{48000},
             clover::dsp::fdl_lagrange{48000},
             clover::dsp::fdl_lagrange{48000}};
+    const float max_idx = 47997;
     std::array<clover::dsp::filter, 8> lpfs;
     std::array<clover::dsp::filter, 8> hpfs;
-
-    float fb_coeff;
 
     void set_lpf(float f0);
     void set_lpf(float f0, float q);
@@ -53,5 +52,4 @@ struct fdn8_023 {
     void patch(fdn8_props_023 props);
 
     float tick(float x);
-    float process(float x);
 };

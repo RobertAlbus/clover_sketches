@@ -10,6 +10,7 @@
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "stereo_fdn/stereo_fdn.hpp"
 
 struct patch_drums_t {
     patch_drums_t();
@@ -36,8 +37,7 @@ struct patch_synth_t {
     // CHORD
 
     subtractive_synth_props_000 chord_props;
-    fdn8_props_023 chord_fdn_props_L;
-    fdn8_props_023 chord_fdn_props_R;
+    fdn8_030_stereo_props chord_fdn_props;
 
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props;
     std::array<peq_props_000, peq_000::SIZE> chord_peq_props;

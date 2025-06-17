@@ -65,8 +65,9 @@ std::pair<float, float> signal_graph::tick() {
     chord_preverb_L                         = std::clamp(chord_preverb_L, -1.f, 1.f);
     chord_preverb_R                         = std::clamp(chord_preverb_R, -1.f, 1.f);
 
-    float chord_verb_out_L = chord_verb_L.tick(chord_preverb_L) * audio_mixer.at("chord wet");
-    float chord_verb_out_R = chord_verb_R.tick(chord_preverb_R) * audio_mixer.at("chord wet");
+    auto [chord_verb_out_L, chord_verb_out_R] = chord_verb.tick({chord_preverb_L, chord_preverb_R});
+    chord_verb_out_L *= audio_mixer.at("chord wet");
+    chord_verb_out_R *= audio_mixer.at("chord wet");
 
     chord_verb_out_L = std::clamp(chord_verb_out_L, -1.f, 1.f);
     chord_verb_out_R = std::clamp(chord_verb_out_R, -1.f, 1.f);

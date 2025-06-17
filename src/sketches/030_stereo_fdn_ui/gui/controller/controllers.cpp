@@ -2,6 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "imgui-knobs.h"
 #include "imgui.h"
 
 #include "lib/cymbal/draw_cymbal_000.hpp"
@@ -59,7 +60,8 @@ void controller_chord::draw() {
 
     gpeq_send.draw();
     ImGui::NewLine();
-    draw_fdn8_023("fdn", &graph.chord_verb_L, &graph.chord_verb_R);
+    draw_fdn8_023_v2("fdn", graph.chord_verb);
+    ImGuiKnobs::Knob("stereo spread", &graph.chord_verb.props.stereo_spread_taps_octaves, -1, 1);
     ImGui::NewLine();
     gpeq_post.draw();
     ImGui::NewLine();
