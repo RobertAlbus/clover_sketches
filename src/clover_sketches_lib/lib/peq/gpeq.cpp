@@ -111,13 +111,14 @@ void gpeq_ui_028::update_all() {
 }
 
 bool gpeq_ui_028::draw() {
-    const ImVec2 origin         = ImGui::GetCursorScreenPos();
+    const ImVec2 origin = ImGui::GetCursorScreenPos();
+    if (ImGui::Button("peq preset")) {
+        ImGui::SetClipboardText(peq.to_str().c_str());
+    }
     const bool was_changed      = draw_controls();
     const ImVec2 graph_position = ImVec2(origin.x + 250, origin.y);
     ImGui::SetCursorScreenPos(graph_position);
     draw_response();
-    const ImVec2 end_position = ImVec2(origin.x, origin.y + 450);
-    ImGui::SetCursorScreenPos(end_position);
 
     return was_changed;
 }
