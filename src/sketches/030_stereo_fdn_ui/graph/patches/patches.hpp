@@ -6,11 +6,11 @@
 
 #include "lib/cymbal/cymbal_000.hpp"
 #include "lib/fdn/fdn8_023.hpp"
+#include "lib/fdn/stereo_fdn.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
-#include "stereo_fdn/stereo_fdn.hpp"
 
 struct patch_drums_t {
     patch_drums_t();
