@@ -6,7 +6,7 @@
 
 #include "lib/cymbal/cymbal_000.hpp"
 #include "lib/fdn/fdn8_023.hpp"
-#include "lib/fdn/stereo_fdn.hpp"
+#include "lib/fdn/fdn8_stereo_030.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
@@ -37,7 +37,7 @@ struct patch_synth_t {
     // CHORD
 
     subtractive_synth_props_000 chord_props;
-    fdn8_030_stereo_props chord_fdn_props;
+    fdn8_stereo_030_props chord_fdn_props;
 
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props;
     std::array<peq_props_000, peq_000::SIZE> chord_peq_props;
