@@ -22,7 +22,8 @@ struct gpeq_ui_028 {
     std::array<complex_response, peq_000::SIZE> complex_responses;
     complex_response cumulative_complex_response;
     std::vector<float> freqs;
-    std::vector<double> axis_ticks;
+    std::vector<double> axis_ticks_freq;
+    std::vector<double> axis_ticks_db;
     computed_response computed;
 
     bool should_draw_magnitude = true;
@@ -35,6 +36,7 @@ struct gpeq_ui_028 {
     void update_all();
 
     bool draw();
+    void setup_axes();
     void draw_response();
     bool draw_controls();
 };

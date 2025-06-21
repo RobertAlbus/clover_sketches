@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <ranges>
 
+#include "clover/math.hpp"
 #include "imgui-knobs.h"
 #include "imgui.h"
 
@@ -24,6 +25,16 @@ static inline double transform_inverse_log2(double v, void*) {
     return exp2(v);
 }
 
+static inline double transform_forward_db(double v, void*) {
+    return v / 6.;
+}
+
+static inline double transform_inverse_db(double v, void*) {
+    return v * 6.;
+}
+
+constexpr int freq_lower = 20;
+constexpr int freq_upper = 24000;
 gpeq_ui_028::gpeq_ui_028(const char* name, peq_000& peq, size_t num_graph_points)
     :  //
       name(name),
@@ -32,8 +43,8 @@ gpeq_ui_028::gpeq_ui_028(const char* name, peq_000& peq, size_t num_graph_points
     gui_peq_props = peq.props;
 
     freqs.resize(num_graph_points);
-    log_spaced_freqs(freqs, 20, 24000);
-    axis_ticks.reserve(133);
+    log_spaced_freqs(freqs, freq_lower, freq_upper);
+    axis_ticks_freq.reserve(133);
     for (auto i : std::views::iota(1, 12) | std::views::reverse) {
         float base_tick = 24000.f / std::exp2(float(i));
 
@@ -42,10 +53,21 @@ gpeq_ui_028::gpeq_ui_028(const char* name, peq_000& peq, size_t num_graph_points
         for (auto j : std::views::iota(0, 12)) {
             float tick = base_tick + (delta * (float(j) / 10.f));
             if (tick >= 20)
-                axis_ticks.emplace_back(tick);
+                axis_ticks_freq.emplace_back(tick);
         }
     }
-    axis_ticks.emplace_back(24000);
+    axis_ticks_freq.emplace_back(24000);
+
+    axis_ticks_db.reserve(9);
+    axis_ticks_db.emplace_back((-24));
+    axis_ticks_db.emplace_back((-18));
+    axis_ticks_db.emplace_back((-12));
+    axis_ticks_db.emplace_back((-6));
+    axis_ticks_db.emplace_back((0));
+    axis_ticks_db.emplace_back((6));
+    axis_ticks_db.emplace_back((12));
+    axis_ticks_db.emplace_back((18));
+    axis_ticks_db.emplace_back((24));
 
     for (auto& complex_response : complex_responses)
         complex_response.resize(num_graph_points);
@@ -84,7 +106,9 @@ void gpeq_ui_028::update() {
     }
 
     compute_spectrum(cumulative_complex_response, computed);
-    unwrap_phase(computed.angles);
+    for (auto& magnitude : computed.magnitudes) {
+        magnitude = clover::linear_to_db(magnitude);
+    }
 }
 
 void gpeq_ui_028::update_all() {
@@ -107,7 +131,9 @@ void gpeq_ui_028::update_all() {
         }
     }
     compute_spectrum(cumulative_complex_response, computed);
-    unwrap_phase(computed.angles);
+    for (auto& magnitude : computed.magnitudes) {
+        magnitude = clover::linear_to_db(magnitude);
+    }
 }
 
 bool gpeq_ui_028::draw() {
@@ -127,20 +153,40 @@ bool gpeq_ui_028::draw() {
     return was_changed;
 }
 
+void gpeq_ui_028::setup_axes() {
+    ImPlot::SetupAxis(ImAxis_X1, nullptr, ImPlotAxisFlags_NoTickLabels);
+    ImPlot::SetupAxisTicks(ImAxis_X1, axis_ticks_freq.data(), int(axis_ticks_freq.size()));
+    ImPlot::SetupAxisScale(ImAxis_X1, transform_forward_log2, transform_inverse_log2);
+    ImPlot::SetupAxisLimits(ImAxis_X1, freq_lower, freq_upper, ImPlotCond_Always);
+    ImPlot::SetupAxisLimits(ImAxis_X1, freq_lower, freq_upper);
+
+    if (should_draw_magnitude) {
+        ImPlot::SetupAxis(ImAxis_Y1, nullptr);
+        ImPlot::SetupAxisFormat(ImAxis_Y1, "%.2f");
+        ImPlot::SetupAxisTicks(ImAxis_Y1, axis_ticks_db.data(), int(axis_ticks_db.size()));
+        ImPlot::SetupAxisScale(ImAxis_Y1, transform_forward_db, transform_inverse_db);
+        ImPlot::SetupAxisLimits(ImAxis_Y1, -24, 24, ImPlotCond_Always);
+    }
+    if (should_draw_phase) {
+        ImAxis axis = should_draw_magnitude ? ImAxis_Y2 : ImAxis_Y1;
+        ImPlot::SetupAxis(axis, nullptr, ImPlotAxisFlags_NoGridLines);
+        ImPlot::SetupAxisScale(axis, ImPlotScale_Linear);
+        ImPlot::SetupAxisFormat(axis, "%.2f");
+        ImPlot::SetupAxisLimits(axis, -std::numbers::pi, std::numbers::pi, ImPlotCond_Always);
+    }
+}
+
 void gpeq_ui_028::draw_response() {
     float x_offset = ImGui::GetCursorPosX();
-    if (ImPlot::BeginPlot(name, ImVec2(-1, 0), ImPlotFlags_Crosshairs)) {
-        ImPlot::SetupAxis(ImAxis_X1, nullptr, ImPlotAxisFlags_NoTickLabels);
-        ImPlot::SetupAxisTicks(ImAxis_X1, axis_ticks.data(), int(axis_ticks.size()));
-        ImPlot::SetupAxisScale(ImAxis_X1, transform_forward_log2, transform_inverse_log2);
+    if (ImPlot::BeginPlot(name, ImVec2(-1, 0), ImPlotFlags_Crosshairs | ImPlotFlags_NoLegend)) {
+        setup_axes();
 
         if (should_draw_magnitude) {
             ImPlot::PlotLine("magnitude", freqs.data(), computed.magnitudes.data(), (int)freqs.size());
         }
 
         if (should_draw_phase) {
-            ImPlot::PlotLine(
-                    "phase", freqs.data(), computed.angles.data(), (int)freqs.size(), ImPlotCond_Always);
+            ImPlot::PlotLine("phase", freqs.data(), computed.angles.data(), (int)freqs.size());
         }
 
         ImPlot::EndPlot();
