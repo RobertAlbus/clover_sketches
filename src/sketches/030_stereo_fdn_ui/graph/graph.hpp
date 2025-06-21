@@ -6,13 +6,13 @@
 
 #include "lib/cymbal/cymbal_024.hpp"
 #include "lib/fdn/fdn8_023.hpp"
+#include "lib/fdn/fdn8_stereo_030.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
 #include "patches/patches.hpp"
-#include "stereo_fdn/stereo_fdn.hpp"
 
 struct signal_graph {
     float fs;
@@ -49,7 +49,7 @@ struct signal_graph {
             subtractive_synth_000{fs, patch.synth.chord_props}};
 
     peq_000 chord_preverb_peq{fs, patch.synth.chord_preverb_peq_props};
-    fdn8_030_stereo chord_verb{fs, patch.synth.chord_fdn_props};
+    fdn8_stereo_030 chord_verb{fs, patch.synth.chord_fdn_props};
     peq_000 chord_peq{fs, patch.synth.chord_peq_props};
 
     peq_000 main_eq{fs, patch.mix.main_peq_props};
