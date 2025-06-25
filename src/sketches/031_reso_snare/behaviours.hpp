@@ -27,7 +27,8 @@ struct behaviours : public behaviour_base {
 
     ~behaviours() override = default;
 
-    float bpm                  = 124;
+    // lol (160.000001 bpm floating point math and chord pattern: mortal enemies)
+    float bpm                  = 160.00001;
     double duration_bars       = 32;
     double render_repeat_count = 2;
 

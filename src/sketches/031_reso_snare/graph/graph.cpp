@@ -5,6 +5,7 @@
 #include <cmath>
 #include <print>
 
+#include "clover/dsp/wave.hpp"
 #include "clover/math.hpp"
 
 #include "lib/mixer/mixer.hpp"
@@ -17,6 +18,12 @@ signal_graph::signal_graph(float fs) : fs{fs} {
         mixer_tracks.emplace_back(t);
 
     audio_mixer = build_mixer_map(mixer_tracks);
+
+    snare_impulse.oscs[1].waveform = clover::dsp::wave_noise;
+    snare_impulse.oscs[2].waveform = clover::dsp::wave_noise;
+    snare_impulse.oscs[3].waveform = clover::dsp::wave_noise;
+    snare_impulse.oscs[4].waveform = clover::dsp::wave_noise;
+    snare_impulse.oscs[5].waveform = clover::dsp::wave_noise;
 }
 
 std::pair<float, float> signal_graph::tick() {
@@ -38,6 +45,36 @@ std::pair<float, float> signal_graph::tick() {
 
     auto [kick_post_eq, _] = kick_out_peq.tick(kick_sum, kick_sum);
     kick_sum               = kick_post_eq;
+
+    // ----------------
+    // SNARE
+    //
+    //
+
+    float snare_impulse_signal = snare_impulse.tick();
+    float snare_impulse_send   = snare_impulse_signal * audio_mixer.at("snare impulse send");
+    snare_impulse_signal *= audio_mixer.at("snare impulse");
+
+    auto snare_body = snare_resonator.tick({snare_impulse_send, snare_impulse_send});
+
+    auto snare_body_drive = snare_driver.tick(snare_body);
+
+    auto snare_tail_send = snare_body;
+    snare_tail_send.first += snare_impulse_signal;
+    snare_tail_send.second += snare_impulse_signal;
+    auto snare_tail = snare_verb.tick(snare_tail_send);
+    snare_tail.first *= audio_mixer.at("snare verb");
+    snare_tail.second *= audio_mixer.at("snare verb");
+
+    // use post-drive snare body for mixing
+    snare_body_drive.first *= audio_mixer.at("snare body");
+    snare_body_drive.second *= audio_mixer.at("snare body");
+
+    float snare_L = snare_impulse_signal + snare_body_drive.first + snare_tail.first;
+    float snare_R = snare_impulse_signal + snare_body_drive.second + snare_tail.second;
+
+    snare_L *= audio_mixer.at("snare sum");
+    snare_R *= audio_mixer.at("snare sum");
 
     // ----------------
     // CYMBALS
@@ -88,8 +125,8 @@ std::pair<float, float> signal_graph::tick() {
     //
     //
 
-    out_L = kick_sum + ride_L + chord_sum_L;
-    out_R = kick_sum + ride_R + chord_sum_R;
+    out_L = kick_sum + ride_L + snare_L + chord_sum_L;
+    out_R = kick_sum + ride_R + snare_R + chord_sum_R;
 
     auto main_eq_out = main_eq.tick(out_L, out_R);
     out_L            = main_eq_out.first;

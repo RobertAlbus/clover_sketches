@@ -25,10 +25,12 @@ struct pattern_t {
 
 struct patterns {
     std::vector<pattern_t<event>> kick       = create_pattern_kick();
+    std::vector<pattern_t<event>> snare      = create_pattern_snare();
     std::vector<pattern_t<event>> ride       = create_pattern_ride();
     std::vector<pattern_t<event_midi>> chord = create_pattern_chord();
 
     std::vector<pattern_t<event>> create_pattern_kick();
+    std::vector<pattern_t<event>> create_pattern_snare();
     std::vector<pattern_t<event>> create_pattern_ride();
     std::vector<pattern_t<event_midi>> create_pattern_chord();
 };
@@ -43,6 +45,7 @@ struct arrangement {
     double playback_start;
 
     std::vector<event_meta_sq> kick;
+    std::vector<event_meta_sq> snare;
     std::vector<event_meta_sq> ride;
     std::vector<event_meta_sq> chord;
     std::vector<event> bar;

@@ -39,6 +39,12 @@ struct controller_kick : public tabbed_controller {
     void draw() override;
 };
 
+struct controller_snare : public tabbed_controller {
+    using tabbed_controller::tabbed_controller;
+
+    void draw() override;
+};
+
 struct controller_ride : public tabbed_controller {
     using tabbed_controller::tabbed_controller;
 

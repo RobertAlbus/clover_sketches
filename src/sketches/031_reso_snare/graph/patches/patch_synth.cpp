@@ -3,7 +3,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 #include <print>
 
-#include "lib/fdn/fdn8_023.hpp"
 #include "patches.hpp"
 
 patch_synth_t::patch_synth_t() {
@@ -44,24 +43,15 @@ patch_synth_t::patch_synth_t() {
                     .res_r                = 100,
             }};
 
-    chord_fdn_props =  // seems to be an issue with braced initializer lists and inheritance
-            {fdn8_props_023{
-                    .taps =
-                            {1012.4044,
-                             6659.615,
-                             6659.615,
-                             22919.785,
-                             23213.727,
-                             2595.1445,
-                             11815.202,
-                             35802.81},
-                    .fb_gain = 0.9,
-                    .lpf_cut = 1566.8373,
-                    .lpf_res = 0.707,
-                    .hpf_cut = 71.12249,
-                    .hpf_res = 0.707,
-            }};
-    chord_fdn_props.stereo_spread_taps_octaves = 0.05;
+    chord_fdn_props = {
+            .stereo_spread_taps_octaves = 0.05,
+            .taps    = {1012.4044, 6659.615, 6659.615, 22919.785, 23213.727, 2595.1445, 11815.202, 35802.81},
+            .fb_gain = 0.9,
+            .lpf_cut = 1566.8373,
+            .lpf_res = 0.707,
+            .hpf_cut = 71.12249,
+            .hpf_res = 0.707,
+    };
 
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props{
             peq_props_000{

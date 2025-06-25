@@ -4,6 +4,7 @@
 
 #include "clover/math.hpp"
 
+#include "lib/fdn/fdn8_stereo_030.hpp"
 #include "patches.hpp"
 #include "sequence/notes.h"
 
@@ -34,11 +35,11 @@ patch_drums_t::patch_drums_t() {
     };
 
     kick_fdn_props = {
-            .taps    = {7188.61, 7374.1265, 14487.106, 14487.106, 7188.61, 8270.024, 7859.137, 7859.137},
+            .taps = {56.145615, 54.151955, 54.808056, 152.21307, 154.12695, 233.14352, 274.61545, 349.03543},
             .fb_gain = 0.984,
-            .lpf_cut = 270.83887,
+            .lpf_cut = 301.90088,
             .lpf_res = 0.707,
-            .hpf_cut = 103.79813,
+            .hpf_cut = 60.31463,
             .hpf_res = 0.707,
     };
 
@@ -102,6 +103,51 @@ patch_drums_t::patch_drums_t() {
                     .enabled = false,
                     .type    = peq_filter_type::lp,
             },
+    };
+
+    // --------------------------------
+    // SNARE
+    snare_impulse_props = {
+            .freqs            = {150, 404, 1533, 1751, 13456, 17500},
+            .hpf_f0           = 20,
+            .hpf_fmod_octaves = 0,
+            .hpf_Q            = 0.852,
+            .bpf_f0           = 979.2,
+            .bpf_Q            = 0.576,
+            .amp_a            = 1,
+            .amp_d            = 500,
+            .amp_s            = 0,
+            .amp_r            = 3215.1787,
+            .cut_a            = 1,
+            .cut_d            = 1,
+            .cut_s            = 0,
+            .cut_r            = 1,
+    };
+    snare_resonator_props = {
+            .stereo_spread_taps_octaves = 0.208,
+            .taps    = {640.97437, 278.1, 117.17493, 27.412, 24.742, 115.72901, 115.72901, 118.63938},
+            .fb_gain = 0.968,
+            .lpf_cut = 600.4853,
+            .lpf_res = 0.707,
+            .hpf_cut = 66.02632,
+            .hpf_res = 0.707,
+    };
+
+    snare_driver_props = {
+            .drive_input = 1.264,
+            .drive_clip  = 4.712,
+            .clip_thresh = 0.96,
+            .trim        = 4.112,
+    };
+
+    snare_verb_props = {
+            .stereo_spread_taps_octaves = 0.1,
+            .taps = {950.08716, 2529.9067, 1961.3395, 1749.114, 1445.2706, 1194.2994, 158.02867, 143.00116},
+            .fb_gain = 0.899,
+            .lpf_cut = 13254.815,
+            .lpf_res = 0.707,
+            .hpf_cut = 33.195488,
+            .hpf_res = 0.707,
     };
 
     // --------------------------------

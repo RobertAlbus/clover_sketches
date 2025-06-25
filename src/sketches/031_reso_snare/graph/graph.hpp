@@ -12,6 +12,7 @@
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
+#include "graph/instrument/driver.hpp"
 #include "patches/patches.hpp"
 
 struct signal_graph {
@@ -33,6 +34,17 @@ struct signal_graph {
     peq_000 kick_preverb_peq{fs, patch.drums.kick_preverb_peq_props};
     fdn8_023 kick_verb{fs, patch.drums.kick_fdn_props};
     peq_000 kick_out_peq{fs, patch.drums.kick_peq_props};
+
+    // --------------------------------
+    // SNARE
+
+    cymbal_024 snare_impulse{fs, patch.drums.snare_impulse_props};
+    fdn8_stereo_030 snare_resonator{fs, patch.drums.snare_resonator_props};
+    driver snare_driver{patch.drums.snare_driver_props};
+    fdn8_stereo_030 snare_verb{fs, patch.drums.snare_verb_props};
+
+    // --------------------------------
+    // RIDE
 
     cymbal_024 ride{fs, patch.drums.ride_props};
     peq_000 ride_peq{fs, patch.drums.ride_peq_props};

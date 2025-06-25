@@ -4,6 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "graph/instrument/driver.hpp"
 #include "lib/cymbal/cymbal_000.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
@@ -22,6 +23,14 @@ struct patch_drums_t {
     fdn8_props_023 kick_fdn_props;
     std::array<peq_props_000, peq_000::SIZE> kick_preverb_peq_props;
     std::array<peq_props_000, peq_000::SIZE> kick_peq_props;
+
+    // --------------------------------
+    // SNARE
+
+    cymbal_props_000 snare_impulse_props;
+    fdn8_stereo_030_props snare_resonator_props;
+    fdn8_stereo_030_props snare_verb_props;
+    driver::properties snare_driver_props;
 
     // --------------------------------
     // RIDE

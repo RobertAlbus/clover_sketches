@@ -18,14 +18,40 @@ std::vector<pattern_t<event>> patterns::create_pattern_kick() {
                              {.start_time = 2, .duration = 0.5},
                              {.start_time = 3, .duration = 0.5},
                      }},
-            {.duration_bar = 0.5,
-             .duration_rel = 2.,
+            {.duration_bar = 1,
+             .duration_rel = 16,
              .pattern =
                      {
                              //
-                             {.start_time = 0.00, .duration = 0.5},
-                             {.start_time = 0.75, .duration = 0.5},
-                             {.start_time = 1.50, .duration = 0.5},
+                             {.start_time = 0, .duration = 0.5},
+                             {.start_time = 3, .duration = 0.5},
+                             {.start_time = 6, .duration = 0.5},
+                             //  {.start_time = 10, .duration = 0.5},
+                             {.start_time = 12, .duration = 0.5},
+                             {.start_time = 14, .duration = 0.5},
+                     }},
+    };
+}
+std::vector<pattern_t<event>> patterns::create_pattern_snare() {
+    return {
+
+            {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
+            {.duration_bar = 1,
+             .duration_rel = 4.,
+             .pattern =
+                     {
+                             //
+                             {.start_time = 1, .duration = 0.5},
+                             {.start_time = 3, .duration = 0.5},
+                     }},
+            {.duration_bar = 1,
+             .duration_rel = 16,
+             .pattern =
+                     {
+                             //
+                             {.start_time = 6, .duration = 0.5},
+                             {.start_time = 10, .duration = 0.5},
+                             {.start_time = 12, .duration = 0.5},
                      }},
     };
 }
