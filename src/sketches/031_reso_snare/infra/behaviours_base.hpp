@@ -18,7 +18,9 @@ struct behaviour_base {
     virtual constexpr std::string project_name() = 0;
 
     // live behaviours
-    virtual bool draw_view()                             = 0;
+    virtual bool view_draw()                             = 0;
+    virtual void view_init()                             = 0;
+    virtual void view_deinit()                           = 0;
     virtual clover::io::callback create_audio_callback() = 0;
     virtual int channel_count_out()                      = 0;
     virtual float fs()                                   = 0;

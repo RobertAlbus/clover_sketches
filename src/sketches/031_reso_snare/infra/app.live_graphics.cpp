@@ -12,7 +12,6 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "implot.h"
 
 #include "app.hpp"
 
@@ -59,37 +58,21 @@ void app::graphics_thread() {
     auto window_name   = std::format("clover sketch: {}", live_ctx->project_name());
     GLFWwindow* window = glfwCreateWindow(1280, 720, window_name.c_str(), nullptr, nullptr);
     if (window == nullptr) {
-        // TODO - RETURN CODE: CAN'T RETURN 1, WHAT SHOULD I DO?
         return;
     }
 
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);  // Enable vsync
 
-    // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImPlot::CreateContext();
-    ImPlot::GetInputMap().ZoomMod     = ImGuiMod_Ctrl;
-    ImPlot::GetInputMap().SelectMod   = ImGuiMod_Ctrl;
-    ImPlot::GetInputMap().PanMod      = ImGuiMod_Ctrl;
-    ImPlot::GetInputMap().OverrideMod = ImGuiMod_Shift;
-
-    ImGuiIO& io = ImGui::GetIO();
-    (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
-
-    ImGui::StyleColorsDark();
-    // ImGui::StyleColorsLight();
-
+    live_ctx->view_init();
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    // Main loop
     while (!glfwWindowShouldClose(window)) {
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants
@@ -111,7 +94,7 @@ void app::graphics_thread() {
         ImGui::NewFrame();
 
         // Show window
-        if (!live_ctx->draw_view()) {
+        if (!live_ctx->view_draw()) {
             glfwSetWindowShouldClose(window, true);
         }
 
@@ -136,7 +119,8 @@ void app::graphics_thread() {
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
-    ImPlot::DestroyContext();
+
+    live_ctx->view_deinit();
     ImGui::DestroyContext();
 
     glfwDestroyWindow(window);

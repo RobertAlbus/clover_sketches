@@ -4,7 +4,10 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "implot.h"
+
 #include "clover/io/audio_callback.hpp"
+
 #include "lib/logging/logger.hpp"
 #include "lib/sq/bar_grid_029.hpp"
 
@@ -49,8 +52,32 @@ struct behaviours : public behaviour_base {
         return 2;
     }
 
-    bool draw_view() override {
+    bool view_draw() override {
         return view.draw();
+    }
+
+    void view_init() override {
+        ImPlot::CreateContext();
+        ImPlot::GetInputMap().ZoomMod     = ImGuiMod_Ctrl;
+        ImPlot::GetInputMap().SelectMod   = ImGuiMod_Ctrl;
+        ImPlot::GetInputMap().PanMod      = ImGuiMod_Ctrl;
+        ImPlot::GetInputMap().OverrideMod = ImGuiMod_Shift;
+
+        ImGuiIO& io = ImGui::GetIO();
+        (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
+
+        ImGui::StyleColorsDark();
+        // ImGui::StyleColorsLight();
+
+        ImGuiStyle& style      = ImGui::GetStyle();
+        style.WindowPadding    = ImVec2(10.0f, 10.0f);
+        style.WindowBorderSize = 0.0f;
+        style.WindowRounding   = 0.0f;
+    }
+    void view_deinit() override {
+        ImPlot::DestroyContext();
     }
 
     int render_duration_samples() override {
