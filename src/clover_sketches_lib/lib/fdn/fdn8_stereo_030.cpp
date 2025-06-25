@@ -33,6 +33,7 @@ std::string fdn8_stereo_030_props::to_str() {
             hpf_cut,
             hpf_res);
 }
+
 std::pair<float, float> fdn8_stereo_030::tick(std::pair<float, float> x) {
     // should [1] == 0?
     fdn_L.props.fb_gain                      = props.fb_gain;
@@ -69,10 +70,17 @@ fdn8_stereo_030::fdn8_stereo_030(float fs, const fdn8_stereo_030_props& props)
     : fdn_L{fs, static_cast<fdn8_props_023>(props)},
       fdn_R{fs, static_cast<fdn8_props_023>(props)},
       props{std::move(props)} {
+    patch_children();
 }
 
 void fdn8_stereo_030::patch(fdn8_stereo_030_props props) {
     fdn_L.patch(static_cast<fdn8_props_023>(props));
     fdn_R.patch(static_cast<fdn8_props_023>(props));
     props = std::move(props);
+    patch_children();
+}
+
+void fdn8_stereo_030::patch_children() {
+    set_lpf(props.lpf_cut, props.lpf_res);
+    set_hpf(props.hpf_cut, props.hpf_res);
 }

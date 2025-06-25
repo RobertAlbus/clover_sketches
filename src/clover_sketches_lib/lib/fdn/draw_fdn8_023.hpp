@@ -14,7 +14,6 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R = nullptr);
 
 template <typename T>
 concept draw_fdn8_023_concept = requires(T* fdn, float f, float q) {
-    { fdn->props } -> std::convertible_to<fdn8_props_023>;
     { fdn->props.fb_gain } -> std::convertible_to<float&>;
     { fdn->props.lpf_cut } -> std::convertible_to<float&>;
     { fdn->props.hpf_cut } -> std::convertible_to<float&>;
