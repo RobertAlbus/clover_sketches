@@ -37,14 +37,9 @@ bool view::draw() {
     ImGui::SetNextWindowViewport(viewport->ID);
 
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
-                                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
-                                    ImGuiWindowFlags_MenuBar;
+                                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus;
 
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-
-    ImGui::Begin("MainDockSpaceHost", nullptr, window_flags);
-    ImGui::PopStyleVar(2);
+    ImGui::Begin("main_area", nullptr, window_flags);
 
     ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
     ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
@@ -55,46 +50,56 @@ bool view::draw() {
         transport.toggle_state_play();
     } else if (ImGui::IsKeyPressed(ImGuiKey_Space, false)) {
         transport.toggle_state_start();
+    } else if (ImGui::IsKeyChordPressed(ImGuiMod_Ctrl | ImGuiKey_L)) {
+        show_log_canvas = !show_log_canvas;
     }
 
     // ----------------------------------------------------------------
     // MENU BAR
 
-    if (ImGui::BeginMainMenuBar()) {
-        transport.draw();
-        ImGui::SameLine(ImGui::GetWindowWidth() - 100);
-        ImGui::Checkbox("show logs", &show_log_canvas);
-        ImGui::EndMainMenuBar();
+    transport.draw();
+
+    ImGui::SameLine();
+    ImGui::Checkbox("show logs", &show_log_canvas);
+
+    ImGui::SameLine(ImGui::GetWindowWidth() - 120);
+    ImGui::Text("%.2f fps", ImGui::GetIO().Framerate);
+
+    ImGui::SameLine();
+    bool should_continue = true;
+    if (ImGui::Button(" x ")) {
+        should_continue = false;
     }
 
     if (show_log_canvas) {
         draw_gui_log_canvas_000("log_canvas", canvas, logger, nullptr);
     }
 
-    // ----------------------------------------------------------------
-    // TABS
-
-    if (ImGui::BeginTabBar("Main Layout Tabs")) {
+    if (ImGui::BeginTabBar("main layout tabs")) {
         for (auto& tabbed_controller : tabs) {
             if (ImGui::BeginTabItem(tabbed_controller->name)) {
+                float constrained_width  = ImGui::GetWindowWidth() - (2 * ImGui::GetStyle().WindowPadding.x);
+                float constrained_height = ImGui::GetWindowHeight() - ImGui::GetCursorPosY() -
+                                           (ImGui::GetStyle().WindowPadding.y);
+
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(40.0f, 20.0f));
+                ImGui::BeginChild(
+                        "tab area",
+                        ImVec2(constrained_width, constrained_height),
+                        0,
+                        ImGuiWindowFlags_AlwaysUseWindowPadding);
                 tabbed_controller->draw();
 
+                ImGui::PopStyleVar();
+                ImGui::EndChild();
                 ImGui::EndTabItem();
             }
         }
 
         ImGui::EndTabBar();
     }
-
     // ----------------------------------------------------------------
 
-    ImGui::NewLine();
-    ImGui::NewLine();
-
-    ImGui::Text("Framerate: %.2f", ImGui::GetIO().Framerate);
-
-    bool should_continue = !ImGui::Button("Bye!");
-
-    ImGui::End();  // End "MainDockSpaceHost"
+    ImGui::End();  // end "main_area"
     return should_continue;
 }
