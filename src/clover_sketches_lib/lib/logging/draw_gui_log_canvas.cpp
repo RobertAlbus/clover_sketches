@@ -20,7 +20,7 @@ void draw_gui_log_canvas_000(const char* id, log_canvas_000& canvas, log_bus_000
 
     ImGui::SetNextWindowSize(ImVec2(200, 400), ImGuiCond_FirstUseEver);
 
-    canvas.draw("Example: Log", p_open);
+    canvas.draw("Logs", p_open);
 
     ImGui::PopID();
 }

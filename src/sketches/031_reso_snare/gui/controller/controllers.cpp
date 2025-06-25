@@ -15,16 +15,20 @@
 
 #include "controllers.hpp"
 
+void spacer() {
+    ImGui::NewLine();
+    ImGui::Separator();
+    ImGui::NewLine();
+}
+
 void controller_mixer::draw() {
     ImGui::PushID(name);
 
-    ImGui::NewLine();
-
-    ImGui::NewLine();
     draw_mixer_000("new_mix", &graph.mixer_tracks);
-    ImGui::NewLine();
+
+    spacer();
+
     master_peq.draw();
-    ImGui::NewLine();
 
     ImGui::PopID();
 }
@@ -33,13 +37,12 @@ void controller_kick::draw() {
     ImGui::PushID(name);
 
     draw_kick_drum_000("kick_synth", graph.kick);
-    ImGui::NewLine();
+    spacer();
     gpeq_send.draw();
-    ImGui::NewLine();
+    spacer();
     draw_fdn8_023_v2("##kick_fdn", graph.kick_verb);
-    ImGui::NewLine();
+    spacer();
     gpeq_post.draw();
-    ImGui::NewLine();
 
     ImGui::PopID();
 }
@@ -48,12 +51,15 @@ void controller_snare::draw() {
     ImGui::PushID(name);
 
     draw_cymbal_000("snare_impulse", graph.snare_impulse);
-    ImGui::NewLine();
-    ImGui::NewLine();
+
+    spacer();
+
     draw_fdn8_023_v2("##snare_body", graph.snare_resonator);
-    ImGuiKnobs::Knob("spread##resonator", &graph.snare_resonator.props.stereo_spread_taps_octaves, 0, 1);
-    ImGui::NewLine();
-    ImGui::NewLine();
+    ImGui::PushID("resonator");
+    ImGuiKnobs::Knob("spread", &graph.snare_resonator.props.stereo_spread_taps_octaves, 0, 1);
+    ImGui::PopID();
+
+    spacer();
 
     if (ImGui::Button("driver preset")) {
         ImGui::SetClipboardText(graph.snare_driver.props.to_str().c_str());
@@ -67,11 +73,12 @@ void controller_snare::draw() {
     ImGuiKnobs::Knob("trim", &graph.snare_driver.props.trim, 0, 8);
     ImGui::SameLine();
 
-    ImGui::NewLine();
-    ImGui::NewLine();
+    spacer();
+
     draw_fdn8_023_v2("##snare_verb", graph.snare_verb);
-    ImGuiKnobs::Knob("spread##verb", &graph.snare_verb.props.stereo_spread_taps_octaves, 0, 1);
-    ImGui::SameLine();
+    ImGui::PushID("verb");
+    ImGuiKnobs::Knob("spread", &graph.snare_verb.props.stereo_spread_taps_octaves, 0, 1);
+    ImGui::PopID();
 
     ImGui::PopID();
 }
@@ -80,9 +87,10 @@ void controller_ride::draw() {
     ImGui::PushID(name);
 
     draw_cymbal_000("ride", graph.ride);
-    ImGui::NewLine();
+
+    spacer();
+
     gpeq_cymbal.draw();
-    ImGui::NewLine();
 
     ImGui::PopID();
 }
@@ -91,12 +99,15 @@ void controller_chord::draw() {
     ImGui::PushID(name);
 
     gpeq_send.draw();
-    ImGui::NewLine();
+
+    spacer();
+
     draw_fdn8_023_v2("fdn", graph.chord_verb);
     ImGuiKnobs::Knob("stereo spread", &graph.chord_verb.props.stereo_spread_taps_octaves, -1, 1);
-    ImGui::NewLine();
+
+    spacer();
+
     gpeq_post.draw();
-    ImGui::NewLine();
 
     ImGui::PopID();
 }
