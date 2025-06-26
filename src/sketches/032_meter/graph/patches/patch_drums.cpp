@@ -35,9 +35,9 @@ patch_drums_t::patch_drums_t() {
     };
 
     kick_fdn_props = {
-            .taps = {56.145615, 54.151955, 54.808056, 152.21307, 154.12695, 233.14352, 274.61545, 349.03543},
+            .taps = {56.145615, 54.151955, 54.808056, 275.67316, 521.6212, 558.33276, 863.30475, 1247.6532},
             .fb_gain = 0.984,
-            .lpf_cut = 301.90088,
+            .lpf_cut = 432.3778,
             .lpf_res = 0.707,
             .hpf_cut = 60.31463,
             .hpf_res = 0.707,
@@ -123,13 +123,23 @@ patch_drums_t::patch_drums_t() {
             .cut_s            = 0,
             .cut_r            = 1,
     };
+    // snare_resonator_props = {
+    //         .stereo_spread_taps_octaves = 0.208,
+    //         .taps    = {640.97437, 278.1, 117.17493, 27.412, 24.742, 115.72901, 115.72901, 118.63938},
+    //         .fb_gain = 0.968,
+    //         .lpf_cut = 600.4853,
+    //         .lpf_res = 0.707,
+    //         .hpf_cut = 66.02632,
+    //         .hpf_res = 0.707,
+    // };
+    // gets right fucked if you take the taps here against the kick pattern with the pads muted
     snare_resonator_props = {
-            .stereo_spread_taps_octaves = 0.208,
-            .taps    = {640.97437, 278.1, 117.17493, 27.412, 24.742, 115.72901, 115.72901, 118.63938},
+            .stereo_spread_taps_octaves = 1,
+            .taps    = {414.81705, 278.1, 117.17493, 27.412, 24.742, 34096.543, 4150.826, 4384.0977},
             .fb_gain = 0.968,
-            .lpf_cut = 600.4853,
+            .lpf_cut = 546.06354,
             .lpf_res = 0.707,
-            .hpf_cut = 66.02632,
+            .hpf_cut = 59.447765,
             .hpf_res = 0.707,
     };
 

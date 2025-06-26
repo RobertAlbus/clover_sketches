@@ -22,7 +22,7 @@ patch_mix_t::patch_mix_t() {
             {.spacer = true},
             {.name = "ride", .gain = 0.34782612},
             {.spacer = true},
-            {.name = "chord bus", .gain = 0.19565213},
+            {.name = "chord bus", .gain = 0},  // 0.19565213},
             {.name = "chord dry", .gain = 0.13043475},
             {.name = "chord send", .gain = 0.7608696},
             {.name = "chord wet", .gain = 1.1195652},

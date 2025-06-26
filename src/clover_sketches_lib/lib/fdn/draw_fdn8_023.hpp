@@ -76,7 +76,7 @@ bool draw_fdn8_023_v2(const char* id, fdn_t& fdn) {
         float drag_speed = ImGui::GetIO().KeyShift ? 0.01f : 1.0f;
 
         float tap_max   = fdn.max_idx;
-        float tap_min   = 3;
+        float tap_min   = 4;
         float tap_range = tap_max - tap_min;
 
         float available_width = ImGui::GetContentRegionAvail().x;
