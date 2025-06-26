@@ -60,12 +60,20 @@ bool view::draw() {
     transport.draw();
 
     ImGui::SameLine();
-    ImGui::Checkbox("show logs", &show_log_canvas);
+    ImGui::Checkbox("logs", &show_log_canvas);
 
-    ImGui::SameLine(ImGui::GetWindowWidth() - 120);
+    ImGui::SameLine(ImGui::GetWindowWidth() - 200);
     ImGui::Text("%.2f fps", ImGui::GetIO().Framerate);
-
     ImGui::SameLine();
+    if (ImGui::Button(use_dark_theme ? "light" : "dark")) {
+        use_dark_theme = !use_dark_theme;
+        if (use_dark_theme) {
+            ImGui::StyleColorsDark();
+        } else {
+            ImGui::StyleColorsLight();
+        }
+    }
+    ImGui::SameLine(ImGui::GetWindowWidth() - 40);
     bool should_continue = true;
     if (ImGui::Button(" x ")) {
         should_continue = false;

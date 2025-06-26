@@ -21,6 +21,7 @@ struct view {
     signal_graph& graph;
     log_bus_000& logger;
     bool show_log_canvas = false;
+    bool use_dark_theme  = true;
     log_canvas_000 canvas;
     transport_ui_028 transport;
 
