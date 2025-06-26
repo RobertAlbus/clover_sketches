@@ -2,6 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "graph/instrument/meter.hpp"
 #include "imgui-knobs.h"
 #include "imgui.h"
 
@@ -23,6 +24,8 @@ void spacer() {
 
 void controller_mixer::draw() {
     ImGui::PushID(name);
+    ImVec2 meter_dimensions = {20, 200};
+    draw_meter(meter_dimensions, graph.main_meter.peak, graph.main_meter.peak_held, graph.main_meter.rms);
 
     draw_mixer_000("new_mix", &graph.mixer_tracks);
 

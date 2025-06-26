@@ -147,5 +147,8 @@ std::pair<float, float> signal_graph::tick() {
     out_L *= db_to_linear(-0.3f);
     out_R *= db_to_linear(-0.3f);
 
+    float main_mono = (out_L + out_R) * 0.5f;
+    main_meter.tick(main_mono);
+
     return {out_L, out_R};
 }
