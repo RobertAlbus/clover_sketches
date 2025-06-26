@@ -24,8 +24,20 @@ void spacer() {
 
 void controller_mixer::draw() {
     ImGui::PushID(name);
-    ImVec2 meter_dimensions = {20, 200};
-    draw_meter(meter_dimensions, graph.main_meter.peak, graph.main_meter.peak_held, graph.main_meter.rms);
+    ImVec2 meter_dimensions = {10, 200};
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    draw_meter(  //
+            meter_dimensions,
+            graph.main_meter_L.peak,
+            graph.main_meter_L.peak_held,
+            graph.main_meter_L.rms);
+    ImGui::SameLine();
+    draw_meter(  //
+            meter_dimensions,
+            graph.main_meter_R.peak,
+            graph.main_meter_R.peak_held,
+            graph.main_meter_R.rms);
+    ImGui::PopStyleVar();
 
     draw_mixer_000("new_mix", &graph.mixer_tracks);
 

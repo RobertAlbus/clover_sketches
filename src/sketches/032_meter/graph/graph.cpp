@@ -138,17 +138,17 @@ std::pair<float, float> signal_graph::tick() {
     out_L = std::tanh(out_L * 1.3f);
     out_R = std::tanh(out_R * 1.3f);
 
-    out_L *= 1.1f;
-    out_R *= 1.1f;
+    out_L *= audio_mixer.at("main");
+    out_R *= audio_mixer.at("main");
 
+    main_meter_L.tick(out_L);
+    main_meter_R.tick(out_R);
+
+    // force -0.3 db
     out_L = std::clamp(out_L, -1.f, 1.f);
     out_R = std::clamp(out_R, -1.f, 1.f);
-
     out_L *= db_to_linear(-0.3f);
     out_R *= db_to_linear(-0.3f);
-
-    float main_mono = (out_L + out_R) * 0.5f;
-    main_meter.tick(main_mono);
 
     return {out_L, out_R};
 }

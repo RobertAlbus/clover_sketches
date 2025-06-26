@@ -67,5 +67,6 @@ struct signal_graph {
     peq_000 chord_peq{fs, patch.synth.chord_peq_props};
 
     peq_000 main_eq{fs, patch.mix.main_peq_props};
-    meter main_meter;
+    meter main_meter_L;
+    meter main_meter_R;
 };

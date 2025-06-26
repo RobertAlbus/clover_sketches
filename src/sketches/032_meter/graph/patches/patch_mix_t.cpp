@@ -7,6 +7,8 @@
 
 patch_mix_t::patch_mix_t() {
     mixer_tracks = mixer_list_000{
+            {.name = "main", .gain = 1},
+            {.spacer = true},
             {.name = "kick bus", .gain = 0.5543479},
             {.spacer = true},
             {.name = "kick dry", .gain = 0.3369565},
