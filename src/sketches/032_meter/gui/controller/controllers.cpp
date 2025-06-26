@@ -95,6 +95,10 @@ void controller_snare::draw() {
     ImGuiKnobs::Knob("spread", &graph.snare_verb.props.stereo_spread_taps_octaves, 0, 1);
     ImGui::PopID();
 
+    spacer();
+
+    gpeq.draw();
+
     ImGui::PopID();
 }
 

@@ -31,6 +31,7 @@ struct patch_drums_t {
     fdn8_stereo_030_props snare_resonator_props;
     fdn8_stereo_030_props snare_verb_props;
     driver::properties snare_driver_props;
+    std::array<peq_props_000, peq_000::SIZE> snare_peq_props;
 
     // --------------------------------
     // RIDE

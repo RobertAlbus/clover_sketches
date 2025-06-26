@@ -44,6 +44,7 @@ struct signal_graph {
     fdn8_stereo_030 snare_resonator{fs, patch.drums.snare_resonator_props};
     driver snare_driver{patch.drums.snare_driver_props};
     fdn8_stereo_030 snare_verb{fs, patch.drums.snare_verb_props};
+    peq_000 snare_eq{fs, patch.drums.snare_peq_props};
 
     // --------------------------------
     // RIDE

@@ -73,6 +73,8 @@ std::pair<float, float> signal_graph::tick() {
     float snare_L = snare_impulse_signal + snare_body_drive.first + snare_tail.first;
     float snare_R = snare_impulse_signal + snare_body_drive.second + snare_tail.second;
 
+    std::tie(snare_L, snare_R) = snare_eq.tick({snare_L, snare_R});
+
     snare_L *= audio_mixer.at("snare sum");
     snare_R *= audio_mixer.at("snare sum");
 

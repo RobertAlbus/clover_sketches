@@ -45,8 +45,8 @@ patch_drums_t::patch_drums_t() {
 
     kick_preverb_peq_props = {
             peq_props_000{
-                    .freq    = 20,
-                    .reso    = 0.707,
+                    .freq    = 24,
+                    .reso    = 1.543,
                     .gain    = 0,
                     .enabled = true,
                     .type    = peq_filter_type::hp,
@@ -54,23 +54,23 @@ patch_drums_t::patch_drums_t() {
             peq_props_000{
                     .freq    = 38,
                     .reso    = 0.687,
-                    .gain    = 8.640,
+                    .gain    = 8.64,
                     .enabled = true,
                     .type    = peq_filter_type::eq,
             },
             peq_props_000{
-                    .freq    = 20000,
-                    .reso    = 0.707,
-                    .gain    = 0,
+                    .freq    = 71,
+                    .reso    = 4.528,
+                    .gain    = -13.056,
                     .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .type    = peq_filter_type::eq,
             },
             peq_props_000{
-                    .freq    = 10,
-                    .reso    = 0.707,
-                    .gain    = 0,
-                    .enabled = false,
-                    .type    = peq_filter_type::lp,
+                    .freq    = 142,
+                    .reso    = 6.597,
+                    .gain    = -9.528,
+                    .enabled = true,
+                    .type    = peq_filter_type::eq,
             },
     };
 
@@ -83,18 +83,18 @@ patch_drums_t::patch_drums_t() {
                     .type    = peq_filter_type::hp,
             },
             peq_props_000{
-                    .freq    = 20,
-                    .reso    = 0.707,
-                    .gain    = 0,
+                    .freq    = 38,
+                    .reso    = 0.687,
+                    .gain    = 8.64,
                     .enabled = true,
-                    .type    = peq_filter_type::hp,
+                    .type    = peq_filter_type::eq,
             },
             peq_props_000{
-                    .freq    = 81.3,
-                    .reso    = 1.1,
-                    .gain    = 6.3,
+                    .freq    = 114,
+                    .reso    = 2.14,
+                    .gain    = -7.872,
                     .enabled = true,
-                    .type    = peq_filter_type::ls,
+                    .type    = peq_filter_type::eq,
             },
             peq_props_000{
                     .freq    = 10,
@@ -123,6 +123,8 @@ patch_drums_t::patch_drums_t() {
             .cut_s            = 0,
             .cut_r            = 1,
     };
+
+    // original snare props
     // snare_resonator_props = {
     //         .stereo_spread_taps_octaves = 0.208,
     //         .taps    = {640.97437, 278.1, 117.17493, 27.412, 24.742, 115.72901, 115.72901, 118.63938},
@@ -132,6 +134,8 @@ patch_drums_t::patch_drums_t() {
     //         .hpf_cut = 66.02632,
     //         .hpf_res = 0.707,
     // };
+
+    // wacked out snare props
     // gets right fucked if you take the taps here against the kick pattern with the pads muted
     snare_resonator_props = {
             .stereo_spread_taps_octaves = 1,
@@ -158,6 +162,37 @@ patch_drums_t::patch_drums_t() {
             .lpf_res = 0.707,
             .hpf_cut = 33.195488,
             .hpf_res = 0.707,
+    };
+
+    snare_peq_props = {
+            peq_props_000{
+                    .freq    = 56,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = true,
+                    .type    = peq_filter_type::hp,
+            },
+            peq_props_000{
+                    .freq    = 65,
+                    .reso    = 6.656,
+                    .gain    = 23.616,
+                    .enabled = true,
+                    .type    = peq_filter_type::eq,
+            },
+            peq_props_000{
+                    .freq    = 200,
+                    .reso    = 6,
+                    .gain    = -7.872,
+                    .enabled = true,
+                    .type    = peq_filter_type::eq,
+            },
+            peq_props_000{
+                    .freq    = 10,
+                    .reso    = 0.707,
+                    .gain    = 0,
+                    .enabled = false,
+                    .type    = peq_filter_type::lp,
+            },
     };
 
     // --------------------------------
