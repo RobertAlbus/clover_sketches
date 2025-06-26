@@ -17,7 +17,7 @@ struct meter {
     float rms       = 0;
 
     float squared_ema = 0;
-    float alpha       = 1e-4;
+    float alpha       = 5e-5;
 
     env_bp_000 peak_value;
     env_bp_000 peak_hold;
