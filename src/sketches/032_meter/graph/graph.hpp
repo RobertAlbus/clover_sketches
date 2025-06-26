@@ -4,6 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "graph/instrument/meter.hpp"
 #include "lib/cymbal/cymbal_024.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
@@ -13,6 +14,7 @@
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
 #include "graph/instrument/driver.hpp"
+#include "graph/instrument/meter.hpp"
 #include "patches/patches.hpp"
 
 struct signal_graph {
@@ -65,4 +67,5 @@ struct signal_graph {
     peq_000 chord_peq{fs, patch.synth.chord_peq_props};
 
     peq_000 main_eq{fs, patch.mix.main_peq_props};
+    meter main_meter;
 };

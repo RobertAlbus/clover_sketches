@@ -11,6 +11,8 @@ struct bp_event_000 {
     float value;
 };
 
+// this could be re-written better
+// now that I have designed frsq_024
 struct env_bp_000 {
     double duration_abs;
     double duration_rel;
@@ -18,13 +20,11 @@ struct env_bp_000 {
 
     using pattern_t = std::span<bp_event_000>;
 
-    env_bp_000() = default;
+    env_bp_000();
     env_bp_000(pattern_t new_pattern);
 
     pattern_t pattern;
-    pattern_t pattern_next;
     pattern_t::iterator curr_point;
-    pattern_t::iterator next_point;
 
     void set_pattern(pattern_t new_pattern);
     void key_on();
