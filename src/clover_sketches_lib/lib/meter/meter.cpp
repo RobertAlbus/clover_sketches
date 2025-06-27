@@ -14,28 +14,28 @@ std::array<bp_event_000, 3> peak_hold_env{
          {.start = 1, .value = 1},
          {.start = 1.5, .value = 0}}};
 
-meter_peak::meter_peak(float fs, float hold_ms) {
+meter_peak_032::meter_peak_032(float fs, float hold_ms) {
     peak_env.set_pattern(peak_hold_env);
     peak_env.duration_rel = 2;
     set_peak_hold(fs, hold_ms);
 }
 
-meter_peak::meter_peak(float hold_samples) {
+meter_peak_032::meter_peak_032(float hold_samples) {
     peak_env.set_pattern(peak_hold_env);
     peak_env.duration_rel = 2;
     set_peak_hold(hold_samples);
 }
 
-void meter_peak::set_peak_hold(float samples) {
+void meter_peak_032::set_peak_hold(float samples) {
     peak_env.duration_abs = samples;
 }
 
-void meter_peak::set_peak_hold(float fs, float hold_ms) {
+void meter_peak_032::set_peak_hold(float fs, float hold_ms) {
     float duration_peak   = (hold_ms / 1000) * fs;
     peak_env.duration_abs = duration_peak / 2;
 }
 
-void meter_peak::tick(float x) {
+void meter_peak_032::tick(float x) {
     x = std::abs(x);
 
     if (x > value) {
@@ -46,40 +46,40 @@ void meter_peak::tick(float x) {
     value = peak_env.tick() * scale;
 }
 
-meter_rms::meter_rms(float samples) {
+meter_rms_032::meter_rms_032(float samples) {
     set_alpha(samples);
 }
-meter_rms::meter_rms(float fs, float window_ms) {
+meter_rms_032::meter_rms_032(float fs, float window_ms) {
     set_alpha(fs, window_ms);
 }
 
-void meter_rms::tick(float x) {
+void meter_rms_032::tick(float x) {
     squared_ema = (alpha * x * x) + ((1.0f - alpha) * squared_ema);
     value       = std::sqrt(squared_ema);
 }
 
-void meter_rms::set_alpha(float fs, float ms) {
+void meter_rms_032::set_alpha(float fs, float ms) {
     float samples = (ms / 1000.0f) * fs;
     set_alpha(samples);
 }
 
-void meter_rms::set_alpha(float samples) {
+void meter_rms_032::set_alpha(float samples) {
     alpha = 1.0f - std::exp(-1.0f / samples);
 }
 
-meter_mono::meter_mono(float fs) : peak(fs, 10), peak_hold(fs, 1000), rms(fs, 300) {
+meter_gain_mono_032::meter_gain_mono_032(float fs) : peak(fs, 10), peak_hold(fs, 1000), rms(fs, 300) {
 }
 
-void meter_mono::tick(float x) {
+void meter_gain_mono_032::tick(float x) {
     peak.tick(x);
     peak_hold.tick(x);
     rms.tick(x);
 }
 
-meter_stereo::meter_stereo(float fs) : meter_L{fs}, meter_R{fs} {
+meter_gain_stereo_032::meter_gain_stereo_032(float fs) : meter_L{fs}, meter_R{fs} {
 }
 
-void meter_stereo::tick(float L, float R) {
+void meter_gain_stereo_032::tick(float L, float R) {
     meter_L.tick(L);
     meter_R.tick(R);
 }

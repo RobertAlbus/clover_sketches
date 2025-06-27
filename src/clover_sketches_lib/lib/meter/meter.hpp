@@ -8,15 +8,15 @@
 
 extern std::array<bp_event_000, 3> peak_hold_env;
 
-struct meter_peak {
+struct meter_peak_032 {
     float value = 0;
     float scale = 0;
     env_bp_000 peak_env;
 
-    meter_peak() = delete;
-    meter_peak(float fs, float hold_ms);
+    meter_peak_032() = delete;
+    meter_peak_032(float fs, float hold_ms);
 
-    meter_peak(float hold_samples);
+    meter_peak_032(float hold_samples);
 
     void set_peak_hold(float samples);
 
@@ -25,14 +25,14 @@ struct meter_peak {
     void tick(float x);
 };
 
-struct meter_rms {
+struct meter_rms_032 {
     float alpha       = 0.0f;
     float value       = 0.0f;
     float squared_ema = 0.0f;
 
-    meter_rms() = delete;
-    meter_rms(float samples);
-    meter_rms(float fs, float window_ms = 300.0f);
+    meter_rms_032() = delete;
+    meter_rms_032(float samples);
+    meter_rms_032(float fs, float window_ms = 300.0f);
 
     void set_alpha(float fs, float ms);
     void set_alpha(float samples);
@@ -40,23 +40,23 @@ struct meter_rms {
     void tick(float x);
 };
 
-struct meter_mono {
-    meter_mono() = delete;
-    meter_mono(float fs);
+struct meter_gain_mono_032 {
+    meter_gain_mono_032() = delete;
+    meter_gain_mono_032(float fs);
 
-    meter_peak peak;
-    meter_peak peak_hold;
-    meter_rms rms;
+    meter_peak_032 peak;
+    meter_peak_032 peak_hold;
+    meter_rms_032 rms;
 
     void tick(float x);
 };
 
-struct meter_stereo {
-    meter_stereo() = delete;
-    meter_stereo(float fs);
+struct meter_gain_stereo_032 {
+    meter_gain_stereo_032() = delete;
+    meter_gain_stereo_032(float fs);
 
-    meter_mono meter_L;
-    meter_mono meter_R;
+    meter_gain_mono_032 meter_L;
+    meter_gain_mono_032 meter_R;
 
     void tick(float L, float R);
 };

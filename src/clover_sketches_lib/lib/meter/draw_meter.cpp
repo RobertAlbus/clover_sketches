@@ -3,42 +3,12 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <algorithm>
-#include <cmath>
-#include <cstdlib>
 
-#include "clover/math.hpp"
 #include "imgui.h"
 
-#include "lib/env_bp/env_bp.hpp"
-#include "meter_old.hpp"
+#include "clover/math.hpp"
 
-meter::meter() {
-    peak_value.set_pattern(peak_hold_env);
-    peak_value.duration_abs = 48000. / 60. * 10.;
-    peak_value.duration_rel = 2;
-
-    peak_hold.set_pattern(peak_hold_env);
-    peak_hold.duration_abs = 48000.;
-    peak_hold.duration_rel = 2;
-}
-
-void meter::tick(float x) {
-    x = std::abs(x);
-    if (x > peak) {
-        peak_value_scale = x;
-        peak_value.key_on();
-    }
-    if (x > peak_held) {
-        peak_hold_scale = x;
-        peak_hold.key_on();
-    }
-
-    peak      = peak_value.tick() * peak_value_scale;
-    peak_held = peak_hold.tick() * peak_hold_scale;
-
-    squared_ema = (alpha * x * x) + ((1 - alpha) * squared_ema);
-    rms         = std::sqrt(squared_ema);
-}
+#include "draw_meter.hpp"
 
 void draw_meter(ImVec2 dimensions, float peak, float peak_hold, float rms) {
     const ImU32 color_bg             = ImGui::GetColorU32(ImGuiCol_ChildBg);

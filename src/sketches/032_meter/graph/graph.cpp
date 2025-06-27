@@ -143,8 +143,6 @@ std::pair<float, float> signal_graph::tick() {
     out_R *= audio_mixer.at("main");
 
     main_meter_stereo.tick(out_L, out_R);
-    main_meter_L.tick(out_L);
-    main_meter_R.tick(out_R);
 
     // force -0.3 db
     out_L = std::clamp(out_L, -1.f, 1.f);
