@@ -36,8 +36,9 @@ std::function<void(frsq_024<voice_t, event_t>&, const event_meta_sq&)> arrangeme
         logger.gui.try_enqueue(msg);
 
         if (event.pattern_index >= patterns.size())
-            throw std::runtime_error(std::format(
-                    "selected non-existant pattern[{}] for {}", event.pattern_index, logging_name));
+            throw std::runtime_error(
+                    std::format(
+                            "selected non-existant pattern[{}] for {}", event.pattern_index, logging_name));
         voice.set_pattern(
                 patterns[event.pattern_index].pattern,
                 grid.bars_to_samples(patterns[event.pattern_index].duration_bar),

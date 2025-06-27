@@ -45,18 +45,20 @@ arrangement::arrangement() {
           std::views::transform([](int i) { return event{.start_time = double(i)}; }) |
           std::ranges::to<std::vector>();
 
-    bp_env_kick_hp = {/*
-                      mod range in octaves
-                      - 0   = 10 hz
-                      - 3.5 = 113 hz
-                      - 4   = 160 hz
-                      - 6   = 640 hz
-                      */
-                      {.start = 0, .value = 0},
-                      {.start = 14, .value = 4}};
+    bp_env_kick_hp = {
+            /*
+            mod range in octaves
+            - 0   = 10 hz
+            - 3.5 = 113 hz
+            - 4   = 160 hz
+            - 6   = 640 hz
+            */
+            {.start = 0, .value = 0},
+            {.start = 14, .value = 4}};
 
-    bp_env_kick_verb_send = {//
-                             {.start = 0, .value = 1.0},
-                             {.start = 1, .value = 1.0}};
+    bp_env_kick_verb_send = {
+            //
+            {.start = 0, .value = 1.0},
+            {.start = 1, .value = 1.0}};
 
 }  // namespace arrangement

@@ -47,14 +47,15 @@ void AUDIO(context& ctx) {
     auto audio_callback   = create_audio_callback(ctx.grid, ctx.graph, ctx.sequencers);
     stream.audio_callback = audio_callback;
     // system.print();
-    stream.open(clover::io::stream::settings{
-            .device_index_in = system.no_device(),
-            .chan_count_in   = 0,
-            // .device_index_out = 7, // for bluetooth on laptop
-            .device_index_out = system.default_output().index,  // default
-            .chan_count_out   = ctx.channel_count_out,
-            .sample_rate      = int(ctx.fs),
-            .latency_ms       = 0});
+    stream.open(
+            clover::io::stream::settings{
+                    .device_index_in = system.no_device(),
+                    .chan_count_in   = 0,
+                    // .device_index_out = 7, // for bluetooth on laptop
+                    .device_index_out = system.default_output().index,  // default
+                    .chan_count_out   = ctx.channel_count_out,
+                    .sample_rate      = int(ctx.fs),
+                    .latency_ms       = 0});
 
     ctx.audio_ready.release();
     stream.start();

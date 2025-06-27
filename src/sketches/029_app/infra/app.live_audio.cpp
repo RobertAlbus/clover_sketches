@@ -13,13 +13,14 @@ void app::audio_thread() {
 
     stream.audio_callback = live_ctx->create_audio_callback();
     // system.print();
-    stream.open(clover::io::stream::settings{
-            .device_index_in  = system.no_device(),
-            .chan_count_in    = 0,
-            .device_index_out = system.default_output().index,
-            .chan_count_out   = live_ctx->channel_count_out(),
-            .sample_rate      = int(live_ctx->fs()),
-            .latency_ms       = 0});
+    stream.open(
+            clover::io::stream::settings{
+                    .device_index_in  = system.no_device(),
+                    .chan_count_in    = 0,
+                    .device_index_out = system.default_output().index,
+                    .chan_count_out   = live_ctx->channel_count_out(),
+                    .sample_rate      = int(live_ctx->fs()),
+                    .latency_ms       = 0});
 
     stream.start();
 

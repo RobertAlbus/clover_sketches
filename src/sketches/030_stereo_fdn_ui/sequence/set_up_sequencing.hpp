@@ -97,8 +97,11 @@ std::function<void(frsq_024<voice_t, event_t>&, const event_meta_sq&)> arrangeme
         logger.gui.try_enqueue(msg);
 
         if (event_meta.pattern_index >= patterns.size())
-            throw std::runtime_error(std::format(
-                    "selected non-existant pattern[{}] for {}", event_meta.pattern_index, logging_name));
+            throw std::runtime_error(
+                    std::format(
+                            "selected non-existant pattern[{}] for {}",
+                            event_meta.pattern_index,
+                            logging_name));
 
         double pattern_duration_relative = patterns[event_meta.pattern_index].duration_rel;
         double pattern_duration_bars     = patterns[event_meta.pattern_index].duration_bar;

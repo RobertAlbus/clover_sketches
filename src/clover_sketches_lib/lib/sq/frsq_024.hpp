@@ -170,12 +170,13 @@ struct frsq_024 : public frsq_base_024 {
         if (last_event == pattern_data.end())
             throw std::runtime_error("frsq last_event should never be pattern_data.end() at this point");
         if (last_event < pattern_data.begin() || last_event >= pattern_data.end()) {
-            throw std::runtime_error(std::format(
-                    "{} last_event should always be between .begin() and .end()\n"
-                    "  end distance: {}\n  cur distance: {}",
-                    demangle_type_name(this),
-                    std::distance(pattern_data.begin(), pattern_data.end()),
-                    std::distance(pattern_data.begin(), last_event)));
+            throw std::runtime_error(
+                    std::format(
+                            "{} last_event should always be between .begin() and .end()\n"
+                            "  end distance: {}\n  cur distance: {}",
+                            demangle_type_name(this),
+                            std::distance(pattern_data.begin(), pattern_data.end()),
+                            std::distance(pattern_data.begin(), last_event)));
         }
 
         auto next_event = last_event + 1;

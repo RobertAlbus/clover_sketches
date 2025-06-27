@@ -138,12 +138,14 @@ struct frsq_019 {
         if (last_event == pattern_data.end())
             throw std::runtime_error("frsq last_event should never be pattern_data.end() at this point");
         if (!(last_event >= pattern_data.begin() && last_event < pattern_data.end())) {
-            throw std::runtime_error(std::format(
-                    "frsq {} last_event should always be between .begin() and .end()\n end distance: {}\ncur "
-                    "distance: {}",
-                    size_t(this),
-                    std::distance(pattern_data.begin(), pattern_data.end()),
-                    std::distance(pattern_data.begin(), last_event)));
+            throw std::runtime_error(
+                    std::format(
+                            "frsq {} last_event should always be between .begin() and .end()\n end distance: "
+                            "{}\ncur "
+                            "distance: {}",
+                            size_t(this),
+                            std::distance(pattern_data.begin(), pattern_data.end()),
+                            std::distance(pattern_data.begin(), last_event)));
         }
 
         // find next event

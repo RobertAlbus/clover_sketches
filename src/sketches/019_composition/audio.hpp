@@ -89,13 +89,14 @@ void AUDIO(context& props) {
 
     stream.audio_callback = audio_callback;
     // system.print();
-    stream.open(clover::io::stream::settings{
-            .device_index_in  = system.no_device(),
-            .chan_count_in    = 0,
-            .device_index_out = system.default_output().index,
-            .chan_count_out   = comp.channel_count_out,
-            .sample_rate      = comp.fs_i,
-            .latency_ms       = 0});
+    stream.open(
+            clover::io::stream::settings{
+                    .device_index_in  = system.no_device(),
+                    .chan_count_in    = 0,
+                    .device_index_out = system.default_output().index,
+                    .chan_count_out   = comp.channel_count_out,
+                    .sample_rate      = comp.fs_i,
+                    .latency_ms       = 0});
 
     stream.start();
     props.gui_intent_to_exit.acquire();
