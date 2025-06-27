@@ -39,6 +39,8 @@ void controller_mixer::draw() {
             graph.main_meter_R.rms);
     ImGui::PopStyleVar();
 
+    spacer();
+
     draw_mixer_000("new_mix", &graph.mixer_tracks);
 
     spacer();
