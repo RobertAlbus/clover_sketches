@@ -3,7 +3,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
-#include <print>
 
 #include "clover/dsp/wave.hpp"
 #include "clover/math.hpp"
@@ -143,6 +142,7 @@ std::pair<float, float> signal_graph::tick() {
     out_L *= audio_mixer.at("main");
     out_R *= audio_mixer.at("main");
 
+    main_meter_stereo.tick(out_L, out_R);
     main_meter_L.tick(out_L);
     main_meter_R.tick(out_R);
 

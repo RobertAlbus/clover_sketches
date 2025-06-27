@@ -2,7 +2,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "graph/instrument/meter.hpp"
 #include "imgui-knobs.h"
 #include "imgui.h"
 
@@ -13,6 +12,7 @@
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
+#include "graph/instrument/meter_old.hpp"
 
 #include "controllers.hpp"
 
@@ -26,6 +26,19 @@ void controller_mixer::draw() {
     ImGui::PushID(name);
     ImVec2 meter_dimensions = {10, 200};
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    draw_meter(  //
+            meter_dimensions,
+            graph.main_meter_stereo.meter_L.peak.value,
+            graph.main_meter_stereo.meter_L.peak_hold.value,
+            graph.main_meter_stereo.meter_L.rms.value);
+    ImGui::SameLine();
+    draw_meter(  //
+            meter_dimensions,
+            graph.main_meter_stereo.meter_R.peak.value,
+            graph.main_meter_stereo.meter_R.peak_hold.value,
+            graph.main_meter_stereo.meter_R.rms.value);
+    ImGui::SameLine(10);
+
     draw_meter(  //
             meter_dimensions,
             graph.main_meter_L.peak,
