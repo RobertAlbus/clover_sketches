@@ -27,12 +27,13 @@ meter_peak_032::meter_peak_032(float hold_samples) {
 }
 
 void meter_peak_032::set_peak_hold(float samples) {
-    peak_env.duration_abs = samples;
+    // absolute duration is for 2 relative units of time.
+    // peak hold time is 1 relative unit of 2 relative units.
+    peak_env.duration_abs = samples * 2;
 }
 
 void meter_peak_032::set_peak_hold(float fs, float hold_ms) {
-    float duration_peak   = (hold_ms / 1000) * fs;
-    peak_env.duration_abs = duration_peak / 2;
+    set_peak_hold((hold_ms / 1000) * fs);
 }
 
 void meter_peak_032::tick(float x) {
@@ -67,7 +68,7 @@ void meter_rms_032::set_alpha(float samples) {
     alpha = 1.0f - std::exp(-1.0f / samples);
 }
 
-meter_gain_mono_032::meter_gain_mono_032(float fs) : peak(fs, 10), peak_hold(fs, 1000), rms(fs, 300) {
+meter_gain_mono_032::meter_gain_mono_032(float fs) : peak(fs, 100), peak_hold(fs, 1000), rms(fs, 300) {
 }
 
 void meter_gain_mono_032::tick(float x) {
