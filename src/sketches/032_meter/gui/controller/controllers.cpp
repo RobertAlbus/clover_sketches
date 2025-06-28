@@ -8,11 +8,11 @@
 #include "lib/cymbal/draw_cymbal_000.hpp"
 #include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
+#include "lib/meter/draw_meter.hpp"
 #include "lib/mixer/draw_mixer.hpp"
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
-#include "graph/instrument/meter_old.hpp"
 
 #include "controllers.hpp"
 
@@ -24,33 +24,11 @@ void spacer() {
 
 void controller_mixer::draw() {
     ImGui::PushID(name);
-    ImVec2 meter_dimensions = {10, 200};
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
-    draw_meter(  //
-            meter_dimensions,
-            graph.main_meter_stereo.meter_L.peak.value,
-            graph.main_meter_stereo.meter_L.peak_hold.value,
-            graph.main_meter_stereo.meter_L.rms.value);
-    ImGui::SameLine();
-    draw_meter(  //
-            meter_dimensions,
-            graph.main_meter_stereo.meter_R.peak.value,
-            graph.main_meter_stereo.meter_R.peak_hold.value,
-            graph.main_meter_stereo.meter_R.rms.value);
-    ImGui::SameLine(10);
+    ImVec2 meter_dimensions = {20, 200};
 
-    draw_meter(  //
-            meter_dimensions,
-            graph.main_meter_L.peak,
-            graph.main_meter_L.peak_held,
-            graph.main_meter_L.rms);
+    draw_meter(meter_dimensions, graph.main_meter_stereo);
     ImGui::SameLine();
-    draw_meter(  //
-            meter_dimensions,
-            graph.main_meter_R.peak,
-            graph.main_meter_R.peak_held,
-            graph.main_meter_R.rms);
-    ImGui::PopStyleVar();
+    draw_meter(meter_dimensions, graph.main_meter_stereo);
 
     spacer();
 

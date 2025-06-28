@@ -3,41 +3,39 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <algorithm>
-#include <cmath>
-#include <cstdlib>
 
-#include "clover/math.hpp"
 #include "imgui.h"
 
-#include "lib/env_bp/env_bp.hpp"
-#include "meter_old.hpp"
+#include "clover/math.hpp"
 
-meter::meter() {
-    peak_value.set_pattern(peak_hold_env);
-    peak_value.duration_abs = 48000. / 60. * 10.;
-    peak_value.duration_rel = 2;
+#include "draw_meter.hpp"
 
-    peak_hold.set_pattern(peak_hold_env);
-    peak_hold.duration_abs = 48000.;
-    peak_hold.duration_rel = 2;
+void draw_meter(ImVec2 dimensions, meter_gain_mono_032& meter) {
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    draw_meter(  //
+        dimensions,
+        meter.peak.value,
+        meter.peak_hold.value,
+        meter.rms.value);
+    ImGui::PopStyleVar();
 }
 
-void meter::tick(float x) {
-    x = std::abs(x);
-    if (x > peak) {
-        peak_value_scale = x;
-        peak_value.key_on();
-    }
-    if (x > peak_held) {
-        peak_hold_scale = x;
-        peak_hold.key_on();
-    }
+void draw_meter(ImVec2 dimensions, meter_gain_stereo_032& meter) {
+    ImVec2 spacing = ImGui::GetStyle().ItemSpacing;
 
-    peak      = peak_value.tick() * peak_value_scale;
-    peak_held = peak_hold.tick() * peak_hold_scale;
-
-    squared_ema = (alpha * x * x) + ((1 - alpha) * squared_ema);
-    rms         = std::sqrt(squared_ema);
+    ImVec2 origin          = ImGui::GetCursorScreenPos();
+    ImVec2 half_dimensions = {dimensions.x / 2, dimensions.y};
+    draw_meter(  //
+        half_dimensions,
+        meter.meter_L.peak.value,
+        meter.meter_L.peak_hold.value,
+        meter.meter_L.rms.value);
+    ImGui::SameLine(origin.x + half_dimensions.x - spacing.x - 2);
+    draw_meter(  //
+        half_dimensions,
+        meter.meter_R.peak.value,
+        meter.meter_R.peak_hold.value,
+        meter.meter_R.rms.value);
 }
 
 void draw_meter(ImVec2 dimensions, float peak, float peak_hold, float rms) {
