@@ -10,6 +10,34 @@
 
 #include "draw_meter.hpp"
 
+void draw_meter(ImVec2 dimensions, meter_gain_mono_032& meter) {
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    draw_meter(  //
+        dimensions,
+        meter.peak.value,
+        meter.peak_hold.value,
+        meter.rms.value);
+    ImGui::PopStyleVar();
+}
+
+void draw_meter(ImVec2 dimensions, meter_gain_stereo_032& meter) {
+    ImVec2 spacing = ImGui::GetStyle().ItemSpacing;
+
+    ImVec2 origin          = ImGui::GetCursorScreenPos();
+    ImVec2 half_dimensions = {dimensions.x / 2, dimensions.y};
+    draw_meter(  //
+        half_dimensions,
+        meter.meter_L.peak.value,
+        meter.meter_L.peak_hold.value,
+        meter.meter_L.rms.value);
+    ImGui::SameLine(origin.x + half_dimensions.x - spacing.x - 2);
+    draw_meter(  //
+        half_dimensions,
+        meter.meter_R.peak.value,
+        meter.meter_R.peak_hold.value,
+        meter.meter_R.rms.value);
+}
+
 void draw_meter(ImVec2 dimensions, float peak, float peak_hold, float rms) {
     const ImU32 color_bg             = ImGui::GetColorU32(ImGuiCol_ChildBg);
     const ImU32 color_peak           = ImGui::GetColorU32(ImGuiCol_FrameBg);

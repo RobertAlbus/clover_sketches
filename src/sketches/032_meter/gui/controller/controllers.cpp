@@ -24,20 +24,24 @@ void spacer() {
 
 void controller_mixer::draw() {
     ImGui::PushID(name);
-    ImVec2 meter_dimensions = {10, 200};
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
-    draw_meter(  //
-            meter_dimensions,
-            graph.main_meter_stereo.meter_L.peak.value,
-            graph.main_meter_stereo.meter_L.peak_hold.value,
-            graph.main_meter_stereo.meter_L.rms.value);
+    ImVec2 meter_dimensions = {20, 200};
+
+    draw_meter(meter_dimensions, graph.main_meter_stereo);
     ImGui::SameLine();
-    draw_meter(  //
-            meter_dimensions,
-            graph.main_meter_stereo.meter_R.peak.value,
-            graph.main_meter_stereo.meter_R.peak_hold.value,
-            graph.main_meter_stereo.meter_R.rms.value);
-    ImGui::PopStyleVar();
+    draw_meter(meter_dimensions, graph.main_meter_stereo);
+    // ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    // draw_meter(  //
+    //         meter_dimensions,
+    //         graph.main_meter_stereo.meter_L.peak.value,
+    //         graph.main_meter_stereo.meter_L.peak_hold.value,
+    //         graph.main_meter_stereo.meter_L.rms.value);
+    // ImGui::SameLine();
+    // draw_meter(  //
+    //         meter_dimensions,
+    //         graph.main_meter_stereo.meter_R.peak.value,
+    //         graph.main_meter_stereo.meter_R.peak_hold.value,
+    //         graph.main_meter_stereo.meter_R.rms.value);
+    // ImGui::PopStyleVar();
 
     spacer();
 
