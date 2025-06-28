@@ -16,6 +16,7 @@
 #include "sequence/sequencers.hpp"
 
 struct view {
+    std::string project_name;
     std::vector<std::unique_ptr<tabbed_controller>> tabs;
     sequencers& sqs;
     signal_graph& graph;
@@ -25,7 +26,7 @@ struct view {
     log_canvas_000 canvas;
     transport_ui_028 transport;
 
-    view(sequencers& sqs, signal_graph& graph, log_bus_000& logger);
+    view(std::string project_name, sequencers& sqs, signal_graph& graph, log_bus_000& logger);
     std::vector<std::unique_ptr<tabbed_controller>> create_tabs();
     bool draw();
 };

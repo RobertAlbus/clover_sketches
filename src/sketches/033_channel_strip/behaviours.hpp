@@ -42,7 +42,7 @@ struct behaviours : public behaviour_base {
     patterns patterns;
     arrangement arrangement;
     signal_graph graph{fs()};
-    view view{sequencers, graph, logger};
+    view view{project_name(), sequencers, graph, logger};
 
     float fs() override {
         return 48000;

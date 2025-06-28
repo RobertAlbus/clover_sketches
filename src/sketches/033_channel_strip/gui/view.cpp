@@ -11,8 +11,9 @@
 #include "graph/graph.hpp"
 #include "view.hpp"
 
-view::view(sequencers& sqs, signal_graph& graph, log_bus_000& logger)
-    : sqs{sqs},
+view::view(std::string project_name, sequencers& sqs, signal_graph& graph, log_bus_000& logger)
+    : project_name{std::move(project_name)},
+      sqs{sqs},
       graph{graph},
       logger{logger},
       transport([&](float bar) { sqs.play_from_bar(bar); }, [&]() { sqs.play(); }, [&]() { sqs.stop(); }) {
@@ -62,6 +63,10 @@ bool view::draw() {
     ImGui::SameLine();
     ImGui::Checkbox("logs", &show_log_canvas);
 
+    ImVec2 title_size = ImGui::CalcTextSize(project_name.c_str());
+    ImGui::SameLine((ImGui::GetWindowWidth() / 2) - (title_size.x / 2));
+    ImGui::Text("%s", project_name.c_str());
+
     ImGui::SameLine(ImGui::GetWindowWidth() - 200);
     ImGui::Text("%.2f fps", ImGui::GetIO().Framerate);
     ImGui::SameLine();
@@ -78,6 +83,7 @@ bool view::draw() {
     if (ImGui::Button(" x ")) {
         should_continue = false;
     }
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10);
 
     if (show_log_canvas) {
         draw_gui_log_canvas_000("log_canvas", canvas, logger, nullptr);
