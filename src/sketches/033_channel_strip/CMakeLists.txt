@@ -3,6 +3,9 @@ file(GLOB_RECURSE SOURCE_CPP
     ${CMAKE_CURRENT_LIST_DIR}/*.cpp
 )
 
-add_executable(032_meter ${SOURCE_CPP})
-target_include_directories(032_meter PUBLIC ${CMAKE_CURRENT_LIST_DIR})
-target_link_libraries(032_meter PRIVATE clover_sketches_lib clover imgui sketch_gui_libs concurrentqueue)
+set(target_name 033_channel_strip)
+
+add_executable(${target_name} ${SOURCE_CPP})
+target_include_directories(${target_name} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_link_libraries(${target_name} PRIVATE clover_sketches_lib clover imgui sketch_gui_libs concurrentqueue)
+target_compile_definitions(${target_name} PRIVATE PROJECT_NAME_STR="${target_name}")

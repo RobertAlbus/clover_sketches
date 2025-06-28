@@ -97,7 +97,7 @@ struct behaviours : public behaviour_base {
     }
 
     constexpr std::string project_name() override {
-        return "032_meter";
+        return PROJECT_NAME_STR;
     }
 
     clover::io::callback create_audio_callback() override {
