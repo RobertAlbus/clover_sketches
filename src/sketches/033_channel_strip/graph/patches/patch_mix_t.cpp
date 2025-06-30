@@ -2,32 +2,32 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "lib/mixer/mixer.hpp"
 #include "patches.hpp"
 
 patch_mix_t::patch_mix_t() {
-    mixer_tracks = mixer_list_000{
-            {.name = "main", .gain = 1},
+    new_mixer_spec = mixer_033::list_specs{
+            {.name = "main", .props = {.gain = 1, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
-            {.name = "kick bus", .gain = 0.5543479},
+            {.name = "kick bus", .props = {.gain = 0.5543479, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
-            {.name = "kick dry", .gain = 0.3369565},
-            {.name = "kick send", .gain = 0.69},
-            {.name = "kick wet", .gain = 0.9347826},
+            {.name = "kick dry", .props = {.gain = 0.3369565, .pan = 0, .mono = false, .mute = false}},
+            {.name = "kick send", .props = {.gain = 0.69, .pan = 0, .mono = false, .mute = false}},
+            {.name = "kick wet", .props = {.gain = 0.9347826, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
-            {.name = "snare sum", .gain = 0.96739125},
+            {.name = "snare sum", .props = {.gain = 0.96739125, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
-            {.name = "snare impulse", .gain = 0},
-            {.name = "snare impulse send", .gain = 0.8913044},
-            {.name = "snare body", .gain = 0.9130435},
-            {.name = "snare verb", .gain = 0.25},
+            {.name = "snare impulse", .props = {.gain = 0, .pan = 0, .mono = false, .mute = false}},
+            {.name  = "snare impulse send",
+             .props = {.gain = 0.8913044, .pan = 0, .mono = false, .mute = false}},
+            {.name = "snare body", .props = {.gain = 0.9130435, .pan = 0, .mono = false, .mute = false}},
+            {.name = "snare verb", .props = {.gain = 0.25, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
-            {.name = "ride", .gain = 0.19565213},
+            {.name = "ride", .props = {.gain = 0.19565213, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
-            {.name = "chord bus", .gain = 0.09782612},
-            {.name = "chord dry", .gain = 0.13043475},
-            {.name = "chord send", .gain = 0.7608696},
-            {.name = "chord wet", .gain = 1.1195652},
+            {.name = "chord bus", .props = {.gain = 0.09782612, .pan = 0, .mono = false, .mute = false}},
+            {.name = "chord dry", .props = {.gain = 0.13043475, .pan = 0, .mono = false, .mute = false}},
+            {.name = "chord send", .props = {.gain = 0.5, .pan = 0, .mono = false, .mute = false}},
+            {.name = "chord wet", .props = {.gain = 1.75, .pan = 0, .mono = false, .mute = false}},
     };
 
     main_peq_props = {

@@ -2,14 +2,13 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "graph/instrument/draw_mixer.hpp"
 #include "imgui-knobs.h"
 #include "imgui.h"
 
 #include "lib/cymbal/draw_cymbal_000.hpp"
 #include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
-#include "lib/meter/draw_meter.hpp"
-#include "lib/mixer/draw_mixer.hpp"
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
@@ -26,13 +25,9 @@ void controller_mixer::draw() {
     ImGui::PushID(name);
     ImVec2 meter_dimensions = {20, 200};
 
-    draw_meter(meter_dimensions, graph.main_meter_stereo);
-    ImGui::SameLine();
-    draw_meter(meter_dimensions, graph.main_meter_stereo);
-
     spacer();
 
-    draw_mixer_000("new_mix", &graph.mixer_tracks);
+    draw_mixer_033("mixer", graph.audio_mixer);
 
     spacer();
 

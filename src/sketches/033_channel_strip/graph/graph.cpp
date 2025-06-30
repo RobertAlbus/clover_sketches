@@ -7,17 +7,12 @@
 #include "clover/dsp/wave.hpp"
 #include "clover/math.hpp"
 
-#include "lib/mixer/mixer.hpp"
+#include "graph/instrument/audio_frame.hpp"
+#include "graph/instrument/audio_frame_math.hpp"
 
 #include "graph.hpp"
-#include "patches/patches.hpp"
 
 signal_graph::signal_graph(float fs) : fs{fs} {
-    for (auto& t : patch.mix.mixer_tracks)
-        mixer_tracks.emplace_back(t);
-
-    audio_mixer = build_mixer_map(mixer_tracks);
-
     snare_impulse.oscs[1].waveform = clover::dsp::wave_noise;
     snare_impulse.oscs[2].waveform = clover::dsp::wave_noise;
     snare_impulse.oscs[3].waveform = clover::dsp::wave_noise;
@@ -26,129 +21,102 @@ signal_graph::signal_graph(float fs) : fs{fs} {
 }
 
 std::pair<float, float> signal_graph::tick() {
-    float out_L = 0;
-    float out_R = 0;
+    using float_s = audio_frame_stereo;
+    float_s out;
 
     // ----------------
     // KICK
     //
     //
 
-    float kick_dry  = kick.tick();
-    float kick_send = kick_dry * audio_mixer.at("kick send");
-    kick_dry *= audio_mixer.at("kick dry");
-    auto [kick_send_eq, _] = kick_preverb_peq.tick(kick_send, kick_send);
+    float_s kick_dry  = kick.tick();
+    float_s kick_send = audio_mixer.at("kick send").tick(kick_dry);
+    kick_dry          = audio_mixer.at("kick dry").tick(kick_dry);
 
-    float kick_wet = kick_verb.tick(kick_send_eq) * audio_mixer.at("kick wet");
-    float kick_sum = (kick_dry + kick_wet) * audio_mixer.at("kick bus");
+    float_s kick_send_eq = kick_preverb_peq.tick(kick_send.to_pair());
 
-    auto [kick_post_eq, _] = kick_out_peq.tick(kick_sum, kick_sum);
-    kick_sum               = kick_post_eq;
+    float_s kick_wet = kick_verb.tick(kick_send_eq.mid());
+    kick_wet         = audio_mixer.at("kick wet").tick(kick_wet);
+
+    float_s kick_sum = kick_dry + kick_wet;
+    kick_sum         = kick_out_peq.tick(kick_sum.to_pair());
+    kick_sum         = audio_mixer.at("kick bus").tick(kick_sum);
 
     // ----------------
     // SNARE
     //
     //
 
-    float snare_impulse_signal = snare_impulse.tick();
-    float snare_impulse_send   = snare_impulse_signal * audio_mixer.at("snare impulse send");
-    snare_impulse_signal *= audio_mixer.at("snare impulse");
+    float_s snare_impulse_signal = snare_impulse.tick();
+    float_s snare_impulse_send   = audio_mixer.at("snare impulse send").tick(snare_impulse_signal);
+    snare_impulse_signal         = audio_mixer.at("snare impulse").tick(snare_impulse_signal);
 
-    auto snare_body = snare_resonator.tick({snare_impulse_send, snare_impulse_send});
+    float_s snare_body = snare_resonator.tick(snare_impulse_send.to_pair());
 
-    auto snare_body_drive = snare_driver.tick(snare_body);
-
-    auto snare_tail_send = snare_body;
-    snare_tail_send.first += snare_impulse_signal;
-    snare_tail_send.second += snare_impulse_signal;
-    auto snare_tail = snare_verb.tick(snare_tail_send);
-    snare_tail.first *= audio_mixer.at("snare verb");
-    snare_tail.second *= audio_mixer.at("snare verb");
+    float_s snare_tail_send = snare_body + snare_impulse_signal;
+    float_s snare_tail      = snare_verb.tick(snare_tail_send);
+    snare_tail              = audio_mixer.at("snare verb").tick(snare_tail);
 
     // use post-drive snare body for mixing
-    snare_body_drive.first *= audio_mixer.at("snare body");
-    snare_body_drive.second *= audio_mixer.at("snare body");
+    float_s snare_body_drive = snare_driver.tick(snare_body);
+    snare_body_drive         = audio_mixer.at("snare body").tick(snare_body_drive);
 
-    float snare_L = snare_impulse_signal + snare_body_drive.first + snare_tail.first;
-    float snare_R = snare_impulse_signal + snare_body_drive.second + snare_tail.second;
-
-    std::tie(snare_L, snare_R) = snare_eq.tick({snare_L, snare_R});
-
-    snare_L *= audio_mixer.at("snare sum");
-    snare_R *= audio_mixer.at("snare sum");
+    float_s snare = snare_impulse_signal + snare_body_drive + snare_tail;
+    snare         = snare_eq.tick(snare.to_pair());
+    snare         = audio_mixer.at("snare sum").tick(snare);
 
     // ----------------
     // CYMBALS
     //
     //
 
-    float ride_cymbal     = ride.tick() * audio_mixer.at("ride") * 0.05f;
-    auto [ride_L, ride_R] = ride_peq.tick(ride_cymbal);
+    float_s ride_cymbal = ride.tick();
+    ride_cymbal         = audio_mixer.at("ride").tick(ride_cymbal) * 0.05f;
+    ride_cymbal         = ride_peq.tick(ride_cymbal.to_pair());
 
     // ----------------
     // CHORD
     //
     //
 
-    float chord_L = 0;
-    float chord_R = 0;
+    float_s chord_signal = 0;
     for (auto& chord_voice : chord) {
-        auto chord_voice_signal = chord_voice.tick();
-        chord_L += chord_voice_signal.first;
-        chord_R += chord_voice_signal.second;
+        chord_signal += {chord_voice.tick()};
     }
-    float chord_send_L                      = chord_L * audio_mixer.at("chord send");
-    float chord_send_R                      = chord_R * audio_mixer.at("chord send");
-    auto [chord_preverb_L, chord_preverb_R] = chord_preverb_peq.tick(chord_send_L, chord_send_R);
-    chord_preverb_L                         = std::clamp(chord_preverb_L, -1.f, 1.f);
-    chord_preverb_R                         = std::clamp(chord_preverb_R, -1.f, 1.f);
+    float_s chord_send    = audio_mixer.at("chord send").tick(chord_signal);
+    float_s chord_preverb = chord_preverb_peq.tick(chord_send.to_pair());
+    chord_preverb         = clamp(chord_preverb, -1.f, 1.f);
 
-    auto [chord_verb_out_L, chord_verb_out_R] = chord_verb.tick({chord_preverb_L, chord_preverb_R});
-    chord_verb_out_L *= audio_mixer.at("chord wet");
-    chord_verb_out_R *= audio_mixer.at("chord wet");
+    float_s chord_verb_out = chord_verb.tick(chord_preverb.to_pair());
+    chord_verb_out         = audio_mixer.at("chord wet").tick(chord_verb_out);
 
-    chord_verb_out_L = std::clamp(chord_verb_out_L, -1.f, 1.f);
-    chord_verb_out_R = std::clamp(chord_verb_out_R, -1.f, 1.f);
+    chord_verb_out = clamp(chord_verb_out, -1.f, 1.f);
 
-    chord_L *= audio_mixer.at("chord dry");
-    chord_R *= audio_mixer.at("chord dry");
+    chord_signal = audio_mixer.at("chord dry").tick(chord_signal);
 
-    float chord_post_eq_in_L = std::clamp((chord_L + chord_verb_out_L), -1.f, 1.f);
-    float chord_post_eq_in_R = std::clamp((chord_R + chord_verb_out_R), -1.f, 1.f);
+    float_s chord_post_eq_in = clamp((chord_signal + chord_verb_out), -1.f, 1.f);
+    float_s chord_post_eq    = chord_peq.tick(chord_post_eq_in.to_pair());
 
-    auto [chord_post_eq_L, chord_post_eq_R] = chord_peq.tick(chord_post_eq_in_L, chord_post_eq_in_R);
-
-    float chord_sum_L = chord_post_eq_L *= audio_mixer.at("chord bus");
-    float chord_sum_R = chord_post_eq_R *= audio_mixer.at("chord bus");
+    float_s chord_sum = audio_mixer.at("chord bus").tick(chord_post_eq);
 
     // ----------------
     // SUMMING
     //
     //
 
-    out_L = kick_sum + ride_L + snare_L + chord_sum_L;
-    out_R = kick_sum + ride_R + snare_R + chord_sum_R;
+    out = kick_sum + ride_cymbal + snare + chord_sum;
 
-    auto main_eq_out = main_eq.tick(out_L, out_R);
-    out_L            = main_eq_out.first;
-    out_R            = main_eq_out.second;
+    out = main_eq.tick(out.to_pair());
 
-    out_L *= gain_master;
-    out_R *= gain_master;
+    out *= gain_master;
 
-    out_L = std::tanh(out_L * 1.3f);
-    out_R = std::tanh(out_R * 1.3f);
+    out = tanh(out * 1.3f);
 
-    out_L *= audio_mixer.at("main");
-    out_R *= audio_mixer.at("main");
-
-    main_meter_stereo.tick(out_L, out_R);
+    out = audio_mixer.at("main").tick(out);
 
     // force -0.3 db
-    out_L = std::clamp(out_L, -1.f, 1.f);
-    out_R = std::clamp(out_R, -1.f, 1.f);
-    out_L *= db_to_linear(-0.3f);
-    out_R *= db_to_linear(-0.3f);
+    out = clamp(out, -1.f, 1.f);
+    out *= db_to_linear(-0.3f);
 
-    return {out_L, out_R};
+    return out.to_pair();
 }

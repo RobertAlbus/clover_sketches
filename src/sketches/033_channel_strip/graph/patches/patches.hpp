@@ -9,9 +9,10 @@
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
-#include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
+
+#include "graph/instrument/mixer.hpp"
 
 struct patch_drums_t {
     patch_drums_t();
@@ -56,7 +57,9 @@ struct patch_synth_t {
 struct patch_mix_t {
     patch_mix_t();
 
-    std::vector<mixer_track_000> mixer_tracks;
+    // std::vector<mixer_track_000> mixer_tracks;
+
+    mixer_033::list_specs new_mixer_spec;
 
     // --------------------------------
     // MASTER

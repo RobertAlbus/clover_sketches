@@ -8,8 +8,6 @@
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
-#include "lib/meter/meter.hpp"
-#include "lib/mixer/mixer.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
@@ -20,8 +18,7 @@ struct signal_graph {
     float fs;
     patch patch;
 
-    std::vector<mixer_track_000> mixer_tracks;
-    std::unordered_map<std::string, std::reference_wrapper<float>> audio_mixer;
+    mixer_033 audio_mixer{fs, patch.mix.new_mixer_spec};
 
     std::pair<float, float> tick();
 
@@ -67,5 +64,4 @@ struct signal_graph {
     peq_000 chord_peq{fs, patch.synth.chord_peq_props};
 
     peq_000 main_eq{fs, patch.mix.main_peq_props};
-    meter_gain_stereo_032 main_meter_stereo{fs};
 };
