@@ -32,6 +32,10 @@ audio_frame_stereo channel_strip::tick(audio_frame_stereo x) {
     return props.mute ? x * 0 : x;
 }
 
+void channel_strip::update_pan() {
+    panning.set(props.pan);
+}
+
 std::string channel_strip::to_str() {
     return std::format(
             "{{ .gain = {}, .pan = {}, .mono = {}, .mute = {}}};",

@@ -27,5 +27,6 @@ struct channel_strip {
     channel_strip(float fs, const channel_strip_props& props);
     void patch(channel_strip_props props);
     audio_frame_stereo tick(audio_frame_stereo x);
+    void update_pan();
     std::string to_str();
 };
