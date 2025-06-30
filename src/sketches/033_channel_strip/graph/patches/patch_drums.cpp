@@ -54,7 +54,7 @@ patch_drums_t::patch_drums_t() {
             peq_props_000{
                     .freq    = 38,
                     .reso    = 0.687,
-                    .gain    = 8.64,
+                    .gain    = 3.648,
                     .enabled = true,
                     .type    = peq_filter_type::eq,
             },
@@ -125,27 +125,27 @@ patch_drums_t::patch_drums_t() {
     };
 
     // original snare props
-    // snare_resonator_props = {
-    //         .stereo_spread_taps_octaves = 0.208,
-    //         .taps    = {640.97437, 278.1, 117.17493, 27.412, 24.742, 115.72901, 115.72901, 118.63938},
-    //         .fb_gain = 0.968,
-    //         .lpf_cut = 600.4853,
-    //         .lpf_res = 0.707,
-    //         .hpf_cut = 66.02632,
-    //         .hpf_res = 0.707,
-    // };
-
-    // wacked out snare props
-    // gets right fucked if you take the taps here against the kick pattern with the pads muted
     snare_resonator_props = {
-            .stereo_spread_taps_octaves = 1,
-            .taps    = {414.81705, 278.1, 117.17493, 27.412, 24.742, 34096.543, 4150.826, 4384.0977},
+            .stereo_spread_taps_octaves = 0.208,
+            .taps    = {640.97437, 278.1, 117.17493, 27.412, 24.742, 115.72901, 115.72901, 118.63938},
             .fb_gain = 0.968,
-            .lpf_cut = 546.06354,
+            .lpf_cut = 600.4853,
             .lpf_res = 0.707,
-            .hpf_cut = 59.447765,
+            .hpf_cut = 66.02632,
             .hpf_res = 0.707,
     };
+
+    // wacked out snare props
+    // gets right messed if you take the taps here against the kick pattern with the pads muted
+    // snare_resonator_props = {
+    //         .stereo_spread_taps_octaves = 1,
+    //         .taps    = {414.81705, 278.1, 117.17493, 27.412, 24.742, 34096.543, 4150.826, 4384.0977},
+    //         .fb_gain = 0.968,
+    //         .lpf_cut = 546.06354,
+    //         .lpf_res = 0.707,
+    //         .hpf_cut = 59.447765,
+    //         .hpf_res = 0.707,
+    // };
 
     snare_driver_props = {
             .drive_input = 1.264,
