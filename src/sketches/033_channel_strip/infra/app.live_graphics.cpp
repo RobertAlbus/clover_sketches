@@ -56,7 +56,7 @@ void app::graphics_thread() {
 #endif
 
     auto window_name   = std::format("clover sketch: {}", live_ctx->project_name());
-    GLFWwindow* window = glfwCreateWindow(1280, 720, window_name.c_str(), nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1600, 900, window_name.c_str(), nullptr, nullptr);
     if (window == nullptr) {
         return;
     }
