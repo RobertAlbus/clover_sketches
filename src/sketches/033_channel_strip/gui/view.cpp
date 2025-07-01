@@ -47,6 +47,7 @@ bool view::draw() {
 
     // ----------------------------------------------------------------
     // KEY HANDLING
+
     if (ImGui::IsKeyChordPressed(ImGuiMod_Ctrl | ImGuiKey_Space)) {
         transport.toggle_state_play();
     } else if (ImGui::IsKeyPressed(ImGuiKey_Space, false)) {

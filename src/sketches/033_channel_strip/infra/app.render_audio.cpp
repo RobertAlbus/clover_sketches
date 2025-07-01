@@ -29,7 +29,8 @@ void app::audio_render_thread(std::stop_token st) {
 
     auto callback = render_ctx->create_audio_callback();
     render_ctx->sequencer_start();
-    for (auto frame : std::views::iota(0, render_duration_samples)) {
+    auto redender_duration = std::views::iota(0, render_duration_samples);
+    for (auto frame : redender_duration) {
         if (st.stop_requested()) {
             std::println("canceled render: {}", render_ctx->project_name());
             return;
@@ -45,8 +46,9 @@ void app::audio_render_thread(std::stop_token st) {
 
     render_ctx->sequencer_stop();
 
-    for (auto frame :
-         std::views::iota(render_duration_samples, render_duration_samples + runout_duration_samples)) {
+    auto runout_duration =
+            std::views::iota(render_duration_samples, render_duration_samples + runout_duration_samples);
+    for (auto frame : runout_duration) {
         if (st.stop_requested()) {
             std::println("canceled render: {}", render_ctx->project_name());
             return;

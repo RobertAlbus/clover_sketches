@@ -13,11 +13,13 @@ struct behaviour_base {
     virtual ~behaviour_base()                    = default;
     virtual int render_duration_samples()        = 0;
     virtual int render_runout_duration_samples() = 0;
-    virtual void sequencer_start()               = 0;
-    virtual void sequencer_stop()                = 0;
+    virtual void sequencer_start()               = 0;  // used to implement the rendering runout
+    virtual void sequencer_stop()                = 0;  // used to implement the rendering runout
     virtual constexpr std::string project_name() = 0;
 
     // live behaviours
+
+    // return: should_continue
     virtual bool view_draw()                             = 0;
     virtual void view_init()                             = 0;
     virtual void view_deinit()                           = 0;

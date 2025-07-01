@@ -10,7 +10,6 @@
 #include "graph/graph.hpp"
 #include "sequence/sequencers.hpp"
 
-// consider ctor with sqs & graph to simplify indiviual controller ctors
 struct tabbed_controller {
     tabbed_controller(const char* name, sequencers& sqs, signal_graph& graph, log_bus_000& logger)
         : name{name}, sqs{sqs}, graph{graph}, logger{logger} {};

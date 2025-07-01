@@ -28,5 +28,7 @@ struct view {
 
     view(std::string project_name, sequencers& sqs, signal_graph& graph, log_bus_000& logger);
     std::vector<std::unique_ptr<tabbed_controller>> create_tabs();
+
+    // return: should_continue
     bool draw();
 };

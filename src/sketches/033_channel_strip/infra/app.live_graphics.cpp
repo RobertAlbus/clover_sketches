@@ -22,8 +22,6 @@ static void glfw_error_callback(int error, const char* description) {
 void app::graphics_thread() {
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
-
-        // TODO - RETURN CODE: CAN'T RETURN 1, WHAT SHOULD I DO?
         return;
 
     // Decide GL+GLSL versions
@@ -67,7 +65,7 @@ void app::graphics_thread() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     live_ctx->view_init();
-    // Setup Platform/Renderer backends
+
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
@@ -83,6 +81,7 @@ void app::graphics_thread() {
         // application, or clear/overwrite your copy of the keyboard data. Generally you may always pass
         // all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
+
         if (glfwGetWindowAttrib(window, GLFW_ICONIFIED) != 0) {
             ImGui_ImplGlfw_Sleep(10);
             continue;
@@ -94,11 +93,11 @@ void app::graphics_thread() {
         ImGui::NewFrame();
 
         // Show window
-        if (!live_ctx->view_draw()) {
+        if (!live_ctx->view_draw())
+            // glfwSetWindowShouldClose(window, true);
             glfwSetWindowShouldClose(window, true);
-        }
+        //
 
-        // Rendering
         ImGui::Render();
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);

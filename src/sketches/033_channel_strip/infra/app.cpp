@@ -8,12 +8,10 @@
 #include "app.hpp"
 
 void app::start() {
-    app& self = *this;
+    std::thread audio_live([this]() { this->audio_thread(); });
+    std::thread graphics_live([this]() { this->graphics_thread(); });
 
-    std::thread audio_live([&self]() { self.audio_thread(); });
-    std::thread graphics_live([&]() { self.graphics_thread(); });
-
-    std::jthread audio_render([&](std::stop_token st) { self.audio_render_thread(st); });
+    std::jthread audio_render([this](std::stop_token st) { this->audio_render_thread(st); });
 
     audio_live.join();
     graphics_live.join();
