@@ -11,11 +11,11 @@ struct audio_frame_stereo {
     float R = 0;
 
     constexpr audio_frame_stereo() = default;
-    constexpr audio_frame_stereo(float mono) : L(mono), R(mono) {
+    constexpr audio_frame_stereo(float mono) : audio_frame_stereo(mono, mono) {
+    }
+    constexpr audio_frame_stereo(std::pair<float, float> p) : audio_frame_stereo(p.first, p.second)  {
     }
     constexpr audio_frame_stereo(float l, float r) : L(l), R(r) {
-    }
-    constexpr audio_frame_stereo(std::pair<float, float> p) : L(p.first), R(p.second) {
     }
 
     constexpr explicit operator float() const {
