@@ -4,21 +4,19 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "lib/logging/logger.hpp"
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
 #include "sequence/sequencers.hpp"
 
 struct tabbed_controller {
-    tabbed_controller(const char* name, sequencers& sqs, signal_graph& graph, log_bus_000& logger)
-        : name{name}, sqs{sqs}, graph{graph}, logger{logger} {};
+    tabbed_controller(const char* name, sequencers& sqs, signal_graph& graph)
+        : name{name}, sqs{sqs}, graph{graph} {};
     virtual ~tabbed_controller() = default;
 
     const char* name;
     sequencers& sqs;
     signal_graph& graph;
-    log_bus_000& logger;
     virtual void draw() = 0;
 };
 

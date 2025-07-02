@@ -22,11 +22,11 @@ view::view(std::string project_name, sequencers& sqs, signal_graph& graph, log_b
 
 std::vector<std::unique_ptr<tabbed_controller>> view::create_tabs() {
     std::vector<std::unique_ptr<tabbed_controller>> new_tabs;
-    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer", sqs, graph, logger));
-    new_tabs.emplace_back(std::make_unique<controller_kick>("kick", sqs, graph, logger));
-    new_tabs.emplace_back(std::make_unique<controller_snare>("snare", sqs, graph, logger));
-    new_tabs.emplace_back(std::make_unique<controller_ride>("ride", sqs, graph, logger));
-    new_tabs.emplace_back(std::make_unique<controller_chord>("chord", sqs, graph, logger));
+    new_tabs.emplace_back(std::make_unique<controller_mixer>("mixer", sqs, graph));
+    new_tabs.emplace_back(std::make_unique<controller_kick>("kick", sqs, graph));
+    new_tabs.emplace_back(std::make_unique<controller_snare>("snare", sqs, graph));
+    new_tabs.emplace_back(std::make_unique<controller_ride>("ride", sqs, graph));
+    new_tabs.emplace_back(std::make_unique<controller_chord>("chord", sqs, graph));
     return new_tabs;
 }
 
