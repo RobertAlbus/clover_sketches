@@ -10,7 +10,7 @@
 
 #include "draw_meter.hpp"
 
-void draw_meter(ImVec2 dimensions, meter_gain_mono_032& meter) {
+void draw_meter(ImVec2 dimensions, meter_gain_mono_032& meter, bool mute) {
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
     draw_meter(  //
         dimensions,
@@ -20,25 +20,30 @@ void draw_meter(ImVec2 dimensions, meter_gain_mono_032& meter) {
     ImGui::PopStyleVar();
 }
 
-void draw_meter(ImVec2 dimensions, meter_gain_stereo_032& meter) {
+void draw_meter(ImVec2 dimensions, meter_gain_stereo_032& meter, bool mute) {
     ImVec2 spacing = ImGui::GetStyle().ItemSpacing;
 
     ImVec2 origin          = ImGui::GetCursorScreenPos();
     ImVec2 half_dimensions = {dimensions.x / 2, dimensions.y};
+
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    ImGui::BeginGroup();
     draw_meter(  //
         half_dimensions,
         meter.meter_L.peak.value,
         meter.meter_L.peak_hold.value,
         meter.meter_L.rms.value);
-    ImGui::SameLine(origin.x + half_dimensions.x - spacing.x - 2);
+    ImGui::SameLine();
     draw_meter(  //
         half_dimensions,
         meter.meter_R.peak.value,
         meter.meter_R.peak_hold.value,
         meter.meter_R.rms.value);
+    ImGui::EndGroup();
+    ImGui::PopStyleVar();
 }
 
-void draw_meter(ImVec2 dimensions, float peak, float peak_hold, float rms) {
+void draw_meter(ImVec2 dimensions, float peak, float peak_hold, float rms, bool is_muted) {
     const ImU32 color_bg             = ImGui::GetColorU32(ImGuiCol_ChildBg);
     const ImU32 color_peak           = ImGui::GetColorU32(ImGuiCol_FrameBg);
     const ImU32 color_peak_hold      = ImGui::GetColorU32(ImGuiCol_FrameBgActive);
@@ -68,9 +73,9 @@ void draw_meter(ImVec2 dimensions, float peak, float peak_hold, float rms) {
     const float peak_hold_y = to_y(peak_hold);
     const float rms_y       = to_y(rms);
 
-    bool has_peak_signal      = peak_y != bottom_right.y;
-    bool has_peak_hold_signal = peak_hold_y != bottom_right.y;
-    bool has_rms_signal       = rms_y != bottom_right.y;
+    bool has_peak_signal      = !is_muted && peak_y != bottom_right.y;
+    bool has_peak_hold_signal = !is_muted && peak_hold_y != bottom_right.y;
+    bool has_rms_signal       = !is_muted && rms_y != bottom_right.y;
 
     ImDrawList* drawList = ImGui::GetWindowDrawList();
     drawList->AddRectFilled(top_left, bottom_right, color_bg);

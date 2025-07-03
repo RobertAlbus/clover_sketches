@@ -3,7 +3,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <numeric>
-#include <print>
 #include <ranges>
 
 #include "clover/dsp/filter.hpp"
@@ -103,7 +102,7 @@ float fdn8_023::tick(float x) {
 
     delay_outputs = process_hadamard<8>(delay_outputs);
     for (auto [fb, delay_output] : std::views::zip(fbs, delay_outputs)) {
-        fb = delay_output * props.fb_gain;
+        fb = std::clamp(delay_output, -1.f, 1.f) * props.fb_gain;
     }
 
     float output = std::accumulate(delay_outputs.cbegin(), delay_outputs.cend(), 0.f);

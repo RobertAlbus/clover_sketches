@@ -2,7 +2,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "lib/mixer/mixer.hpp"
+#include "lib/mixer_legacy/mixer_000.hpp"
 #include "patches.hpp"
 
 patch_mix_t::patch_mix_t() {

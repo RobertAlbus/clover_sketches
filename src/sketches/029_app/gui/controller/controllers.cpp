@@ -7,7 +7,7 @@
 #include "lib/cymbal/draw_cymbal_000.hpp"
 #include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
-#include "lib/mixer/draw_mixer.hpp"
+#include "lib/mixer_legacy/draw_mixer_000.hpp"
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"

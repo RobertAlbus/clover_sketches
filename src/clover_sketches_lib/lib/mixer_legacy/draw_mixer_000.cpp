@@ -4,8 +4,8 @@
 
 #include "imgui.h"
 
-#include "draw_mixer.hpp"
-#include "mixer.hpp"
+#include "draw_mixer_000.hpp"
+#include "mixer_000.hpp"
 
 constexpr float MAX_GAIN            = 2;
 constexpr ImVec2 channel_dimensions = ImVec2(20, 200);

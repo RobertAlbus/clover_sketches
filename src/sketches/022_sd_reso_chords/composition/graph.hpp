@@ -14,7 +14,7 @@
 #include "lib/env_bp/env_bp.hpp"
 #include "lib/fdn/fdn8_000.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
-#include "lib/mixer/mixer.hpp"
+#include "lib/mixer_legacy/mixer_000.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 

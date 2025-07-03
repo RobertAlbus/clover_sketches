@@ -7,7 +7,7 @@
 #include "imgui.h"
 #include "meter.hpp"
 
-void draw_meter(ImVec2 dimensions, float peak, float peak_hold, float rms);
+void draw_meter(ImVec2 dimensions, float peak, float peak_hold, float rms, bool mute = false);
 
-void draw_meter(ImVec2 dimensions, meter_gain_mono_032& meter);
-void draw_meter(ImVec2 dimensions, meter_gain_stereo_032& meter);
+void draw_meter(ImVec2 dimensions, meter_gain_mono_032& meter, bool mute = false);
+void draw_meter(ImVec2 dimensions, meter_gain_stereo_032& meter, bool mute = false);
