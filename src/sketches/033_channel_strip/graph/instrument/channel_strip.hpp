@@ -6,9 +6,9 @@
 
 #include <string>
 
+#include "lib/audio_frame/audio_frame.hpp"
 #include "lib/meter/meter.hpp"
 
-#include "audio_frame.hpp"
 #include "graph/instrument/pan.hpp"
 
 struct channel_strip_props {

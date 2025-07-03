@@ -5,9 +5,9 @@
 #include <format>
 #include <string>
 
+#include "lib/audio_frame/audio_frame.hpp"
 #include "lib/meter/meter.hpp"
 
-#include "audio_frame.hpp"
 #include "channel_strip.hpp"
 
 channel_strip::channel_strip(float fs, const channel_strip_props& props) : meter{fs} {

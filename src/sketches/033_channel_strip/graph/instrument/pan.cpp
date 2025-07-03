@@ -5,7 +5,8 @@
 #include <cmath>
 #include <numbers>
 
-#include "audio_frame.hpp"
+#include "lib/audio_frame/audio_frame.hpp"
+
 #include "pan.hpp"
 
 audio_frame_stereo pan_033::tick(audio_frame_stereo x) const {

@@ -7,8 +7,8 @@
 #include "clover/dsp/wave.hpp"
 #include "clover/math.hpp"
 
-#include "graph/instrument/audio_frame.hpp"
-#include "graph/instrument/audio_frame_math.hpp"
+#include "lib/audio_frame/audio_frame.hpp"
+#include "lib/audio_frame/audio_frame_math.hpp"
 
 #include "graph.hpp"
 
