@@ -9,7 +9,7 @@
 
 #include "pan.hpp"
 
-audio_frame_stereo pan_033::tick(audio_frame_stereo x) const {
+audio_frame pan_033::tick(audio_frame x) const {
     return x * pan_coeffs;
 }
 

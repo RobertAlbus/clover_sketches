@@ -7,10 +7,10 @@
 #include "lib/audio_frame/audio_frame.hpp"
 
 struct pan_033 {
-    audio_frame_stereo pan_coeffs;
+    audio_frame pan_coeffs;
 
     void set(float pan);
     float get() const;
 
-    audio_frame_stereo tick(audio_frame_stereo x) const;
+    audio_frame tick(audio_frame x) const;
 };

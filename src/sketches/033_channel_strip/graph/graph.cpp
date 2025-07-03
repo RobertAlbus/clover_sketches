@@ -21,7 +21,7 @@ signal_graph::signal_graph(float fs) : fs{fs} {
 }
 
 std::pair<float, float> signal_graph::tick() {
-    using float_s = audio_frame_stereo;
+    using float_s = audio_frame;
     float_s out;
 
     // ----------------

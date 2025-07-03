@@ -19,7 +19,7 @@ void channel_strip::patch(channel_strip_props new_props) {
     panning.set(props.pan);
 }
 
-audio_frame_stereo channel_strip::tick(audio_frame_stereo x) {
+audio_frame channel_strip::tick(audio_frame x) {
     x = panning.tick(x);
     x *= props.gain;
 
