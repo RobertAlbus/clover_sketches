@@ -9,7 +9,7 @@
 #include "lib/audio_frame/audio_frame.hpp"
 #include "lib/meter/meter.hpp"
 
-#include "graph/instrument/pan.hpp"
+#include "pan_033.hpp"
 
 struct channel_strip_props {
     float gain;

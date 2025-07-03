@@ -2,13 +2,13 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "graph/instrument/draw_mixer.hpp"
 #include "imgui-knobs.h"
 #include "imgui.h"
 
 #include "lib/cymbal/draw_cymbal_000.hpp"
 #include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
+#include "lib/mixer/draw_mixer_033.hpp"
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"

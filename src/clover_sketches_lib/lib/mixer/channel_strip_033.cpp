@@ -8,7 +8,7 @@
 #include "lib/audio_frame/audio_frame.hpp"
 #include "lib/meter/meter.hpp"
 
-#include "channel_strip.hpp"
+#include "channel_strip_033.hpp"
 
 channel_strip::channel_strip(float fs, const channel_strip_props& props) : meter{fs} {
     patch(props);

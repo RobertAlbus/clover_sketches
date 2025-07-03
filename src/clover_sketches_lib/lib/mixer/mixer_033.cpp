@@ -5,8 +5,8 @@
 #include <format>
 #include <string>
 
-#include "graph/instrument/channel_strip.hpp"
-#include "mixer.hpp"
+#include "channel_strip_033.hpp"
+#include "mixer_033.hpp"
 
 mixer_033::mixer_033(float fs, const std::vector<channel_spec>& channel_specs) {
     build(fs, channel_specs);

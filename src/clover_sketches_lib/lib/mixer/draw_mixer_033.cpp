@@ -5,9 +5,9 @@
 #include "imgui-knobs.h"
 #include "imgui.h"
 
-#include "draw_mixer.hpp"
+#include "draw_mixer_033.hpp"
 #include "lib/meter/draw_meter.hpp"
-#include "mixer.hpp"
+#include "mixer_033.hpp"
 
 constexpr float MAX_GAIN            = 2;
 constexpr ImVec2 dimensions_channel = ImVec2(40, 200);

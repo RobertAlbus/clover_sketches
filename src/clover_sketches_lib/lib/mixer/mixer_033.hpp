@@ -10,7 +10,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "channel_strip.hpp"
+#include "channel_strip_033.hpp"
 
 struct mixer_033 {
     struct channel_spec {

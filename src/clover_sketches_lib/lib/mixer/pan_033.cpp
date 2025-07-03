@@ -7,7 +7,7 @@
 
 #include "lib/audio_frame/audio_frame.hpp"
 
-#include "pan.hpp"
+#include "pan_033.hpp"
 
 audio_frame pan_033::tick(audio_frame x) const {
     return x * pan_coeffs;

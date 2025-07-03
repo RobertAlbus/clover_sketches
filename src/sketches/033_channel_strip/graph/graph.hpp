@@ -8,10 +8,12 @@
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
+#include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth.hpp"
 
 #include "graph/instrument/driver.hpp"
+
 #include "patches/patches.hpp"
 
 struct signal_graph {
