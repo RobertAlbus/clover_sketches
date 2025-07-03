@@ -6,7 +6,7 @@
 
 #include "composition/graph.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
-#include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth_000.hpp"
 
 #include "sequence/arrangement_callback_builder.hpp"
 #include "sequence/event.hpp"

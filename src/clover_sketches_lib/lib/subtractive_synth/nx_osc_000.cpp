@@ -13,10 +13,8 @@
 #include "clover/dsp/oscillator.hpp"
 #include "clover/dsp/pan.hpp"
 #include "clover/math.hpp"
-using namespace clover;
-using namespace dsp;
 
-#include "nx_osc.hpp"
+#include "nx_osc_000.hpp"
 
 // --------------------------------
 // nx_osc_props
@@ -148,8 +146,7 @@ std::pair<float, float> nx_osc_000::tick() {
 
     for (auto [osc, tuning, osc_pan] : std::views::zip(oscs, props.osc_tunings, osc_pans)) {
         float osc_freq = clover::midi_to_frequency(current_midi_note + tuning);
-        osc_freq       = frequency_by_octave_difference(osc_freq, props.pitch_env_octaves);
-        // osc_freq       = frequency_by_octave_difference(osc_freq, input_mod_pitch_octaves);
+        osc_freq       = clover::frequency_by_octave_difference(osc_freq, props.pitch_env_octaves);
         osc_freq += input_mod_pitch_octaves;
         osc_freq = std::clamp(osc_freq, 0.f, fs * 0.499f);
         osc.freq(osc_freq);

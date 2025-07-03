@@ -8,7 +8,7 @@
 #include "lib/fdn/fdn8_000.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/peq/peq.hpp"
-#include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth_000.hpp"
 
 #include "clover/math.hpp"
 #include "sequence/notes.h"

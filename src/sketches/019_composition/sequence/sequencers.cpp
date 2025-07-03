@@ -6,7 +6,7 @@
 #include <print>
 
 #include "lib/kick_drum/kick_drum.hpp"
-#include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth_000.hpp"
 
 #include "composition/composition.hpp"
 #include "sequence/event.hpp"

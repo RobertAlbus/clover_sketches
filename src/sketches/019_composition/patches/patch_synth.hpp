@@ -8,8 +8,8 @@
 
 #include "lib/fdn/fdn8_000.hpp"
 #include "lib/peq/peq.hpp"
-#include "lib/subtractive_synth/nx_osc.hpp"
-#include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "lib/subtractive_synth/nx_osc_000.hpp"
+#include "lib/subtractive_synth/subtractive_synth_000.hpp"
 
 #include "sequence/notes.h"
 

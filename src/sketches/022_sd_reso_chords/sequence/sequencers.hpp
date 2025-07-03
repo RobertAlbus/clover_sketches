@@ -6,7 +6,7 @@
 
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/logging/logger.hpp"
-#include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth_000.hpp"
 
 #include "lib/sq/bar_grid.hpp"
 
