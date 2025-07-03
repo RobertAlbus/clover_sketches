@@ -9,7 +9,7 @@
 
 std::string fdn8_stereo_030_props::to_str() {
     return std::format(
-            R"({{
+        R"({{
         .stereo_spread_taps_octaves = {},
         .taps     = {{{}, {}, {}, {}, {}, {}, {}, {}}},
         .fb_gain  = {},
@@ -18,20 +18,20 @@ std::string fdn8_stereo_030_props::to_str() {
         .hpf_cut  = {},
         .hpf_res  = {},
     }};)",
-            stereo_spread_taps_octaves,
-            taps[0],
-            taps[1],
-            taps[2],
-            taps[3],
-            taps[4],
-            taps[5],
-            taps[6],
-            taps[7],
-            fb_gain,
-            lpf_cut,
-            lpf_res,
-            hpf_cut,
-            hpf_res);
+        stereo_spread_taps_octaves,
+        taps[0],
+        taps[1],
+        taps[2],
+        taps[3],
+        taps[4],
+        taps[5],
+        taps[6],
+        taps[7],
+        fb_gain,
+        lpf_cut,
+        lpf_res,
+        hpf_cut,
+        hpf_res);
 }
 
 std::pair<float, float> fdn8_stereo_030::tick(std::pair<float, float> x) {

@@ -33,11 +33,11 @@ void convert_sample_rate_016(clover::audio_buffer& buffer, int sample_rate) {
     float* data_out_start = &output.front();
 
     SRC_DATA libsampelrate_src_data = {
-            .data_in       = data_in_start,
-            .data_out      = data_out_start,
-            .input_frames  = input_frames_count,
-            .output_frames = output_frames_count,
-            .src_ratio     = ratio,
+        .data_in       = data_in_start,
+        .data_out      = data_out_start,
+        .input_frames  = input_frames_count,
+        .output_frames = output_frames_count,
+        .src_ratio     = ratio,
     };
 
     error = src_process(libsamplerate_src_state, &libsampelrate_src_data);

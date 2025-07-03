@@ -28,27 +28,27 @@ void draw_cymbal_000(const char* id, cymbal_000& cymbal) {
 
         ImGui::TableNextColumn();
         if (draw_adsr_000(
-                    "##amp_adsr",
-                    {1000, 1000, 1, 30000},
-                    cymbal.props.amp_a,
-                    cymbal.props.amp_d,
-                    cymbal.props.amp_s,
-                    cymbal.props.amp_r)) {
+                "##amp_adsr",
+                {1000, 1000, 1, 30000},
+                cymbal.props.amp_a,
+                cymbal.props.amp_d,
+                cymbal.props.amp_s,
+                cymbal.props.amp_r)) {
             cymbal.adsr_amp.set(
-                    cymbal.props.amp_a, cymbal.props.amp_d, cymbal.props.amp_s, cymbal.props.amp_r);
+                cymbal.props.amp_a, cymbal.props.amp_d, cymbal.props.amp_s, cymbal.props.amp_r);
         }
 
         ImGui::TableNextColumn();
 
         if (draw_adsr_000(
-                    "##hpf_adsr",
-                    {1000, 1000, 1, 30000},
-                    cymbal.props.cut_a,
-                    cymbal.props.cut_d,
-                    cymbal.props.cut_s,
-                    cymbal.props.cut_r)) {
+                "##hpf_adsr",
+                {1000, 1000, 1, 30000},
+                cymbal.props.cut_a,
+                cymbal.props.cut_d,
+                cymbal.props.cut_s,
+                cymbal.props.cut_r)) {
             cymbal.adsr_cut.set(
-                    cymbal.props.cut_a, cymbal.props.cut_d, cymbal.props.cut_s, cymbal.props.cut_r);
+                cymbal.props.cut_a, cymbal.props.cut_d, cymbal.props.cut_s, cymbal.props.cut_r);
         }
 
         ImGui::TableNextColumn();

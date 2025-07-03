@@ -26,35 +26,35 @@ void draw_kick_drum_000(const char* id, kick_drum_drawable_000 auto& kick) {
 
         ImGui::TableNextColumn();
         if (draw_adsr_000(
-                    "##amp_asr",
-                    {1000, 40000, 1, 1000},
-                    kick.props.amp_a,
-                    kick.props.amp_d,
-                    kick.props.amp_s,
-                    kick.props.amp_r)) {
+                "##amp_asr",
+                {1000, 40000, 1, 1000},
+                kick.props.amp_a,
+                kick.props.amp_d,
+                kick.props.amp_s,
+                kick.props.amp_r)) {
             kick.adsr_amp.set(kick.props.amp_a, kick.props.amp_d, kick.props.amp_s, kick.props.amp_r);
         }
         ImGui::TableNextColumn();
         if (draw_adsr_000(
-                    "##pitch_asr",
-                    {1000, 10000, 1, 1000},
-                    kick.props.pitch_a,
-                    kick.props.pitch_d,
-                    kick.props.pitch_s,
-                    kick.props.pitch_r)) {
+                "##pitch_asr",
+                {1000, 10000, 1, 1000},
+                kick.props.pitch_a,
+                kick.props.pitch_d,
+                kick.props.pitch_s,
+                kick.props.pitch_r)) {
             kick.adsr_pitch.set(
-                    kick.props.pitch_a, kick.props.pitch_d, kick.props.pitch_s, kick.props.pitch_r);
+                kick.props.pitch_a, kick.props.pitch_d, kick.props.pitch_s, kick.props.pitch_r);
         }
         ImGui::PushItemWidth(65);
         ImGui::DragFloat(
-                "mod range##pitch", &kick.props.pitch_range, kick.props.pitch_range * 0.1f, 0, 8, "%.2f");
+            "mod range##pitch", &kick.props.pitch_range, kick.props.pitch_range * 0.1f, 0, 8, "%.2f");
         ImGui::DragFloat(
-                "fundamental##pitch",
-                &kick.props.pitch_fundamental,
-                kick.props.pitch_fundamental * 0.1f,
-                0,
-                10,
-                "%.0f");
+            "fundamental##pitch",
+            &kick.props.pitch_fundamental,
+            kick.props.pitch_fundamental * 0.1f,
+            0,
+            10,
+            "%.0f");
 
         ImGui::PopItemWidth();
         ImGui::TableNextColumn();
@@ -65,34 +65,34 @@ void draw_kick_drum_000(const char* id, kick_drum_drawable_000 auto& kick) {
         float trim_gain_max  = 1;
 
         ImGui::VSliderFloat(
-                "##drive_slider", ImVec2(30, 100), &kick.props.drive, drive_gain_min, drive_gain_max);
+            "##drive_slider", ImVec2(30, 100), &kick.props.drive, drive_gain_min, drive_gain_max);
         ImGui::SameLine();
         ImGui::VSliderFloat("##trim_slider", ImVec2(30, 100), &kick.props.trim, trim_gain_min, trim_gain_max);
 
         ImGui::PushItemWidth(30);
 
         ImGui::DragFloat(
-                "##drive_drag", &kick.props.drive, 0.2f * kick.props.trim, drive_gain_min, drive_gain_max);
+            "##drive_drag", &kick.props.drive, 0.2f * kick.props.trim, drive_gain_min, drive_gain_max);
         ImGui::SameLine();
         ImGui::DragFloat(
-                "##trim_drag", &kick.props.trim, 0.2f * kick.props.trim, trim_gain_min, trim_gain_max);
+            "##trim_drag", &kick.props.trim, 0.2f * kick.props.trim, trim_gain_min, trim_gain_max);
 
         ImGui::PopItemWidth();
 
         ImGui::TableNextColumn();
         if (draw_adsr_000(
-                    "##cut_asr",
-                    {1000, 20000, 1, 1000},
-                    kick.props.cut_a,
-                    kick.props.cut_d,
-                    kick.props.cut_s,
-                    kick.props.cut_r)) {
+                "##cut_asr",
+                {1000, 20000, 1, 1000},
+                kick.props.cut_a,
+                kick.props.cut_d,
+                kick.props.cut_s,
+                kick.props.cut_r)) {
             kick.adsr_cut.set(kick.props.cut_a, kick.props.cut_d, kick.props.cut_s, kick.props.cut_r);
         }
         ImGui::PushItemWidth(65);
         ImGui::DragFloat("mod range##cut", &kick.props.cut_range, kick.props.cut_range * 0.1f, 0, 8, "%.2f");
         ImGui::DragFloat(
-                "cut off", &kick.props.cut_fundamental, kick.props.cut_fundamental * 0.1f, 10, 10000, "%.2f");
+            "cut off", &kick.props.cut_fundamental, kick.props.cut_fundamental * 0.1f, 10, 10000, "%.2f");
         ImGui::DragFloat("reso##cut", &kick.props.filt_q, kick.props.filt_q * 0.1f, 0, 10, "%.2f");
 
         ImGui::PopItemWidth();

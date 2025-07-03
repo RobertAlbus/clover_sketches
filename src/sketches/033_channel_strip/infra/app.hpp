@@ -14,7 +14,7 @@ struct app {
     template <typename context_t>
     static app create() {
         static_assert(
-                std::is_base_of<behaviour_base, context_t>::value, "context_t must derive from context_base");
+            std::is_base_of<behaviour_base, context_t>::value, "context_t must derive from context_base");
         return app{std::make_unique<context_t>(), std::make_unique<context_t>()};
     }
 

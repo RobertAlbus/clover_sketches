@@ -82,59 +82,59 @@ struct composition {
     struct {
         // 3 discrete lead instances with 2 voices each
         std::array<subtractive_synth_000, 6> lead_a{
-                subtractive_synth_000{fs, patch_synth.lead_a_props},
-                subtractive_synth_000{fs, patch_synth.lead_a_props},
-                subtractive_synth_000{fs, patch_synth.lead_a_props},
-                subtractive_synth_000{fs, patch_synth.lead_a_props},
-                subtractive_synth_000{fs, patch_synth.lead_a_props},
-                subtractive_synth_000{fs, patch_synth.lead_a_props}};
+            subtractive_synth_000{fs, patch_synth.lead_a_props},
+            subtractive_synth_000{fs, patch_synth.lead_a_props},
+            subtractive_synth_000{fs, patch_synth.lead_a_props},
+            subtractive_synth_000{fs, patch_synth.lead_a_props},
+            subtractive_synth_000{fs, patch_synth.lead_a_props},
+            subtractive_synth_000{fs, patch_synth.lead_a_props}};
         std::array<nx_osc_000, 6> lead_b{
-                nx_osc_000{fs, patch_synth.lead_b_props},
-                nx_osc_000{fs, patch_synth.lead_b_props},
-                nx_osc_000{fs, patch_synth.lead_b_props},
-                nx_osc_000{fs, patch_synth.lead_b_props},
-                nx_osc_000{fs, patch_synth.lead_b_props},
-                nx_osc_000{fs, patch_synth.lead_b_props}};
+            nx_osc_000{fs, patch_synth.lead_b_props},
+            nx_osc_000{fs, patch_synth.lead_b_props},
+            nx_osc_000{fs, patch_synth.lead_b_props},
+            nx_osc_000{fs, patch_synth.lead_b_props},
+            nx_osc_000{fs, patch_synth.lead_b_props},
+            nx_osc_000{fs, patch_synth.lead_b_props}};
 
         nx_osc_000 lead_b_lfo{fs, patch_synth.lead_b_lfo_props};
 
         peq_000 lead_peq{fs, patch_synth.lead_peq_props};
 
         fdn8_000 lead_verb_L{
-                fs, patch_synth.chord_fdn_props.taps_mult(.495f).taps_add(82.f), COMPONENT_HAS_GUI};
+            fs, patch_synth.chord_fdn_props.taps_mult(.495f).taps_add(82.f), COMPONENT_HAS_GUI};
         fdn8_000 lead_verb_R{
-                fs, patch_synth.chord_fdn_props.taps_mult(.5f).taps_add(90.4f), COMPONENT_HAS_GUI};
+            fs, patch_synth.chord_fdn_props.taps_mult(.5f).taps_add(90.4f), COMPONENT_HAS_GUI};
 
         env_bp_000 autogain_lead_1;
         env_bp_000 autogain_lead_2;
 
         std::array<subtractive_synth_000, 6> chord{
-                subtractive_synth_000{fs, patch_synth.chord_props},
-                subtractive_synth_000{fs, patch_synth.chord_props},
-                subtractive_synth_000{fs, patch_synth.chord_props},
-                subtractive_synth_000{fs, patch_synth.chord_props},
-                subtractive_synth_000{fs, patch_synth.chord_props},
-                subtractive_synth_000{fs, patch_synth.chord_props}};
+            subtractive_synth_000{fs, patch_synth.chord_props},
+            subtractive_synth_000{fs, patch_synth.chord_props},
+            subtractive_synth_000{fs, patch_synth.chord_props},
+            subtractive_synth_000{fs, patch_synth.chord_props},
+            subtractive_synth_000{fs, patch_synth.chord_props},
+            subtractive_synth_000{fs, patch_synth.chord_props}};
 
         peq_000 chord_preverb_peq{fs, patch_synth.chord_preverb_peq_props};
         fdn8_000 chord_verb_L{fs, patch_synth.chord_fdn_props, COMPONENT_HAS_GUI};
         fdn8_000 chord_verb_R{
-                fs, patch_synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
+            fs, patch_synth.chord_fdn_props.taps_mult(1.05f).taps_add(-22.f), COMPONENT_HAS_GUI};
         peq_000 chord_peq{fs, patch_synth.chord_peq_props};
 
         std::array<subtractive_synth_000, 12> pad{
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props},
-                subtractive_synth_000{fs, patch_synth.pad_props}};
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props},
+            subtractive_synth_000{fs, patch_synth.pad_props}};
 
         peq_000 pad_preverb_peq{fs, patch_synth.pad_preverb_peq_props};
         fdn8_000 pad_verb_L{fs, patch_synth.pad_fdn_props, COMPONENT_HAS_GUI};

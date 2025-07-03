@@ -22,17 +22,17 @@ struct driver {
 
         std::string to_str() {
             return std::format(
-                    R"({{
+                R"({{
             .drive_input = {}, 
             .drive_clip  = {}, 
             .clip_thresh = {}, 
             .trim        = {}, 
             }};
             )",
-                    drive_input,
-                    drive_clip,
-                    clip_thresh,
-                    trim);
+                drive_input,
+                drive_clip,
+                clip_thresh,
+                trim);
         }
     } props;
 

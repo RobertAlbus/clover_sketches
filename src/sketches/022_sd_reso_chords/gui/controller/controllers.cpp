@@ -23,12 +23,12 @@ void controller_chord(const char* id, context& ctx);
 void controller_chord_echo(const char* id, context& ctx);
 
 std::vector<tabbed_controller> tabbed_controllers{
-        // clang-format off
+    // clang-format off
         {"mixer", controller_mixer},
         {"kick",  controller_kick},
         {"chord", controller_chord},
         {"chord echo", controller_chord_echo}
-        // clang-format on
+    // clang-format on
 };
 
 void controller_mixer(const char* id, context& ctx) {
@@ -120,16 +120,16 @@ void controller_chord_echo(const char* id, context& ctx) {
 
     ImGui::PushItemWidth(65);
     ImGui::DragFloat(
-            "##delay samples  drag",
-            &graph.chord_echo.props.delay_samples,
-            1,
-            delay_samples_min,
-            delay_samples_max);
+        "##delay samples  drag",
+        &graph.chord_echo.props.delay_samples,
+        1,
+        delay_samples_min,
+        delay_samples_max);
     ImGui::PopItemWidth();
 
     ImGui::SameLine();
     ImGui::SliderFloat(
-            "delay samples", &graph.chord_echo.props.delay_samples, delay_samples_min, delay_samples_max);
+        "delay samples", &graph.chord_echo.props.delay_samples, delay_samples_min, delay_samples_max);
 
     auto delay_bars           = (float)graph.grid.samples_to_bars(graph.chord_echo.props.delay_samples);
     const auto delay_bars_min = (float)graph.grid.samples_to_bars(delay_samples_min);

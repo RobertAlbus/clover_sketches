@@ -25,54 +25,54 @@ constexpr size_t PEQ_TYPE_SIZE = 8;
 using peq_filter_type_list_000 = std::array<peq_filter_type, PEQ_TYPE_SIZE>;
 using peq_filter_name_list_000 = std::array<const char*, PEQ_TYPE_SIZE>;
 using peq_filter_func_list_000 =
-        std::array<clover::dsp::iir_coeffs (*)(float, float, float, float), PEQ_TYPE_SIZE>;
+    std::array<clover::dsp::iir_coeffs (*)(float, float, float, float), PEQ_TYPE_SIZE>;
 
 constexpr peq_filter_type_list_000 peq_filter_types{
-        peq_filter_type::lp,
-        peq_filter_type::hp,
-        peq_filter_type::bp,
-        peq_filter_type::notch,
-        peq_filter_type::hs,
-        peq_filter_type::ls,
-        peq_filter_type::eq,
-        peq_filter_type::ap,
+    peq_filter_type::lp,
+    peq_filter_type::hp,
+    peq_filter_type::bp,
+    peq_filter_type::notch,
+    peq_filter_type::hs,
+    peq_filter_type::ls,
+    peq_filter_type::eq,
+    peq_filter_type::ap,
 };
 constexpr peq_filter_name_list_000 peq_filter_str{
-        "lp",
-        "hp",
-        "bp",
-        "notch",
-        "hs",
-        "ls",
-        "eq",
-        "ap",
+    "lp",
+    "hp",
+    "bp",
+    "notch",
+    "hs",
+    "ls",
+    "eq",
+    "ap",
 };
 
 constexpr peq_filter_func_list_000 filter_func = {
-        +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
-            return clover::dsp::lpf(fs, f0, reso);
-        },
-        +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
-            return clover::dsp::hpf(fs, f0, reso);
-        },
-        +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
-            return clover::dsp::bpf(fs, f0, reso);
-        },
-        +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
-            return clover::dsp::notch(fs, f0, reso);
-        },
-        +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
-            return clover::dsp::hs(fs, f0, reso, gain);
-        },
-        +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
-            return clover::dsp::ls(fs, f0, reso, gain);
-        },
-        +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
-            return clover::dsp::eq(fs, f0, reso, gain);
-        },
-        +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
-            return clover::dsp::apf(fs, f0, reso);
-        },
+    +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
+        return clover::dsp::lpf(fs, f0, reso);
+    },
+    +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
+        return clover::dsp::hpf(fs, f0, reso);
+    },
+    +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
+        return clover::dsp::bpf(fs, f0, reso);
+    },
+    +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
+        return clover::dsp::notch(fs, f0, reso);
+    },
+    +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
+        return clover::dsp::hs(fs, f0, reso, gain);
+    },
+    +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
+        return clover::dsp::ls(fs, f0, reso, gain);
+    },
+    +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
+        return clover::dsp::eq(fs, f0, reso, gain);
+    },
+    +[](float fs, float f0, float reso, float gain) -> clover::dsp::iir_coeffs {
+        return clover::dsp::apf(fs, f0, reso);
+    },
 };
 
 struct peq_props_000 {

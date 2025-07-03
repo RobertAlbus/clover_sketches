@@ -19,13 +19,13 @@ bool draw_tap_control(float& tap, float tap_min, float tap_max, float tap_range,
     auto drag_fmt = tap < 1000.f ? "%.2f" : "%.f";
     PushItemWidth(available_width * 0.1f);
     bool changed_drag = DragFloat(
-            "##tap_drag",
-            &local_tap_value,
-            local_tap_value * 0.01f,
-            tap_min,
-            tap_max,
-            drag_fmt,
-            ImGuiSliderFlags_NoRoundToFormat | ImGuiSliderFlags_Logarithmic);
+        "##tap_drag",
+        &local_tap_value,
+        local_tap_value * 0.01f,
+        tap_min,
+        tap_max,
+        drag_fmt,
+        ImGuiSliderFlags_NoRoundToFormat | ImGuiSliderFlags_Logarithmic);
     tap = std::clamp(local_tap_value, tap_min, tap_max);
     PopItemWidth();
     SameLine();
@@ -33,12 +33,12 @@ bool draw_tap_control(float& tap, float tap_min, float tap_max, float tap_range,
     float tap_slider_control = (tap - tap_min) / tap_range;
 
     bool changed_slider = SliderFloat(
-            "##tap_slider",
-            &tap_slider_control,
-            0,
-            1,
-            "",
-            ImGuiSliderFlags_NoRoundToFormat | ImGuiSliderFlags_Logarithmic);
+        "##tap_slider",
+        &tap_slider_control,
+        0,
+        1,
+        "",
+        ImGuiSliderFlags_NoRoundToFormat | ImGuiSliderFlags_Logarithmic);
     PopItemWidth();
     PopID();
     if (changed_slider || changed_drag) {
@@ -64,12 +64,12 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
 
         // one control for all lpf filters
         if (SliderFloat(
-                    "lpf cut",
-                    &fdn_L->props.lpf_cut,
-                    20,
-                    22000,
-                    "%.3f",
-                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
+                "lpf cut",
+                &fdn_L->props.lpf_cut,
+                20,
+                22000,
+                "%.3f",
+                ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
             fdn_L->set_lpf(fdn_L->props.lpf_cut);
             if (fdn_R) {
                 fdn_R->set_lpf(fdn_L->props.lpf_cut);
@@ -78,12 +78,12 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
 
         // one control for all hpf filters
         if (SliderFloat(
-                    "hpf cut",
-                    &fdn_L->props.hpf_cut,
-                    20,
-                    22000,
-                    "%.3f",
-                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
+                "hpf cut",
+                &fdn_L->props.hpf_cut,
+                20,
+                22000,
+                "%.3f",
+                ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
             fdn_L->set_hpf(fdn_L->props.hpf_cut);
             if (fdn_R) {
                 fdn_R->set_hpf(fdn_L->props.hpf_cut);
@@ -106,11 +106,11 @@ void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R) {
         for (auto [i, tap_L, tap_R] : std::views::zip(std::views::iota(0, 8), taps_L, taps_R)) {
             float tap_slider_control = (tap_L - tap_min) / tap_range;
             if (draw_tap_control(
-                        tap_L,  //
-                        tap_min,
-                        tap_max,
-                        tap_range,
-                        available_width) &&
+                    tap_L,  //
+                    tap_min,
+                    tap_max,
+                    tap_range,
+                    available_width) &&
                 fdn_R) {
                 tap_R = tap_L;
             }

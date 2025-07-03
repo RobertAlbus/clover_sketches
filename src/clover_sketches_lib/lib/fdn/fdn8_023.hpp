@@ -31,14 +31,14 @@ struct fdn8_023 {
 
     std::array<float, 8> fbs{0, 0, 0, 0, 0, 0, 0, 0};
     std::array<clover::dsp::fdl_lagrange, 8> fdls{
-            clover::dsp::fdl_lagrange{48000},
-            clover::dsp::fdl_lagrange{48000},
-            clover::dsp::fdl_lagrange{48000},
-            clover::dsp::fdl_lagrange{48000},
-            clover::dsp::fdl_lagrange{48000},
-            clover::dsp::fdl_lagrange{48000},
-            clover::dsp::fdl_lagrange{48000},
-            clover::dsp::fdl_lagrange{48000}};
+        clover::dsp::fdl_lagrange{48000},
+        clover::dsp::fdl_lagrange{48000},
+        clover::dsp::fdl_lagrange{48000},
+        clover::dsp::fdl_lagrange{48000},
+        clover::dsp::fdl_lagrange{48000},
+        clover::dsp::fdl_lagrange{48000},
+        clover::dsp::fdl_lagrange{48000},
+        clover::dsp::fdl_lagrange{48000}};
     const float max_idx = 47997;
     std::array<clover::dsp::filter, 8> lpfs;
     std::array<clover::dsp::filter, 8> hpfs;

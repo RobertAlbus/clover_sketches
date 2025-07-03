@@ -104,6 +104,9 @@ void controller_ride::draw() {
 
 void controller_chord::draw() {
     ImGui::PushID(name);
+    if (ImGui::Button("get subtractive_synth patch")) {
+        ImGui::SetClipboardText(graph.chord[0].to_str().c_str());
+    }
 
     gpeq_send.draw();
 

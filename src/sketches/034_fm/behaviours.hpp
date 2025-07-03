@@ -15,11 +15,7 @@
 #include "sequence/sequencers.hpp"
 
 std::vector<frsq_pair> build_frsq_pairs(
-        signal_graph& graph,
-        bar_grid_029& grid,
-        log_bus_000& log,
-        patterns& patterns,
-        arrangement& arrangement);
+    signal_graph& graph, bar_grid_029& grid, log_bus_000& log, patterns& patterns, arrangement& arrangement);
 
 struct behaviours : public behaviour_base {
     behaviours();

@@ -8,13 +8,13 @@ using namespace ImGui;
 #include "drag_slider_000.hpp"
 
 bool drag_slider_v_000(
-        const char* id,
-        float& value,
-        float min,
-        float max,
-        const char* fmt,
-        ImGuiSliderFlags slider_flags,
-        const ImVec2& dimensions) {
+    const char* id,
+    float& value,
+    float min,
+    float max,
+    const char* fmt,
+    ImGuiSliderFlags slider_flags,
+    const ImVec2& dimensions) {
     ImGui::PushID(id);
     slider_flags |= ImGuiSliderFlags_NoRoundToFormat;
 

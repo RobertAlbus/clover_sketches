@@ -20,19 +20,19 @@ enum struct filter_t_000 {
 };
 
 constexpr std::array<const char*, 4> filter_t_str_000{
-        "lpf",
-        "bpf",
-        "hpf",
-        "none",
+    "lpf",
+    "bpf",
+    "hpf",
+    "none",
 };
 
 const std::array<std::function<clover::dsp::iir_coeffs(float, float, float)>, 4> filter_t_func_000{
-        dsp::lpf, dsp::bpf, dsp::hpf, [](float, float, float) { return clover::dsp::iir_coeffs{}; }};
+    dsp::lpf, dsp::bpf, dsp::hpf, [](float, float, float) { return clover::dsp::iir_coeffs{}; }};
 
 filter_t_000 str_to_filter_t(std::string_view str) noexcept;
 const char* filter_t_to_str(filter_t_000 filter_type) noexcept;
 std::function<clover::dsp::iir_coeffs(float, float, float)> filter_t_to_func(
-        filter_t_000 filter_type) noexcept;
+    filter_t_000 filter_type) noexcept;
 
 struct filter_block_props_000 {
     float cutoff;

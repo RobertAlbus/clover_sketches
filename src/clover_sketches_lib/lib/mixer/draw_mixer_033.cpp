@@ -19,18 +19,18 @@ bool draw_pan_knob(float* pan_v) {
     constexpr float pan_R_angle = (2 * std::numbers::pi) + 0.5;
     ImGui::PushID("##pan_knob");
     bool was_changed = ImGuiKnobs::Knob(
-            "",
-            pan_v,
-            -1,
-            1,
-            0,
-            "",
-            ImGuiKnobVariant_Dot,
-            dimensions_channel.x,
-            ImGuiKnobFlags_NoInput,
-            -1,
-            pan_L_angle,
-            pan_R_angle);
+        "",
+        pan_v,
+        -1,
+        1,
+        0,
+        "",
+        ImGuiKnobVariant_Dot,
+        dimensions_channel.x,
+        ImGuiKnobFlags_NoInput,
+        -1,
+        pan_L_angle,
+        pan_R_angle);
     if (ImGui::IsItemActive() && ImGui::IsMouseDoubleClicked(0)) {
         *pan_v      = 0;
         was_changed = true;
@@ -74,9 +74,9 @@ void draw_mixer_033(const char* id, mixer_033& mixer) {
         ImGui::SetClipboardText(mixer.to_str().c_str());
     }
     if (ImGui::BeginTable(
-                "mixer",
-                int(mixer.channels.size() + 1),
-                ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_SizingFixedFit)) {
+            "mixer",
+            int(mixer.channels.size() + 1),
+            ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_SizingFixedFit)) {
         ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, cell_padding);
         for (auto& channel : mixer.channels)
             ImGui::TableSetupColumn(channel.spec.name.c_str(), ImGuiTableColumnFlags_AngledHeader);
@@ -103,13 +103,13 @@ void draw_mixer_033(const char* id, mixer_033& mixer) {
                 }
 
                 ImGui::VSliderFloat(
-                        "",
-                        dimensions_channel,
-                        &strip.props.gain,
-                        0,
-                        MAX_GAIN,
-                        "",
-                        ImGuiSliderFlags_NoRoundToFormat);
+                    "",
+                    dimensions_channel,
+                    &strip.props.gain,
+                    0,
+                    MAX_GAIN,
+                    "",
+                    ImGuiSliderFlags_NoRoundToFormat);
                 if (draw_red_button("mute", &strip.props.mute)) {
                     strip.props.mute = !strip.props.mute;
                 }

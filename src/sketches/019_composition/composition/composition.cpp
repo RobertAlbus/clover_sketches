@@ -254,9 +254,9 @@ std::pair<float, float> composition::tick() {
         lead_a_voice.osc.input_mod_pitch_octaves = lead_b_L * 1000 * mix.lead_ringmod;
 
     float lead_sum_L =
-            (lead_a_L * mix.lead_a) + (lead_b_L * mix.lead_b) + (lead_ringmod_L * mix.lead_ringmod);
+        (lead_a_L * mix.lead_a) + (lead_b_L * mix.lead_b) + (lead_ringmod_L * mix.lead_ringmod);
     float lead_sum_R =
-            (lead_a_R * mix.lead_a) + (lead_b_R * mix.lead_b) + (lead_ringmod_R * mix.lead_ringmod);
+        (lead_a_R * mix.lead_a) + (lead_b_R * mix.lead_b) + (lead_ringmod_R * mix.lead_ringmod);
 
     // TODO
 

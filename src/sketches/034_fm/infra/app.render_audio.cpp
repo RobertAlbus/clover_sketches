@@ -36,38 +36,38 @@ void app::audio_render_thread(std::stop_token st) {
             return;
         }
         auto result = callback({
-                .clock_time     = frame,
-                .chan_count_in  = 0,
-                .chan_count_out = render_ctx->channel_count_out(),
-                .input          = nullptr,
-                .output = &(buffer.data[static_cast<size_t>(frame) * render_ctx->channel_count_out()]),
+            .clock_time     = frame,
+            .chan_count_in  = 0,
+            .chan_count_out = render_ctx->channel_count_out(),
+            .input          = nullptr,
+            .output         = &(buffer.data[static_cast<size_t>(frame) * render_ctx->channel_count_out()]),
         });
     }
 
     render_ctx->sequencer_stop();
 
     auto runout_duration =
-            std::views::iota(render_duration_samples, render_duration_samples + runout_duration_samples);
+        std::views::iota(render_duration_samples, render_duration_samples + runout_duration_samples);
     for (auto frame : runout_duration) {
         if (st.stop_requested()) {
             std::println("canceled render: {}", render_ctx->project_name());
             return;
         }
         auto result = callback({
-                .clock_time     = frame,
-                .chan_count_in  = 0,
-                .chan_count_out = render_ctx->channel_count_out(),
-                .input          = nullptr,
-                .output = &(buffer.data[static_cast<size_t>(frame) * render_ctx->channel_count_out()]),
+            .clock_time     = frame,
+            .chan_count_in  = 0,
+            .chan_count_out = render_ctx->channel_count_out(),
+            .input          = nullptr,
+            .output         = &(buffer.data[static_cast<size_t>(frame) * render_ctx->channel_count_out()]),
         });
     }
 
     convert_sample_rate_016(buffer, 44100);
     clover::io::audio_file::write(
-            render_ctx->project_name() + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
+        render_ctx->project_name() + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
 
     clover::io::audio_file::write(
-            render_ctx->project_name() + ".mp3", buffer, clover::io::audio_file_settings::mp3_320);
+        render_ctx->project_name() + ".mp3", buffer, clover::io::audio_file_settings::mp3_320);
 
     std::println("finished render: {}", render_ctx->project_name());
 }

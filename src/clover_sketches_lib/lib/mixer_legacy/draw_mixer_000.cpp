@@ -18,9 +18,9 @@ void draw_mixer_000(const char* id, mixer_list_000* mixer) {
         ImGui::SetClipboardText(to_str(*mixer).c_str());
     }
     if (ImGui::BeginTable(
-                "mixer",
-                int(mixer->size()),
-                ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_SizingFixedFit)) {
+            "mixer",
+            int(mixer->size()),
+            ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_SizingFixedFit)) {
         ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, cell_padding);
         for (auto& mixer_track : *mixer)
             ImGui::TableSetupColumn(mixer_track.name.c_str(), ImGuiTableColumnFlags_AngledHeader);
@@ -36,13 +36,13 @@ void draw_mixer_000(const char* id, mixer_list_000* mixer) {
             } else {
                 ImGui::PushID(&mixer_track.gain);
                 ImGui::VSliderFloat(
-                        "",
-                        channel_dimensions,
-                        &mixer_track.gain,
-                        0,
-                        MAX_GAIN,
-                        "",
-                        ImGuiSliderFlags_NoRoundToFormat);
+                    "",
+                    channel_dimensions,
+                    &mixer_track.gain,
+                    0,
+                    MAX_GAIN,
+                    "",
+                    ImGuiSliderFlags_NoRoundToFormat);
                 ImGui::PopID();
             }
         }

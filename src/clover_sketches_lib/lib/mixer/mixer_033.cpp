@@ -39,9 +39,7 @@ std::string mixer_033::to_str() {
             std::string channel_strip_preset = channel.strip.value().to_str();
             channel_strip_preset.pop_back();
             preset += std::format(
-                    "\n            {{.name = \"{}\", .props = {}}},",
-                    channel.spec.name,
-                    channel_strip_preset);
+                "\n            {{.name = \"{}\", .props = {}}},", channel.spec.name, channel_strip_preset);
         } else {
             preset += std::format("\n            {{.spacer = true}},");
         }

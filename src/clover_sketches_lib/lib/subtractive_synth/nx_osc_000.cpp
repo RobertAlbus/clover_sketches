@@ -34,7 +34,7 @@ std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept {
 
 std::string nx_osc_props_000::to_str() {
     return std::format(
-            "\
+        "\
 nx_osc_props patch = {{\n\
     .tuning            = {}, \n\
     .portamento_time   = {}, \n\
@@ -52,21 +52,21 @@ nx_osc_props patch = {{\n\
     .amp_s             = {}, \n\
     .amp_r             = {}, \n\
 }};",
-            tuning,
-            portamento_time,
-            pitch_env_octaves,
-            build_str_list_osc_tunings(),
-            build_str_list_osc_pans(),
-            build_str_list_waveforms_i(),
-            retrigger,
-            pitch_a,
-            pitch_d,
-            pitch_s,
-            pitch_r,
-            amp_a,
-            amp_d,
-            amp_s,
-            amp_r);
+        tuning,
+        portamento_time,
+        pitch_env_octaves,
+        build_str_list_osc_tunings(),
+        build_str_list_osc_pans(),
+        build_str_list_waveforms_i(),
+        retrigger,
+        pitch_a,
+        pitch_d,
+        pitch_s,
+        pitch_r,
+        amp_a,
+        amp_d,
+        amp_s,
+        amp_r);
 }
 std::string nx_osc_props_000::build_str_list_osc_tunings() {
     std::string result = "{";

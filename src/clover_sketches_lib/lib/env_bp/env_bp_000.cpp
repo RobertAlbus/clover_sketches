@@ -8,8 +8,8 @@
 #include <stdexcept>
 
 std::array<bp_event_000, 2> default_env_bp_pattern{{
-        {.start = 0, .value = 0},
-        {.start = 1, .value = 0},
+    {.start = 0, .value = 0},
+    {.start = 1, .value = 0},
 }};
 
 env_bp_000::env_bp_000() {

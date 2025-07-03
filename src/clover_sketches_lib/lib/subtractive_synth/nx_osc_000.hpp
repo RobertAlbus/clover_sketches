@@ -22,21 +22,21 @@ enum struct waveform_000 {
 };
 
 constexpr std::array<const char*, 6> waveform_str_000{
-        "sine",
-        "saw",
-        "square",
-        "triangle",
-        "noise",
-        "none",
+    "sine",
+    "saw",
+    "square",
+    "triangle",
+    "noise",
+    "none",
 };
 
 const std::array<std::function<float(float)>, 6> waveform_func_000{
-        clover::dsp::wave_sine,
-        clover::dsp::wave_square,
-        clover::dsp::wave_saw,
-        clover::dsp::wave_tri,
-        clover::dsp::wave_noise,
-        [](float) { return 0; }};
+    clover::dsp::wave_sine,
+    clover::dsp::wave_square,
+    clover::dsp::wave_saw,
+    clover::dsp::wave_tri,
+    clover::dsp::wave_noise,
+    [](float) { return 0; }};
 
 waveform_000 str_to_waveform(std::string_view str) noexcept;
 const char* waveform_to_str(waveform_000 wave) noexcept;

@@ -22,7 +22,7 @@ const char* filter_t_to_str(filter_t_000 filter_type) noexcept {
     return filter_t_str_000[size_t(filter_type)];
 }
 std::function<clover::dsp::iir_coeffs(float, float, float)> filter_t_to_func(
-        filter_t_000 filter_type) noexcept {
+    filter_t_000 filter_type) noexcept {
     return filter_t_func_000[size_t(filter_type)];
 }
 
@@ -44,19 +44,19 @@ std::string filter_block_props_000::to_str() {
     .res_s                = {}, \n\
     .res_r                = {}, \n\
 }};",
-            cutoff,
-            cutoff_range_octaves,
-            res,
-            res_range_octaves,
-            filter_t_to_str(filter_type),
-            cut_a,
-            cut_d,
-            cut_s,
-            cut_r,
-            res_a,
-            res_d,
-            res_s,
-            res_r);
+        cutoff,
+        cutoff_range_octaves,
+        res,
+        res_range_octaves,
+        filter_t_to_str(filter_type),
+        cut_a,
+        cut_d,
+        cut_s,
+        cut_r,
+        res_a,
+        res_d,
+        res_s,
+        res_r);
 }
 
 filter_block_000::filter_block_000(float fs, const filter_block_props_000& new_props) : fs{fs} {

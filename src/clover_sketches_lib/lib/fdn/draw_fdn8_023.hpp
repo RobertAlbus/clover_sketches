@@ -48,24 +48,24 @@ bool draw_fdn8_023_v2(const char* id, fdn_t& fdn) {
 
         // one control for all lpf filters
         if (SliderFloat(
-                    "lpf cut",
-                    &fdn.props.lpf_cut,
-                    20,
-                    22000,
-                    "%.3f",
-                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
+                "lpf cut",
+                &fdn.props.lpf_cut,
+                20,
+                22000,
+                "%.3f",
+                ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
             fdn.set_lpf(fdn.props.lpf_cut);
             was_changed = true;
         }
 
         // one control for all hpf filters
         if (SliderFloat(
-                    "hpf cut",
-                    &fdn.props.hpf_cut,
-                    20,
-                    22000,
-                    "%.3f",
-                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
+                "hpf cut",
+                &fdn.props.hpf_cut,
+                20,
+                22000,
+                "%.3f",
+                ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat)) {
             fdn.set_hpf(fdn.props.hpf_cut);
             was_changed = true;
         }
@@ -85,11 +85,11 @@ bool draw_fdn8_023_v2(const char* id, fdn_t& fdn) {
         for (auto [i, tap_L] : std::views::zip(std::views::iota(0, 8), taps_L)) {
             float tap_slider_control = (tap_L - tap_min) / tap_range;
             was_changed |= draw_tap_control(
-                    tap_L,  //
-                    tap_min,
-                    tap_max,
-                    tap_range,
-                    available_width);
+                tap_L,  //
+                tap_min,
+                tap_max,
+                tap_range,
+                available_width);
         }
 
         ImGui::EndTable();

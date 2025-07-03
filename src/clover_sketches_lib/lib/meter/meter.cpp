@@ -9,10 +9,10 @@
 #include "meter.hpp"
 
 std::array<bp_event_000, 3> peak_hold_env{
-        {//
-         {.start = 0, .value = 1},
-         {.start = 1, .value = 1},
-         {.start = 1.5, .value = 0}}};
+    {//
+     {.start = 0, .value = 1},
+     {.start = 1, .value = 1},
+     {.start = 1.5, .value = 0}}};
 
 meter_peak_032::meter_peak_032(float fs, float hold_ms) {
     peak_env.set_pattern(peak_hold_env);

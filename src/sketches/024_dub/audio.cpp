@@ -48,14 +48,14 @@ void AUDIO(context& ctx) {
     stream.audio_callback = audio_callback;
     // system.print();
     stream.open(
-            clover::io::stream::settings{
-                    .device_index_in = system.no_device(),
-                    .chan_count_in   = 0,
-                    // .device_index_out = 7, // for bluetooth on laptop
-                    .device_index_out = system.default_output().index,  // default
-                    .chan_count_out   = ctx.channel_count_out,
-                    .sample_rate      = int(ctx.fs),
-                    .latency_ms       = 0});
+        clover::io::stream::settings{
+            .device_index_in = system.no_device(),
+            .chan_count_in   = 0,
+            // .device_index_out = 7, // for bluetooth on laptop
+            .device_index_out = system.default_output().index,  // default
+            .chan_count_out   = ctx.channel_count_out,
+            .sample_rate      = int(ctx.fs),
+            .latency_ms       = 0});
 
     ctx.audio_ready.release();
     stream.start();
@@ -67,29 +67,29 @@ void AUDIO(context& ctx) {
             std::println("starting render: {}", render_ctx.render_name);
 
             auto audio_callback =
-                    create_audio_callback(render_ctx.grid, render_ctx.graph, render_ctx.sequencers);
+                create_audio_callback(render_ctx.grid, render_ctx.graph, render_ctx.sequencers);
 
             audio_buffer buffer;
             buffer.channels    = render_ctx.channel_count_out;
             buffer.sample_rate = int(render_ctx.grid.fs);
             buffer.data.resize(
-                    size_t(render_ctx.grid.duration_samples() * render_ctx.channel_count_out), 0.f);
+                size_t(render_ctx.grid.duration_samples() * render_ctx.channel_count_out), 0.f);
 
             for (auto frame : std::views::iota(0, int(render_ctx.grid.duration_samples()))) {
                 auto result = audio_callback({
-                        .clock_time     = frame,
-                        .chan_count_in  = 0,
-                        .chan_count_out = render_ctx.channel_count_out,
-                        .input          = nullptr,
-                        .output = &(buffer.data[static_cast<size_t>(frame) * render_ctx.channel_count_out]),
+                    .clock_time     = frame,
+                    .chan_count_in  = 0,
+                    .chan_count_out = render_ctx.channel_count_out,
+                    .input          = nullptr,
+                    .output = &(buffer.data[static_cast<size_t>(frame) * render_ctx.channel_count_out]),
                 });
             }
             convert_sample_rate_016(buffer, 44100);
             clover::io::audio_file::write(
-                    render_ctx.render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
+                render_ctx.render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
 
             clover::io::audio_file::write(
-                    render_ctx.render_name + ".mp3", buffer, clover::io::audio_file_settings::mp3_320);
+                render_ctx.render_name + ".mp3", buffer, clover::io::audio_file_settings::mp3_320);
 
             std::println("finished render: {}", render_ctx.render_name);
         });

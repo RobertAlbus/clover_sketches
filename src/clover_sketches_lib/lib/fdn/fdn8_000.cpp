@@ -16,7 +16,7 @@ using namespace dsp;
 
 std::string fdn8_props_000::to_str() {
     return std::format(
-            "\
+        "\
 {{\n\
     .taps     = {{{}, {}, {}, {}, {}, {}, {}, {}}}, \n\
     .fb_gain  = {}, \n\
@@ -25,19 +25,19 @@ std::string fdn8_props_000::to_str() {
     .hpf_cut  = {}, \n\
     .hpf_res  = {}, \n\
 }};",
-            taps[0],
-            taps[1],
-            taps[2],
-            taps[3],
-            taps[4],
-            taps[5],
-            taps[6],
-            taps[7],
-            fb_gain,
-            lpf_cut,
-            lpf_res,
-            hpf_cut,
-            hpf_res);
+        taps[0],
+        taps[1],
+        taps[2],
+        taps[3],
+        taps[4],
+        taps[5],
+        taps[6],
+        taps[7],
+        fb_gain,
+        lpf_cut,
+        lpf_res,
+        hpf_cut,
+        hpf_res);
 }
 
 fdn8_props_000 fdn8_props_000::taps_mult(float coeff) {

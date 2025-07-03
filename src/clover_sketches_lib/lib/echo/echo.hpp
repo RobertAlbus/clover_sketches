@@ -21,10 +21,10 @@ struct echo_props_000 {
 
 struct echo_000 {
     echo_000(
-            float fs,
-            float max_length_samples,
-            const echo_props_000& new_props,
-            const std::array<peq_props_000, peq_000::SIZE>& eq_props);
+        float fs,
+        float max_length_samples,
+        const echo_props_000& new_props,
+        const std::array<peq_props_000, peq_000::SIZE>& eq_props);
     void patch(echo_props_000 new_props);
 
     echo_props_000 props;

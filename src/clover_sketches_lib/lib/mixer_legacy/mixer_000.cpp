@@ -25,7 +25,7 @@ std::string to_str(mixer_list_000& mixer_tracks) {
             preset += std::format("\n            {{.spacer = true}},");
         } else {
             preset += std::format(
-                    "\n            {{.name = \"{}\", .gain = {}}},", mixer_track.name, mixer_track.gain);
+                "\n            {{.name = \"{}\", .gain = {}}},", mixer_track.name, mixer_track.gain);
         }
     }
 

@@ -8,9 +8,9 @@
 
 struct transport_ui_028 {
     transport_ui_028(
-            std::function<void(float)> start_action,
-            std::function<void()> play_action,
-            std::function<void()> stop_action);
+        std::function<void(float)> start_action,
+        std::function<void()> play_action,
+        std::function<void()> stop_action);
     float bar       = 0;
     bool is_playing = false;
 

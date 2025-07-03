@@ -83,11 +83,7 @@ void gpeq_ui_028::update() {
         return;
 
     auto view = std::views::zip(
-            gui_peq_props,
-            peq.props,
-            peq.filters,
-            complex_responses,
-            std::views::iota(0, int(peq_000::SIZE)));
+        gui_peq_props, peq.props, peq.filters, complex_responses, std::views::iota(0, int(peq_000::SIZE)));
 
     for (auto [gui_peq_prop, filter_prop, filter, complex_response, i] : view) {
         if (gui_peq_prop == filter_prop)
@@ -113,11 +109,7 @@ void gpeq_ui_028::update() {
 
 void gpeq_ui_028::update_all() {
     auto view = std::views::zip(
-            gui_peq_props,
-            peq.props,
-            peq.filters,
-            complex_responses,
-            std::views::iota(0, int(peq_000::SIZE)));
+        gui_peq_props, peq.props, peq.filters, complex_responses, std::views::iota(0, int(peq_000::SIZE)));
     for (auto [gui_peq_prop, filter_prop, filter, complex_response, i] : view) {
         peq.set(i, gui_peq_prop.freq, gui_peq_prop.reso, gui_peq_prop.gain);
         compute_complex_response(filter.m_coeffs, complex_response, freqs);
@@ -231,22 +223,22 @@ bool gpeq_ui_028::draw_controls() {
 
         ImGui::SetCursorPosX(x_offset);
         was_changed |= ImGuiKnobs::Knob(
-                "freq",
-                &gui_peq_prop.freq,
-                10,
-                24000,
-                0,
-                "%.f",
-                ImGuiKnobVariant_Tick,
-                width,
-                ImGuiKnobFlags_Logarithmic);
+            "freq",
+            &gui_peq_prop.freq,
+            10,
+            24000,
+            0,
+            "%.f",
+            ImGuiKnobVariant_Tick,
+            width,
+            ImGuiKnobFlags_Logarithmic);
 
         ImGui::SetCursorPosX(x_offset);
         bool is_ap           = gui_peq_prop.type == peq_filter_type::ap;
         const float reso_min = is_ap ? 0.0001 : 0.05;
         const float reso_max = is_ap ? 5 : 10;
         was_changed |= ImGuiKnobs::Knob(
-                "reso", &gui_peq_prop.reso, reso_min, reso_max, 0, "%.3f", ImGuiKnobVariant_Tick, width);
+            "reso", &gui_peq_prop.reso, reso_min, reso_max, 0, "%.3f", ImGuiKnobVariant_Tick, width);
 
         ImGui::SetCursorPosX(x_offset);
         bool needs_gain = gui_peq_prop.type == peq_filter_type::eq ||
@@ -254,7 +246,7 @@ bool gpeq_ui_028::draw_controls() {
                           gui_peq_prop.type == peq_filter_type::ls;
         if (needs_gain) {
             was_changed |= ImGuiKnobs::Knob(
-                    "gain", &gui_peq_prop.gain, -24, 24, 0, "%.3f", ImGuiKnobVariant_Tick, width);
+                "gain", &gui_peq_prop.gain, -24, 24, 0, "%.3f", ImGuiKnobVariant_Tick, width);
         }
 
         if (was_changed)
