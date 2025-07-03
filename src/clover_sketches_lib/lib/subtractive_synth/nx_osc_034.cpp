@@ -83,7 +83,7 @@ nx_osc_props patch = {{\n\
 std::string nx_osc_props_034::build_str_list_waveforms_i() {
     std::string result = "{";
     for (auto& waveform : waveforms)
-        result += std::format("waveform::{}, ", waveform_to_str(waveform));
+        result += std::format("waveform_000::{}, ", waveform_to_str(waveform));
     result.pop_back();
     result += "}";
     return result;

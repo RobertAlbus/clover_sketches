@@ -22,4 +22,6 @@ struct subtractive_synth_034 {
     void key_on(float midi_note);
     void key_off();
     audio_frame tick();
+
+    std::string to_str();
 };

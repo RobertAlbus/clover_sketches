@@ -2,9 +2,8 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <cmath>
+#include <format>
 #include <functional>
-#include <print>
 
 #include "clover/dsp/env_adsr.hpp"
 #include "clover/dsp/filter.hpp"
@@ -29,13 +28,13 @@ std::function<clover::dsp::iir_coeffs(float, float, float)> filter_t_to_func(
 
 std::string filter_block_props_000::to_str() {
     return std::format(
-            "\
-filter_block_props patch = {{\n\
+        "\
+{{\n\
     .cutoff               = {}, \n\
     .cutoff_range_octaves = {}, \n\
     .res                  = {}, \n\
     .res_range_octaves    = {}, \n\
-    .filter_type          = filter_t::{}, \n\
+    .filter_type          = filter_t_000::{}, \n\
     .cut_a                = {}, \n\
     .cut_d                = {}, \n\
     .cut_s                = {}, \n\
