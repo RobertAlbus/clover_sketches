@@ -10,7 +10,7 @@
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
-#include "lib/subtractive_synth/subtractive_synth_000.hpp"
+#include "lib/subtractive_synth/subtractive_synth_034.hpp"
 
 #include "graph/instrument/driver.hpp"
 
@@ -53,13 +53,13 @@ struct signal_graph {
     // --------------------------------
     // CHORD
 
-    std::array<subtractive_synth_000, 6> chord{
-            subtractive_synth_000{fs, patch.synth.chord_props},
-            subtractive_synth_000{fs, patch.synth.chord_props},
-            subtractive_synth_000{fs, patch.synth.chord_props},
-            subtractive_synth_000{fs, patch.synth.chord_props},
-            subtractive_synth_000{fs, patch.synth.chord_props},
-            subtractive_synth_000{fs, patch.synth.chord_props}};
+    std::array<subtractive_synth_034, 6> chord{
+            subtractive_synth_034{fs, patch.synth.chord_props},
+            subtractive_synth_034{fs, patch.synth.chord_props},
+            subtractive_synth_034{fs, patch.synth.chord_props},
+            subtractive_synth_034{fs, patch.synth.chord_props},
+            subtractive_synth_034{fs, patch.synth.chord_props},
+            subtractive_synth_034{fs, patch.synth.chord_props}};
 
     peq_000 chord_preverb_peq{fs, patch.synth.chord_preverb_peq_props};
     fdn8_stereo_030 chord_verb{fs, patch.synth.chord_fdn_props};

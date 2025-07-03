@@ -1,7 +1,6 @@
 // Sketches with Clover Audio Framework
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
-#include <print>
 
 #include "patches.hpp"
 
@@ -14,9 +13,10 @@ patch_synth_t::patch_synth_t() {
                     .tuning            = 0,
                     .portamento_time   = 0,
                     .pitch_env_octaves = 0,
-                    .osc_tunings       = {0.2, 7.2},
-                    .osc_pans          = {-1.f, 1.0f},
-                    .waveforms         = {waveform_000::square, waveform_000::square},
+                    .osc_tunings       = {0.2, 7.2, 0, 0},
+                    .osc_pans          = {-1.f, 1.0f, -1.f, 1.0f},
+                    .osc_gains         = {1.f, 1.f, .1f, 0.1f},
+                    .waveforms         = {waveform_000::square, waveform_000::square, waveform_000::noise},
                     .retrigger         = true,
                     .pitch_a           = 10,
                     .pitch_d           = 10,

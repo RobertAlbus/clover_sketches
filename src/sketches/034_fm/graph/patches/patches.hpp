@@ -11,7 +11,7 @@
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
-#include "lib/subtractive_synth/subtractive_synth_000.hpp"
+#include "lib/subtractive_synth/subtractive_synth_034.hpp"
 
 struct patch_drums_t {
     patch_drums_t();
@@ -46,7 +46,7 @@ struct patch_synth_t {
     // --------------------------------
     // CHORD
 
-    subtractive_synth_props_000 chord_props;
+    subtractive_synth_props_034 chord_props;
     fdn8_stereo_030_props chord_fdn_props;
 
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props;
