@@ -10,7 +10,7 @@
 #include "lib/fdn/draw_fdn8_000.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
 #include "lib/logging/draw_gui_log_canvas.hpp"
-#include "lib/mixer/draw_mixer.hpp"
+#include "lib/mixer_legacy/draw_mixer_000.hpp"
 
 #include "context.hpp"
 #include "controllers.hpp"

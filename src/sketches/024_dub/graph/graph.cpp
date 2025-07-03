@@ -7,7 +7,7 @@
 
 #include "clover/math.hpp"
 
-#include "lib/mixer/mixer.hpp"
+#include "lib/mixer_legacy/mixer_000.hpp"
 
 #include "graph.hpp"
 #include "patches/patches.hpp"

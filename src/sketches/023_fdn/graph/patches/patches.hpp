@@ -5,7 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "lib/kick_drum/kick_drum.hpp"
-#include "lib/mixer/mixer.hpp"
+#include "lib/mixer_legacy/mixer_000.hpp"
 #include "lib/peq/peq.hpp"
 
 #include "lib/fdn/fdn8_023.hpp"
