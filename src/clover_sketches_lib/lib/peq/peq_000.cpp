@@ -6,7 +6,6 @@
 #include <array>
 #include <cmath>
 #include <format>
-#include <print>
 #include <ranges>
 #include <utility>
 
@@ -81,7 +80,7 @@ peq_props_000 lerp(const peq_props_000& a, const peq_props_000& b, float lerp_am
 
 void update_peq_from_gui(peq_gui_model& gui_model, peq_000& audio_model) {
     for (auto [i, gui_dirty, gui, audio] : std::views::zip(
-             std::views::iota(0, int(peq_000::SIZE)), gui_model.dirty, gui_model.props, audio_model.props))
+             std::views::iota(0u, peq_000::SIZE), gui_model.dirty, gui_model.props, audio_model.props))
         if (gui_dirty) {
             if (gui != audio) {
                 if (audio.type != gui.type || (gui.enabled && !audio.enabled)) {
@@ -100,7 +99,7 @@ peq_000::peq_000(float fs, const std::array<peq_props_000, peq_000::SIZE>& new_p
 }
 void peq_000::patch(std::array<peq_props_000, peq_000::SIZE> new_props) {
     props = std::move(new_props);
-    for (auto i : std::views::iota(0, int(peq_000::SIZE)))
+    for (auto i : std::views::iota(0u, peq_000::SIZE))
         if (props[i].enabled) {
             calculate_coefficients(i);
             clear_filter_state(filters[i]);

@@ -16,7 +16,7 @@ void draw_peq_000(const char* id, peq_000& peq) {
     if (ImGui::Button("get peq patch")) {
         ImGui::SetClipboardText(peq.to_str().c_str());
     }
-    for (auto [i, these_props] : std::views::zip(std::views::iota(0, int(peq_000::SIZE)), peq.props)) {
+    for (auto [i, these_props] : std::views::zip(std::views::iota(0u, peq_000::SIZE), peq.props)) {
         ImGui::PushID(&these_props);
 
         // it would be good to use one table for all segments.

@@ -18,8 +18,6 @@
 #include <span>
 #include <stdexcept>
 
-#include <print>
-
 template <typename T>
 concept frsq_data_base_000 = requires(T t) {
     { t.start_time } -> std::same_as<double&>;
@@ -33,7 +31,7 @@ struct frsq_000 {
         voices_time_elapsed.fill(std::numeric_limits<int>::max());
     }
 
-    static const int max_polyphony = 12;
+    static const size_t max_polyphony = 12;
     std::array<int, max_polyphony> voices_time_remaining{};
     std::array<int, max_polyphony> voices_time_elapsed{};
     std::span<voice_t> voices;
@@ -121,7 +119,7 @@ struct frsq_000 {
             throw std::runtime_error("too many voices assigned to frsq");
         }
 
-        for (auto i : std::views::iota(0, int(max_polyphony))) {
+        for (auto i : std::views::iota(0u, max_polyphony)) {
             voice_t& voice = voices[i];
             int& t_remain  = voices_time_remaining[i];
             int& t_elapsed = voices_time_elapsed[i];
@@ -188,7 +186,7 @@ struct frsq_000 {
             voice_t* selected_voice = nullptr;
             int selected_index      = -1;
             auto times_zip          = std::views::zip(
-                std::views::iota(0, int(voices.size())), voices_time_remaining, voices_time_elapsed);
+                std::views::iota(0u, voices.size()), voices_time_remaining, voices_time_elapsed);
 
             if (voices.size() == 1) {
                 selected_voice = &voices[0];

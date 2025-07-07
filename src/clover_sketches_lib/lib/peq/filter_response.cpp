@@ -34,7 +34,7 @@ void compute_complex_response(
                 freqs.size()));
 
     const float stop_freq = *(freqs.end() - 1);
-    for (auto [freq, output, i] : std::views::zip(freqs, out, std::views::iota(0, (int)out.size()))) {
+    for (auto [freq, output, i] : std::views::zip(freqs, out, std::views::iota(0u, out.size()))) {
         const float omega           = 2.0f * std::numbers::pi_v<float> * freq / (2.0f * stop_freq);
         const std::complex<float> z = std::polar(1.0f, -omega);
 

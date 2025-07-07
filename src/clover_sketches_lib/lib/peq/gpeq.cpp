@@ -83,7 +83,7 @@ void gpeq_ui_028::update() {
         return;
 
     auto view = std::views::zip(
-        gui_peq_props, peq.props, peq.filters, complex_responses, std::views::iota(0, int(peq_000::SIZE)));
+        gui_peq_props, peq.props, peq.filters, complex_responses, std::views::iota(0u, peq_000::SIZE));
 
     for (auto [gui_peq_prop, filter_prop, filter, complex_response, i] : view) {
         if (gui_peq_prop == filter_prop)
@@ -109,7 +109,7 @@ void gpeq_ui_028::update() {
 
 void gpeq_ui_028::update_all() {
     auto view = std::views::zip(
-        gui_peq_props, peq.props, peq.filters, complex_responses, std::views::iota(0, int(peq_000::SIZE)));
+        gui_peq_props, peq.props, peq.filters, complex_responses, std::views::iota(0u, peq_000::SIZE));
     for (auto [gui_peq_prop, filter_prop, filter, complex_response, i] : view) {
         peq.set(i, gui_peq_prop.freq, gui_peq_prop.reso, gui_peq_prop.gain);
         compute_complex_response(filter.m_coeffs, complex_response, freqs);
@@ -191,7 +191,7 @@ void gpeq_ui_028::draw_response() {
 
 bool gpeq_ui_028::draw_controls() {
     bool was_changed = false;
-    auto view        = std::views::zip(gui_peq_props, std::views::iota(0, int(peq_000::SIZE)));
+    auto view        = std::views::zip(gui_peq_props, std::views::iota(0u, peq_000::SIZE));
 
     const ImVec2 control_origin = ImGui::GetCursorScreenPos();
     const float width           = 45;
