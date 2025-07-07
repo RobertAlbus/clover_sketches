@@ -12,6 +12,7 @@
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
+#include "lib/subtractive_synth/draw_subtractive_synth_034.hpp"
 
 #include "controllers.hpp"
 
@@ -107,6 +108,10 @@ void controller_chord::draw() {
     if (ImGui::Button("get subtractive_synth patch")) {
         ImGui::SetClipboardText(graph.chord[0].to_str().c_str());
     }
+
+    draw_subtractive_synth_034("##chords", graph.patch.synth.chord_props);
+
+    spacer();
 
     gpeq_send.draw();
 

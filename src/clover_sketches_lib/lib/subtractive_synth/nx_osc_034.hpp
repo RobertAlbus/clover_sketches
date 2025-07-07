@@ -4,42 +4,41 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <portaudio.h>
 #include <string>
 
 #include "clover/dsp/env_adsr.hpp"
+#include "clover/dsp/env_linear.hpp"
 #include "clover/dsp/oscillator.hpp"
 
 #include "lib/audio_frame/audio_frame.hpp"
 #include "lib/mixer/pan_033.hpp"
 #include "lib/subtractive_synth/nx_osc_000.hpp"
 
-struct nx_osc_props_034 {
-    float tuning;           // semitones.cents, relative
-    float portamento_time;  // glide time in samples
-    float pitch_env_octaves;
-
-    std::vector<float> osc_tunings;  // semitones.cents, relative
-    std::vector<float> osc_pans;     // [L,R] = [-1,1]
-    std::vector<float> osc_gains;
-    std::vector<waveform_000> waveforms;
+template <typename prop_type>
+struct nx_osc_props_034_t {
+    prop_type tuning;           // semitones.cents, relative
+    prop_type portamento_time;  // glide time in samples
+    prop_type pitch_env_octaves;
     bool retrigger;
 
-    float pitch_a;
-    float pitch_d;
-    float pitch_s;
-    float pitch_r;
-    float amp_a;
-    float amp_d;
-    float amp_s;
-    float amp_r;
+    prop_type amp_a;
+    prop_type amp_d;
+    prop_type amp_s;
+    prop_type amp_r;
+    prop_type pitch_a;
+    prop_type pitch_d;
+    prop_type pitch_s;
+    prop_type pitch_r;
 
-    std::string to_str();
-    std::string build_str_list_osc_tunings();
-    std::string build_str_list_osc_pans();
-    std::string build_str_list_osc_gains();
-    std::string build_str_list_waveforms_i();
+    std::vector<prop_type> osc_tunings;  // semitones.cents, relative
+    std::vector<prop_type> osc_pans;     // [L,R] = [-1,1]
+    std::vector<prop_type> osc_gains;
+    std::vector<waveform_000> waveforms;
 };
+
+using nx_osc_props_034 = nx_osc_props_034_t<float>;
+
+std::string to_str(const nx_osc_props_034& osc_props);
 
 struct nx_osc_034 {
     float fs;
@@ -60,6 +59,7 @@ struct nx_osc_034 {
     void note(float midi_note);
     void key_on();
     void key_off();
+    void initialize(size_t size);
     void patch(nx_osc_props_034 new_props);
     audio_frame tick();
 };

@@ -19,7 +19,7 @@
 // --------------------------------
 // nx_osc_props
 
-waveform_000 str_to_waveform(std::string_view str) noexcept {
+const waveform_000 str_to_waveform(std::string_view str) noexcept {
     auto it = std::find(waveform_str_000.begin(), waveform_str_000.end(), str);
     return it != waveform_str_000.end() ? waveform_000::none
                                         : static_cast<waveform_000>(it - waveform_str_000.begin());
@@ -28,7 +28,7 @@ waveform_000 str_to_waveform(std::string_view str) noexcept {
 const char* waveform_to_str(waveform_000 wave) noexcept {
     return waveform_str_000[size_t(wave)];
 }
-std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept {
+const std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept {
     return waveform_func_000[size_t(wave)];
 }
 

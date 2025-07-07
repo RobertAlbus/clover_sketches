@@ -5,6 +5,7 @@
 #include <format>
 
 #include "filter_block_000.hpp"
+#include "nx_osc_034.hpp"
 #include "subtractive_synth_034.hpp"
 
 subtractive_synth_034::subtractive_synth_034(float fs, const subtractive_synth_props_034& new_props)
@@ -32,7 +33,7 @@ audio_frame subtractive_synth_034::tick() {
 }
 
 std::string subtractive_synth_034::to_str() {
-    std::string osc_props    = osc.props.to_str();
+    std::string osc_props    = ::to_str(osc.props);
     std::string filter_props = filter.props.to_str();
 
     // remove trailing semicolons

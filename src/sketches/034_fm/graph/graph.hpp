@@ -10,6 +10,7 @@
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
+#include "lib/subtractive_synth/nx_osc_props_smoother_034.hpp"
 #include "lib/subtractive_synth/subtractive_synth_034.hpp"
 
 #include "graph/instrument/driver.hpp"
@@ -53,6 +54,7 @@ struct signal_graph {
     // --------------------------------
     // CHORD
 
+    nx_osc_props_smoother_034 chord_props_applier{patch.synth.chord_props.osc_props};
     std::array<subtractive_synth_034, 6> chord{
         subtractive_synth_034{fs, patch.synth.chord_props},
         subtractive_synth_034{fs, patch.synth.chord_props},

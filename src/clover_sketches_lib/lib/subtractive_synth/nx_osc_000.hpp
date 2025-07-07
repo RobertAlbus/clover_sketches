@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <functional>
+#include <ranges>
 #include <string>
 
 #include "clover/dsp/env_adsr.hpp"
@@ -19,6 +20,15 @@ enum struct waveform_000 {
     triangle,
     noise,
     none,
+};
+
+constexpr std::array<const waveform_000, 6> waveform_list_000{
+    waveform_000::sine,
+    waveform_000::saw,
+    waveform_000::square,
+    waveform_000::triangle,
+    waveform_000::noise,
+    waveform_000::none,
 };
 
 constexpr std::array<const char*, 6> waveform_str_000{
@@ -38,9 +48,11 @@ const std::array<std::function<float(float)>, 6> waveform_func_000{
     clover::dsp::wave_noise,
     [](float) { return 0; }};
 
-waveform_000 str_to_waveform(std::string_view str) noexcept;
+constexpr auto waveform_zip = std::views::zip(waveform_list_000, waveform_str_000, waveform_func_000);
+
+const waveform_000 str_to_waveform(std::string_view str) noexcept;
 const char* waveform_to_str(waveform_000 wave) noexcept;
-std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept;
+const std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept;
 
 struct nx_osc_props_000 {
     float tuning;           // semitones.cents, relative
