@@ -35,7 +35,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
 
     FetchContent_Declare(
         imgui_knobs
-        GIT_SHALLOW TRUE
+        GIT_SHALLOW FALSE
         GIT_REPOSITORY https://github.com/altschuler/imgui-knobs.git
         GIT_TAG        "a0768e19300268d15d748b5f67bc30deda75e11a"
     )
@@ -44,7 +44,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
     
     FetchContent_Declare(
         implot
-        GIT_SHALLOW TRUE
+        GIT_SHALLOW FALSE
         GIT_REPOSITORY https://github.com/epezent/implot.git
         GIT_TAG        "3da8bd34299965d3b0ab124df743fe3e076fa222"
     )
@@ -53,7 +53,7 @@ if(CLOVER_SKETCHES_FETCH_DEPENDENCIES)
     
     FetchContent_Declare(
         implot3d
-        GIT_SHALLOW TRUE
+        GIT_SHALLOW FALSE
         GIT_REPOSITORY https://github.com/brenocq/implot3d.git
         GIT_TAG        "743cf425d74568986e4a16dd0ca9e021f0cdfb34"
     )
