@@ -68,7 +68,7 @@ void meter_rms_032::set_alpha(float samples) {
     alpha = 1.0f - std::exp(-1.0f / samples);
 }
 
-meter_gain_mono_032::meter_gain_mono_032(float fs) : peak(fs, 100), peak_hold(fs, 1000), rms(fs, 300) {
+meter_gain_mono_032::meter_gain_mono_032(float fs) : peak(fs, 100), peak_hold(fs, 800), rms(fs, 300) {
 }
 
 void meter_gain_mono_032::tick(float x) {
