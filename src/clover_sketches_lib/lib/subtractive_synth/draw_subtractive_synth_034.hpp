@@ -6,8 +6,9 @@
 
 #include <ranges>
 
-#include "imgui-knobs.h"
 #include "imgui.h"
+
+#include "lib/_atom/knob.hpp"
 #include "lib/_component/adsr/draw_adsr.hpp"
 
 #include "lib/subtractive_synth/filter_block_000.hpp"
@@ -20,27 +21,51 @@ bool draw_nx_osc(const char* id, nx_osc_props_034& props) {
 
     auto origin = ImGui::GetCursorScreenPos();
 
+    ImGui::BeginGroup();
     ImGui::Text("amp");
     was_changed |= draw_adsr_000(
-        "##amp_asr", {48000, 48000, 1, 48000}, props.amp_a, props.amp_d, props.amp_s, props.amp_r);
-
-    ImGui::NewLine();
-
-    ImGui::Text("pitch");
-    was_changed |= draw_adsr_000(
-        "##amp_asr", {48000, 48000, 1, 48000}, props.pitch_a, props.pitch_d, props.pitch_s, props.pitch_r);
+        "##amp_asr", {24000, 24000, 1, 24000}, props.amp_a, props.amp_d, props.amp_s, props.amp_r);
+    ImGui::EndGroup();
 
     ImGui::SameLine();
-    auto adsr_end_pos    = ImGui::GetCursorScreenPos();
+
+    ImGui::BeginGroup();
+    ImGui::Text("pitch");
+    was_changed |= draw_adsr_000(
+        "##amp_asr", {24000, 24000, 1, 24000}, props.pitch_a, props.pitch_d, props.pitch_s, props.pitch_r);
+
+    resettable_knob("pitch mod\noctaves", &props.pitch_env_octaves, 0, 3, 0, 0, 30);
+    ImGui::EndGroup();
+    ImGui::SameLine();
+
+    ImGui::SameLine();
+    ImGui::Dummy({50, 100});
+    ImGui::SameLine();
+
+    ImGui::BeginGroup();
+    const auto text_wave            = "wave";
+    const auto text_gain            = "gain";
+    const auto text_semi            = "semitone";
+    const auto text_pan             = "pan";
+    const float knob_label_width    = ImGui::CalcTextSize(text_semi).x;
+    const float label_section_width = knob_label_width + ImGui::GetStyle().ItemSpacing.x;
+    const float right_x             = ImGui::GetCursorPosX() + knob_label_width;
+    ImGui::SetCursorPosX(right_x - ImGui::CalcTextSize(text_wave).x);
+    ImGui::Text(text_wave);
+    ImGui::Dummy({label_section_width, 55});
+    ImGui::SetCursorPosX(right_x - ImGui::CalcTextSize(text_gain).x);
+    ImGui::Text(text_gain);
+    ImGui::Dummy({label_section_width, 60});
+    ImGui::SetCursorPosX(right_x - ImGui::CalcTextSize(text_semi).x);
+    ImGui::Text(text_semi);
+    ImGui::Dummy({label_section_width, 60});
+    ImGui::SetCursorPosX(right_x - ImGui::CalcTextSize(text_pan).x);
+    ImGui::Text(text_pan);
+    ImGui::EndGroup();
+
+    ImGui::SameLine();
+
     ImDrawList* drawList = ImGui::GetWindowDrawList();
-    ImGui::NewLine();
-
-    ImGuiKnobs::Knob("pitch octaves", &props.pitch_env_octaves, -3, 3);
-
-    ImGui::NewLine();
-    auto end_position = ImGui::GetCursorScreenPos();
-
-    ImGui::SetCursorScreenPos({adsr_end_pos.x, origin.y});
 
     auto osc_zip = std::views::zip(
         props.osc_gains,
@@ -49,12 +74,16 @@ bool draw_nx_osc(const char* id, nx_osc_props_034& props) {
         props.waveforms,
         std::views::iota(0u, props.waveforms.size()));
 
+    const float osc_column_width = 50;
+
     for (auto [gain, pan, tuning, osc_waveform, i] : osc_zip) {
         ImGui::PushID(int(i));
 
-        ImGui::SetCursorPosX(adsr_end_pos.x);
-        ImGui::PushItemWidth(100);
-        if (ImGui::BeginCombo("##type", waveform_to_str(osc_waveform))) {
+        ImGui::SameLine();
+        ImGui::BeginGroup();
+
+        ImGui::PushItemWidth(osc_column_width);
+        if (ImGui::BeginCombo("##type", waveform_to_str(osc_waveform), ImGuiComboFlags_NoArrowButton)) {
             for (auto [waveform, str] : std::views::zip(waveform_list_000, waveform_str_000)) {
                 bool is_selected = (waveform == osc_waveform);
                 if (ImGui::Selectable(str, is_selected, 0)) {
@@ -69,38 +98,15 @@ bool draw_nx_osc(const char* id, nx_osc_props_034& props) {
         }
         ImGui::PopItemWidth();
 
-        ImGui::SameLine();
-        if (ImGuiKnobs::Knob("gain", &gain, -1, 1)) {
-            was_changed = true;
-        }
-        if (ImGui::IsItemActive() && ImGui::IsMouseDoubleClicked(0)) {
-            gain        = 0;
-            was_changed = true;
-        }
+        was_changed |= resettable_knob("##gain", &gain, -1, 1, 0);
+        was_changed |= resettable_knob("##semi", &tuning, -36, 36, 0);
+        was_changed |= resettable_knob("##pan", &pan, -1, 1, 0);
 
-        ImGui::SameLine();
-        if (ImGuiKnobs::Knob("semi", &tuning, -36, 36)) {
-            was_changed = true;
-        }
-        if (ImGui::IsItemActive() && ImGui::IsMouseDoubleClicked(0)) {
-            tuning      = 0;
-            was_changed = true;
-        }
-
-        ImGui::SameLine();
-        if (ImGuiKnobs::Knob("pan", &pan, -1, 1)) {
-            was_changed = true;
-        }
-        if (ImGui::IsItemActive() && ImGui::IsMouseDoubleClicked(0)) {
-            pan         = 0;
-            was_changed = true;
-        }
-
+        ImGui::EndGroup();
         ImGui::PopID();
     }
 
     ImGui::PopID();
-    ImGui::SetCursorScreenPos(end_position);
     return was_changed;
 }
 
