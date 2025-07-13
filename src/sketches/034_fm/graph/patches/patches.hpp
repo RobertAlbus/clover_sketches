@@ -44,6 +44,12 @@ struct patch_synth_t {
     patch_synth_t();
 
     // --------------------------------
+    // BASS
+
+    subtractive_synth_props_034 bass_carrier;
+    subtractive_synth_props_034 bass_modulator;
+
+    // --------------------------------
     // CHORD
 
     subtractive_synth_props_034 chord_props;

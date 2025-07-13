@@ -45,13 +45,12 @@ std::vector<pattern_t<event>> patterns::create_pattern_snare() {
                  {.start_time = 3, .duration = 0.5},
              }},
         {.duration_bar = 1,
-         .duration_rel = 16,
+         .duration_rel = 4,
          .pattern =
              {
                  //
-                 {.start_time = 6, .duration = 0.5},
-                 {.start_time = 10, .duration = 0.5},
-                 {.start_time = 12, .duration = 0.5},
+                 {.start_time = 1, .duration = 1},
+                 {.start_time = 2.5, .duration = 1},
              }},
     };
 }

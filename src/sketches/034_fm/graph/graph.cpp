@@ -78,6 +78,19 @@ std::pair<float, float> signal_graph::tick() {
     ride_cymbal         = ride_peq.tick(ride_cymbal.to_pair());
 
     // ----------------
+    // BASS
+    //
+    //
+
+    bass_carrier_props_applier.tick(std::span(&bass_carrier.osc, 1));
+    bass_modulator_props_applier.tick(std::span(&bass_modulator.osc, 1));
+
+    float_s bass_modulator_signal            = bass_modulator.tick() * bass_mod_depth_octaves;
+    bass_carrier.osc.input_mod_pitch_octaves = bass_modulator_signal.mono().L;
+    float_s bass_carrier_signal              = bass_carrier.tick();
+    float_s bass_out                         = audio_mixer.at("bass").tick(bass_carrier_signal);
+
+    // ----------------
     // CHORD
     //
     //
@@ -111,7 +124,7 @@ std::pair<float, float> signal_graph::tick() {
     //
     //
 
-    out = kick_sum + ride_cymbal + snare + chord_sum;
+    out = kick_sum + ride_cymbal + snare + chord_sum + bass_out;
 
     out = main_eq.tick(out.to_pair());
 

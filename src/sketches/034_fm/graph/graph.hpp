@@ -52,6 +52,16 @@ struct signal_graph {
     peq_000 ride_peq{fs, patch.drums.ride_peq_props};
 
     // --------------------------------
+    // BASS
+
+    nx_osc_props_smoother_034 bass_carrier_props_applier{patch.synth.bass_carrier.osc_props};
+    subtractive_synth_034 bass_carrier{fs, patch.synth.bass_carrier};
+
+    nx_osc_props_smoother_034 bass_modulator_props_applier{patch.synth.bass_modulator.osc_props};
+    subtractive_synth_034 bass_modulator{fs, patch.synth.bass_modulator};
+    float bass_mod_depth_octaves = 0.32f;
+
+    // --------------------------------
     // CHORD
 
     nx_osc_props_smoother_034 chord_props_applier{patch.synth.chord_props.osc_props};

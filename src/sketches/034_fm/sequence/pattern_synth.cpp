@@ -62,3 +62,17 @@ std::vector<pattern_t<event_midi>> patterns::create_pattern_chord() {
              }},
     };
 }
+
+std::vector<pattern_t<event_midi>> patterns::create_pattern_bass() {
+    return {
+        {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
+        {.duration_bar = 1,
+         .duration_rel = 4.,
+         .pattern =
+             {
+                 // clang-format off
+                 {.start_time = 2,  .duration = 0.5,   .note = note::G4 - 24},
+                 // clang-format on
+             }},
+    };
+}

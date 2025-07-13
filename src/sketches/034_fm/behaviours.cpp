@@ -66,6 +66,29 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.bars_to_samples(grid.duration_bars),
         "frsq_chord"));
 
+    frsq_pairs.emplace_back(create_sequencers(
+        std::span<subtractive_synth_034>(&graph.bass_carrier, 1),
+        [](subtractive_synth_034& voice, const event_midi& data) { voice.key_on(data.note); },
+        [](subtractive_synth_034& voice) { voice.key_off(); },
+        log,
+        grid,
+        patterns.bass,
+        arrangement.bass,
+        grid.duration_bars,
+        grid.bars_to_samples(grid.duration_bars),
+        "frsq_bass_carrier"));
+    frsq_pairs.emplace_back(create_sequencers(
+        std::span<subtractive_synth_034>(&graph.bass_modulator, 1),
+        [](subtractive_synth_034& voice, const event_midi& data) { voice.key_on(data.note); },
+        [](subtractive_synth_034& voice) { voice.key_off(); },
+        log,
+        grid,
+        patterns.bass,
+        arrangement.bass,
+        grid.duration_bars,
+        grid.bars_to_samples(grid.duration_bars),
+        "frsq_bass_modulator"));
+
     return frsq_pairs;
 }
 

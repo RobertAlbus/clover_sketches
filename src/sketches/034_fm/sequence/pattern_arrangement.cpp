@@ -12,7 +12,7 @@ arrangement::arrangement() {
 
     kick = {
         //
-        {.start_time = 0, .pattern_index = 2},
+        {.start_time = 0, .pattern_index = 1},
         {.start_time = 28, .pattern_index = 0},
     };
     snare = {
@@ -36,6 +36,11 @@ arrangement::arrangement() {
         {.start_time = 16, .pattern_index = 1},
         {.start_time = 28, .pattern_index = 2},
         {.start_time = 30, .pattern_index = 1},
+    };
+
+    bass = {
+        //
+        {.start_time = 0, .pattern_index = 1},
     };
 
     // TODO

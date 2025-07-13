@@ -5,6 +5,7 @@
 #include "imgui-knobs.h"
 #include "imgui.h"
 
+#include "lib/_atom/knob.hpp"
 #include "lib/cymbal/draw_cymbal_000.hpp"
 #include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
@@ -47,6 +48,29 @@ void controller_kick::draw() {
     draw_fdn8_023_v2("##kick_fdn", graph.kick_verb);
     spacer();
     gpeq_post.draw();
+
+    ImGui::PopID();
+}
+
+void controller_bass::draw() {
+    ImGui::PushID(name);
+    ImGui::Text("carrier");
+    if (ImGui::Button("get subtractive_synth patch##carrier")) {
+        ImGui::SetClipboardText(graph.bass_carrier.to_str().c_str());
+    }
+
+    draw_subtractive_synth_034("##bass carrier", graph.patch.synth.bass_carrier);
+
+    ImGui::Text("modulator");
+    if (ImGui::Button("get subtractive_synth patch##modulator")) {
+        ImGui::SetClipboardText(graph.bass_modulator.to_str().c_str());
+    }
+    draw_subtractive_synth_034("##bass modulator", graph.patch.synth.bass_modulator);
+    ImGui::NewLine();
+
+    resettable_knob("mod depth semitones", &graph.bass_mod_depth_octaves, 0, 3, 0);
+
+    spacer();
 
     ImGui::PopID();
 }
