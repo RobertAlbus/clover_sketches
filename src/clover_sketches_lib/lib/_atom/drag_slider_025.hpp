@@ -5,7 +5,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "imgui.h"
-using namespace ImGui;
 
 const ImGuiSliderFlags drag_slider_h_025_default_slider_flags =
     ImGuiSliderFlags_NoRoundToFormat | ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_ClampOnInput;

@@ -44,10 +44,10 @@ bool draw_fdn8_023_v2(const char* id, fdn_t& fdn) {
         ImGui::NewLine();
 
         // one control for all fb gains
-        was_changed |= SliderFloat("fb", &fdn.props.fb_gain, 0, 1.5);
+        was_changed |= ImGui::SliderFloat("fb", &fdn.props.fb_gain, 0, 1.5);
 
         // one control for all lpf filters
-        if (SliderFloat(
+        if (ImGui::SliderFloat(
                 "lpf cut",
                 &fdn.props.lpf_cut,
                 20,
@@ -59,7 +59,7 @@ bool draw_fdn8_023_v2(const char* id, fdn_t& fdn) {
         }
 
         // one control for all hpf filters
-        if (SliderFloat(
+        if (ImGui::SliderFloat(
                 "hpf cut",
                 &fdn.props.hpf_cut,
                 20,
