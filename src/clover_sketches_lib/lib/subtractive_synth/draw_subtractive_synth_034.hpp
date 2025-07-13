@@ -25,6 +25,7 @@ bool draw_nx_osc(const char* id, nx_osc_props_034& props) {
     ImGui::Text("amp");
     was_changed |= draw_adsr_000(
         "##amp_asr", {24000, 24000, 1, 24000}, props.amp_a, props.amp_d, props.amp_s, props.amp_r);
+    ImGui::Checkbox("retrigger", &props.retrigger);
     ImGui::EndGroup();
 
     ImGui::SameLine();
@@ -34,9 +35,12 @@ bool draw_nx_osc(const char* id, nx_osc_props_034& props) {
     was_changed |= draw_adsr_000(
         "##amp_asr", {24000, 24000, 1, 24000}, props.pitch_a, props.pitch_d, props.pitch_s, props.pitch_r);
 
-    resettable_knob("pitch mod\noctaves", &props.pitch_env_octaves, 0, 3, 0, 0, 30);
-    ImGui::EndGroup();
+    was_changed |= resettable_knob("tuning", &props.tuning, -36, 36, 0, 0, 30);
     ImGui::SameLine();
+    was_changed |= resettable_knob("porta", &props.portamento_time, 0, 24000, 0, 0, 30);
+    ImGui::SameLine();
+    was_changed |= resettable_knob("pitch env", &props.pitch_env_octaves, 0, 3, 0, 0, 30);
+    ImGui::EndGroup();
 
     ImGui::SameLine();
     ImGui::Dummy({50, 100});
