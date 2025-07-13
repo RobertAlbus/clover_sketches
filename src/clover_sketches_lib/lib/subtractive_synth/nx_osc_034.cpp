@@ -43,27 +43,23 @@ std::string to_str(const nx_osc_props_034& osc_props) {
     .tuning            = {}, \n\
     .portamento_time   = {}, \n\
     .pitch_env_octaves = {}, \n\
-    .osc_tunings       = {}, \n\
-    .osc_pans          = {}, \n\
-    .osc_gains         = {}, \n\
-    .waveforms         = {}, \n\
     .retrigger         = {}, \n\
-    .pitch_a           = {}, \n\
-    .pitch_d           = {}, \n\
-    .pitch_s           = {}, \n\
-    .pitch_r           = {}, \n\
     .amp_a             = {}, \n\
     .amp_d             = {}, \n\
     .amp_s             = {}, \n\
     .amp_r             = {}, \n\
+    .pitch_a           = {}, \n\
+    .pitch_d           = {}, \n\
+    .pitch_s           = {}, \n\
+    .pitch_r           = {}, \n\
+    .osc_tunings       = {}, \n\
+    .osc_pans          = {}, \n\
+    .osc_gains         = {}, \n\
+    .waveforms         = {}, \n\
     }};",
         osc_props.tuning,
         osc_props.portamento_time,
         osc_props.pitch_env_octaves,
-        build_str_list_floats(osc_props.osc_tunings),
-        build_str_list_floats(osc_props.osc_pans),
-        build_str_list_floats(osc_props.osc_gains),
-        build_str_list_waveforms(osc_props.waveforms),
         osc_props.retrigger,
         osc_props.pitch_a,
         osc_props.pitch_d,
@@ -72,7 +68,11 @@ std::string to_str(const nx_osc_props_034& osc_props) {
         osc_props.amp_a,
         osc_props.amp_d,
         osc_props.amp_s,
-        osc_props.amp_r);
+        osc_props.amp_r,
+        build_str_list_floats(osc_props.osc_tunings),
+        build_str_list_floats(osc_props.osc_pans),
+        build_str_list_floats(osc_props.osc_gains),
+        build_str_list_waveforms(osc_props.waveforms));
 }
 
 // --------------------------------
