@@ -16,7 +16,7 @@
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer_legacy/mixer_000.hpp"
 #include "lib/peq/peq.hpp"
-#include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth_000.hpp"
 
 #include "patches/patches.hpp"
 
@@ -51,12 +51,12 @@ struct signal_graph {
     // CHORD
 
     std::array<subtractive_synth_000, 6> chord{
-            subtractive_synth_000{grid.fs, patch::synth.chord_props},
-            subtractive_synth_000{grid.fs, patch::synth.chord_props},
-            subtractive_synth_000{grid.fs, patch::synth.chord_props},
-            subtractive_synth_000{grid.fs, patch::synth.chord_props},
-            subtractive_synth_000{grid.fs, patch::synth.chord_props},
-            subtractive_synth_000{grid.fs, patch::synth.chord_props}};
+        subtractive_synth_000{grid.fs, patch::synth.chord_props},
+        subtractive_synth_000{grid.fs, patch::synth.chord_props},
+        subtractive_synth_000{grid.fs, patch::synth.chord_props},
+        subtractive_synth_000{grid.fs, patch::synth.chord_props},
+        subtractive_synth_000{grid.fs, patch::synth.chord_props},
+        subtractive_synth_000{grid.fs, patch::synth.chord_props}};
 
     peq_000 chord_preverb_peq{grid.fs, patch::synth.chord_preverb_peq_props};
     fdn8_000 chord_verb_L{grid.fs, patch::synth.chord_fdn_props_L, COMPONENT_HAS_GUI};
@@ -64,10 +64,10 @@ struct signal_graph {
     peq_000 chord_peq{grid.fs, patch::synth.chord_peq_props};
 
     echo_000 chord_echo{
-            grid.fs,
-            float(grid.bars_to_samples(2)),
-            patch::synth.echoverb_props,
-            patch::synth.chord_echoverb_peq_props};
+        grid.fs,
+        float(grid.bars_to_samples(2)),
+        patch::synth.echoverb_props,
+        patch::synth.chord_echoverb_peq_props};
 
     fdn8_000 chord_echo_fb_verb_L{grid.fs, patch::synth.chord_echoverb_fdn_L_props};
     fdn8_000 chord_echo_fb_verb_R{grid.fs, patch::synth.chord_echoverb_fdn_R_props};

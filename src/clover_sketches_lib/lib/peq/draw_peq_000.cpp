@@ -16,7 +16,7 @@ void draw_peq_000(const char* id, peq_000& peq) {
     if (ImGui::Button("get peq patch")) {
         ImGui::SetClipboardText(peq.to_str().c_str());
     }
-    for (auto [i, these_props] : std::views::zip(std::views::iota(0, int(peq_000::SIZE)), peq.props)) {
+    for (auto [i, these_props] : std::views::zip(std::views::iota(0u, peq_000::SIZE), peq.props)) {
         ImGui::PushID(&these_props);
 
         // it would be good to use one table for all segments.
@@ -52,45 +52,45 @@ void draw_peq_000(const char* id, peq_000& peq) {
 
             ImGui::TableNextColumn();
             if (ImGuiKnobs::Knob(
-                        "freq",
-                        &these_props.freq,
-                        10,
-                        24000,
-                        0,
-                        "%.1f",
-                        ImGuiKnobVariant_Tick,
-                        knob_size,
-                        ImGuiKnobFlags_Logarithmic | ImGuiKnobFlags_AlwaysClamp)) {
+                    "freq",
+                    &these_props.freq,
+                    10,
+                    24000,
+                    0,
+                    "%.1f",
+                    ImGuiKnobVariant_Tick,
+                    knob_size,
+                    ImGuiKnobFlags_Logarithmic | ImGuiKnobFlags_AlwaysClamp)) {
                 peq.calculate_coefficients(i);
             }
             ImGui::SameLine();
             if (ImGuiKnobs::Knob(
-                        "reso",
-                        &these_props.reso,
-                        0.1,
-                        10,
+                    "reso",
+                    &these_props.reso,
+                    0.1,
+                    10,
+                    0,
+                    "%.1f",
+                    ImGuiKnobVariant_Tick,
+                    knob_size,
+                    ImGuiKnobFlags_AlwaysClamp)) {
+                peq.calculate_coefficients(i);
+            }
+
+            static const std::array<peq_filter_type, 3> needs_gain = {
+                peq_filter_type::hs, peq_filter_type::ls, peq_filter_type::eq};
+            if (std::find(needs_gain.cbegin(), needs_gain.cend(), these_props.type) != needs_gain.cend()) {
+                ImGui::SameLine();
+                if (ImGuiKnobs::Knob(
+                        "gain db",
+                        &these_props.gain,
+                        -24,
+                        24,
                         0,
                         "%.1f",
                         ImGuiKnobVariant_Tick,
                         knob_size,
                         ImGuiKnobFlags_AlwaysClamp)) {
-                peq.calculate_coefficients(i);
-            }
-
-            static const std::array<peq_filter_type, 3> needs_gain = {
-                    peq_filter_type::hs, peq_filter_type::ls, peq_filter_type::eq};
-            if (std::find(needs_gain.cbegin(), needs_gain.cend(), these_props.type) != needs_gain.cend()) {
-                ImGui::SameLine();
-                if (ImGuiKnobs::Knob(
-                            "gain db",
-                            &these_props.gain,
-                            -24,
-                            24,
-                            0,
-                            "%.1f",
-                            ImGuiKnobVariant_Tick,
-                            knob_size,
-                            ImGuiKnobFlags_AlwaysClamp)) {
                     peq.calculate_coefficients(i);
                 }
             }

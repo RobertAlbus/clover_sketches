@@ -64,7 +64,7 @@ void log_canvas_000::draw(const char* title, bool* p_open) {
     ImGui::Separator();
 
     if (ImGui::BeginChild(
-                "scrolling", ImVec2(0, 0), ImGuiChildFlags_None, ImGuiWindowFlags_HorizontalScrollbar)) {
+            "scrolling", ImVec2(0, 0), ImGuiChildFlags_None, ImGuiWindowFlags_HorizontalScrollbar)) {
         if (should_clear)
             clear();
         if (copy)
@@ -82,7 +82,7 @@ void log_canvas_000::draw(const char* title, bool* p_open) {
             for (int line_no = 0; line_no < line_offsets.Size; line_no++) {
                 const char* line_start = buf + line_offsets[line_no];
                 const char* line_end =
-                        (line_no + 1 < line_offsets.Size) ? (buf + line_offsets[line_no + 1] - 1) : buf_end;
+                    (line_no + 1 < line_offsets.Size) ? (buf + line_offsets[line_no + 1] - 1) : buf_end;
                 if (filter.PassFilter(line_start, line_end))
                     ImGui::TextUnformatted(line_start, line_end);
             }
@@ -106,9 +106,8 @@ void log_canvas_000::draw(const char* title, bool* p_open) {
             while (clipper.Step()) {
                 for (int line_no = clipper.DisplayStart; line_no < clipper.DisplayEnd; line_no++) {
                     const char* line_start = buf + line_offsets[line_no];
-                    const char* line_end   = (line_no + 1 < line_offsets.Size)
-                                                     ? (buf + line_offsets[line_no + 1] - 1)
-                                                     : buf_end;
+                    const char* line_end =
+                        (line_no + 1 < line_offsets.Size) ? (buf + line_offsets[line_no + 1] - 1) : buf_end;
                     ImGui::TextUnformatted(line_start, line_end);
                 }
             }

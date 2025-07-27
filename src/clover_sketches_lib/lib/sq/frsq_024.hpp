@@ -87,10 +87,10 @@ struct frsq_024 : public frsq_base_024 {
         determine_last_event();
     }
     void set_pattern(
-            std::span<frsq_data_t> new_pattern_data,
-            double new_duration_samples,
-            double new_duration_relative,
-            double from_time_relative) {
+        std::span<frsq_data_t> new_pattern_data,
+        double new_duration_samples,
+        double new_duration_relative,
+        double from_time_relative) {
         duration_absolute = new_duration_samples;
         duration_relative = new_duration_relative;
         pattern_data      = new_pattern_data;
@@ -104,9 +104,7 @@ struct frsq_024 : public frsq_base_024 {
     }
 
     void set_pattern(
-            std::span<frsq_data_t> new_pattern_data,
-            double new_duration_samples,
-            double new_duration_relative) {
+        std::span<frsq_data_t> new_pattern_data, double new_duration_samples, double new_duration_relative) {
         set_pattern(new_pattern_data, new_duration_samples, new_duration_relative, current_time_relative());
     }
 
@@ -122,7 +120,7 @@ struct frsq_024 : public frsq_base_024 {
         }
 
         auto next_event = std::ranges::lower_bound(
-                pattern_data, current_time_relative(), std::ranges::less{}, &frsq_data_t::start_time);
+            pattern_data, current_time_relative(), std::ranges::less{}, &frsq_data_t::start_time);
 
         if (next_event == pattern_data.begin()) {
             last_event = pattern_data.end() - 1;
@@ -151,7 +149,7 @@ struct frsq_024 : public frsq_base_024 {
             throw std::runtime_error("too many voices assigned to frsq");
         }
 
-        for (auto i : std::views::iota(0, int(max_polyphony))) {
+        for (auto i : std::views::iota(0u, voices.size())) {
             voice_t& voice = voices[i];
             int& t_remain  = voices_time_remaining[i];
             int& t_elapsed = voices_time_elapsed[i];
@@ -171,12 +169,12 @@ struct frsq_024 : public frsq_base_024 {
             throw std::runtime_error("frsq last_event should never be pattern_data.end() at this point");
         if (last_event < pattern_data.begin() || last_event >= pattern_data.end()) {
             throw std::runtime_error(
-                    std::format(
-                            "{} last_event should always be between .begin() and .end()\n"
-                            "  end distance: {}\n  cur distance: {}",
-                            demangle_type_name(this),
-                            std::distance(pattern_data.begin(), pattern_data.end()),
-                            std::distance(pattern_data.begin(), last_event)));
+                std::format(
+                    "{} last_event should always be between .begin() and .end()\n"
+                    "  end distance: {}\n  cur distance: {}",
+                    demangle_type_name(this),
+                    std::distance(pattern_data.begin(), pattern_data.end()),
+                    std::distance(pattern_data.begin(), last_event)));
         }
 
         auto next_event = last_event + 1;
@@ -194,7 +192,7 @@ struct frsq_024 : public frsq_base_024 {
         }
 
         int64_t next_event_time_absolute =
-                int64_t((next_event->start_time / duration_relative) * duration_absolute);
+            int64_t((next_event->start_time / duration_relative) * duration_absolute);
 
         // <= is used to account for when caller manipulates next_event::start_time in real time
         // because it could jump behind the frsq discrete time play head.
@@ -205,16 +203,16 @@ struct frsq_024 : public frsq_base_024 {
             voice_t* selected_voice = nullptr;
             int selected_index      = -1;
             auto times_zip          = std::views::zip(
-                    std::views::iota(0, int(voices.size())), voices_time_remaining, voices_time_elapsed);
+                std::views::iota(0u, voices.size()), voices_time_remaining, voices_time_elapsed);
 
             if (voices.size() == 1) {
                 selected_voice = &voices[0];
                 selected_index = 0;
             } else {
                 auto min_remain_element = std::ranges::min_element(
-                        times_zip, [](auto lhs, auto rhs) { return std::get<1>(lhs) < std::get<1>(rhs); });
+                    times_zip, [](auto lhs, auto rhs) { return std::get<1>(lhs) < std::get<1>(rhs); });
                 auto min_elapsed_element = std::ranges::min_element(
-                        times_zip, [](auto lhs, auto rhs) { return std::get<2>(lhs) < std::get<2>(rhs); });
+                    times_zip, [](auto lhs, auto rhs) { return std::get<2>(lhs) < std::get<2>(rhs); });
                 int min_remain_value  = std::get<1>(*min_remain_element);
                 int min_elapsed_value = std::get<2>(*min_elapsed_element);
 

@@ -13,19 +13,19 @@
 
 std::string echo_props_000::to_str() {
     return std::format(
-            R"({{
+        R"({{
             .delay_samples = {},
             .fb            = {}
         }};)",
-            delay_samples,
-            fb);
+        delay_samples,
+        fb);
 }
 
 echo_000::echo_000(
-        float fs,
-        float max_length_samples,
-        const echo_props_000& new_props,
-        const std::array<peq_props_000, peq_000::SIZE>& eq_props)
+    float fs,
+    float max_length_samples,
+    const echo_props_000& new_props,
+    const std::array<peq_props_000, peq_000::SIZE>& eq_props)
     : eq{fs, eq_props}, fdl{size_t((2 * max_length_samples) + 1)}, max_length_samples{max_length_samples} {
     patch(new_props);
 }

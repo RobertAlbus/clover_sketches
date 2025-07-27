@@ -26,24 +26,24 @@ void draw_fdn8_000(const char* id, fdn8_000* fdn_L, fdn8_000* fdn_R) {
 
         // one control for all lpf filters
         if (SliderFloat(
-                    "lpf_cut",
-                    &fdn_L->props.lpf_cut,
-                    20,
-                    22000,
-                    "%.3f",
-                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat) &&
+                "lpf_cut",
+                &fdn_L->props.lpf_cut,
+                20,
+                22000,
+                "%.3f",
+                ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat) &&
             fdn_R) {
             fdn_R->props.lpf_cut = fdn_L->props.lpf_cut;
         }
 
         // one control for all hpf filters
         if (SliderFloat(
-                    "hpf_cut",
-                    &fdn_L->props.hpf_cut,
-                    20,
-                    22000,
-                    "%.3f",
-                    ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat) &&
+                "hpf_cut",
+                &fdn_L->props.hpf_cut,
+                20,
+                22000,
+                "%.3f",
+                ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoRoundToFormat) &&
             fdn_R) {
             fdn_R->props.hpf_cut = fdn_L->props.hpf_cut;
         }

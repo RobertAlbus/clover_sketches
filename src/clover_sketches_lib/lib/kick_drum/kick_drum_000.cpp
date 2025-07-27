@@ -17,7 +17,7 @@ using namespace dsp;
 
 std::string kick_props_000::to_str() {
     return std::format(
-            "\
+        "\
 {{     \n\
             .trim              = {}, \n\
             .drive             = {}, \n\
@@ -39,25 +39,25 @@ std::string kick_props_000::to_str() {
             .pitch_range       = {}, \n\
             .cut_range         = {}, \n\
         }};",
-            trim,
-            drive,
-            amp_a,
-            amp_d,
-            amp_s,
-            amp_r,
-            cut_a,
-            cut_d,
-            cut_s,
-            cut_r,
-            filt_q,
-            pitch_a,
-            pitch_d,
-            pitch_s,
-            pitch_r,
-            pitch_fundamental,
-            cut_fundamental,
-            pitch_range,
-            cut_range);
+        trim,
+        drive,
+        amp_a,
+        amp_d,
+        amp_s,
+        amp_r,
+        cut_a,
+        cut_d,
+        cut_s,
+        cut_r,
+        filt_q,
+        pitch_a,
+        pitch_d,
+        pitch_s,
+        pitch_r,
+        pitch_fundamental,
+        cut_fundamental,
+        pitch_range,
+        cut_range);
 }
 
 kick_drum_000::kick_drum_000(clover_float fs, const kick_props_000& new_props) : fs(fs), kick_osc(fs) {
@@ -102,9 +102,7 @@ clover_float kick_drum_000::tick() {
     kick_osc.freq(kick_pitch);
 
     float cut = std::clamp(
-            frequency_by_octave_difference(props.cut_fundamental, props.cut_range * cutoff_env),
-            10.f,
-            20000.f);
+        frequency_by_octave_difference(props.cut_fundamental, props.cut_range * cutoff_env), 10.f, 20000.f);
 
     filt.m_coeffs = lpf(fs, cut, props.filt_q);
 

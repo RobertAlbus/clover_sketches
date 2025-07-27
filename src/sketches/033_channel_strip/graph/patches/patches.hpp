@@ -11,7 +11,7 @@
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
-#include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth_000.hpp"
 
 struct patch_drums_t {
     patch_drums_t();

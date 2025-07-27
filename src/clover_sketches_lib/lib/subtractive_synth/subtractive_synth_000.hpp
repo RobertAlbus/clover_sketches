@@ -4,8 +4,8 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "filter_block.hpp"
-#include "nx_osc.hpp"
+#include "filter_block_000.hpp"
+#include "nx_osc_000.hpp"
 
 struct subtractive_synth_props_000 {
     nx_osc_props_000 osc_props;

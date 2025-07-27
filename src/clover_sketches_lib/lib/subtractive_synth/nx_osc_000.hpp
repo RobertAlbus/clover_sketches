@@ -4,16 +4,14 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <cmath>
 #include <functional>
+#include <ranges>
 #include <string>
 
 #include "clover/dsp/env_adsr.hpp"
 #include "clover/dsp/oscillator.hpp"
 #include "clover/dsp/pan.hpp"
 #include "clover/dsp/wave.hpp"
-using namespace clover;
-using namespace dsp;
 
 enum struct waveform_000 {
     sine,
@@ -24,26 +22,37 @@ enum struct waveform_000 {
     none,
 };
 
+constexpr std::array<const waveform_000, 6> waveform_list_000{
+    waveform_000::sine,
+    waveform_000::saw,
+    waveform_000::square,
+    waveform_000::triangle,
+    waveform_000::noise,
+    waveform_000::none,
+};
+
 constexpr std::array<const char*, 6> waveform_str_000{
-        "sine",
-        "saw",
-        "square",
-        "triangle",
-        "noise",
-        "none",
+    "sine",
+    "saw",
+    "square",
+    "triangle",
+    "noise",
+    "none",
 };
 
 const std::array<std::function<float(float)>, 6> waveform_func_000{
-        clover::dsp::wave_sine,
-        clover::dsp::wave_square,
-        clover::dsp::wave_saw,
-        clover::dsp::wave_tri,
-        clover::dsp::wave_noise,
-        [](float) { return 0; }};
+    clover::dsp::wave_sine,
+    clover::dsp::wave_square,
+    clover::dsp::wave_saw,
+    clover::dsp::wave_tri,
+    clover::dsp::wave_noise,
+    [](float) { return 0; }};
 
-waveform_000 str_to_waveform(std::string_view str) noexcept;
+constexpr auto waveform_zip = std::views::zip(waveform_list_000, waveform_str_000, waveform_func_000);
+
+const waveform_000 str_to_waveform(std::string_view str) noexcept;
 const char* waveform_to_str(waveform_000 wave) noexcept;
-std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept;
+const std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept;
 
 struct nx_osc_props_000 {
     float tuning;           // semitones.cents, relative
@@ -74,15 +83,15 @@ struct nx_osc_000 {
     float fs;
     float gain_scale = 1.f;
 
-    std::vector<oscillator> oscs;
-    std::vector<pan> osc_pans;
+    std::vector<clover::dsp::oscillator> oscs;
+    std::vector<clover::dsp::pan> osc_pans;
     bool retrigger;
     nx_osc_props_000 props;
 
     float input_mod_pitch_octaves = 0;
-    env_linear portamento;
-    env_adsr adsr_pitch;
-    env_adsr adsr_amp;
+    clover::dsp::env_linear portamento;
+    clover::dsp::env_adsr adsr_pitch;
+    clover::dsp::env_adsr adsr_amp;
 
     nx_osc_000(float fs, const nx_osc_props_000& new_props);
 

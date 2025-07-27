@@ -93,16 +93,16 @@ bool view::draw() {
     if (ImGui::BeginTabBar("main layout tabs")) {
         for (auto& tabbed_controller : tabs) {
             if (ImGui::BeginTabItem(tabbed_controller->name)) {
-                float constrained_width  = ImGui::GetWindowWidth() - (2 * ImGui::GetStyle().WindowPadding.x);
-                float constrained_height = ImGui::GetWindowHeight() - ImGui::GetCursorPosY() -
-                                           (ImGui::GetStyle().WindowPadding.y);
+                float constrained_width = ImGui::GetWindowWidth() - (2 * ImGui::GetStyle().WindowPadding.x);
+                float constrained_height =
+                    ImGui::GetWindowHeight() - ImGui::GetCursorPosY() - (ImGui::GetStyle().WindowPadding.y);
 
                 ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(40.0f, 20.0f));
                 ImGui::BeginChild(
-                        "tab area",
-                        ImVec2(constrained_width, constrained_height),
-                        0,
-                        ImGuiWindowFlags_AlwaysUseWindowPadding);
+                    "tab area",
+                    ImVec2(constrained_width, constrained_height),
+                    0,
+                    ImGuiWindowFlags_AlwaysUseWindowPadding);
                 tabbed_controller->draw();
 
                 ImGui::PopStyleVar();

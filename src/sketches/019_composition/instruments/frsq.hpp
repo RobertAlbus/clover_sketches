@@ -55,7 +55,7 @@ struct frsq_019 {
     bool initial_pattern_start = false;
 
     std::function<void(voice_t& voice, const frsq_data_t& data)> callback_start =
-            [](voice_t& voice, const frsq_data_t& data) {};
+        [](voice_t& voice, const frsq_data_t& data) {};
     std::function<void(voice_t& voice)> callback_end = [](voice_t& voice) {};
 
     void choke_all() {
@@ -89,9 +89,9 @@ struct frsq_019 {
         }
 
         double current_time_relative =
-                (std::floor(current_time_absolute) / duration_absolute) * duration_relative;
+            (std::floor(current_time_absolute) / duration_absolute) * duration_relative;
         auto next_event = std::ranges::lower_bound(
-                pattern_data, current_time_relative, std::ranges::less{}, &frsq_data_t::start_time);
+            pattern_data, current_time_relative, std::ranges::less{}, &frsq_data_t::start_time);
 
         if (next_event != pattern_data.begin()) {
             last_event            = next_event - 1;
@@ -139,13 +139,13 @@ struct frsq_019 {
             throw std::runtime_error("frsq last_event should never be pattern_data.end() at this point");
         if (!(last_event >= pattern_data.begin() && last_event < pattern_data.end())) {
             throw std::runtime_error(
-                    std::format(
-                            "frsq {} last_event should always be between .begin() and .end()\n end distance: "
-                            "{}\ncur "
-                            "distance: {}",
-                            size_t(this),
-                            std::distance(pattern_data.begin(), pattern_data.end()),
-                            std::distance(pattern_data.begin(), last_event)));
+                std::format(
+                    "frsq {} last_event should always be between .begin() and .end()\n end distance: "
+                    "{}\ncur "
+                    "distance: {}",
+                    size_t(this),
+                    std::distance(pattern_data.begin(), pattern_data.end()),
+                    std::distance(pattern_data.begin(), last_event)));
         }
 
         // find next event
@@ -172,7 +172,7 @@ struct frsq_019 {
         // <= is used to account for when caller manipulates next_event::start_time in real time
         // because it could jump behind the frsq discrete time play head.
         bool is_event_start =
-                !loop_wrap_pending && int(next_event_time_absolute) <= int(current_time_absolute);
+            !loop_wrap_pending && int(next_event_time_absolute) <= int(current_time_absolute);
 
         int events_this_sample = 0;
         while (is_event_start) {
@@ -182,16 +182,16 @@ struct frsq_019 {
             voice_t* selected_voice = nullptr;
             int selected_index      = -1;
             auto times_zip          = std::views::zip(
-                    std::views::iota(0, int(voices.size())), voices_time_remaining, voices_time_elapsed);
+                std::views::iota(0, int(voices.size())), voices_time_remaining, voices_time_elapsed);
 
             if (voices.size() == 1) {
                 selected_voice = &voices[0];
                 selected_index = 0;
             } else {
                 auto min_remain_element = std::ranges::min_element(
-                        times_zip, [](auto lhs, auto rhs) { return std::get<1>(lhs) < std::get<1>(rhs); });
+                    times_zip, [](auto lhs, auto rhs) { return std::get<1>(lhs) < std::get<1>(rhs); });
                 auto min_elapsed_element = std::ranges::min_element(
-                        times_zip, [](auto lhs, auto rhs) { return std::get<2>(lhs) < std::get<2>(rhs); });
+                    times_zip, [](auto lhs, auto rhs) { return std::get<2>(lhs) < std::get<2>(rhs); });
                 int min_remain_value  = std::get<1>(*min_remain_element);
                 int min_elapsed_value = std::get<2>(*min_elapsed_element);
 

@@ -9,7 +9,7 @@
 #include "lib/peq/peq.hpp"
 
 #include "lib/fdn/fdn8_023.hpp"
-#include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth_000.hpp"
 
 struct patch_drums_t {
     patch_drums_t();

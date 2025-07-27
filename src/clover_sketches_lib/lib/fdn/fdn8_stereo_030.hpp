@@ -21,12 +21,12 @@ struct fdn8_stereo_030_props {
     std::string to_str();
     operator fdn8_props_023() const {
         return fdn8_props_023{
-                .taps    = taps,
-                .fb_gain = fb_gain,
-                .lpf_cut = lpf_cut,
-                .lpf_res = lpf_res,
-                .hpf_cut = hpf_cut,
-                .hpf_res = hpf_res};
+            .taps    = taps,
+            .fb_gain = fb_gain,
+            .lpf_cut = lpf_cut,
+            .lpf_res = lpf_res,
+            .hpf_cut = hpf_cut,
+            .hpf_res = hpf_res};
     }
 };
 

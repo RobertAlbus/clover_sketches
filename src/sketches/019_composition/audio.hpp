@@ -61,17 +61,17 @@ void AUDIO(context& props) {
 
             for (auto frame : std::views::iota(0, render_comp.duration)) {
                 auto result = audio_callback({
-                        .clock_time     = frame,
-                        .chan_count_in  = 0,
-                        .chan_count_out = render_comp.channel_count_out,
-                        .input          = nullptr,
-                        .output = &(buffer.data[static_cast<size_t>(frame) * render_comp.channel_count_out]),
+                    .clock_time     = frame,
+                    .chan_count_in  = 0,
+                    .chan_count_out = render_comp.channel_count_out,
+                    .input          = nullptr,
+                    .output = &(buffer.data[static_cast<size_t>(frame) * render_comp.channel_count_out]),
                 });
             }
 
             convert_sample_rate_016(buffer, 44100);
             clover::io::audio_file::write(
-                    render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
+                render_name + ".wav", buffer, clover::io::audio_file_settings::wav_441_16);
             std::cout << "finished render: " << render_name.c_str() << std::endl;
         });
         render_thread.join();
@@ -90,13 +90,13 @@ void AUDIO(context& props) {
     stream.audio_callback = audio_callback;
     // system.print();
     stream.open(
-            clover::io::stream::settings{
-                    .device_index_in  = system.no_device(),
-                    .chan_count_in    = 0,
-                    .device_index_out = system.default_output().index,
-                    .chan_count_out   = comp.channel_count_out,
-                    .sample_rate      = comp.fs_i,
-                    .latency_ms       = 0});
+        clover::io::stream::settings{
+            .device_index_in  = system.no_device(),
+            .chan_count_in    = 0,
+            .device_index_out = system.default_output().index,
+            .chan_count_out   = comp.channel_count_out,
+            .sample_rate      = comp.fs_i,
+            .latency_ms       = 0});
 
     stream.start();
     props.gui_intent_to_exit.acquire();

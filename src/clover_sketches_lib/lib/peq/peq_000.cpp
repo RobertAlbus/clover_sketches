@@ -6,7 +6,6 @@
 #include <array>
 #include <cmath>
 #include <format>
-#include <print>
 #include <ranges>
 #include <utility>
 
@@ -16,18 +15,18 @@
 
 std::string peq_props_000::to_str() {
     return std::format(
-            R"(peq_props_000{{
+        R"(peq_props_000{{
         .freq = {},
         .reso = {},
         .gain = {},
         .enabled = {},
         .type = peq_filter_type::{},
     }})",
-            freq,
-            reso,
-            gain,
-            enabled,
-            peq_filter_str[int(type)]);
+        freq,
+        reso,
+        gain,
+        enabled,
+        peq_filter_str[int(type)]);
 }
 
 void clear_filter_state(clover::dsp::filter_2& filter) {
@@ -42,16 +41,16 @@ bool nearly_equal(float a, float b) {
 }
 
 bool operator==(const peq_props_000& a, const peq_props_000& b) {
-    bool is_equal =                          //
-            a.type == b.type &&              //
-            a.enabled == b.enabled &&        //
-            nearly_equal(a.freq, b.freq) &&  //
-            nearly_equal(a.reso, b.reso);
+    bool is_equal =                      //
+        a.type == b.type &&              //
+        a.enabled == b.enabled &&        //
+        nearly_equal(a.freq, b.freq) &&  //
+        nearly_equal(a.reso, b.reso);
     bool has_gain =
-            (a.type == peq_filter_type::ls ||  //
-             a.type == peq_filter_type::hs ||  //
-             a.type == peq_filter_type::eq     //
-            );
+        (a.type == peq_filter_type::ls ||  //
+         a.type == peq_filter_type::hs ||  //
+         a.type == peq_filter_type::eq     //
+        );
 
     if (has_gain) {
         bool is_gain_equal = nearly_equal(a.gain, b.gain);
@@ -71,19 +70,17 @@ peq_props_000 lerp(const peq_props_000& a, const peq_props_000& b, float lerp_am
     if (lerp_amount == 1.0f)
         return b;
 
-    return {.freq    = std::lerp(a.freq, b.freq, lerp_amount),
-            .reso    = std::lerp(a.reso, b.reso, lerp_amount),
-            .gain    = std::lerp(a.gain, b.gain, lerp_amount),
-            .enabled = b.enabled,
-            .type    = b.type};
+    return {
+        .freq    = std::lerp(a.freq, b.freq, lerp_amount),
+        .reso    = std::lerp(a.reso, b.reso, lerp_amount),
+        .gain    = std::lerp(a.gain, b.gain, lerp_amount),
+        .enabled = b.enabled,
+        .type    = b.type};
 }
 
 void update_peq_from_gui(peq_gui_model& gui_model, peq_000& audio_model) {
     for (auto [i, gui_dirty, gui, audio] : std::views::zip(
-                 std::views::iota(0, int(peq_000::SIZE)),
-                 gui_model.dirty,
-                 gui_model.props,
-                 audio_model.props))
+             std::views::iota(0u, peq_000::SIZE), gui_model.dirty, gui_model.props, audio_model.props))
         if (gui_dirty) {
             if (gui != audio) {
                 if (audio.type != gui.type || (gui.enabled && !audio.enabled)) {
@@ -102,7 +99,7 @@ peq_000::peq_000(float fs, const std::array<peq_props_000, peq_000::SIZE>& new_p
 }
 void peq_000::patch(std::array<peq_props_000, peq_000::SIZE> new_props) {
     props = std::move(new_props);
-    for (auto i : std::views::iota(0, int(peq_000::SIZE)))
+    for (auto i : std::views::iota(0u, peq_000::SIZE))
         if (props[i].enabled) {
             calculate_coefficients(i);
             clear_filter_state(filters[i]);

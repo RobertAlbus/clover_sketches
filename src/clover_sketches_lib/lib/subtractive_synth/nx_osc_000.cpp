@@ -13,15 +13,13 @@
 #include "clover/dsp/oscillator.hpp"
 #include "clover/dsp/pan.hpp"
 #include "clover/math.hpp"
-using namespace clover;
-using namespace dsp;
 
-#include "nx_osc.hpp"
+#include "nx_osc_000.hpp"
 
 // --------------------------------
 // nx_osc_props
 
-waveform_000 str_to_waveform(std::string_view str) noexcept {
+const waveform_000 str_to_waveform(std::string_view str) noexcept {
     auto it = std::find(waveform_str_000.begin(), waveform_str_000.end(), str);
     return it != waveform_str_000.end() ? waveform_000::none
                                         : static_cast<waveform_000>(it - waveform_str_000.begin());
@@ -30,13 +28,13 @@ waveform_000 str_to_waveform(std::string_view str) noexcept {
 const char* waveform_to_str(waveform_000 wave) noexcept {
     return waveform_str_000[size_t(wave)];
 }
-std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept {
+const std::function<float(float)> waveform_to_func(waveform_000 wave) noexcept {
     return waveform_func_000[size_t(wave)];
 }
 
 std::string nx_osc_props_000::to_str() {
     return std::format(
-            "\
+        "\
 nx_osc_props patch = {{\n\
     .tuning            = {}, \n\
     .portamento_time   = {}, \n\
@@ -54,21 +52,21 @@ nx_osc_props patch = {{\n\
     .amp_s             = {}, \n\
     .amp_r             = {}, \n\
 }};",
-            tuning,
-            portamento_time,
-            pitch_env_octaves,
-            build_str_list_osc_tunings(),
-            build_str_list_osc_pans(),
-            build_str_list_waveforms_i(),
-            retrigger,
-            pitch_a,
-            pitch_d,
-            pitch_s,
-            pitch_r,
-            amp_a,
-            amp_d,
-            amp_s,
-            amp_r);
+        tuning,
+        portamento_time,
+        pitch_env_octaves,
+        build_str_list_osc_tunings(),
+        build_str_list_osc_pans(),
+        build_str_list_waveforms_i(),
+        retrigger,
+        pitch_a,
+        pitch_d,
+        pitch_s,
+        pitch_r,
+        amp_a,
+        amp_d,
+        amp_s,
+        amp_r);
 }
 std::string nx_osc_props_000::build_str_list_osc_tunings() {
     std::string result = "{";
@@ -89,7 +87,7 @@ std::string nx_osc_props_000::build_str_list_osc_pans() {
 std::string nx_osc_props_000::build_str_list_waveforms_i() {
     std::string result = "{";
     for (auto& waveform : waveforms)
-        result += std::format("waveform::{}, ", waveform_to_str(waveform));
+        result += std::format("waveform_000::{}, ", waveform_to_str(waveform));
     result.pop_back();
     result += "}";
     return result;
@@ -148,8 +146,7 @@ std::pair<float, float> nx_osc_000::tick() {
 
     for (auto [osc, tuning, osc_pan] : std::views::zip(oscs, props.osc_tunings, osc_pans)) {
         float osc_freq = clover::midi_to_frequency(current_midi_note + tuning);
-        osc_freq       = frequency_by_octave_difference(osc_freq, props.pitch_env_octaves);
-        // osc_freq       = frequency_by_octave_difference(osc_freq, input_mod_pitch_octaves);
+        osc_freq       = clover::frequency_by_octave_difference(osc_freq, props.pitch_env_octaves);
         osc_freq += input_mod_pitch_octaves;
         osc_freq = std::clamp(osc_freq, 0.f, fs * 0.499f);
         osc.freq(osc_freq);

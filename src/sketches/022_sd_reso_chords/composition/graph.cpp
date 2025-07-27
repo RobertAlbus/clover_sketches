@@ -86,9 +86,9 @@ std::pair<float, float> signal_graph::tick() {
     chord_echo_R *= audio_mixer.at("chord echo return");
 
     float chord_echo_fb_verb_wet_L =
-            chord_echo_fb_verb_L.tick(chord_echo.fb.first) * audio_mixer.at("chord echo fbverb wet");
+        chord_echo_fb_verb_L.tick(chord_echo.fb.first) * audio_mixer.at("chord echo fbverb wet");
     float chord_echo_fb_verb_wet_R =
-            chord_echo_fb_verb_R.tick(chord_echo.fb.second) * audio_mixer.at("chord echo fbverb wet");
+        chord_echo_fb_verb_R.tick(chord_echo.fb.second) * audio_mixer.at("chord echo fbverb wet");
 
     float chord_echo_fb_verb_dry_L = chord_echo.fb.first * audio_mixer.at("chord echo fbverb dry");
     float chord_echo_fb_verb_dry_R = chord_echo.fb.second * audio_mixer.at("chord echo fbverb dry");

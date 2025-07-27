@@ -7,20 +7,20 @@
 namespace pattern {
 
 std::vector<pattern_t<event>> kick{
-        {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
-        {.duration_bar = 1,
-         .duration_rel = 4.,
-         .pattern =
-                 {{.start_time = 0, .duration = 0.5},
-                  {.start_time = 1, .duration = 0.5},
-                  {.start_time = 2, .duration = 0.5},
-                  {.start_time = 3, .duration = 0.5}}},
-        {.duration_bar = 0.5,
-         .duration_rel = 4.,
-         .pattern =
-                 {{.start_time = 0.0, .duration = 0.5},
-                  {.start_time = 1.5, .duration = 0.5},
-                  {.start_time = 3.0, .duration = 0.5}}},
+    {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
+    {.duration_bar = 1,
+     .duration_rel = 4.,
+     .pattern =
+         {{.start_time = 0, .duration = 0.5},
+          {.start_time = 1, .duration = 0.5},
+          {.start_time = 2, .duration = 0.5},
+          {.start_time = 3, .duration = 0.5}}},
+    {.duration_bar = 0.5,
+     .duration_rel = 4.,
+     .pattern =
+         {{.start_time = 0.0, .duration = 0.5},
+          {.start_time = 1.5, .duration = 0.5},
+          {.start_time = 3.0, .duration = 0.5}}},
 };
 
 }  // namespace pattern

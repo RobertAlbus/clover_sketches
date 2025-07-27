@@ -9,11 +9,11 @@ using namespace ImGui;
 #include "drag_slider_025.hpp"
 
 bool drag_slider_h_025(
-        //
-        float& control,
-        float min,
-        float max,
-        ImGuiSliderFlags slider_flags) {
+    //
+    float& control,
+    float min,
+    float max,
+    ImGuiSliderFlags slider_flags) {
     const float available_width = ImGui::GetContentRegionAvail().x;
     const ImVec2 dimensions{available_width, 30};
 
@@ -21,12 +21,12 @@ bool drag_slider_h_025(
 }
 
 bool drag_slider_h_025(
-        //
-        float& control,
-        float min,
-        float max,
-        const ImVec2& dimensions,
-        ImGuiSliderFlags slider_flags) {
+    //
+    float& control,
+    float min,
+    float max,
+    const ImVec2& dimensions,
+    ImGuiSliderFlags slider_flags) {
     PushID(&control);
 
     float available_width = ImGui::GetContentRegionAvail().x;

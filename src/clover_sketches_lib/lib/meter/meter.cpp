@@ -9,10 +9,10 @@
 #include "meter.hpp"
 
 std::array<bp_event_000, 3> peak_hold_env{
-        {//
-         {.start = 0, .value = 1},
-         {.start = 1, .value = 1},
-         {.start = 1.5, .value = 0}}};
+    {//
+     {.start = 0, .value = 1},
+     {.start = 1, .value = 1},
+     {.start = 1.5, .value = 0}}};
 
 meter_peak_032::meter_peak_032(float fs, float hold_ms) {
     peak_env.set_pattern(peak_hold_env);
@@ -68,7 +68,7 @@ void meter_rms_032::set_alpha(float samples) {
     alpha = 1.0f - std::exp(-1.0f / samples);
 }
 
-meter_gain_mono_032::meter_gain_mono_032(float fs) : peak(fs, 100), peak_hold(fs, 1000), rms(fs, 300) {
+meter_gain_mono_032::meter_gain_mono_032(float fs) : peak(fs, 100), peak_hold(fs, 800), rms(fs, 300) {
 }
 
 void meter_gain_mono_032::tick(float x) {

@@ -10,9 +10,9 @@
 #include "transport_ui_028.hpp"
 
 transport_ui_028::transport_ui_028(
-        std::function<void(float)> start_action,
-        std::function<void()> play_action,
-        std::function<void()> stop_action)
+    std::function<void(float)> start_action,
+    std::function<void()> play_action,
+    std::function<void()> stop_action)
     : start_action{std::move(start_action)},
       play_action{std::move(play_action)},
       stop_action{std::move(stop_action)} {

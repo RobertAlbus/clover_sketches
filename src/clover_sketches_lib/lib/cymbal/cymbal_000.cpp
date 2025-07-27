@@ -21,7 +21,7 @@ using namespace dsp;
 std::string cymbal_props_000::to_str() {
     return std::format(
 
-            R"({{
+        R"({{
             .freqs            = {{ {}, {}, {}, {}, {}, {} }},
             .hpf_f0           = {},
             .hpf_fmod_octaves = {},
@@ -37,25 +37,25 @@ std::string cymbal_props_000::to_str() {
             .cut_s            = {},
             .cut_r            = {},
     }};)",
-            freqs[0],
-            freqs[1],
-            freqs[2],
-            freqs[3],
-            freqs[4],
-            freqs[5],
-            hpf_f0,
-            hpf_fmod_octaves,
-            hpf_Q,
-            bpf_f0,
-            bpf_Q,
-            amp_a,
-            amp_d,
-            amp_s,
-            amp_r,
-            cut_a,
-            cut_d,
-            cut_s,
-            cut_r);
+        freqs[0],
+        freqs[1],
+        freqs[2],
+        freqs[3],
+        freqs[4],
+        freqs[5],
+        hpf_f0,
+        hpf_fmod_octaves,
+        hpf_Q,
+        bpf_f0,
+        bpf_Q,
+        amp_a,
+        amp_d,
+        amp_s,
+        amp_r,
+        cut_a,
+        cut_d,
+        cut_s,
+        cut_r);
 }
 
 cymbal_000::cymbal_000(clover_float fs, const cymbal_props_000& new_props)

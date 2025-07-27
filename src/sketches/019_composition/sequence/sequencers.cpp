@@ -6,7 +6,7 @@
 #include <print>
 
 #include "lib/kick_drum/kick_drum.hpp"
-#include "lib/subtractive_synth/subtractive_synth.hpp"
+#include "lib/subtractive_synth/subtractive_synth_000.hpp"
 
 #include "composition/composition.hpp"
 #include "sequence/event.hpp"
@@ -15,56 +15,56 @@
 #include "sequencers.hpp"
 
 std::map<const char*, size_t> scene_1 = {
-        {"kick", 1},
-        {"bass", 1},
+    {"kick", 1},
+    {"bass", 1},
 
-        {"hh1", 1},
-        {"hh2", 1},
-        {"hh3", 1},
-        {"ride", 1},
+    {"hh1", 1},
+    {"hh2", 1},
+    {"hh3", 1},
+    {"ride", 1},
 
-        {"chord", 1},
-        {"pad", 1},
-        {"lead_a1", 1},
-        {"lead_a2", 0},
-        {"lead_a3", 0},
-        {"lead_b1", 1},
-        {"lead_b2", 0},
-        {"lead_b3", 0},
+    {"chord", 1},
+    {"pad", 1},
+    {"lead_a1", 1},
+    {"lead_a2", 0},
+    {"lead_a3", 0},
+    {"lead_b1", 1},
+    {"lead_b2", 0},
+    {"lead_b3", 0},
 };
 
 std::map<const char*, size_t> scene_2 = {
-        {"kick", 1},
-        {"bass", 1},
+    {"kick", 1},
+    {"bass", 1},
 
-        {"hh1", 1},
-        {"hh2", 1},
-        {"hh3", 1},
-        {"ride", 1},
+    {"hh1", 1},
+    {"hh2", 1},
+    {"hh3", 1},
+    {"ride", 1},
 
-        {"chord", 1},
-        {"pad", 1},
-        {"lead_a1", 0},
-        {"lead_a2", 2},
-        {"lead_b1", 0},
-        {"lead_b2", 2},
+    {"chord", 1},
+    {"pad", 1},
+    {"lead_a1", 0},
+    {"lead_a2", 2},
+    {"lead_b1", 0},
+    {"lead_b2", 2},
 };
 
 std::map<const char*, size_t> scene_3 = {
-        {"kick", 1},
-        {"bass", 1},
+    {"kick", 1},
+    {"bass", 1},
 
-        {"hh1", 1},
-        {"hh2", 1},
-        {"hh3", 1},
-        {"ride", 1},
+    {"hh1", 1},
+    {"hh2", 1},
+    {"hh3", 1},
+    {"ride", 1},
 
-        {"chord", 1},
-        {"pad", 1},
-        {"lead_a1", 3},
-        {"lead_a2", 0},
-        {"lead_b1", 0},
-        {"lead_b2", 0},
+    {"chord", 1},
+    {"pad", 1},
+    {"lead_a1", 3},
+    {"lead_a2", 0},
+    {"lead_b1", 0},
+    {"lead_b2", 0},
 };
 
 std::map<const char*, size_t>& active_scene = scene_2;
@@ -209,7 +209,7 @@ void sequencers::set_up_pad(composition& comp) {
 
 void sequencers::set_up_lead_a(composition& comp) {
     frsq_lead_a1.voices =
-            std::span<subtractive_synth_000>(comp.synth.lead_a.begin(), comp.synth.lead_a.begin() + 3);
+        std::span<subtractive_synth_000>(comp.synth.lead_a.begin(), comp.synth.lead_a.begin() + 3);
     frsq_lead_a1.duration_absolute = comp.beat * 4;
     frsq_lead_a1.duration_relative = 16.;
     // frsq_lead_a1.set_pattern(synth_patterns.patterns_lead_a[active_scene["lead_a1"]]);
@@ -220,7 +220,7 @@ void sequencers::set_up_lead_a(composition& comp) {
     frsq_lead_a1.callback_end = [](subtractive_synth_000& voice) { voice.key_off(); };
 
     frsq_lead_a2.voices =
-            std::span<subtractive_synth_000>(comp.synth.lead_a.begin() + 3, comp.synth.lead_a.begin() + 6);
+        std::span<subtractive_synth_000>(comp.synth.lead_a.begin() + 3, comp.synth.lead_a.begin() + 6);
     frsq_lead_a2.duration_absolute = comp.beat * 8;
     frsq_lead_a2.duration_relative = 8.;
     // frsq_lead_a2.set_pattern(synth_patterns.patterns_lead_a[active_scene["lead_a2"]]);

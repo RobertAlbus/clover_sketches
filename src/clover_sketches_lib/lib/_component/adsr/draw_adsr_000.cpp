@@ -2,8 +2,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <print>
-
 #include "imgui.h"
 using namespace ImGui;
 
@@ -13,8 +11,10 @@ using namespace ImGui;
 bool draw_adsr_000(const char* id, const adsr_ranges_000& ranges, float& a, float& d, float& s, float& r) {
     ImGui::PushID(id);
 
+    const float width = 120.f + (3.f * ImGui::GetStyle().ItemSpacing.x);
+
     bool was_modified = false;
-    if (ImGui::BeginTable("##table", 4)) {
+    if (ImGui::BeginTable("##table", 4, 0, {width, 0})) {
         ImGui::TableSetupColumn("a", ImGuiTableColumnFlags_WidthFixed, 30);
         ImGui::TableSetupColumn("d", ImGuiTableColumnFlags_WidthFixed, 30);
         ImGui::TableSetupColumn("s", ImGuiTableColumnFlags_WidthFixed, 30);
