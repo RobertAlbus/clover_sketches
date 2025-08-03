@@ -3,7 +3,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
-#include <ranges>
 
 #include "clover/dsp/wave.hpp"
 #include "clover/math.hpp"
@@ -12,6 +11,8 @@
 #include "lib/audio_frame/audio_frame_math.hpp"
 #include "lib/subtractive_synth/nx_osc_034.hpp"
 #include "lib/subtractive_synth/subtractive_synth_034.hpp"
+#include "lib/subtractive_synth/subtractive_synth_036.hpp"
+#include "lib/subtractive_synth/subtractive_synth_036_update.hpp"
 
 #include "graph.hpp"
 
@@ -94,10 +95,7 @@ std::pair<float, float> signal_graph::tick() {
     // CHORD
     //
     //
-
-    auto chord_oscs = chord | std::ranges::views::transform(
-                                  [](subtractive_synth_034& voice) -> nx_osc_034& { return voice.osc; });
-    chord_props_applier.tick(chord_oscs);
+    update_subtractive_synth(patch.synth.chord_props, chord);
 
     float_s chord_signal = 0;
     for (auto& chord_voice : chord) {

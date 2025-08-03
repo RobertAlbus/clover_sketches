@@ -14,6 +14,7 @@
 
 #include "graph/graph.hpp"
 #include "lib/subtractive_synth/draw_subtractive_synth_034.hpp"
+#include "lib/subtractive_synth/draw_subtractive_synth_036.hpp"
 
 #include "controllers.hpp"
 
@@ -130,10 +131,10 @@ void controller_ride::draw() {
 void controller_chord::draw() {
     ImGui::PushID(name);
     if (ImGui::Button("get subtractive_synth patch")) {
-        ImGui::SetClipboardText(graph.chord[0].to_str().c_str());
+        ImGui::SetClipboardText(graph.chord[0].props.to_str().c_str());
     }
 
-    draw_subtractive_synth_034("##chords", graph.patch.synth.chord_props);
+    draw_subtractive_synth_036("##chords", graph.patch.synth.chord_props);
 
     spacer();
 

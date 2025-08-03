@@ -64,14 +64,13 @@ struct signal_graph {
     // --------------------------------
     // CHORD
 
-    nx_osc_props_smoother_034 chord_props_applier{patch.synth.chord_props.osc_props};
-    std::array<subtractive_synth_034, 6> chord{
-        subtractive_synth_034{fs, patch.synth.chord_props},
-        subtractive_synth_034{fs, patch.synth.chord_props},
-        subtractive_synth_034{fs, patch.synth.chord_props},
-        subtractive_synth_034{fs, patch.synth.chord_props},
-        subtractive_synth_034{fs, patch.synth.chord_props},
-        subtractive_synth_034{fs, patch.synth.chord_props}};
+    std::array<subtractive_synth_036, 6> chord{
+        subtractive_synth_036{fs, patch.synth.chord_props},
+        subtractive_synth_036{fs, patch.synth.chord_props},
+        subtractive_synth_036{fs, patch.synth.chord_props},
+        subtractive_synth_036{fs, patch.synth.chord_props},
+        subtractive_synth_036{fs, patch.synth.chord_props},
+        subtractive_synth_036{fs, patch.synth.chord_props}};
 
     peq_000 chord_preverb_peq{fs, patch.synth.chord_preverb_peq_props};
     fdn8_stereo_030 chord_verb{fs, patch.synth.chord_fdn_props};
