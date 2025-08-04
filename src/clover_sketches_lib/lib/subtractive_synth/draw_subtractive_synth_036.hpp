@@ -9,7 +9,7 @@
 #include "imgui.h"
 
 #include "lib/_atom/knob.hpp"
-#include "lib/_component/adsr/draw_adsr.hpp"
+#include "lib/_molecule/adsr/draw_adsr.hpp"
 
 #include "lib/subtractive_synth/subtractive_synth_036.hpp"
 
