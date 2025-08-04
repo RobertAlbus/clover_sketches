@@ -33,11 +33,11 @@ bool draw_subtractive_synth_036(const char* id, subtractive_synth_props_036& pro
     was_changed |= draw_adsr_000(
         "##pitch_asr", {24000, 24000, 1, 24000}, props.pitch_a, props.pitch_d, props.pitch_s, props.pitch_r);
 
-    was_changed |= resettable_knob("tuning", &props.tuning, -36, 36, 0, 0, 30);
+    was_changed |= resettable_knob("tune", &props.tuning, -36, 36, 0, 0, 30);
+    ImGui::SameLine();
+    was_changed |= resettable_knob("env##tune", &props.pitch_env_octaves, 0, 3, 0, 0, 30);
     ImGui::SameLine();
     was_changed |= resettable_knob("porta", &props.portamento_time, 0, 24000, 0, 0, 30);
-    ImGui::SameLine();
-    was_changed |= resettable_knob("pitch env", &props.pitch_env_octaves, 0, 3, 0, 0, 30);
     ImGui::EndGroup();
 
     ImGui::SameLine();
@@ -49,9 +49,7 @@ bool draw_subtractive_synth_036(const char* id, subtractive_synth_props_036& pro
 
     was_changed |= resettable_knob("cut", &props.cut, 20, 20000, 1000, 0, 30);
     ImGui::SameLine();
-    was_changed |= resettable_knob("res", &props.res, 0.1, 10, 1, 0, 30);
-    ImGui::SameLine();
-    was_changed |= resettable_knob("cut env", &props.cut_env_octaves, 0, 4, 0, 0, 30);
+    was_changed |= resettable_knob("env##cut", &props.cut_env_octaves, 0, 4, 0, 0, 30);
     ImGui::EndGroup();
 
     ImGui::SameLine();
@@ -61,7 +59,9 @@ bool draw_subtractive_synth_036(const char* id, subtractive_synth_props_036& pro
     was_changed |= draw_adsr_000(
         "##res_asr", {24000, 24000, 1, 24000}, props.res_a, props.res_d, props.res_s, props.res_r);
 
-    was_changed |= resettable_knob("res env", &props.res_env_octaves, 0, 4, 0, 0, 30);
+    was_changed |= resettable_knob("res", &props.res, 0.1, 10, 1, 0, 30);
+    ImGui::SameLine();
+    was_changed |= resettable_knob("env##res", &props.res_env_octaves, 0, 4, 0, 0, 30);
     ImGui::EndGroup();
 
     ImGui::SameLine();
