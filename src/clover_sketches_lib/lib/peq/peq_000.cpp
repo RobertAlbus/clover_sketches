@@ -20,13 +20,13 @@ std::string peq_props_000::to_str() {
         .reso = {},
         .gain = {},
         .enabled = {},
-        .type = peq_filter_type::{},
+        .type = filter_type::{},
     }})",
         freq,
         reso,
         gain,
         enabled,
-        peq_filter_str[int(type)]);
+        filter_str[int(type)]);
 }
 
 void clear_filter_state(clover::dsp::filter_2& filter) {
@@ -47,9 +47,9 @@ bool operator==(const peq_props_000& a, const peq_props_000& b) {
         nearly_equal(a.freq, b.freq) &&  //
         nearly_equal(a.reso, b.reso);
     bool has_gain =
-        (a.type == peq_filter_type::ls ||  //
-         a.type == peq_filter_type::hs ||  //
-         a.type == peq_filter_type::eq     //
+        (a.type == filter_type::ls ||  //
+         a.type == filter_type::hs ||  //
+         a.type == filter_type::eq     //
         );
 
     if (has_gain) {
@@ -173,7 +173,7 @@ void peq_000::gain(size_t i, float value) {
     calculate_coefficients(i);
 }
 
-void peq_000::type(size_t i, peq_filter_type value) {
+void peq_000::type(size_t i, filter_type value) {
     if (props[i].type == value)
         return;
     props[i].type = value;

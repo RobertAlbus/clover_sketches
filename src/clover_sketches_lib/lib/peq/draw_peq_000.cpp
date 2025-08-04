@@ -33,10 +33,10 @@ void draw_peq_000(const char* id, peq_000& peq) {
 
             ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 28);
 
-            const char* current_type_str = peq_filter_str[int(these_props.type)];
+            const char* current_type_str = filter_str[int(these_props.type)];
             ImGui::PushItemWidth(100);
             if (ImGui::BeginCombo("##type", current_type_str)) {
-                for (auto [type, str] : std::views::zip(peq_filter_types, peq_filter_str)) {
+                for (auto [type, str] : std::views::zip(filter_types, filter_str)) {
                     bool is_selected = (type == these_props.type);
                     if (ImGui::Selectable(str, is_selected, 0)) {
                         these_props.type = type;
@@ -77,8 +77,8 @@ void draw_peq_000(const char* id, peq_000& peq) {
                 peq.calculate_coefficients(i);
             }
 
-            static const std::array<peq_filter_type, 3> needs_gain = {
-                peq_filter_type::hs, peq_filter_type::ls, peq_filter_type::eq};
+            static const std::array<filter_type, 3> needs_gain = {
+                filter_type::hs, filter_type::ls, filter_type::eq};
             if (std::find(needs_gain.cbegin(), needs_gain.cend(), these_props.type) != needs_gain.cend()) {
                 ImGui::SameLine();
                 if (ImGuiKnobs::Knob(
