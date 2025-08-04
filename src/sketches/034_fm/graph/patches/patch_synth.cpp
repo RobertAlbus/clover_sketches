@@ -147,28 +147,28 @@ patch_synth_t::patch_synth_t() {
             .reso    = 1.1,
             .gain    = 0,
             .enabled = true,
-            .type    = peq_filter_type::notch,
+            .type    = filter_type::notch,
         },
         peq_props_000{
             .freq    = 20000,
             .reso    = 0.707,
             .gain    = 0,
             .enabled = false,
-            .type    = peq_filter_type::lp,
+            .type    = filter_type::lp,
         },
         peq_props_000{
             .freq    = 20000,
             .reso    = 0.707,
             .gain    = 0,
             .enabled = false,
-            .type    = peq_filter_type::lp,
+            .type    = filter_type::lp,
         },
         peq_props_000{
             .freq    = 20000,
             .reso    = 0.707,
             .gain    = 0,
             .enabled = false,
-            .type    = peq_filter_type::lp,
+            .type    = filter_type::lp,
         },
     };
 
@@ -178,7 +178,7 @@ patch_synth_t::patch_synth_t() {
             .reso    = .707,
             .gain    = 0,
             .enabled = true,
-            .type    = peq_filter_type::hp,
+            .type    = filter_type::hp,
         },
     };
 };

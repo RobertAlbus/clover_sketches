@@ -12,9 +12,9 @@
 #include "clover/dsp/filter.hpp"
 #include "clover/dsp/oscillator.hpp"
 
+#include "lib/_atom/filter_type.hpp"
 #include "lib/audio_frame/audio_frame.hpp"
 #include "lib/mixer/pan_033.hpp"
-#include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/nx_osc_000.hpp"
 
 struct subtractive_synth_props_036 {
@@ -46,11 +46,11 @@ struct subtractive_synth_props_036 {
     float amp_s = 1;
     float amp_r = 1000;
 
-    float cut                   = 1000;
-    float res                   = 1;
-    float cut_env_octaves       = 0;
-    float res_env_octaves       = 0;
-    peq_filter_type filter_type = peq_filter_type::lp;
+    float cut               = 1000;
+    float res               = 1;
+    float cut_env_octaves   = 0;
+    float res_env_octaves   = 0;
+    filter_type filter_type = filter_type::lp;
 
     float cut_a = 1000;
     float cut_d = 1000;

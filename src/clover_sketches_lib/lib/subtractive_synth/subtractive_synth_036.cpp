@@ -9,7 +9,6 @@
 #include <ranges>
 
 #include "clover/math.hpp"
-#include "lib/peq/peq.hpp"
 
 std::string subtractive_synth_props_036::to_str() {
     std::string osc_tunings_str = "{";
@@ -55,7 +54,7 @@ std::string subtractive_synth_props_036::to_str() {
     .res = {},
     .cut_env_octaves = {},
     .res_env_octaves = {},
-    .filter_type = peq_filter_type::{},
+    .filter_type = filter_type::{},
     .cut_a = {},
     .cut_d = {},
     .cut_s = {},
@@ -85,7 +84,7 @@ std::string subtractive_synth_props_036::to_str() {
         res,
         cut_env_octaves,
         res_env_octaves,
-        peq_filter_str[int(filter_type)],
+        filter_str[int(filter_type)],
         cut_a,
         cut_d,
         cut_s,

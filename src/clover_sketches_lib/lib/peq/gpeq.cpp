@@ -203,9 +203,9 @@ bool gpeq_ui_028::draw_controls() {
         ImGui::SetCursorScreenPos(control_origin);
 
         ImGui::SetCursorPosX(x_offset);
-        const char* current_type_str = peq_filter_str[int(gui_peq_prop.type)];
+        const char* current_type_str = filter_str[int(gui_peq_prop.type)];
         if (ImGui::BeginCombo("##type", current_type_str)) {
-            for (auto [type, str] : std::views::zip(peq_filter_types, peq_filter_str)) {
+            for (auto [type, str] : std::views::zip(filter_types, filter_str)) {
                 bool is_selected = (type == gui_peq_prop.type);
                 if (ImGui::Selectable(str, is_selected, 0)) {
                     gui_peq_prop.type = type;
@@ -234,16 +234,15 @@ bool gpeq_ui_028::draw_controls() {
             ImGuiKnobFlags_Logarithmic);
 
         ImGui::SetCursorPosX(x_offset);
-        bool is_ap           = gui_peq_prop.type == peq_filter_type::ap;
+        bool is_ap           = gui_peq_prop.type == filter_type::ap;
         const float reso_min = is_ap ? 0.0001 : 0.05;
         const float reso_max = is_ap ? 5 : 10;
         was_changed |= ImGuiKnobs::Knob(
             "reso", &gui_peq_prop.reso, reso_min, reso_max, 0, "%.3f", ImGuiKnobVariant_Tick, width);
 
         ImGui::SetCursorPosX(x_offset);
-        bool needs_gain = gui_peq_prop.type == peq_filter_type::eq ||
-                          gui_peq_prop.type == peq_filter_type::hs ||
-                          gui_peq_prop.type == peq_filter_type::ls;
+        bool needs_gain = gui_peq_prop.type == filter_type::eq || gui_peq_prop.type == filter_type::hs ||
+                          gui_peq_prop.type == filter_type::ls;
         if (needs_gain) {
             was_changed |= ImGuiKnobs::Knob(
                 "gain", &gui_peq_prop.gain, -24, 24, 0, "%.3f", ImGuiKnobVariant_Tick, width);
