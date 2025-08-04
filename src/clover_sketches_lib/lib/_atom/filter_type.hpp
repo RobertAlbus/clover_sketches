@@ -6,6 +6,7 @@
 
 #include "clover/dsp/filter.hpp"
 #include <array>
+#include <span>
 
 enum struct filter_type {
     lp,
@@ -72,3 +73,8 @@ constexpr filter_func_list filter_func = {
         return clover::dsp::apf(fs, f0, reso);
     },
 };
+
+filter_type draw_filter_type_select(
+    const char* id,
+    const filter_type& current_filter_type,
+    std::span<const enum filter_type> allowed_types = filter_types);

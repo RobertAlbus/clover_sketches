@@ -8,6 +8,7 @@
 
 #include "imgui.h"
 
+#include "lib/_atom/filter_type.hpp"
 #include "lib/_atom/knob.hpp"
 #include "lib/_molecule/adsr/draw_adsr.hpp"
 
@@ -50,6 +51,10 @@ bool draw_subtractive_synth_036(const char* id, subtractive_synth_props_036& pro
     was_changed |= resettable_knob("cut", &props.cut, 20, 20000, 1000, 0, 30);
     ImGui::SameLine();
     was_changed |= resettable_knob("env##cut", &props.cut_env_octaves, 0, 4, 0, 0, 30);
+
+    filter_type old_filter_type = props.filter_type;
+    props.filter_type           = draw_filter_type_select("##filter_type", props.filter_type);
+    was_changed |= old_filter_type != props.filter_type;
     ImGui::EndGroup();
 
     ImGui::SameLine();
