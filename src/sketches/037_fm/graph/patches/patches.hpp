@@ -8,6 +8,7 @@
 #include "lib/cymbal/cymbal_000.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
+#include "lib/fm/fm_037.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
@@ -46,7 +47,7 @@ struct patch_synth_t {
 
     // --------------------------------
     // BASS
-
+    fm_props_037 bass_fm_props;
     subtractive_synth_props_034 bass_carrier;
     subtractive_synth_props_034 bass_modulator;
 

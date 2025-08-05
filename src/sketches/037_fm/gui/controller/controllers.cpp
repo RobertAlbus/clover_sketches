@@ -8,6 +8,7 @@
 #include "lib/_atom/knob.hpp"
 #include "lib/cymbal/draw_cymbal_000.hpp"
 #include "lib/fdn/draw_fdn8_023.hpp"
+#include "lib/fm/draw_fm_037.hpp"
 #include "lib/kick_drum/draw_kick_drum.hpp"
 #include "lib/mixer/draw_mixer_033.hpp"
 #include "lib/peq/gpeq.hpp"
@@ -55,6 +56,10 @@ void controller_kick::draw() {
 
 void controller_bass::draw() {
     ImGui::PushID(name);
+
+    draw_fm_037("##bass_fm", graph.patch.synth.bass_fm_props);
+    ImGui::NewLine();
+
     ImGui::Text("carrier");
     if (ImGui::Button("get subtractive_synth patch##carrier")) {
         ImGui::SetClipboardText(graph.bass_carrier.to_str().c_str());

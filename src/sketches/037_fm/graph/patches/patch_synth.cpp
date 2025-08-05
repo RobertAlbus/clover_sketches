@@ -2,11 +2,14 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/fm/fm_037.hpp"
 #include "patches.hpp"
 
 patch_synth_t::patch_synth_t() {
     // --------------------------------
     // BASS
+
+    bass_fm_props = fm_props_037::init();
 
     // clang-format off
     bass_carrier = 
