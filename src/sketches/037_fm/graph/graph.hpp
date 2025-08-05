@@ -54,6 +54,7 @@ struct signal_graph {
     // --------------------------------
     // BASS
 
+    fm_037 bass_fm{fs, patch.synth.bass_fm_props};
     nx_osc_props_smoother_034 bass_carrier_props_applier{patch.synth.bass_carrier.osc_props};
     subtractive_synth_034 bass_carrier{fs, patch.synth.bass_carrier};
 

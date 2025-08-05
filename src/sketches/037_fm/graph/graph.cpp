@@ -9,8 +9,7 @@
 
 #include "lib/audio_frame/audio_frame.hpp"
 #include "lib/audio_frame/audio_frame_math.hpp"
-#include "lib/subtractive_synth/nx_osc_034.hpp"
-#include "lib/subtractive_synth/subtractive_synth_034.hpp"
+#include "lib/fm/fm_037_update.hpp"
 #include "lib/subtractive_synth/subtractive_synth_036.hpp"
 #include "lib/subtractive_synth/subtractive_synth_036_update.hpp"
 
@@ -83,13 +82,16 @@ std::pair<float, float> signal_graph::tick() {
     //
     //
 
-    bass_carrier_props_applier.tick(std::span(&bass_carrier.osc, 1));
-    bass_modulator_props_applier.tick(std::span(&bass_modulator.osc, 1));
+    // bass_carrier_props_applier.tick(std::span(&bass_carrier.osc, 1));
+    // bass_modulator_props_applier.tick(std::span(&bass_modulator.osc, 1));
 
-    float_s bass_modulator_signal            = bass_modulator.tick() * bass_mod_depth_octaves;
-    bass_carrier.osc.input_mod_pitch_octaves = bass_modulator_signal.mono().L;
-    float_s bass_carrier_signal              = bass_carrier.tick();
-    float_s bass_out                         = audio_mixer.at("bass").tick(bass_carrier_signal);
+    // float_s bass_modulator_signal            = bass_modulator.tick() * bass_mod_depth_octaves;
+    // bass_carrier.osc.input_mod_pitch_octaves = bass_modulator_signal.mono().L;
+    // float_s bass_carrier_signal              = bass_carrier.tick();
+
+    update_fm_037(patch.synth.bass_fm_props, bass_fm);
+    audio_frame bass = bass_fm.tick();
+    float_s bass_out = audio_mixer.at("bass").tick(bass);
 
     // ----------------
     // CHORD
