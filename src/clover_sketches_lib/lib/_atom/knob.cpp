@@ -6,6 +6,7 @@
 #include "imgui.h"
 
 #include "knob.hpp"
+#include "resettable.hpp"
 #include "text.hpp"
 
 bool resettable_knob(
@@ -17,9 +18,7 @@ bool resettable_knob(
 
     ImGuiKnobs::Knob("", value, min, max, 0, "%3.2f", ImGuiKnobVariant_Tick, size, 0);
 
-    if (ImGui::IsItemActive() && ImGui::IsMouseDoubleClicked(0)) {
-        *value = reset_to;
-    }
+    resettable(*value, reset_to);
     ImGui::EndGroup();
 
     ImGui::PopID();
