@@ -72,6 +72,7 @@ struct fm_037 {
     void set_cut_adsr(adsr_values values);
     void set_res_adsr(adsr_values values);
     void set_filter(filter_type new_type, float cut, float res);
+    void set_tuning(size_t i, fm_tuning_type tuning_type, float tuning);
     audio_frame tick();
     float get_tuning(fm_tuning_type tuning_type, float tuning);
 };

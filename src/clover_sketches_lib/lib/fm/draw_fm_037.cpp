@@ -33,6 +33,10 @@ void style_knob_faded_end() {
 
 bool draw_fm_037(const char* id, fm_props_037& props) {
     ImGui::PushID(id);
+    if (ImGui::Button("get fm patch")) {
+        ImGui::SetClipboardText(props.to_str().c_str());
+    }
+    ImGui::NewLine();
     bool was_changed      = false;
     const float knob_size = 30;
 

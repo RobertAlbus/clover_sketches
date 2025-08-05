@@ -1,5 +1,6 @@
 #include <array>
 #include <format>
+#include <print>
 #include <ranges>
 
 #include "clover/dsp/wave.hpp"
@@ -24,13 +25,16 @@ std::string tuning_types_to_str(std::array<fm_tuning_type, 6> tuning_types) {
         switch (tuning_type) {
             case fm_tuning_type::ratio:
                 result += "fm_tuning_type::ratio";
+                break;
             case fm_tuning_type::hz:
                 result += "fm_tuning_type::hz";
+                break;
             default:
                 result += "fm_tuning_type::ratio";
         }
         result += ", ";
     }
+    result.pop_back();
     result.pop_back();
     result += "}";
     return result;
@@ -41,13 +45,15 @@ std::string adsr_to_str(adsr_values adsr) {
 }
 
 std::string adsrs_to_str(std::array<adsr_values, 6> adsrs) {
-    std::string result = "{";
+    // literal double brace initialization
+    std::string result = "{{";
     for (auto& adsr : adsrs) {
         result += adsr_to_str(adsr);
         result += ", ";
     }
     result.pop_back();
-    result += "}";
+    result.pop_back();
+    result += "}}";
     return result;
 }
 
@@ -65,8 +71,8 @@ std::string fm_props_037::to_str() {
             .op_pans = {},
             .op_output_gains = {},
             .filter_type = filter_type::{},
-            .cut_adsr = {}
-            .res_adsr = {}
+            .cut_adsr = {},
+            .res_adsr = {},
             .cut = {},
             .cut_mod_target = {},
             .res = {},
@@ -166,15 +172,20 @@ void fm_037::key_off() {
 }
 
 void fm_037::set_amp_adsr(size_t i, adsr_values values) {
+    std::println("set_amp_adsr {}", i);
+    props.amp_adsrs[i] = values;
     amp_adsrs[i].set(values.a, values.d, values.s, values.r);
 }
 void fm_037::set_pitch_adsr(size_t i, adsr_values values) {
+    props.pitch_adsrs[i] = values;
     pitch_adsrs[i].set(values.a, values.d, values.s, values.r);
 }
 void fm_037::set_cut_adsr(adsr_values values) {
+    props.cut_adsr = values;
     adsr_cut.set(values.a, values.d, values.s, values.r);
 }
 void fm_037::set_res_adsr(adsr_values values) {
+    props.res_adsr = values;
     adsr_res.set(values.a, values.d, values.s, values.r);
 }
 void fm_037::set_filter(filter_type new_type, float cut, float res) {
@@ -182,6 +193,11 @@ void fm_037::set_filter(filter_type new_type, float cut, float res) {
     props.cut         = cut;
     props.res         = res;
     filter.m_coeffs   = filter_func[int(new_type)](fs, props.cut, props.res, 0);
+}
+void fm_037::set_tuning(size_t i, fm_tuning_type tuning_type, float tuning) {
+    props.tunings[i]      = tuning;
+    props.tuning_types[i] = tuning_type;
+    ops[i].freq(get_tuning(props.tuning_types[i], tuning));
 }
 
 audio_frame fm_037::tick() {
