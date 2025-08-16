@@ -16,11 +16,11 @@
 #include "graph.hpp"
 
 signal_graph::signal_graph(float fs) : fs{fs} {
-    snare_impulse.oscs[1].waveform = clover::dsp::wave_noise;
-    snare_impulse.oscs[2].waveform = clover::dsp::wave_noise;
-    snare_impulse.oscs[3].waveform = clover::dsp::wave_noise;
-    snare_impulse.oscs[4].waveform = clover::dsp::wave_noise;
-    snare_impulse.oscs[5].waveform = clover::dsp::wave_noise;
+    snare_body_impulse.oscs[1].waveform = clover::dsp::wave_noise;
+    snare_body_impulse.oscs[2].waveform = clover::dsp::wave_noise;
+    snare_body_impulse.oscs[3].waveform = clover::dsp::wave_noise;
+    snare_body_impulse.oscs[4].waveform = clover::dsp::wave_noise;
+    snare_body_impulse.oscs[5].waveform = clover::dsp::wave_noise;
 }
 
 std::pair<float, float> signal_graph::tick() {
@@ -50,17 +50,17 @@ std::pair<float, float> signal_graph::tick() {
     //
     //
 
-    float_s snare_impulse_signal = snare_impulse.tick();
+    float_s snare_impulse_signal = snare_body_impulse.tick();
     float_s snare_impulse_send   = audio_mixer.at("snare impulse send").tick(snare_impulse_signal);
 
-    float_s snare_body = snare_resonator.tick(snare_impulse_send.to_pair());
+    float_s snare_body = snare_body_resonator.tick(snare_impulse_send.to_pair());
 
     // use post-drive snare body for mixing
-    float_s snare_body_drive = snare_driver.tick(snare_body);
+    float_s snare_body_drive = snare_body_driver.tick(snare_body);
     snare_body_drive         = audio_mixer.at("snare body").tick(snare_body_drive);
 
     float_s snare = snare_body_drive;
-    snare         = snare_eq.tick(snare.to_pair());
+    snare         = snare_body_eq.tick(snare.to_pair());
     snare         = audio_mixer.at("snare sum").tick(snare);
 
     // ----------------

@@ -65,27 +65,27 @@ void controller_bass::draw() {
 void controller_snare::draw() {
     ImGui::PushID(name);
 
-    draw_cymbal_000("snare_impulse", graph.snare_impulse);
+    draw_cymbal_000("snare_impulse", graph.snare_body_impulse);
 
     spacer();
 
-    draw_fdn8_023_v2("##snare_body", graph.snare_resonator);
+    draw_fdn8_023_v2("##snare_body", graph.snare_body_resonator);
     ImGui::PushID("resonator");
-    ImGuiKnobs::Knob("spread", &graph.snare_resonator.props.stereo_spread_taps_octaves, 0, 1);
+    ImGuiKnobs::Knob("spread", &graph.snare_body_resonator.props.stereo_spread_taps_octaves, 0, 1);
     ImGui::PopID();
 
     spacer();
 
     if (ImGui::Button("driver preset")) {
-        ImGui::SetClipboardText(graph.snare_driver.props.to_str().c_str());
+        ImGui::SetClipboardText(graph.snare_body_driver.props.to_str().c_str());
     }
-    ImGuiKnobs::Knob("drive_input", &graph.snare_driver.props.drive_input, 0, 8);
+    ImGuiKnobs::Knob("drive_input", &graph.snare_body_driver.props.drive_input, 0, 8);
     ImGui::SameLine();
-    ImGuiKnobs::Knob("drive_clip", &graph.snare_driver.props.drive_clip, 0, 8);
+    ImGuiKnobs::Knob("drive_clip", &graph.snare_body_driver.props.drive_clip, 0, 8);
     ImGui::SameLine();
-    ImGuiKnobs::Knob("clip_thresh", &graph.snare_driver.props.clip_thresh, 0, 2);
+    ImGuiKnobs::Knob("clip_thresh", &graph.snare_body_driver.props.clip_thresh, 0, 2);
     ImGui::SameLine();
-    ImGuiKnobs::Knob("trim", &graph.snare_driver.props.trim, 0, 8);
+    ImGuiKnobs::Knob("trim", &graph.snare_body_driver.props.trim, 0, 8);
     ImGui::SameLine();
 
     ImGui::PopID();

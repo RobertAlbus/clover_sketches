@@ -28,10 +28,10 @@ struct patch_drums_t {
     // --------------------------------
     // SNARE
 
-    cymbal_props_000 snare_impulse_props;
-    fdn8_stereo_030_props snare_resonator_props;
-    driver::properties snare_driver_props;
-    std::array<peq_props_000, peq_000::SIZE> snare_peq_props;
+    cymbal_props_000 snare_body_impulse_props;
+    fdn8_stereo_030_props snare_body_resonator_props;
+    driver::properties snare_body_driver_props;
+    std::array<peq_props_000, peq_000::SIZE> snare_body_peq_props;
 
     // --------------------------------
     // RIDE

@@ -37,10 +37,10 @@ struct signal_graph {
     // --------------------------------
     // SNARE
 
-    cymbal_024 snare_impulse{fs, patch.drums.snare_impulse_props};
-    fdn8_stereo_030 snare_resonator{fs, patch.drums.snare_resonator_props};
-    driver snare_driver{patch.drums.snare_driver_props};
-    peq_000 snare_eq{fs, patch.drums.snare_peq_props};
+    cymbal_024 snare_body_impulse{fs, patch.drums.snare_body_impulse_props};
+    fdn8_stereo_030 snare_body_resonator{fs, patch.drums.snare_body_resonator_props};
+    driver snare_body_driver{patch.drums.snare_body_driver_props};
+    peq_000 snare_body_eq{fs, patch.drums.snare_body_peq_props};
 
     // --------------------------------
     // RIDE

@@ -29,7 +29,7 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.bars_to_samples(grid.duration_bars),
         "frsq_kick"));
     frsq_pairs.emplace_back(create_sequencers(
-        std::span<cymbal_024>(&graph.snare_impulse, 1),
+        std::span<cymbal_024>(&graph.snare_body_impulse, 1),
         [](cymbal_024& voice, const event& data) {
             for (auto& osc : voice.oscs)
                 osc.phase(0);

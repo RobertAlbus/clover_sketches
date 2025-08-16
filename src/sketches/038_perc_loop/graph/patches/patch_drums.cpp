@@ -107,7 +107,7 @@ patch_drums_t::patch_drums_t() {
 
     // --------------------------------
     // SNARE
-    snare_impulse_props = {
+    snare_body_impulse_props = {
         .freqs            = {150, 404, 1533, 1751, 13456, 17500},
         .hpf_f0           = 20,
         .hpf_fmod_octaves = 0,
@@ -125,7 +125,7 @@ patch_drums_t::patch_drums_t() {
     };
 
     // original snare props
-    snare_resonator_props = {
+    snare_body_resonator_props = {
         .stereo_spread_taps_octaves = 0.208,
         .taps    = {170.72855, 99.860596, 76.68675, 27.412, 24.742, 65.960915, 65.960915, 65.960915},
         .fb_gain = 0.968,
@@ -147,14 +147,14 @@ patch_drums_t::patch_drums_t() {
     //         .hpf_res = 0.707,
     // };
 
-    snare_driver_props = {
+    snare_body_driver_props = {
         .drive_input = 1.264,
         .drive_clip  = 4.712,
         .clip_thresh = 0.96,
         .trim        = 4.112,
     };
 
-    snare_peq_props = {
+    snare_body_peq_props = {
         peq_props_000{
             .freq    = 56,
             .reso    = 0.707,

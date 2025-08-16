@@ -45,7 +45,7 @@ struct controller_bass : public tabbed_controller {
 struct controller_snare : public tabbed_controller {
     using tabbed_controller::tabbed_controller;
 
-    gpeq_ui_028 gpeq{"##snare_eq", graph.snare_eq};
+    gpeq_ui_028 gpeq{"##snare_eq", graph.snare_body_eq};
 
     void draw() override;
 };
