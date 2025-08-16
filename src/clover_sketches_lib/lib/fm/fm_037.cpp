@@ -236,6 +236,7 @@ audio_frame fm_037::tick() {
         audio_frame op_signal_stereo = op_pan.process(op_signal);
         output += (op_signal_stereo * op_gain);
     }
+    output *= 1.f / std::sqrt(6.f);
 
     // filter
     float cut_env   = adsr_cut.tick();
