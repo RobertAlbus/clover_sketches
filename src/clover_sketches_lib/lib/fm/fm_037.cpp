@@ -1,6 +1,5 @@
 #include <array>
 #include <format>
-#include <print>
 #include <ranges>
 
 #include "clover/dsp/wave.hpp"
@@ -172,7 +171,6 @@ void fm_037::key_off() {
 }
 
 void fm_037::set_amp_adsr(size_t i, adsr_values values) {
-    std::println("set_amp_adsr {}", i);
     props.amp_adsrs[i] = values;
     amp_adsrs[i].set(values.a, values.d, values.s, values.r);
 }
