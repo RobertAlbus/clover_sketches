@@ -16,11 +16,11 @@
 std::string peq_props_000::to_str() {
     return std::format(
         R"(peq_props_000{{
-        .freq = {},
-        .reso = {},
-        .gain = {},
+        .freq    = {},
+        .reso    = {},
+        .gain    = {},
         .enabled = {},
-        .type = filter_type::{},
+        .type    = filter_type::{},
     }})",
         freq,
         reso,
