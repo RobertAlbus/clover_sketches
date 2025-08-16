@@ -10,8 +10,6 @@
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
-#include "lib/subtractive_synth/nx_osc_props_smoother_034.hpp"
-#include "lib/subtractive_synth/subtractive_synth_034.hpp"
 
 #include "graph/instrument/driver.hpp"
 
@@ -54,12 +52,6 @@ struct signal_graph {
     // BASS
 
     fm_037 bass_fm{fs, patch.synth.bass_fm_props};
-    nx_osc_props_smoother_034 bass_carrier_props_applier{patch.synth.bass_carrier.osc_props};
-    subtractive_synth_034 bass_carrier{fs, patch.synth.bass_carrier};
-
-    nx_osc_props_smoother_034 bass_modulator_props_applier{patch.synth.bass_modulator.osc_props};
-    subtractive_synth_034 bass_modulator{fs, patch.synth.bass_modulator};
-    float bass_mod_depth_octaves = 0.32f;
 
     // --------------------------------
     // CHORD

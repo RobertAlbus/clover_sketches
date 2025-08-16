@@ -12,7 +12,6 @@
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
-#include "lib/subtractive_synth/subtractive_synth_034.hpp"
 #include "lib/subtractive_synth/subtractive_synth_036.hpp"
 
 struct patch_drums_t {
@@ -47,8 +46,6 @@ struct patch_synth_t {
     // --------------------------------
     // BASS
     fm_props_037 bass_fm_props;
-    subtractive_synth_props_034 bass_carrier;
-    subtractive_synth_props_034 bass_modulator;
 
     // --------------------------------
     // CHORD

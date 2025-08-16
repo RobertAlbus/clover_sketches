@@ -5,7 +5,6 @@
 #include "imgui-knobs.h"
 #include "imgui.h"
 
-#include "lib/_atom/knob.hpp"
 #include "lib/cymbal/draw_cymbal_000.hpp"
 #include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/fm/draw_fm_037.hpp"
@@ -14,7 +13,6 @@
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
-#include "lib/subtractive_synth/draw_subtractive_synth_034.hpp"
 #include "lib/subtractive_synth/draw_subtractive_synth_036.hpp"
 
 #include "controllers.hpp"
@@ -58,23 +56,6 @@ void controller_bass::draw() {
     ImGui::PushID(name);
 
     draw_fm_037("##bass_fm", graph.patch.synth.bass_fm_props);
-    ImGui::NewLine();
-
-    ImGui::Text("carrier");
-    if (ImGui::Button("get subtractive_synth patch##carrier")) {
-        ImGui::SetClipboardText(graph.bass_carrier.to_str().c_str());
-    }
-
-    draw_subtractive_synth_034("##bass carrier", graph.patch.synth.bass_carrier);
-
-    ImGui::Text("modulator");
-    if (ImGui::Button("get subtractive_synth patch##modulator")) {
-        ImGui::SetClipboardText(graph.bass_modulator.to_str().c_str());
-    }
-    draw_subtractive_synth_034("##bass modulator", graph.patch.synth.bass_modulator);
-    ImGui::NewLine();
-
-    resettable_knob("mod depth semitones", &graph.bass_mod_depth_octaves, 0, 3, 0);
 
     spacer();
 
