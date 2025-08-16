@@ -33,6 +33,9 @@ struct patch_drums_t {
     driver::properties snare_body_driver_props;
     std::array<peq_props_000, peq_000::SIZE> snare_body_peq_props;
 
+    subtractive_synth_props_036 snare_noise_props;
+    std::array<peq_props_000, peq_000::SIZE> snare_noise_peq_props;
+
     // --------------------------------
     // RIDE
 

@@ -35,12 +35,12 @@ patch_drums_t::patch_drums_t() {
     };
 
     kick_fdn_props = {
-        .taps    = {116.45469, 120.10345, 120.10345, 120.10345, 125.153244, 140.2017, 140.2017, 140.2017},
-        .fb_gain = 0.967,
-        .lpf_cut = 5244.7383,
-        .lpf_res = 0.707,
-        .hpf_cut = 29.610987,
-        .hpf_res = 0.707,
+        .taps     = {62.12766, 223.88464, 240.89304, 248.57938, 452.64426, 628.02136, 79.04517, 62.749657}, 
+        .fb_gain  = 0.96, 
+        .lpf_cut  = 2252.4702, 
+        .lpf_res  = 0.707, 
+        .hpf_cut  = 40.044914, 
+        .hpf_res  = 0.707, 
     };
 
     kick_preverb_peq_props = {
@@ -126,12 +126,12 @@ patch_drums_t::patch_drums_t() {
 
     // original snare props
     snare_body_resonator_props = {
-        .stereo_spread_taps_octaves = 0.208,
-        .taps    = {170.72855, 99.860596, 76.68675, 27.412, 24.742, 65.960915, 65.960915, 65.960915},
-        .fb_gain = 0.968,
-        .lpf_cut = 573.90283,
+        .stereo_spread_taps_octaves = 0.068,
+        .taps    = {45.860977, 71.467995, 73.65708, 53.5502, 10934.775, 123.870575, 126.44967, 126.44967},
+        .fb_gain = 0.978,
+        .lpf_cut = 1012.182,
         .lpf_res = 0.707,
-        .hpf_cut = 66.02632,
+        .hpf_cut = 67.91454,
         .hpf_res = 0.707,
     };
 
@@ -156,7 +156,7 @@ patch_drums_t::patch_drums_t() {
 
     snare_body_peq_props = {
         peq_props_000{
-            .freq    = 56,
+            .freq    = 118,
             .reso    = 0.707,
             .gain    = 0,
             .enabled = true,
@@ -165,22 +165,90 @@ patch_drums_t::patch_drums_t() {
         peq_props_000{
             .freq    = 65,
             .reso    = 6.656,
-            .gain    = 23.616,
+            .gain    = 24,
+            .enabled = false,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 653,
+            .reso    = 2.02,
+            .gain    = -4.8,
             .enabled = true,
             .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 200,
-            .reso    = 6,
-            .gain    = -7.872,
-            .enabled = true,
-            .type    = filter_type::eq,
-        },
-        peq_props_000{
-            .freq    = 10,
+            .freq    = 2182,
             .reso    = 0.707,
             .gain    = 0,
-            .enabled = false,
+            .enabled = true,
+            .type    = filter_type::lp,
+        },
+    };
+
+    snare_noise_props = {
+        .tuning            = 0,
+        .portamento_time   = 0,
+        .pitch_env_octaves = 3,
+        .retrigger         = true,
+        .osc_tunings       = {0.2, 7.2, -27, 0, 0, 0},
+        .osc_pans          = {-0.7, 0.45, 0, 0, 0, 0},
+        .osc_gains         = {1, 1, 1, 0, 0, 0},
+        .waveforms =
+            {waveform_000::noise,
+             waveform_000::noise,
+             waveform_000::sine,
+             waveform_000::sine,
+             waveform_000::sine,
+             waveform_000::sine},
+        .pitch_a         = 10,
+        .pitch_d         = 2000,
+        .pitch_s         = 0,
+        .pitch_r         = 1000,
+        .amp_a           = 10,
+        .amp_d           = 2222,
+        .amp_s           = 0,
+        .amp_r           = 1000,
+        .cut             = 100,
+        .res             = 0.6,
+        .cut_env_octaves = 10,
+        .res_env_octaves = 0,
+        .filter_type     = filter_type::lp,
+        .cut_a           = 10,
+        .cut_d           = 3333,
+        .cut_s           = 0,
+        .cut_r           = 1000,
+        .res_a           = 10,
+        .res_d           = 1000,
+        .res_s           = 0,
+        .res_r           = 100};
+
+    snare_noise_peq_props = {
+        peq_props_000{
+            .freq    = 42,
+            .reso    = 0.9,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 62,
+            .reso    = 2.418,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 441,
+            .reso    = 0.985,
+            .gain    = 7.104,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 1368,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
             .type    = filter_type::lp,
         },
     };
