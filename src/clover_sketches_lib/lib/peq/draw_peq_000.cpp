@@ -8,6 +8,7 @@
 #include "imgui-knobs.h"
 #include "imgui.h"
 
+#include "lib/_atom/filter_type.hpp"
 #include "peq.hpp"
 
 void draw_peq_000(const char* id, peq_000& peq) {
@@ -19,10 +20,6 @@ void draw_peq_000(const char* id, peq_000& peq) {
     for (auto [i, these_props] : std::views::zip(std::views::iota(0u, peq_000::SIZE), peq.props)) {
         ImGui::PushID(&these_props);
 
-        // it would be good to use one table for all segments.
-        // could also configure this component with a horizontal/vertical flag.
-        // this flag would set the number of columns to either 2 or 2*peq::SIZE
-
         if (ImGui::BeginTable("##table", 2, 0, ImVec2(250, 100))) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
@@ -33,22 +30,11 @@ void draw_peq_000(const char* id, peq_000& peq) {
 
             ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 28);
 
-            const char* current_type_str = filter_str[int(these_props.type)];
-            ImGui::PushItemWidth(100);
-            if (ImGui::BeginCombo("##type", current_type_str)) {
-                for (auto [type, str] : std::views::zip(filter_types, filter_str)) {
-                    bool is_selected = (type == these_props.type);
-                    if (ImGui::Selectable(str, is_selected, 0)) {
-                        these_props.type = type;
-                        peq.calculate_coefficients(i);
-                    }
-                    if (is_selected) {
-                        ImGui::SetItemDefaultFocus();
-                    }
-                }
-                ImGui::EndCombo();
+            filter_type new_type = draw_filter_type_select("##type", these_props.type);
+            if (new_type != these_props.type) {
+                these_props.type = new_type;
+                peq.calculate_coefficients(i);
             }
-            ImGui::PopItemWidth();
 
             ImGui::TableNextColumn();
             if (ImGuiKnobs::Knob(

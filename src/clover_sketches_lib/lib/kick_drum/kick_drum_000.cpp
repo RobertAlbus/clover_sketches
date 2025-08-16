@@ -3,7 +3,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
-#include <print>
+#include <format>
 
 #include "clover/dsp/env_adsr.hpp"
 #include "clover/dsp/filter.hpp"
@@ -17,28 +17,27 @@ using namespace dsp;
 
 std::string kick_props_000::to_str() {
     return std::format(
-        "\
-{{     \n\
-            .trim              = {}, \n\
-            .drive             = {}, \n\
-            .amp_a             = {}, \n\
-            .amp_d             = {}, \n\
-            .amp_s             = {}, \n\
-            .amp_r             = {}, \n\
-            .cut_a             = {}, \n\
-            .cut_d             = {}, \n\
-            .cut_s             = {}, \n\
-            .cut_r             = {}, \n\
-            .filt_q            = {}, \n\
-            .pitch_a           = {}, \n\
-            .pitch_d           = {}, \n\
-            .pitch_s           = {}, \n\
-            .pitch_r           = {}, \n\
-            .pitch_fundamental = {}, \n\
-            .cut_fundamental   = {}, \n\
-            .pitch_range       = {}, \n\
-            .cut_range         = {}, \n\
-        }};",
+        R"({{
+            .trim              = {},
+            .drive             = {},
+            .amp_a             = {},
+            .amp_d             = {},
+            .amp_s             = {},
+            .amp_r             = {},
+            .cut_a             = {},
+            .cut_d             = {},
+            .cut_s             = {},
+            .cut_r             = {},
+            .filt_q            = {},
+            .pitch_a           = {},
+            .pitch_d           = {},
+            .pitch_s           = {},
+            .pitch_r           = {},
+            .pitch_fundamental = {},
+            .cut_fundamental   = {},
+            .pitch_range       = {},
+            .cut_range         = {},
+        }};)",
         trim,
         drive,
         amp_a,

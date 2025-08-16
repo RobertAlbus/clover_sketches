@@ -9,7 +9,7 @@
 #include "imgui.h"
 
 #include "lib/_atom/drag_slider_025.hpp"
-#include "lib/_component/adsr/draw_adsr.hpp"
+#include "lib/_molecule/adsr/draw_adsr.hpp"
 #include "lib/cymbal/cymbal_000.hpp"
 
 void draw_cymbal_000(const char* id, cymbal_000& cymbal) {
