@@ -58,8 +58,7 @@ std::string adsrs_to_str(std::array<adsr_values, 6> adsrs) {
 
 std::string fm_props_037::to_str() {
     return std::format(
-        R"(
-        {{
+        R"({{
             .tunings = {},
             .tuning_types = {},
             .mod_matrix = {},
