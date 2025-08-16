@@ -211,22 +211,16 @@ audio_frame fm_037::tick() {
     for (auto op_index : std::views::iota(0, 6)) {
         auto mod_matrix_row = props.mod_matrix | std::views::drop(op_index * 6) | std::views::take(6);
 
-        float fm_amount               = 0;
-        constexpr float fb_avoid_zone = 0.0001;
+        float fm_amount = 0;
         for (auto [mod_amount, op_signal, i] :
              std::views::zip(mod_matrix_row, op_signals, std::views::iota(0, 6))) {
-            float mod = mod_amount;
-            if (i > op_index) {
-                if (std::abs(mod_amount) < fb_avoid_zone) {
-                    mod = fb_avoid_zone * (float)std::signbit(mod_amount);
-                }
-            }
-            fm_amount += op_signal * mod * props.matrix_octave_range;
+            float octaves = props.matrix_octave_range;
+            fm_amount += op_signal * mod_amount * octaves;
         }
+        fm_amount *= 1.f / 6.f;
 
-        auto pitch_adsr               = pitch_adsrs[op_index];
         auto pitch_adsr_depth_octaves = props.pitch_env_mod_depths[op_index];
-        float pitch_mod_octaves       = (pitch_adsr.tick() * pitch_adsr_depth_octaves) + fm_amount;
+        float pitch_mod_octaves       = (pitch_adsrs[op_index].tick() * pitch_adsr_depth_octaves) + fm_amount;
 
         float op_base_freq = 0;
         auto op_tuning     = props.tunings[op_index];
@@ -234,7 +228,8 @@ audio_frame fm_037::tick() {
         op_base_freq       = get_tuning(tuning_type, op_tuning);
         float op_freq      = clover::frequency_by_octave_difference(op_base_freq, pitch_mod_octaves);
 
-        op_freq = std::clamp(op_base_freq, 0.f, fs * 0.499f);
+        if (op_freq < 0)
+            op_freq *= -1;
         ops[op_index].freq(op_freq);
     }
 
