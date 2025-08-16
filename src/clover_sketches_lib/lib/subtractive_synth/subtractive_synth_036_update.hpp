@@ -127,6 +127,8 @@ void update_subtractive_synth(const subtractive_synth_props_036& target, std::ra
 }
 
 void update_subtractive_synth(const subtractive_synth_props_036& target, subtractive_synth_036& voice) {
-    auto single_view = std::views::single(voice);
+    auto single_view = std::views::single(std::ref(voice)) |
+                       std::views::transform([](auto& w) -> subtractive_synth_036& { return w.get(); });
+
     update_subtractive_synth(target, single_view);
 }
