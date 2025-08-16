@@ -3,6 +3,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "patterns.hpp"
+// #include "sequence/event.hpp"
 
 std::vector<pattern_t<event>> patterns::create_pattern_kick() {
     return {
@@ -24,10 +25,10 @@ std::vector<pattern_t<event>> patterns::create_pattern_kick() {
              {
                  //
                  {.start_time = 0, .duration = 0.5},
-                 {.start_time = 3, .duration = 0.5},
+                 //  {.start_time = 3, .duration = 0.5},
                  {.start_time = 6, .duration = 0.5},
                  //  {.start_time = 10, .duration = 0.5},
-                 {.start_time = 12, .duration = 0.5},
+                 //  {.start_time = 12, .duration = 0.5},
                  {.start_time = 14, .duration = 0.5},
              }},
     };

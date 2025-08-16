@@ -42,7 +42,6 @@ struct signal_graph {
     cymbal_024 snare_impulse{fs, patch.drums.snare_impulse_props};
     fdn8_stereo_030 snare_resonator{fs, patch.drums.snare_resonator_props};
     driver snare_driver{patch.drums.snare_driver_props};
-    fdn8_stereo_030 snare_verb{fs, patch.drums.snare_verb_props};
     peq_000 snare_eq{fs, patch.drums.snare_peq_props};
 
     // --------------------------------
@@ -74,8 +73,6 @@ struct signal_graph {
         subtractive_synth_036{fs, patch.synth.chord_props}};
 
     peq_000 chord_preverb_peq{fs, patch.synth.chord_preverb_peq_props};
-    fdn8_stereo_030 chord_verb{fs, patch.synth.chord_fdn_props};
-    peq_000 chord_peq{fs, patch.synth.chord_peq_props};
 
     peq_000 main_eq{fs, patch.mix.main_peq_props};
 };

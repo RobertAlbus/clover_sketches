@@ -31,7 +31,6 @@ struct patch_drums_t {
 
     cymbal_props_000 snare_impulse_props;
     fdn8_stereo_030_props snare_resonator_props;
-    fdn8_stereo_030_props snare_verb_props;
     driver::properties snare_driver_props;
     std::array<peq_props_000, peq_000::SIZE> snare_peq_props;
 
@@ -55,10 +54,7 @@ struct patch_synth_t {
     // CHORD
 
     subtractive_synth_props_036 chord_props;
-    fdn8_stereo_030_props chord_fdn_props;
-
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props;
-    std::array<peq_props_000, peq_000::SIZE> chord_peq_props;
 };
 
 struct patch_mix_t {

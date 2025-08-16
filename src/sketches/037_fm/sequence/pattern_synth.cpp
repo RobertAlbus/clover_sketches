@@ -71,7 +71,8 @@ std::vector<pattern_t<event_midi>> patterns::create_pattern_bass() {
          .pattern =
              {
                  // clang-format off
-                 {.start_time = 2,  .duration = 0.5,   .note = note::G4 - 24},
+                 {.start_time = 0.5, .duration = 1, .note = note::G4 - 24},
+                //  {.start_time = 3,   .duration = 0.95, .note = note::G4 - 24},
                  // clang-format on
              }},
     };

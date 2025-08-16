@@ -61,6 +61,5 @@ struct controller_chord : public tabbed_controller {
     using tabbed_controller::tabbed_controller;
 
     gpeq_ui_028 gpeq_send{"##chord_preverb_peq", graph.chord_preverb_peq};
-    gpeq_ui_028 gpeq_post{"##chord_peq", graph.chord_peq};
     void draw() override;
 };

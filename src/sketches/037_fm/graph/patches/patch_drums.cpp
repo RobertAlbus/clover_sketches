@@ -13,8 +13,8 @@ patch_drums_t::patch_drums_t() {
     // KICK
 
     kick_drum_props = {
-        .trim              = 0.976,
-        .drive             = 2.024,
+        .trim              = 1,
+        .drive             = 3.571,
         .amp_a             = 30,
         .amp_d             = 6191.322,
         .amp_s             = 0.08333331,
@@ -31,15 +31,15 @@ patch_drums_t::patch_drums_t() {
         .pitch_fundamental = midi_to_frequency(note::F2) / 2,
         .cut_fundamental   = 100,
         .pitch_range       = 1,
-        .cut_range         = 3,
+        .cut_range         = 5,
     };
 
     kick_fdn_props = {
-        .taps    = {56.145615, 54.151955, 54.808056, 275.67316, 521.6212, 558.33276, 863.30475, 1247.6532},
-        .fb_gain = 0.984,
-        .lpf_cut = 432.3778,
+        .taps    = {116.45469, 120.10345, 120.10345, 120.10345, 125.153244, 140.2017, 140.2017, 140.2017},
+        .fb_gain = 0.967,
+        .lpf_cut = 5244.7383,
         .lpf_res = 0.707,
-        .hpf_cut = 60.31463,
+        .hpf_cut = 29.610987,
         .hpf_res = 0.707,
     };
 
@@ -48,14 +48,14 @@ patch_drums_t::patch_drums_t() {
             .freq    = 24,
             .reso    = 1.543,
             .gain    = 0,
-            .enabled = true,
+            .enabled = false,
             .type    = filter_type::hp,
         },
         peq_props_000{
             .freq    = 38,
             .reso    = 0.687,
             .gain    = 3.648,
-            .enabled = true,
+            .enabled = false,
             .type    = filter_type::eq,
         },
         peq_props_000{
@@ -66,17 +66,17 @@ patch_drums_t::patch_drums_t() {
             .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 142,
-            .reso    = 6.597,
-            .gain    = -9.528,
-            .enabled = true,
+            .freq    = 449,
+            .reso    = 2,
+            .gain    = 11.712,
+            .enabled = false,
             .type    = filter_type::eq,
         },
     };
 
     kick_peq_props = {
         peq_props_000{
-            .freq    = 20,
+            .freq    = 16,
             .reso    = 0.707,
             .gain    = 0,
             .enabled = true,
@@ -90,17 +90,17 @@ patch_drums_t::patch_drums_t() {
             .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 114,
-            .reso    = 2.14,
-            .gain    = -7.872,
+            .freq    = 3273,
+            .reso    = 0.169,
+            .gain    = 2.112,
             .enabled = true,
             .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 10,
-            .reso    = 0.707,
+            .freq    = 3274,
+            .reso    = 3.831,
             .gain    = 0,
-            .enabled = false,
+            .enabled = true,
             .type    = filter_type::lp,
         },
     };
@@ -127,9 +127,9 @@ patch_drums_t::patch_drums_t() {
     // original snare props
     snare_resonator_props = {
         .stereo_spread_taps_octaves = 0.208,
-        .taps    = {640.97437, 278.1, 117.17493, 27.412, 24.742, 115.72901, 115.72901, 118.63938},
+        .taps    = {170.72855, 99.860596, 76.68675, 27.412, 24.742, 65.960915, 65.960915, 65.960915},
         .fb_gain = 0.968,
-        .lpf_cut = 600.4853,
+        .lpf_cut = 573.90283,
         .lpf_res = 0.707,
         .hpf_cut = 66.02632,
         .hpf_res = 0.707,
@@ -152,16 +152,6 @@ patch_drums_t::patch_drums_t() {
         .drive_clip  = 4.712,
         .clip_thresh = 0.96,
         .trim        = 4.112,
-    };
-
-    snare_verb_props = {
-        .stereo_spread_taps_octaves = 0.1,
-        .taps    = {950.08716, 2529.9067, 1961.3395, 1749.114, 1445.2706, 1194.2994, 158.02867, 143.00116},
-        .fb_gain = 0.899,
-        .lpf_cut = 13254.815,
-        .lpf_res = 0.707,
-        .hpf_cut = 33.195488,
-        .hpf_res = 0.707,
     };
 
     snare_peq_props = {

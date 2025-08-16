@@ -107,11 +107,6 @@ void controller_snare::draw() {
     ImGuiKnobs::Knob("trim", &graph.snare_driver.props.trim, 0, 8);
     ImGui::SameLine();
 
-    spacer();
-
-    draw_fdn8_023_v2("##snare_verb", graph.snare_verb);
-    ImGui::PushID("verb");
-    ImGuiKnobs::Knob("spread", &graph.snare_verb.props.stereo_spread_taps_octaves, 0, 1);
     ImGui::PopID();
 
     spacer();
@@ -146,13 +141,6 @@ void controller_chord::draw() {
     gpeq_send.draw();
 
     spacer();
-
-    draw_fdn8_023_v2("fdn", graph.chord_verb);
-    ImGuiKnobs::Knob("stereo spread", &graph.chord_verb.props.stereo_spread_taps_octaves, -1, 1);
-
-    spacer();
-
-    gpeq_post.draw();
 
     ImGui::PopID();
 }
