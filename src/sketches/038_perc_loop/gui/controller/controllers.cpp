@@ -93,6 +93,13 @@ void controller_snare::draw() {
 
     gpeq.draw();
 
+    spacer();
+    spacer();
+    ImGui::Text("snare noise");
+    draw_subtractive_synth_036("##snare_noise_synth", graph.patch.drums.snare_noise_props);
+    spacer();
+    gpeq_noise.draw();
+
     ImGui::PopID();
 }
 
@@ -110,7 +117,6 @@ void controller_ride::draw() {
 
 void controller_chord::draw() {
     ImGui::PushID(name);
-
     draw_subtractive_synth_036("##chords", graph.patch.synth.chord_props);
 
     spacer();

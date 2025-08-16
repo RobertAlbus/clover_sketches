@@ -9,6 +9,7 @@
 #include "lib/sq/bar_grid_029.hpp"
 
 #include "graph/graph.hpp"
+#include "sequence/notes.h"
 #include "sequence/sequencers.hpp"
 #include "sequence/set_up_sequencing.hpp"
 
@@ -43,6 +44,19 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.duration_bars,
         grid.bars_to_samples(grid.duration_bars),
         "frsq_snare"));
+
+    frsq_pairs.emplace_back(create_sequencers(
+        std::span<subtractive_synth_036>(&graph.snare_noise, 1),
+        [](subtractive_synth_036& voice, const event& data) { voice.key_on(note::C4); },
+        [](subtractive_synth_036& voice) { voice.key_off(); },
+        log,
+        grid,
+        patterns.snare,
+        arrangement.snare,
+        grid.duration_bars,
+        grid.bars_to_samples(grid.duration_bars),
+        "frsq_snare_noise"));
+
     frsq_pairs.emplace_back(create_sequencers(
         std::span<cymbal_024>(&graph.ride, 1),
         [](cymbal_024& voice, const event& data) { voice.key_on(); },

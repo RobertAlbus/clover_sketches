@@ -50,17 +50,22 @@ std::pair<float, float> signal_graph::tick() {
     //
     //
 
-    float_s snare_impulse_signal = snare_body_impulse.tick();
-    float_s snare_impulse_send   = audio_mixer.at("snare impulse send").tick(snare_impulse_signal);
+    float_s snare_body_impulse_signal = snare_body_impulse.tick();
+    float_s snare_body_impulse_send   = audio_mixer.at("snare impulse send").tick(snare_body_impulse_signal);
 
-    float_s snare_body = snare_body_resonator.tick(snare_impulse_send.to_pair());
+    float_s snare_body = snare_body_resonator.tick(snare_body_impulse_send.to_pair());
 
     // use post-drive snare body for mixing
     float_s snare_body_drive = snare_body_driver.tick(snare_body);
     snare_body_drive         = audio_mixer.at("snare body").tick(snare_body_drive);
+    snare_body_drive         = snare_body_eq.tick(snare_body_drive.to_pair());
 
-    float_s snare = snare_body_drive;
-    snare         = snare_body_eq.tick(snare.to_pair());
+    update_subtractive_synth(patch.drums.snare_noise_props, snare_noise);
+    float_s snare_noise_signal = snare_noise.tick();
+    snare_noise_signal         = snare_noise_eq.tick(snare_noise_signal.to_pair());
+    snare_noise_signal         = audio_mixer.at("snare noise").tick(snare_noise_signal);
+
+    float_s snare = snare_body_drive + snare_noise_signal;
     snare         = audio_mixer.at("snare sum").tick(snare);
 
     // ----------------

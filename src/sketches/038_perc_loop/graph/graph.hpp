@@ -13,6 +13,7 @@
 
 #include "graph/instrument/driver.hpp"
 
+#include "lib/subtractive_synth/subtractive_synth_036.hpp"
 #include "patches/patches.hpp"
 
 struct signal_graph {
@@ -41,6 +42,9 @@ struct signal_graph {
     fdn8_stereo_030 snare_body_resonator{fs, patch.drums.snare_body_resonator_props};
     driver snare_body_driver{patch.drums.snare_body_driver_props};
     peq_000 snare_body_eq{fs, patch.drums.snare_body_peq_props};
+
+    subtractive_synth_036 snare_noise{fs, patch.drums.snare_noise_props};
+    peq_000 snare_noise_eq{fs, patch.drums.snare_noise_peq_props};
 
     // --------------------------------
     // RIDE
