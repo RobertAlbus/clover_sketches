@@ -15,6 +15,9 @@
 #include "lib/subtractive_synth/subtractive_synth_036.hpp"
 
 bool draw_subtractive_synth_036(const char* id, subtractive_synth_props_036& props) {
+    if (ImGui::Button("get synth patch")) {
+        ImGui::SetClipboardText(props.to_str().c_str());
+    }
     ImGui::PushID(id);
     bool was_changed = false;
 
