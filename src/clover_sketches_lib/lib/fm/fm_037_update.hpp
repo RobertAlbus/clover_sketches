@@ -17,15 +17,17 @@ void update_fm_037(const fm_props_037& target, std::ranges::range auto& voices) 
         if (first_fm.props.tunings[i] != target.tunings[i] ||
             first_fm.props.tuning_types[i] != target.tuning_types[i]) {
             for (auto& voice : voices) {
-                voice.props.tunings[i]      = target.tunings[i];
-                voice.props.tuning_types[i] = target.tuning_types[i];
-                voice.ops[i].freq(voice.get_tuning(target.tuning_types[i], target.tunings[i]));
+                voice.set_tuning(i, target.tuning_types[i], target.tunings[i]);
             }
         }
     }
 
-    for (auto& voice : voices) {
-        voice.props.mod_matrix = target.mod_matrix;
+    for (auto i : std::views::iota(0, 36)) {
+        if (first_fm.props.mod_matrix[i] != target.mod_matrix[i]) {
+            for (auto& voice : voices) {
+                voice.props.mod_matrix[i] = target.mod_matrix[i];
+            }
+        }
     }
 
     if (first_fm.props.matrix_octave_range != target.matrix_octave_range) {
@@ -114,6 +116,6 @@ void update_fm_037(const fm_props_037& target, std::ranges::range auto& voices) 
 }
 
 void update_fm_037(const fm_props_037& target, fm_037& voice) {
-    auto single_view = std::views::single(voice);
-    update_fm_037(target, single_view);
+    auto vr = std::views::counted(&voice, 1);
+    update_fm_037(target, vr);
 }
