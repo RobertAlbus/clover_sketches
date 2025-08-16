@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "draw_adsr.hpp"
+#include "imgui-knobs.h"
 
 bool draw_adsr_037(
     const char* id,
@@ -13,5 +14,7 @@ bool draw_adsr_037(
     float& d,
     float& s,
     float& r,
-    float width  = 200.0f,
-    float height = 100.0f);
+    float graphj_width        = 200.0f,
+    float graphj_height       = 100.0f,
+    float knob_size           = 0.f,
+    ImGuiKnobFlags knob_flags = 0);
