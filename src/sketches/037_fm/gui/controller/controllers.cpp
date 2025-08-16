@@ -72,7 +72,6 @@ void controller_snare::draw() {
     draw_fdn8_023_v2("##snare_body", graph.snare_resonator);
     ImGui::PushID("resonator");
     ImGuiKnobs::Knob("spread", &graph.snare_resonator.props.stereo_spread_taps_octaves, 0, 1);
-    ImGui::PopID();
 
     spacer();
 
