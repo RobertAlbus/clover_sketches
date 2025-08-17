@@ -77,6 +77,19 @@ std::pair<float, float> signal_graph::tick() {
     ride_cymbal         = audio_mixer.at("ride").tick(ride_cymbal) * 0.05f;
     ride_cymbal         = ride_peq.tick(ride_cymbal.to_pair());
 
+    float_s hh1_cymbal = hh1.tick();
+    hh1_cymbal         = audio_mixer.at("hh1").tick(hh1_cymbal) * 0.05f;
+    hh1_cymbal         = hh1_driver.tick(hh1_cymbal);
+    hh1_cymbal         = hh1_peq.tick(hh1_cymbal.to_pair());
+
+    float_s hh2_cymbal = hh2.tick();
+    hh2_cymbal         = audio_mixer.at("hh2").tick(hh2_cymbal) * 0.05f;
+    hh2_cymbal         = hh2_driver.tick(hh2_cymbal);
+    hh2_cymbal         = hh2_peq.tick(hh2_cymbal.to_pair());
+
+    float_s cymbal_sum = hh1_cymbal + hh2_cymbal + ride_cymbal;
+    cymbal_sum         = audio_mixer.at("cymbal sum").tick(cymbal_sum);
+
     // ----------------
     // BASS
     //
@@ -107,7 +120,7 @@ std::pair<float, float> signal_graph::tick() {
     //
     //
 
-    out = kick_sum + ride_cymbal + snare + chord_sum + bass_out;
+    out = kick_sum + cymbal_sum + snare + chord_sum + bass_out;
 
     out = main_eq.tick(out.to_pair());
 

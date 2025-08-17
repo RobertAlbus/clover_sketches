@@ -41,6 +41,17 @@ struct patch_drums_t {
 
     std::array<peq_props_000, peq_000::SIZE> ride_peq_props;
     cymbal_props_000 ride_props;
+
+    // --------------------------------
+    // HH
+
+    cymbal_props_000 hh1_props;
+    driver::properties hh1_driver_props;
+    std::array<peq_props_000, peq_000::SIZE> hh1_peq_props;
+
+    cymbal_props_000 hh2_props;
+    driver::properties hh2_driver_props;
+    std::array<peq_props_000, peq_000::SIZE> hh2_peq_props;
 };
 
 struct patch_synth_t {

@@ -306,4 +306,114 @@ patch_drums_t::patch_drums_t() {
             .type    = filter_type::hp,
         },
     };
+
+    hh1_props = {
+        .freqs            = {31, 82, 215, 227, 248, 278},
+        .hpf_f0           = 20,
+        .hpf_fmod_octaves = 2.76,
+        .hpf_Q            = 5.119,
+        .bpf_f0           = 6453.12,
+        .bpf_Q            = 2.409,
+        .amp_a            = 50,
+        .amp_d            = 1000,
+        .amp_s            = 0,
+        .amp_r            = 1786.6552,
+        .cut_a            = 60,
+        .cut_d            = 274.53574,
+        .cut_s            = 0,
+        .cut_r            = 1072.3923,
+    };
+
+    hh1_driver_props = {
+        .drive_input = 5.488,
+        .drive_clip  = 8,
+        .clip_thresh = 0.04,
+        .trim        = 4.96,
+    };
+
+    hh1_peq_props = {
+        peq_props_000{
+            .freq    = 257,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 2342,
+            .reso    = 4.448,
+            .gain    = 17.664,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 1565,
+            .reso    = 7.627,
+            .gain    = 16.668,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 7826,
+            .reso    = 5.443,
+            .gain    = 23.616,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+    };
+
+    hh2_props = {
+        .freqs            = {100, 150, 175, 225, 66.6, 0},
+        .hpf_f0           = 20,
+        .hpf_fmod_octaves = 5.976,
+        .hpf_Q            = 2.386,
+        .bpf_f0           = 5877.6,
+        .bpf_Q            = 4.31,
+        .amp_a            = 50,
+        .amp_d            = 1000,
+        .amp_s            = 0,
+        .amp_r            = 1,
+        .cut_a            = 60,
+        .cut_d            = 1000,
+        .cut_s            = 0,
+        .cut_r            = 1,
+    };
+
+    hh2_driver_props = {
+        .drive_input = 1.264,
+        .drive_clip  = 4.712,
+        .clip_thresh = 0.96,
+        .trim        = 4.112,
+    };
+
+    hh2_peq_props = {
+        peq_props_000{
+            .freq    = 249,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 1010,
+            .reso    = 6.637,
+            .gain    = 10.176,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 1471,
+            .reso    = 6.633,
+            .gain    = 15.744,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 2324,
+            .reso    = 7.592,
+            .gain    = 15.168,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+    };
 }

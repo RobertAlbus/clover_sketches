@@ -53,6 +53,17 @@ struct signal_graph {
     peq_000 ride_peq{fs, patch.drums.ride_peq_props};
 
     // --------------------------------
+    // HH
+
+    cymbal_024 hh1{fs, patch.drums.hh1_props};
+    driver hh1_driver{patch.drums.hh1_driver_props};
+    peq_000 hh1_peq{fs, patch.drums.hh1_peq_props};
+
+    cymbal_024 hh2{fs, patch.drums.hh2_props};
+    driver hh2_driver{patch.drums.hh2_driver_props};
+    peq_000 hh2_peq{fs, patch.drums.hh2_peq_props};
+
+    // --------------------------------
     // BASS
 
     fm_037 bass_fm{fs, patch.synth.bass_fm_props};

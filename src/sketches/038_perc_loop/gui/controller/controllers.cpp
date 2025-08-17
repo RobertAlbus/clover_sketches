@@ -97,11 +97,25 @@ void controller_snare::draw() {
 void controller_ride::draw() {
     ImGui::PushID(name);
 
+    ImGui::Text("ride");
     draw_cymbal_000("ride", graph.ride);
+    gpeq_cymbal.draw();
 
     spacer();
 
-    gpeq_cymbal.draw();
+    ImGui::Text("hh1");
+    draw_cymbal_000("hh1", graph.hh1);
+    draw_driver("##hh1_driver", graph.hh1_driver);
+    gpeq_hh1.draw();
+
+    spacer();
+
+    ImGui::Text("hh2");
+    draw_cymbal_000("hh2", graph.hh2);
+    draw_driver("##hh2_driver", graph.hh2_driver);
+    gpeq_hh2.draw();
+
+    spacer();
 
     ImGui::PopID();
 }
@@ -113,8 +127,6 @@ void controller_chord::draw() {
     spacer();
 
     gpeq_send.draw();
-
-    spacer();
 
     ImGui::PopID();
 }

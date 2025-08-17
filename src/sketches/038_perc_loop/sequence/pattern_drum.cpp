@@ -68,3 +68,34 @@ std::vector<pattern_t<event>> patterns::create_pattern_ride() {
              }},
     };
 }
+
+std::vector<pattern_t<event>> patterns::create_pattern_hh1() {
+    return {
+        {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
+        {.duration_bar = 1,
+         .duration_rel = 4.,
+         .pattern =
+             {
+                 //
+                 {.start_time = 0.50, .duration = 0.25},
+                 {.start_time = 1.50, .duration = 0.20},
+                 {.start_time = 1.75, .duration = 0.25},
+             }},
+    };
+}
+std::vector<pattern_t<event>> patterns::create_pattern_hh2() {
+    return {
+        {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
+        {.duration_bar = 1,
+         .duration_rel = 4.,
+         .pattern =
+             {
+                 //
+                 {.start_time = 0.002, .duration = 0.1},
+                 {.start_time = 0.252, .duration = 0.1},
+                 {.start_time = 0.502, .duration = 0.1},
+                 {.start_time = 1.002, .duration = 0.1},
+                 {.start_time = 1.502, .duration = 0.1},
+             }},
+    };
+}

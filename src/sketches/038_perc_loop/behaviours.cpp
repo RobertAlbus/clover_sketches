@@ -69,6 +69,28 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.bars_to_samples(grid.duration_bars),
         "frsq_ride"));
     frsq_pairs.emplace_back(create_sequencers(
+        std::span<cymbal_024>(&graph.hh1, 1),
+        [](cymbal_024& voice, const event& data) { voice.key_on(); },
+        [](cymbal_024& voice) { voice.key_off(); },
+        log,
+        grid,
+        patterns.hh1,
+        arrangement.hh1,
+        grid.duration_bars,
+        grid.bars_to_samples(grid.duration_bars),
+        "frsq_hh1"));
+    frsq_pairs.emplace_back(create_sequencers(
+        std::span<cymbal_024>(&graph.hh2, 1),
+        [](cymbal_024& voice, const event& data) { voice.key_on(); },
+        [](cymbal_024& voice) { voice.key_off(); },
+        log,
+        grid,
+        patterns.hh2,
+        arrangement.hh2,
+        grid.duration_bars,
+        grid.bars_to_samples(grid.duration_bars),
+        "frsq_hh2"));
+    frsq_pairs.emplace_back(create_sequencers(
         std::span<subtractive_synth_036>(graph.chord),
         [](subtractive_synth_036& voice, const event_midi& data) { voice.key_on(data.note); },
         [](subtractive_synth_036& voice) { voice.key_off(); },
