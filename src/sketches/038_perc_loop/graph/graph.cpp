@@ -110,10 +110,11 @@ std::pair<float, float> signal_graph::tick() {
         chord_signal += {chord_voice.tick()};
     }
 
-    float_s chord_dry = audio_mixer.at("chord dry").tick(chord_signal);
-    chord_dry         = chord_preverb_peq.tick(chord_dry.to_pair());
+    float_s chord_dry         = audio_mixer.at("chord dry").tick(chord_signal);
+    float_s chord_verb_signal = audio_mixer.at("chord verb").tick(chord_verb.tick(chord_signal.to_pair()));
+    chord_dry                 = chord_peq.tick(chord_dry.to_pair());
 
-    float_s chord_sum = audio_mixer.at("chord bus").tick(chord_dry);
+    float_s chord_sum = audio_mixer.at("chord bus").tick(chord_dry + chord_verb_signal);
 
     // ----------------
     // SUMMING

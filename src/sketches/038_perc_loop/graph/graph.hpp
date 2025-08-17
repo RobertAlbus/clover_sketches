@@ -79,7 +79,8 @@ struct signal_graph {
         subtractive_synth_036{fs, patch.synth.chord_props},
         subtractive_synth_036{fs, patch.synth.chord_props}};
 
-    peq_000 chord_preverb_peq{fs, patch.synth.chord_preverb_peq_props};
+    fdn8_stereo_030 chord_verb{fs, patch.synth.chord_fdn_props};
+    peq_000 chord_peq{fs, patch.synth.chord_preverb_peq_props};
 
     peq_000 main_eq{fs, patch.mix.main_peq_props};
 };

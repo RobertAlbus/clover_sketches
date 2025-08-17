@@ -65,6 +65,7 @@ struct patch_synth_t {
     // CHORD
 
     subtractive_synth_props_036 chord_props;
+    fdn8_stereo_030_props chord_fdn_props;
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props;
 };
 

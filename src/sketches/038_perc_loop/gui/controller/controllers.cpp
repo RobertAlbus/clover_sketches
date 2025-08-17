@@ -126,6 +126,11 @@ void controller_chord::draw() {
 
     spacer();
 
+    draw_fdn8_023_v2("fdn", graph.chord_verb);
+    ImGuiKnobs::Knob("stereo spread", &graph.chord_verb.props.stereo_spread_taps_octaves, -1, 1);
+
+    spacer();
+
     gpeq_send.draw();
 
     ImGui::PopID();

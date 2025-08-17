@@ -9,16 +9,58 @@
 std::vector<pattern_t<event_midi>> patterns::create_pattern_chord() {
     return {
         {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
+        {.duration_bar = 4,
+         .duration_rel = 16.,
+         .pattern =
+             {
+                 //
+                 {.start_time = 1.75, .duration = 0.75, .note = -17 + note::C4},
+                 {.start_time = 1.75, .duration = 0.75, .note = -17 + note::Eb4},
+                 {.start_time = 1.75, .duration = 0.75, .note = -17 + note::G4},
+                 {.start_time = 1.75, .duration = 0.75, .note = -17 + note::Bb4},
+                 {.start_time = 1.75, .duration = 0.75, .note = -17 + note::F4},
+
+                 {.start_time = 5.75, .duration = 0.75, .note = -17 + note::C4},
+                 {.start_time = 5.75, .duration = 0.75, .note = -17 + note::Eb4},
+                 {.start_time = 5.75, .duration = 0.75, .note = -17 + note::G4},
+                 {.start_time = 5.75, .duration = 0.75, .note = -17 + note::Bb4},
+                 {.start_time = 5.75, .duration = 0.75, .note = -17 + note::F4},
+
+                 {.start_time = 9.75, .duration = 0.75, .note = -17 + note::C4},
+                 {.start_time = 9.75, .duration = 0.75, .note = -17 + note::Eb4},
+                 {.start_time = 9.75, .duration = 0.75, .note = -17 + note::G4},
+                 {.start_time = 9.75, .duration = 0.75, .note = -17 + note::Bb4},
+                 {.start_time = 9.75, .duration = 0.75, .note = -17 + note::F4},
+
+                 {.start_time = 13.75, .duration = 0.25, .note = -17 + note::C4},
+                 {.start_time = 13.75, .duration = 0.25, .note = -17 + note::Eb4},
+                 {.start_time = 13.75, .duration = 0.25, .note = -17 + note::G4},
+                 {.start_time = 13.75, .duration = 0.25, .note = -17 + note::Bb4},
+                 {.start_time = 13.75, .duration = 0.25, .note = -17 + note::F4},
+
+                 {.start_time = 14.25, .duration = 0.25, .note = -17 + note::C4},
+                 {.start_time = 14.25, .duration = 0.25, .note = -17 + note::Eb4},
+                 {.start_time = 14.25, .duration = 0.25, .note = -17 + note::G4},
+                 {.start_time = 14.25, .duration = 0.25, .note = -17 + note::Bb4},
+                 {.start_time = 14.25, .duration = 0.25, .note = -17 + note::F4},
+             }},
         {.duration_bar = 2,
          .duration_rel = 8.,
          .pattern =
              {
                  //
-                 {.start_time = 5.5, .duration = 0.75, .note = -17 + note::C4},
-                 {.start_time = 5.5, .duration = 0.75, .note = -17 + note::Eb4},
-                 {.start_time = 5.5, .duration = 0.75, .note = -17 + note::G4},
-                 {.start_time = 5.5, .duration = 0.75, .note = -17 + note::Bb4},
-                 {.start_time = 5.5, .duration = 0.75, .note = -17 + note::F4},
+
+                 {.start_time = 1.75, .duration = 0.25, .note = -17 + note::C4},
+                 {.start_time = 1.75, .duration = 0.25, .note = -17 + note::Eb4},
+                 {.start_time = 1.75, .duration = 0.25, .note = -17 + note::G4},
+                 {.start_time = 1.75, .duration = 0.25, .note = -17 + note::Bb4},
+                 {.start_time = 1.75, .duration = 0.25, .note = -17 + note::F4},
+
+                 {.start_time = 2.25, .duration = 0.25, .note = -17 + note::C4},
+                 {.start_time = 2.25, .duration = 0.25, .note = -17 + note::Eb4},
+                 {.start_time = 2.25, .duration = 0.25, .note = -17 + note::G4},
+                 {.start_time = 2.25, .duration = 0.25, .note = -17 + note::Bb4},
+                 {.start_time = 2.25, .duration = 0.25, .note = -17 + note::F4},
              }},
         {.duration_bar = 2,
          .duration_rel = 8.,
