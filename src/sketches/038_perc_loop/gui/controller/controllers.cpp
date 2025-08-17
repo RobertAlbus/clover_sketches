@@ -13,6 +13,7 @@
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
+#include "graph/instrument/draw_driver.hpp"
 #include "lib/subtractive_synth/draw_subtractive_synth_036.hpp"
 
 #include "controllers.hpp"
@@ -75,17 +76,7 @@ void controller_snare::draw() {
 
     spacer();
 
-    if (ImGui::Button("driver preset")) {
-        ImGui::SetClipboardText(graph.snare_body_driver.props.to_str().c_str());
-    }
-    ImGuiKnobs::Knob("drive_input", &graph.snare_body_driver.props.drive_input, 0, 8);
-    ImGui::SameLine();
-    ImGuiKnobs::Knob("drive_clip", &graph.snare_body_driver.props.drive_clip, 0, 8);
-    ImGui::SameLine();
-    ImGuiKnobs::Knob("clip_thresh", &graph.snare_body_driver.props.clip_thresh, 0, 2);
-    ImGui::SameLine();
-    ImGuiKnobs::Knob("trim", &graph.snare_body_driver.props.trim, 0, 8);
-    ImGui::SameLine();
+    draw_driver("##snare_body_driver", graph.snare_body_driver);
 
     ImGui::PopID();
 
