@@ -4,7 +4,6 @@
 
 #include "env_bp.hpp"
 #include <cmath>
-#include <print>
 #include <stdexcept>
 
 std::array<bp_event_000, 2> default_env_bp_pattern{{

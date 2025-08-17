@@ -3,7 +3,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <numeric>
-#include <print>
 #include <ranges>
 
 #include "clover/dsp/filter.hpp"

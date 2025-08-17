@@ -2,12 +2,10 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <print>
-
+#include "sequencers.hpp"
 #include "lib/sq/frsq_024.hpp"
 #include "sequence/event.hpp"
 #include "sequence/patterns.hpp"
-#include "sequencers.hpp"
 
 sequencers::sequencers(bar_grid_029& grid, log_bus_000& log) : sequencers({}, grid, log) {
 }

@@ -2,8 +2,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <print>
-
 #include "lib/cymbal/cymbal_024.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 

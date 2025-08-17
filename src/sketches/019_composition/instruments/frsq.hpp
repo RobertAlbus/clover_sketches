@@ -18,8 +18,6 @@
 #include <span>
 #include <stdexcept>
 
-#include <print>
-
 // troubleshooting logging;
 inline static const char* individual_log_path_partial = "/home/ra/clover/sketches/src/019_composition/log__";
 

@@ -2,8 +2,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <print>
-
 #include "composition/graph.hpp"
 #include "lib/kick_drum/kick_drum.hpp"
 #include "lib/subtractive_synth/subtractive_synth_000.hpp"

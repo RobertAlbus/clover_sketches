@@ -4,8 +4,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <cmath>
-
 #include "lib/sq/bar_grid.hpp"
 
 #include "lib/cymbal/cymbal_024.hpp"
