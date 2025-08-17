@@ -39,15 +39,11 @@ std::string tuning_types_to_str(std::array<fm_tuning_type, 6> tuning_types) {
     return result;
 }
 
-std::string adsr_to_str(adsr_values adsr) {
-    return std::format("{{ {}, {}, {}, {} }}", adsr.a, adsr.d, adsr.s, adsr.r);
-}
-
 std::string adsrs_to_str(std::array<adsr_values, 6> adsrs) {
     // literal double brace initialization
     std::string result = "{{";
     for (auto& adsr : adsrs) {
-        result += adsr_to_str(adsr);
+        result += static_cast<std::string>(adsr);
         result += ", ";
     }
     result.pop_back();
@@ -88,8 +84,8 @@ std::string fm_props_037::to_str() {
         array_to_str(op_pans),
         array_to_str(op_output_gains),
         filter_str[int(filter_type)],
-        adsr_to_str(cut_adsr),
-        adsr_to_str(res_adsr),
+        static_cast<std::string>(cut_adsr),
+        static_cast<std::string>(res_adsr),
         cut,
         cut_mod_target,
         res,

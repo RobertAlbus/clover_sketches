@@ -7,18 +7,13 @@
 #include "clover/dsp/oscillator.hpp"
 #include "clover/dsp/pan.hpp"
 
+#include "lib/_atom/adsr/adsr.hpp"
 #include "lib/_atom/filter_type.hpp"
 #include "lib/audio_frame/audio_frame.hpp"
 
 enum struct fm_tuning_type {
     ratio,
     hz,
-};
-struct adsr_values {
-    float a;
-    float d;
-    float s;
-    float r;
 };
 struct fm_props_037 {
     std::array<float, 6> tunings;
