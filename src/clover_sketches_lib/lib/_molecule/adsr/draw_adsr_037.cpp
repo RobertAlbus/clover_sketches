@@ -1,10 +1,5 @@
-#include "imgui-knobs.h"
-#include "imgui.h"
-
-#include "lib/_atom/adsr/draw_adsr_graph_037.hpp"
-#include "lib/_atom/adsr/draw_adsr_knobs_037.hpp"
-
 #include "draw_adsr_037.hpp"
+#include "lib/_molecule/adsr/draw_adsr_038.hpp"
 
 bool draw_adsr_037(
     const char* id,
@@ -17,13 +12,13 @@ bool draw_adsr_037(
     float graph_height,
     float knob_size,
     ImGuiKnobFlags knob_flags) {
-    ImGui::PushID(id);
-    bool was_changed = false;
-
-    draw_adsr_graph_037("##graph", ranges, a, d, s, r, graph_width, graph_height);
-    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 15);
-    was_changed |= draw_adsr_knobs_037("##knobs", ranges, a, d, s, r, knob_size, knob_flags);
-
-    ImGui::PopID();
+    adsr_values adsr_temp = {a, d, s, r};
+    bool was_changed = draw_adsr_038(id, ranges, adsr_temp, graph_width, graph_height, knob_size, knob_flags);
+    if (was_changed) {
+        a = adsr_temp.a;
+        d = adsr_temp.d;
+        s = adsr_temp.s;
+        r = adsr_temp.r;
+    }
     return was_changed;
 }
