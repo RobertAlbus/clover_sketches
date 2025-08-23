@@ -15,19 +15,10 @@ patch_drums_t::patch_drums_t() {
     kick_drum_props = {
         .trim              = 1,
         .drive             = 3.571,
-        .amp_a             = 30,
-        .amp_d             = 6191.322,
-        .amp_s             = 0.08333331,
-        .amp_r             = 1000,
-        .cut_a             = 1,
-        .cut_d             = 3905.1545,
-        .cut_s             = 0,
-        .cut_r             = 1.0000596,
+        .amp_adsr          = {30, 6191.322, 0.08333331, 1000},
+        .pitch_adsr        = {1, 1690.4856, 0, 1000},
+        .cut_adsr          = {1, 3905.1545, 0, 1.0000596},
         .filt_q            = 1.3999405,
-        .pitch_a           = 1,
-        .pitch_d           = 1690.4856,
-        .pitch_s           = 0,
-        .pitch_r           = 1000,
         .pitch_fundamental = midi_to_frequency(note::F2) / 2,
         .cut_fundamental   = 100,
         .pitch_range       = 1,
@@ -114,22 +105,16 @@ patch_drums_t::patch_drums_t() {
         .hpf_Q            = 0.852,
         .bpf_f0           = 979.2,
         .bpf_Q            = 0.576,
-        .amp_a            = 1,
-        .amp_d            = 500,
-        .amp_s            = 0,
-        .amp_r            = 3215.1787,
-        .cut_a            = 1,
-        .cut_d            = 1,
-        .cut_s            = 0,
-        .cut_r            = 1,
+        .amp_adsr         = {1, 500, 0, 3215.1787},
+        .cut_adsr         = {1, 1, 0, 1},
     };
 
     // original snare props
     snare_body_resonator_props = {
         .stereo_spread_taps_octaves = 0.068,
-        .taps    = {45.860977, 71.467995, 73.65708, 53.5502, 10934.775, 123.870575, 126.44967, 126.44967},
+        .taps    = {67.29404, 105.10034, 205.93652, 10479.166, 264.70828, 114.08613, 65.30492, 57.954212},
         .fb_gain = 0.978,
-        .lpf_cut = 1012.182,
+        .lpf_cut = 643.6013,
         .lpf_res = 0.707,
         .hpf_cut = 67.91454,
         .hpf_res = 0.707,
@@ -200,27 +185,15 @@ patch_drums_t::patch_drums_t() {
              waveform_000::sine,
              waveform_000::sine,
              waveform_000::sine},
-        .pitch_a         = 10,
-        .pitch_d         = 2000,
-        .pitch_s         = 0,
-        .pitch_r         = 1000,
-        .amp_a           = 10,
-        .amp_d           = 2222,
-        .amp_s           = 0,
-        .amp_r           = 1000,
+        .pitch_adsr      = {10, 2000, 0, 1000},
+        .amp_adsr        = {10, 2222, 0, 1000},
+        .cut_adsr        = {10, 3333, 0, 1000},
+        .res_adsr        = {10, 1000, 0, 100},
         .cut             = 100,
         .res             = 0.6,
         .cut_env_octaves = 10,
         .res_env_octaves = 0,
-        .filter_type     = filter_type::lp,
-        .cut_a           = 10,
-        .cut_d           = 3333,
-        .cut_s           = 0,
-        .cut_r           = 1000,
-        .res_a           = 10,
-        .res_d           = 1000,
-        .res_s           = 0,
-        .res_r           = 100};
+        .filter_type     = filter_type::lp};
 
     snare_noise_peq_props = {
         peq_props_000{
@@ -265,15 +238,8 @@ patch_drums_t::patch_drums_t() {
         .bpf_f0 = 3000,
         .bpf_Q  = 1.3,
 
-        .amp_a = 50,
-        .amp_d = 500,
-        .amp_s = 0.5,
-        .amp_r = 25000,
-
-        .cut_a = 60,
-        .cut_d = 1000,
-        .cut_s = 0.5,
-        .cut_r = 2500000,
+        .amp_adsr = {50, 500, 0.5, 25000},
+        .cut_adsr = {60, 1000, 0.5, 2500000},
     };
 
     ride_peq_props = {
@@ -314,14 +280,8 @@ patch_drums_t::patch_drums_t() {
         .hpf_Q            = 5.119,
         .bpf_f0           = 6453.12,
         .bpf_Q            = 2.409,
-        .amp_a            = 50,
-        .amp_d            = 1000,
-        .amp_s            = 0,
-        .amp_r            = 1786.6552,
-        .cut_a            = 60,
-        .cut_d            = 274.53574,
-        .cut_s            = 0,
-        .cut_r            = 1072.3923,
+        .amp_adsr         = {50, 1000, 0, 1786.6552},
+        .cut_adsr         = {60, 274.53574, 0, 1072.3923},
     };
 
     hh1_driver_props = {
@@ -369,14 +329,8 @@ patch_drums_t::patch_drums_t() {
         .hpf_Q            = 2.386,
         .bpf_f0           = 5877.6,
         .bpf_Q            = 4.31,
-        .amp_a            = 50,
-        .amp_d            = 1000,
-        .amp_s            = 0,
-        .amp_r            = 1,
-        .cut_a            = 60,
-        .cut_d            = 1000,
-        .cut_s            = 0,
-        .cut_r            = 1,
+        .amp_adsr         = {50, 1000, 0, 1},
+        .cut_adsr         = {60, 1000, 0, 1},
     };
 
     hh2_driver_props = {

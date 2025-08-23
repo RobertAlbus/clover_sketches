@@ -4,7 +4,7 @@
 
 #include "implot.h"
 
-#include "lib/cymbal/cymbal_024.hpp"
+#include "lib/cymbal/cymbal_038.hpp"
 #include "lib/logging/logger.hpp"
 #include "lib/sq/bar_grid_029.hpp"
 
@@ -19,9 +19,9 @@ std::vector<frsq_pair> build_frsq_pairs(
     signal_graph& graph, bar_grid_029& grid, log_bus_000& log, patterns& patterns, arrangement& arrangement) {
     std::vector<frsq_pair> frsq_pairs;
     frsq_pairs.emplace_back(create_sequencers(
-        std::span<kick_drum_000>(&graph.kick, 1),
-        [](kick_drum_000& voice, const event& data) { voice.key_on(); },
-        [](kick_drum_000& voice) { voice.key_off(); },
+        std::span<kick_drum_038>(&graph.kick, 1),
+        [](kick_drum_038& voice, const event& data) { voice.key_on(); },
+        [](kick_drum_038& voice) { voice.key_off(); },
         log,
         grid,
         patterns.kick,
@@ -30,13 +30,13 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.bars_to_samples(grid.duration_bars),
         "frsq_kick"));
     frsq_pairs.emplace_back(create_sequencers(
-        std::span<cymbal_024>(&graph.snare_body_impulse, 1),
-        [](cymbal_024& voice, const event& data) {
+        std::span<cymbal_038>(&graph.snare_body_impulse, 1),
+        [](cymbal_038& voice, const event& data) {
             for (auto& osc : voice.oscs)
                 osc.phase(0);
             voice.key_on();
         },
-        [](cymbal_024& voice) { voice.key_off(); },
+        [](cymbal_038& voice) { voice.key_off(); },
         log,
         grid,
         patterns.snare,
@@ -46,9 +46,9 @@ std::vector<frsq_pair> build_frsq_pairs(
         "frsq_snare"));
 
     frsq_pairs.emplace_back(create_sequencers(
-        std::span<subtractive_synth_036>(&graph.snare_noise, 1),
-        [](subtractive_synth_036& voice, const event& data) { voice.key_on(note::C4); },
-        [](subtractive_synth_036& voice) { voice.key_off(); },
+        std::span<subtractive_synth_038>(&graph.snare_noise, 1),
+        [](subtractive_synth_038& voice, const event& data) { voice.key_on(note::C4); },
+        [](subtractive_synth_038& voice) { voice.key_off(); },
         log,
         grid,
         patterns.snare,
@@ -58,9 +58,9 @@ std::vector<frsq_pair> build_frsq_pairs(
         "frsq_snare_noise"));
 
     frsq_pairs.emplace_back(create_sequencers(
-        std::span<cymbal_024>(&graph.ride, 1),
-        [](cymbal_024& voice, const event& data) { voice.key_on(); },
-        [](cymbal_024& voice) { voice.key_off(); },
+        std::span<cymbal_038>(&graph.ride, 1),
+        [](cymbal_038& voice, const event& data) { voice.key_on(); },
+        [](cymbal_038& voice) { voice.key_off(); },
         log,
         grid,
         patterns.ride,
@@ -69,9 +69,9 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.bars_to_samples(grid.duration_bars),
         "frsq_ride"));
     frsq_pairs.emplace_back(create_sequencers(
-        std::span<cymbal_024>(&graph.hh1, 1),
-        [](cymbal_024& voice, const event& data) { voice.key_on(); },
-        [](cymbal_024& voice) { voice.key_off(); },
+        std::span<cymbal_038>(&graph.hh1, 1),
+        [](cymbal_038& voice, const event& data) { voice.key_on(); },
+        [](cymbal_038& voice) { voice.key_off(); },
         log,
         grid,
         patterns.hh1,
@@ -80,9 +80,9 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.bars_to_samples(grid.duration_bars),
         "frsq_hh1"));
     frsq_pairs.emplace_back(create_sequencers(
-        std::span<cymbal_024>(&graph.hh2, 1),
-        [](cymbal_024& voice, const event& data) { voice.key_on(); },
-        [](cymbal_024& voice) { voice.key_off(); },
+        std::span<cymbal_038>(&graph.hh2, 1),
+        [](cymbal_038& voice, const event& data) { voice.key_on(); },
+        [](cymbal_038& voice) { voice.key_off(); },
         log,
         grid,
         patterns.hh2,
@@ -91,9 +91,9 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.bars_to_samples(grid.duration_bars),
         "frsq_hh2"));
     frsq_pairs.emplace_back(create_sequencers(
-        std::span<subtractive_synth_036>(graph.chord),
-        [](subtractive_synth_036& voice, const event_midi& data) { voice.key_on(data.note); },
-        [](subtractive_synth_036& voice) { voice.key_off(); },
+        std::span<subtractive_synth_038>(graph.chord),
+        [](subtractive_synth_038& voice, const event_midi& data) { voice.key_on(data.note); },
+        [](subtractive_synth_038& voice) { voice.key_off(); },
         log,
         grid,
         patterns.chord,

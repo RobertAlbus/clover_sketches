@@ -5,16 +5,16 @@
 #include "imgui-knobs.h"
 #include "imgui.h"
 
-#include "lib/cymbal/draw_cymbal_000.hpp"
+#include "lib/cymbal/draw_cymbal_038.hpp"
 #include "lib/fdn/draw_fdn8_023.hpp"
 #include "lib/fm/draw_fm_037.hpp"
-#include "lib/kick_drum/draw_kick_drum.hpp"
+#include "lib/kick_drum/draw_kick_drum_038.hpp"
 #include "lib/mixer/draw_mixer_033.hpp"
 #include "lib/peq/gpeq.hpp"
 
 #include "graph/graph.hpp"
 #include "graph/instrument/draw_driver.hpp"
-#include "lib/subtractive_synth/draw_subtractive_synth_036.hpp"
+#include "lib/subtractive_synth/draw_subtractive_synth_038.hpp"
 
 #include "controllers.hpp"
 
@@ -42,7 +42,7 @@ void controller_mixer::draw() {
 void controller_kick::draw() {
     ImGui::PushID(name);
 
-    draw_kick_drum_000("kick_synth", graph.kick);
+    draw_kick_drum_038("kick_synth", graph.kick);
     spacer();
     gpeq_send.draw();
     spacer();
@@ -66,7 +66,7 @@ void controller_bass::draw() {
 void controller_snare::draw() {
     ImGui::PushID(name);
 
-    draw_cymbal_000("snare_impulse", graph.snare_body_impulse);
+    draw_cymbal_038("snare_impulse", graph.snare_body_impulse);
 
     spacer();
 
@@ -87,7 +87,7 @@ void controller_snare::draw() {
     spacer();
     spacer();
     ImGui::Text("snare noise");
-    draw_subtractive_synth_036("##snare_noise_synth", graph.patch.drums.snare_noise_props);
+    draw_subtractive_synth_038("##snare_noise_synth", graph.patch.drums.snare_noise_props);
     spacer();
     gpeq_noise.draw();
 
@@ -97,21 +97,20 @@ void controller_snare::draw() {
 void controller_ride::draw() {
     ImGui::PushID(name);
 
-    ImGui::Text("ride");
-    draw_cymbal_000("ride", graph.ride);
+    draw_cymbal_038("ride", graph.ride);
     gpeq_cymbal.draw();
 
     spacer();
 
     ImGui::Text("hh1");
-    draw_cymbal_000("hh1", graph.hh1);
+    draw_cymbal_038("hh1", graph.hh1);
     draw_driver("##hh1_driver", graph.hh1_driver);
     gpeq_hh1.draw();
 
     spacer();
 
     ImGui::Text("hh2");
-    draw_cymbal_000("hh2", graph.hh2);
+    draw_cymbal_038("hh2", graph.hh2);
     draw_driver("##hh2_driver", graph.hh2_driver);
     gpeq_hh2.draw();
 
@@ -122,7 +121,7 @@ void controller_ride::draw() {
 
 void controller_chord::draw() {
     ImGui::PushID(name);
-    draw_subtractive_synth_036("##chords", graph.patch.synth.chord_props);
+    draw_subtractive_synth_038("##chords", graph.patch.synth.chord_props);
 
     spacer();
 

@@ -28,10 +28,10 @@ patch_mix_t::patch_mix_t() {
         {.name = "hh2", .props = {.gain = 1.5543478, .pan = -0.20799997, .mono = false, .mute = false}},
         {.name = "ride", .props = {.gain = 0.79347825, .pan = 0, .mono = false, .mute = false}},
         {.spacer = true},
-        {.name = "chord bus", .props = {.gain = 0.7391304, .pan = 0, .mono = false, .mute = false}},
+        {.name = "chord bus", .props = {.gain = 0.9130435, .pan = 0, .mono = false, .mute = false}},
         {.spacer = true},
-        {.name = "chord dry", .props = {.gain = 0.20652175, .pan = 0, .mono = false, .mute = false}},
-        {.name = "chord verb", .props = {.gain = 0.8369565, .pan = 0, .mono = false, .mute = false}},
+        {.name = "chord dry", .props = {.gain = 0.5108696, .pan = 0, .mono = false, .mute = false}},
+        {.name = "chord verb", .props = {.gain = 0.88043475, .pan = 0, .mono = false, .mute = false}},
     };
 
     main_peq_props = {

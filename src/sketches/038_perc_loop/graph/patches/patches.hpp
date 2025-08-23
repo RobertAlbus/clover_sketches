@@ -5,14 +5,14 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "graph/instrument/driver.hpp"
-#include "lib/cymbal/cymbal_000.hpp"
+#include "lib/cymbal/cymbal_038.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
 #include "lib/fm/fm_037.hpp"
-#include "lib/kick_drum/kick_drum.hpp"
+#include "lib/kick_drum/kick_drum_038.hpp"
 #include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
-#include "lib/subtractive_synth/subtractive_synth_036.hpp"
+#include "lib/subtractive_synth/subtractive_synth_038.hpp"
 
 struct patch_drums_t {
     patch_drums_t();
@@ -20,7 +20,7 @@ struct patch_drums_t {
     // --------------------------------
     // KICK
 
-    kick_props_000 kick_drum_props;
+    kick_props_038 kick_drum_props;
     fdn8_props_023 kick_fdn_props;
     std::array<peq_props_000, peq_000::SIZE> kick_preverb_peq_props;
     std::array<peq_props_000, peq_000::SIZE> kick_peq_props;
@@ -28,28 +28,28 @@ struct patch_drums_t {
     // --------------------------------
     // SNARE
 
-    cymbal_props_000 snare_body_impulse_props;
+    cymbal_props_038 snare_body_impulse_props;
     fdn8_stereo_030_props snare_body_resonator_props;
     driver::properties snare_body_driver_props;
     std::array<peq_props_000, peq_000::SIZE> snare_body_peq_props;
 
-    subtractive_synth_props_036 snare_noise_props;
+    subtractive_synth_props_038 snare_noise_props;
     std::array<peq_props_000, peq_000::SIZE> snare_noise_peq_props;
 
     // --------------------------------
     // RIDE
 
     std::array<peq_props_000, peq_000::SIZE> ride_peq_props;
-    cymbal_props_000 ride_props;
+    cymbal_props_038 ride_props;
 
     // --------------------------------
     // HH
 
-    cymbal_props_000 hh1_props;
+    cymbal_props_038 hh1_props;
     driver::properties hh1_driver_props;
     std::array<peq_props_000, peq_000::SIZE> hh1_peq_props;
 
-    cymbal_props_000 hh2_props;
+    cymbal_props_038 hh2_props;
     driver::properties hh2_driver_props;
     std::array<peq_props_000, peq_000::SIZE> hh2_peq_props;
 };
@@ -64,7 +64,7 @@ struct patch_synth_t {
     // --------------------------------
     // CHORD
 
-    subtractive_synth_props_036 chord_props;
+    subtractive_synth_props_038 chord_props;
     fdn8_stereo_030_props chord_fdn_props;
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props;
 };

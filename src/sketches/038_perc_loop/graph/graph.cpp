@@ -10,8 +10,8 @@
 #include "lib/audio_frame/audio_frame.hpp"
 #include "lib/audio_frame/audio_frame_math.hpp"
 #include "lib/fm/fm_037_update.hpp"
-#include "lib/subtractive_synth/subtractive_synth_036.hpp"
-#include "lib/subtractive_synth/subtractive_synth_036_update.hpp"
+#include "lib/subtractive_synth/subtractive_synth_038.hpp"
+#include "lib/subtractive_synth/subtractive_synth_038_update.hpp"
 
 #include "graph.hpp"
 
