@@ -15,7 +15,7 @@
 
 #include "graph.hpp"
 
-signal_graph::signal_graph(float fs) : fs{fs} {
+signal_graph::signal_graph(float fs, float bpm) : fs{fs}, bpm{bpm}, patch{fs, bpm} {
     snare_body_impulse.oscs[1].waveform = clover::dsp::wave_noise;
     snare_body_impulse.oscs[2].waveform = clover::dsp::wave_noise;
     snare_body_impulse.oscs[3].waveform = clover::dsp::wave_noise;
@@ -26,6 +26,14 @@ signal_graph::signal_graph(float fs) : fs{fs} {
 std::pair<float, float> signal_graph::tick() {
     using float_s = audio_frame;
     float_s out;
+
+    // ----------------
+    // SIDECHAIN
+    //
+    //
+
+    sc_pump.tick();
+    const float sc_pump_snare_verb = sc_pump.xs[1];
 
     // ----------------
     // KICK
@@ -53,12 +61,17 @@ std::pair<float, float> signal_graph::tick() {
     float_s snare_body_impulse_signal = snare_body_impulse.tick();
     float_s snare_body_impulse_send   = audio_mixer.at("snare impulse send").tick(snare_body_impulse_signal);
 
-    float_s snare_body = snare_body_resonator.tick(snare_body_impulse_send.to_pair());
+    snare_body_impulse_send = clamp(snare_body_impulse_send, -0.999, 0.999);
+    float_s snare_body      = snare_body_resonator.tick(snare_body_impulse_send.to_pair());
+    snare_body              = clamp(snare_body, -0.999, 0.999);
 
     // use post-drive snare body for mixing
     float_s snare_body_drive = snare_body_driver.tick(snare_body);
-    snare_body_drive         = audio_mixer.at("snare body").tick(snare_body_drive);
-    snare_body_drive         = snare_body_eq.tick(snare_body_drive.to_pair());
+    snare_body_drive *= sc_pump_snare_verb;
+    snare_body_drive = clamp(snare_body_drive, -0.999, 0.999);
+
+    snare_body_drive = audio_mixer.at("snare body").tick(snare_body_drive);
+    snare_body_drive = snare_body_eq.tick(snare_body_drive.to_pair());
 
     update_subtractive_synth(patch.drums.snare_noise_props, snare_noise);
     float_s snare_noise_signal = snare_noise.tick();

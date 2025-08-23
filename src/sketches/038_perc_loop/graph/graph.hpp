@@ -4,6 +4,7 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "graph/instrument/ducker.hpp"
 #include "lib/cymbal/cymbal_038.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
@@ -18,6 +19,7 @@
 
 struct signal_graph {
     float fs;
+    float bpm;
     patch patch;
 
     mixer_033 audio_mixer{fs, patch.mix.new_mixer_spec};
@@ -25,7 +27,12 @@ struct signal_graph {
     std::pair<float, float> tick();
 
     float gain_master = 0.5f;
-    signal_graph(float fs);
+    signal_graph(float fs, float bpm);
+
+    // --------------------------------
+    // SIDECHAIN
+
+    ducker sc_pump{patch.automation.sc_pump_props};
 
     // --------------------------------
     // KICK

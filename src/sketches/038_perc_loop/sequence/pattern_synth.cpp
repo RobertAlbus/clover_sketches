@@ -44,8 +44,8 @@ std::vector<pattern_t<event_midi>> patterns::create_pattern_chord() {
                  {.start_time = 14.25, .duration = 0.25, .note = -17 + note::Bb4},
                  {.start_time = 14.25, .duration = 0.25, .note = -17 + note::F4},
              }},
-        {.duration_bar = 2,
-         .duration_rel = 8.,
+        {.duration_bar = 1,
+         .duration_rel = 4.,
          .pattern =
              {
                  //

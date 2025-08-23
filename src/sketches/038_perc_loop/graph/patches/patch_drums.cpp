@@ -136,7 +136,7 @@ patch_drums_t::patch_drums_t() {
         .drive_input = 1.264,
         .drive_clip  = 4.712,
         .clip_thresh = 0.96,
-        .trim        = 4.112,
+        .trim        = 10,
     };
 
     snare_body_peq_props = {

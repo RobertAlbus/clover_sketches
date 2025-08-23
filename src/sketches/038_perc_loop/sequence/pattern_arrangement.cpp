@@ -10,6 +10,11 @@
 arrangement::arrangement() {
     playback_start = 0;
 
+    sc_pump = {
+        //
+        {.start_time = 0, .pattern_index = 1},
+    };
+
     kick = {
         //
         {.start_time = 0, .pattern_index = 1},

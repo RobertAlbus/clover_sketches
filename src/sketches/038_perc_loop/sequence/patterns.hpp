@@ -24,6 +24,7 @@ struct pattern_t {
 // - in ctor      (arrangement struct)
 
 struct patterns {
+    std::vector<pattern_t<event>> sc_pump    = create_pattern_sc_pump();
     std::vector<pattern_t<event>> kick       = create_pattern_kick();
     std::vector<pattern_t<event>> snare      = create_pattern_snare();
     std::vector<pattern_t<event>> ride       = create_pattern_ride();
@@ -32,6 +33,7 @@ struct patterns {
     std::vector<pattern_t<event_midi>> chord = create_pattern_chord();
     std::vector<pattern_t<event_midi>> bass  = create_pattern_bass();
 
+    std::vector<pattern_t<event>> create_pattern_sc_pump();
     std::vector<pattern_t<event>> create_pattern_kick();
     std::vector<pattern_t<event>> create_pattern_snare();
     std::vector<pattern_t<event>> create_pattern_ride();
@@ -50,6 +52,7 @@ struct arrangement {
     //   yet propagating downward to instrument frsqs
     double playback_start;
 
+    std::vector<event_meta_sq> sc_pump;
     std::vector<event_meta_sq> kick;
     std::vector<event_meta_sq> snare;
     std::vector<event_meta_sq> ride;

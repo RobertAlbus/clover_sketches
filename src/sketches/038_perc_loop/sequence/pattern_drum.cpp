@@ -3,6 +3,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "patterns.hpp"
+#include <vector>
 // #include "sequence/event.hpp"
 
 std::vector<pattern_t<event>> patterns::create_pattern_kick() {

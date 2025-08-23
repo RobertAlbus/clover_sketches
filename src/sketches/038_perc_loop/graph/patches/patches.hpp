@@ -5,6 +5,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "graph/instrument/driver.hpp"
+#include "graph/instrument/ducker.hpp"
 #include "lib/cymbal/cymbal_038.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
@@ -13,6 +14,15 @@
 #include "lib/mixer/mixer_033.hpp"
 #include "lib/peq/peq.hpp"
 #include "lib/subtractive_synth/subtractive_synth_038.hpp"
+
+struct patch_automation_t {
+    patch_automation_t(float fs, float bpm);
+
+    // --------------------------------
+    // SIDECHAIN
+
+    ducker_props sc_pump_props;
+};
 
 struct patch_drums_t {
     patch_drums_t();
@@ -83,6 +93,9 @@ struct patch_mix_t {
 };
 
 struct patch {
+    patch(float fs, float bpm) : automation{fs, bpm} {
+    }
+    patch_automation_t automation;
     patch_drums_t drums;
     patch_synth_t synth;
     patch_mix_t mix;
