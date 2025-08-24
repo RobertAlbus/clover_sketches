@@ -53,7 +53,7 @@ void draw_cymbal_038(const char* id, cymbal_038& cymbal) {
     ImGui::Dummy({0, 83});
 
     ImGui::BeginGroup();  // hpf knobs
-    ImGui::PushID("bpf");
+    ImGui::PushID("hpf");
     ImGui::Text("hpf");
     ImGuiKnobs::Knob("f0", &cymbal.props.hpf_f0, 20, 24000);
     ImGui::SameLine();
