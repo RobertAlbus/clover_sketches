@@ -10,6 +10,7 @@
 
 #include "lib/_atom/drag_slider_025.hpp"
 #include "lib/_molecule/adsr/draw_adsr_038.hpp"
+#include <ranges>
 
 void draw_cymbal_038(const char* id, cymbal_038& cymbal) {
     ImGui::PushID(id);
@@ -24,7 +25,7 @@ void draw_cymbal_038(const char* id, cymbal_038& cymbal) {
 
     ImGui::BeginGroup();
     ImGui::Text("amp");
-    if (draw_adsr_038("##amp_adsr", {1000, 1000, 1, 30000}, cymbal.props.amp_adsr)) {
+    if (draw_adsr_038("##amp_adsr", {3000, 3000, 1, 30000}, cymbal.props.amp_adsr)) {
         cymbal.adsr_amp.set(
             cymbal.props.amp_adsr.a,
             cymbal.props.amp_adsr.d,
@@ -36,7 +37,7 @@ void draw_cymbal_038(const char* id, cymbal_038& cymbal) {
     ImGui::SameLine();
     ImGui::BeginGroup();
     ImGui::Text("hpf cut");
-    if (draw_adsr_038("##hpf_adsr", {1000, 1000, 1, 30000}, cymbal.props.cut_adsr)) {
+    if (draw_adsr_038("##hpf_adsr", {3000, 3000, 1, 3000}, cymbal.props.cut_adsr)) {
         cymbal.adsr_cut.set(
             cymbal.props.cut_adsr.a,
             cymbal.props.cut_adsr.d,

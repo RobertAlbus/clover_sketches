@@ -17,10 +17,9 @@ bool draw_adsr_038(
     ImGui::BeginGroup();  // bounding group
 
     ImGui::PushID(id);
-    bool was_changed = false;
 
     draw_adsr_graph_038("##graph", ranges, adsr, graph_width, graph_height);
-    was_changed |= draw_adsr_knobs_038("##knobs", ranges, adsr, knob_size, knob_flags);
+    bool was_changed = draw_adsr_knobs_038("##knobs", ranges, adsr, knob_size, knob_flags);
 
     ImGui::PopID();
 
