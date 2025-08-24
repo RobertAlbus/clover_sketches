@@ -20,6 +20,7 @@ std::vector<frsq_pair> build_frsq_pairs(
     signal_graph& graph, bar_grid_029& grid, log_bus_000& log, patterns& patterns, arrangement& arrangement) {
     std::vector<frsq_pair> frsq_pairs;
 
+    // constant pump
     frsq_pairs.emplace_back(create_sequencers(
         std::span<ducker>(&graph.sc_pump, 1),
         [](ducker& voice, const event& data) { voice.key_on(); },
@@ -28,6 +29,19 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid,
         patterns.sc_pump,
         arrangement.sc_pump,
+        grid.duration_bars,
+        grid.bars_to_samples(grid.duration_bars),
+        "frsq_sc_pump"));
+
+    // kick ducker
+    frsq_pairs.emplace_back(create_sequencers(
+        std::span<ducker>(&graph.sc_pump, 1),
+        [](ducker& voice, const event& data) { voice.key_on_kick(); },
+        [](ducker& voice) {},
+        log,
+        grid,
+        patterns.kick,
+        arrangement.kick,
         grid.duration_bars,
         grid.bars_to_samples(grid.duration_bars),
         "frsq_sc_pump"));

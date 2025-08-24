@@ -34,6 +34,8 @@ std::pair<float, float> signal_graph::tick() {
 
     sc_pump.tick();
     const float sc_pump_snare_verb = sc_pump.xs[1];
+    const float kick_duck_fast     = sc_pump.xs_kick[0];
+    const float kick_duck_fast_60  = ((kick_duck_fast * 0.6f) + 0.4f);
 
     // ----------------
     // KICK
@@ -47,7 +49,8 @@ std::pair<float, float> signal_graph::tick() {
     float_s kick_send_eq = kick_preverb_peq.tick(kick_send.to_pair());
 
     float_s kick_wet = kick_verb.tick(kick_send_eq.mid());
-    kick_wet         = audio_mixer.at("kick wet").tick(kick_wet);
+    kick_wet *= kick_duck_fast_60;
+    kick_wet = audio_mixer.at("kick wet").tick(kick_wet);
 
     float_s kick_sum = kick_dry + kick_wet;
     kick_sum         = kick_out_peq.tick(kick_sum.to_pair());
@@ -110,6 +113,7 @@ std::pair<float, float> signal_graph::tick() {
 
     update_fm_037(patch.synth.bass_fm_props, bass_fm);
     audio_frame bass = bass_fm.tick();
+    bass *= kick_duck_fast_60;
     float_s bass_out = audio_mixer.at("bass").tick(bass);
 
     // ----------------

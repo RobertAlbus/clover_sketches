@@ -13,7 +13,7 @@ patch_automation_t::patch_automation_t(float fs, float bpm) {
     sc_pump_props = {
         .duration_abs = samples_per_beat,
         .duration_rel = 4,
-        .patterns     = {
+        .envelopes    = {
             {{0, 1}, {0.1, 0}, {0.5, 0}, {1, 1}},  // tight ducking
             {
                 {0, 1},
