@@ -85,8 +85,7 @@ void draw_cymbal_038(const char* id, cymbal_038& cymbal) {
     ImGui::Dummy({0, 20});
 
     ImGui::BeginGroup();  // osc tuning
-    for (auto& osc : cymbal.oscs) {
-        float freq = osc.freq();
+    for (auto [osc, freq] : std::views::zip(cymbal.oscs, cymbal.props.freqs)) {
         ImGui::PushID(&osc);
         if (drag_slider_h_025(freq, 1, 24000)) {
             osc.freq(freq);
