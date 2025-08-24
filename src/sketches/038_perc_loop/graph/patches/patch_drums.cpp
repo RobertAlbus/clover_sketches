@@ -370,4 +370,46 @@ patch_drums_t::patch_drums_t() {
             .type    = filter_type::eq,
         },
     };
+
+    hh3_props = {
+        .freqs            = {2009.6758, 10293.28, 5536.9336, 7529.0117, 17366.127, 20748.287},
+        .hpf_f0           = 1554.72,
+        .hpf_fmod_octaves = 5.976,
+        .hpf_Q            = 10,
+        .bpf_f0           = 7220.481,
+        .bpf_Q            = 10,
+        .amp_adsr         = {1, 1740, 0.08, 6361},
+        .cut_adsr         = {60, 204, 0, 11111},
+    };
+
+    hh3_peq_props = {
+        peq_props_000{
+            .freq    = 249,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 10762,
+            .reso    = 6.637,
+            .gain    = 16.128,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 2497,
+            .reso    = 6.633,
+            .gain    = 14.784,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 6493,
+            .reso    = 7.592,
+            .gain    = 15.936,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+    };
 }

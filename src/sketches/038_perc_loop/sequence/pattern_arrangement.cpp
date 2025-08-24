@@ -42,6 +42,10 @@ arrangement::arrangement() {
         //
         {.start_time = 0, .pattern_index = 1},
     };
+    hh3 = {
+        //
+        {.start_time = 0, .pattern_index = 1},
+    };
 
     chord = {
         //

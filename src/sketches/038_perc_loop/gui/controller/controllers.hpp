@@ -57,6 +57,7 @@ struct controller_ride : public tabbed_controller {
     gpeq_ui_028 gpeq_cymbal{"##ride_peq", graph.ride_peq};
     gpeq_ui_028 gpeq_hh1{"##hh1_peq", graph.hh1_peq};
     gpeq_ui_028 gpeq_hh2{"##hh2_peq", graph.hh2_peq};
+    gpeq_ui_028 gpeq_hh3{"##hh3_peq", graph.hh3_peq};
     void draw() override;
 };
 

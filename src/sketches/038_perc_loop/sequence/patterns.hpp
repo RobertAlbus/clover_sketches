@@ -30,6 +30,7 @@ struct patterns {
     std::vector<pattern_t<event>> ride       = create_pattern_ride();
     std::vector<pattern_t<event>> hh1        = create_pattern_hh1();
     std::vector<pattern_t<event>> hh2        = create_pattern_hh2();
+    std::vector<pattern_t<event>> hh3        = create_pattern_hh3();
     std::vector<pattern_t<event_midi>> chord = create_pattern_chord();
     std::vector<pattern_t<event_midi>> bass  = create_pattern_bass();
 
@@ -39,6 +40,7 @@ struct patterns {
     std::vector<pattern_t<event>> create_pattern_ride();
     std::vector<pattern_t<event>> create_pattern_hh1();
     std::vector<pattern_t<event>> create_pattern_hh2();
+    std::vector<pattern_t<event>> create_pattern_hh3();
     std::vector<pattern_t<event_midi>> create_pattern_chord();
     std::vector<pattern_t<event_midi>> create_pattern_bass();
 };
@@ -58,6 +60,7 @@ struct arrangement {
     std::vector<event_meta_sq> ride;
     std::vector<event_meta_sq> hh1;
     std::vector<event_meta_sq> hh2;
+    std::vector<event_meta_sq> hh3;
     std::vector<event_meta_sq> chord;
     std::vector<event_meta_sq> bass;
     std::vector<event> bar;

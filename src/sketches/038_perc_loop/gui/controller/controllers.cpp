@@ -116,6 +116,12 @@ void controller_ride::draw() {
 
     spacer();
 
+    ImGui::Text("hh3");
+    draw_cymbal_038("hh3", graph.hh3);
+    gpeq_hh3.draw();
+
+    spacer();
+
     ImGui::PopID();
 }
 

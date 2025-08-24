@@ -70,6 +70,9 @@ struct signal_graph {
     driver hh2_driver{patch.drums.hh2_driver_props};
     peq_000 hh2_peq{fs, patch.drums.hh2_peq_props};
 
+    cymbal_038 hh3{fs, patch.drums.hh3_props};
+    peq_000 hh3_peq{fs, patch.drums.hh3_peq_props};
+
     // --------------------------------
     // BASS
 

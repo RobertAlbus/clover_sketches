@@ -100,3 +100,22 @@ std::vector<pattern_t<event>> patterns::create_pattern_hh2() {
              }},
     };
 }
+std::vector<pattern_t<event>> patterns::create_pattern_hh3() {
+    return {
+        {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
+        {.duration_bar = 1,
+         .duration_rel = 4.,
+         .pattern =
+             {
+                 //
+                 {.start_time = 0.05, .duration = 0.4},
+                 {.start_time = 0.55, .duration = 0.4},
+                 {.start_time = 1.05, .duration = 0.4},
+                 {.start_time = 1.55, .duration = 0.4},
+                 {.start_time = 2.05, .duration = 0.4},
+                 {.start_time = 2.55, .duration = 0.4},
+                 {.start_time = 3.05, .duration = 0.4},
+                 {.start_time = 3.55, .duration = 0.4},
+             }},
+    };
+}

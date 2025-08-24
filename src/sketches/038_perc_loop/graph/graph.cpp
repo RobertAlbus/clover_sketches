@@ -109,7 +109,12 @@ std::pair<float, float> signal_graph::tick() {
     hh2_cymbal         = hh2_driver.tick(hh2_cymbal);
     hh2_cymbal         = hh2_peq.tick(hh2_cymbal.to_pair());
 
-    float_s cymbal_sum = hh1_cymbal + hh2_cymbal + ride_cymbal;
+    float_s hh3_cymbal = hh3.tick();
+    hh3_cymbal *= pump_slow_30;
+    hh3_cymbal = audio_mixer.at("hh3").tick(hh3_cymbal) * 0.05f;
+    hh3_cymbal = hh3_peq.tick(hh3_cymbal.to_pair());
+
+    float_s cymbal_sum = hh1_cymbal + hh2_cymbal + hh3_cymbal + ride_cymbal;
     cymbal_sum         = audio_mixer.at("cymbal sum").tick(cymbal_sum);
 
     // ----------------
