@@ -8,7 +8,7 @@
 
 #include "lib/_atom/filter_type.hpp"
 #include "lib/_atom/resettable.hpp"
-#include "lib/_molecule/adsr/draw_adsr_037.hpp"
+#include "lib/_molecule/adsr/draw_adsr_038.hpp"
 #include <format>
 #include <ranges>
 #include <string>
@@ -88,17 +88,8 @@ bool draw_fm_037(const char* id, fm_props_037& props) {
 
         ImGui::BeginGroup();
         ImGui::Text("amp");
-        draw_adsr_037(
-            "##amp_adsr",
-            {24000, 24000, 1, 24000},
-            props.amp_adsrs[op].a,
-            props.amp_adsrs[op].d,
-            props.amp_adsrs[op].s,
-            props.amp_adsrs[op].r,
-            200,
-            50,
-            knob_size,
-            knob_flags);
+        draw_adsr_038(
+            "##amp_adsr", {24000, 24000, 1, 24000}, props.amp_adsrs[op], 200, 50, knob_size, knob_flags);
         ImGui::EndGroup();
 
         ImGui::SameLine();
@@ -107,17 +98,8 @@ bool draw_fm_037(const char* id, fm_props_037& props) {
 
         ImGui::BeginGroup();
         ImGui::Text("pitch");
-        was_changed |= draw_adsr_037(
-            "##pitch_adsr",
-            {24000, 24000, 1, 24000},
-            props.pitch_adsrs[op].a,
-            props.pitch_adsrs[op].d,
-            props.pitch_adsrs[op].s,
-            props.pitch_adsrs[op].r,
-            200,
-            50,
-            knob_size,
-            knob_flags);
+        was_changed |= draw_adsr_038(
+            "##pitch_adsr", {24000, 24000, 1, 24000}, props.pitch_adsrs[op], 200, 50, knob_size, knob_flags);
 
         ImGui::SameLine();
         ImGui::PushID("mod");
@@ -321,17 +303,8 @@ bool draw_fm_037(const char* id, fm_props_037& props) {
 
     ImGui::BeginGroup();
     ImGui::Text("cut env");
-    was_changed |= draw_adsr_037(
-        "##cut_adsr",
-        {24000, 24000, 1, 24000},
-        props.cut_adsr.a,
-        props.cut_adsr.d,
-        props.cut_adsr.s,
-        props.cut_adsr.r,
-        200,
-        50,
-        knob_size,
-        knob_flags);
+    was_changed |=
+        draw_adsr_038("##cut_adsr", {24000, 24000, 1, 24000}, props.cut_adsr, 200, 50, knob_size, knob_flags);
     ImGui::PushID("cut_mod_target");
     float cut_mod_target_octaves = clover::octave_difference_by_frequency(20.0f, props.cut_mod_target);
     ImGui::SameLine();
@@ -357,17 +330,8 @@ bool draw_fm_037(const char* id, fm_props_037& props) {
     ImGui::BeginGroup();
     ImGui::Text("res env");
 
-    was_changed |= draw_adsr_037(
-        "##res_adsr",
-        {24000, 24000, 1, 24000},
-        props.res_adsr.a,
-        props.res_adsr.d,
-        props.res_adsr.s,
-        props.res_adsr.r,
-        200,
-        50,
-        knob_size,
-        knob_flags);
+    was_changed |=
+        draw_adsr_038("##res_adsr", {24000, 24000, 1, 24000}, props.res_adsr, 200, 50, knob_size, knob_flags);
     ImGui::SameLine();
     ImGui::PushID("res_mod_target");
     was_changed |= ImGuiKnobs::Knob(
