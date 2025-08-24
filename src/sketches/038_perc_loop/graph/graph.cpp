@@ -33,9 +33,15 @@ std::pair<float, float> signal_graph::tick() {
     //
 
     sc_pump.tick();
-    const float sc_pump_snare_verb = sc_pump.xs[1];
-    const float kick_duck_fast     = sc_pump.xs_kick[0];
-    const float kick_duck_fast_60  = ((kick_duck_fast * 0.6f) + 0.4f);
+    const float pump_fast = sc_pump.xs[0];
+    const float pump_slow = sc_pump.xs[1];
+
+    const float pump_slow_30 = (pump_slow * 0.3f) + 0.7f;
+
+    const float kick_duck_fast = sc_pump.xs_kick[0];
+    const float kick_duck_slow = sc_pump.xs_kick[1];
+
+    const float kick_duck_fast_60 = ((kick_duck_fast * 0.6f) + 0.4f);
 
     // ----------------
     // KICK
@@ -70,7 +76,7 @@ std::pair<float, float> signal_graph::tick() {
 
     // use post-drive snare body for mixing
     float_s snare_body_drive = snare_body_driver.tick(snare_body);
-    snare_body_drive *= sc_pump_snare_verb;
+    snare_body_drive *= pump_slow;
     snare_body_drive = clamp(snare_body_drive, -0.999, 0.999);
 
     snare_body_drive = audio_mixer.at("snare body").tick(snare_body_drive);
@@ -129,7 +135,8 @@ std::pair<float, float> signal_graph::tick() {
 
     float_s chord_dry         = audio_mixer.at("chord dry").tick(chord_signal);
     float_s chord_verb_signal = audio_mixer.at("chord verb").tick(chord_verb.tick(chord_signal.to_pair()));
-    chord_dry                 = chord_peq.tick(chord_dry.to_pair());
+
+    chord_dry = chord_peq.tick(chord_dry.to_pair());
 
     float_s chord_sum = audio_mixer.at("chord bus").tick(chord_dry + chord_verb_signal);
 

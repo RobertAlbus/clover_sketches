@@ -12,7 +12,7 @@ patch_mix_t::patch_mix_t() {
         {.spacer = true},
         {.name = "kick dry", .props = {.gain = 0.61956525, .pan = 0, .mono = false, .mute = false}},
         {.name = "kick send", .props = {.gain = 1.3586956, .pan = 0, .mono = false, .mute = false}},
-        {.name = "kick wet", .props = {.gain = 0.86956525, .pan = 0, .mono = false, .mute = false}},
+        {.name = "kick wet", .props = {.gain = 0.673913, .pan = 0, .mono = false, .mute = false}},
         {.spacer = true},
         {.name = "bass", .props = {.gain = 0.9021739, .pan = 0, .mono = false, .mute = false}},
         {.spacer = true},
