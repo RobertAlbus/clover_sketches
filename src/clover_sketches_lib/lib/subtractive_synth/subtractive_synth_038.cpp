@@ -44,13 +44,13 @@ std::string subtractive_synth_props_038::to_str() {
     .waveforms = {},
     .pitch_adsr = {},
     .amp_adsr = {},
+    .cut_adsr = {},
+    .res_adsr = {}
     .cut = {},
     .res = {},
     .cut_env_octaves = {},
     .res_env_octaves = {},
     .filter_type = filter_type::{},
-    .cut_adsr = {},
-    .res_adsr = {}
 }};)",
         tuning,
         portamento_time,

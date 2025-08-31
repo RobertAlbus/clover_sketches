@@ -37,7 +37,6 @@ struct subtractive_synth_props_038 {
         waveform_000::sine,
         waveform_000::sine};
 
-    // ADSR configurations using adsr_values structs
     adsr_values pitch_adsr = {1000, 1000, 1, 1000};
     adsr_values amp_adsr   = {1000, 1000, 1, 1000};
     adsr_values cut_adsr   = {1000, 1000, 1, 1000};
