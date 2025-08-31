@@ -25,7 +25,7 @@ bool draw_adsr_knobs_038(
     };
 
     ImGui::PushID("A");
-    ImGuiKnobs::Knob(
+    was_changed |= ImGuiKnobs::Knob(
         "", &adsr.a, 1.0f, ranges.a_max, 0, format(adsr.a), ImGuiKnobVariant_Tick, knob_size, knob_flags);
     was_changed |= resettable(adsr.a, 1000.0f);
     ImGui::PopID();
@@ -33,21 +33,21 @@ bool draw_adsr_knobs_038(
     ImGui::SameLine();
 
     ImGui::PushID("D");
-    ImGuiKnobs::Knob(
+    was_changed |= ImGuiKnobs::Knob(
         "", &adsr.d, 1.0f, ranges.d_max, 0, format(adsr.d), ImGuiKnobVariant_Tick, knob_size, knob_flags);
     was_changed |= resettable(adsr.d, 1000.0f);
     ImGui::PopID();
     ImGui::SameLine();
 
     ImGui::PushID("S");
-    ImGuiKnobs::Knob(
+    was_changed |= ImGuiKnobs::Knob(
         "", &adsr.s, 0.0f, ranges.s_max, 0, "%.2f", ImGuiKnobVariant_Tick, knob_size, knob_flags);
     was_changed |= resettable(adsr.s, 0.7f);
     ImGui::PopID();
     ImGui::SameLine();
 
     ImGui::PushID("R");
-    ImGuiKnobs::Knob(
+    was_changed |= ImGuiKnobs::Knob(
         "", &adsr.r, 1.0f, ranges.r_max, 0, format(adsr.r), ImGuiKnobVariant_Tick, knob_size, knob_flags);
     was_changed |= resettable(adsr.r, 1000.0f);
     ImGui::PopID();
