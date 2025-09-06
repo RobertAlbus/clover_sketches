@@ -18,10 +18,8 @@ arrangement::arrangement() {
     kick = {
         //
         {.start_time = 0, .pattern_index = 1},
-        {.start_time = 72, .pattern_index = 0},
-        {.start_time = 80, .pattern_index = 1},
+        {.start_time = 28, .pattern_index = 0},
     };
-
     snare = {
         //
         {.start_time = 0, .pattern_index = 1},
@@ -38,17 +36,11 @@ arrangement::arrangement() {
     hh1 = {
         //
         {.start_time = 0, .pattern_index = 1},
-        {.start_time = 15, .pattern_index = 2},
-        {.start_time = 16, .pattern_index = 1},
         {.start_time = 28, .pattern_index = 0},
     };
     hh2 = {
         //
         {.start_time = 0, .pattern_index = 1},
-        {.start_time = 0, .pattern_index = 2},
-        {.start_time = 15, .pattern_index = 2},
-        {.start_time = 16, .pattern_index = 1},
-        {.start_time = 28, .pattern_index = 0},
     };
     hh3 = {
         //
@@ -57,46 +49,8 @@ arrangement::arrangement() {
 
     chord = {
         //
-        {.start_time = 0, .pattern_index = 2},
-        {.start_time = 16, .pattern_index = 1},
-        {.start_time = 64, .pattern_index = 2},
-        {.start_time = 80, .pattern_index = 1},
-        {.start_time = 144, .pattern_index = 2},  // eventually pattern_index = 3
-        {.start_time = 208, .pattern_index = 2},
-    };
-
-    constexpr size_t taps_a        = 0;
-    constexpr size_t taps_b        = 1;
-    constexpr size_t taps_c        = 2;
-    constexpr size_t taps_d        = 3;
-    constexpr size_t taps_big_wash = 4;
-
-    constexpr size_t taps_aw = 5;  // taps_a -> taps_big_wash
-    chord_fdn_taps           = {
-        //
-        {.start_time = 0, .pattern_index = taps_a},
-        {.start_time = 16, .pattern_index = taps_b},
-        {.start_time = 32, .pattern_index = taps_c},
-        {.start_time = 48, .pattern_index = taps_d},
-        {.start_time = 64, .pattern_index = taps_a},
-
-        {.start_time = 68, .pattern_index = taps_aw},
-        // {.start_time = 72, .pattern_index = taps_aw_50},
-        // {.start_time = 76, .pattern_index = taps_aw_75},
-
-        {.start_time = 80, .pattern_index = taps_big_wash},
-
-        {.start_time = 128, .pattern_index = taps_aw},
-        // {.start_time = 132, .pattern_index = taps_aw_50},
-        // {.start_time = 136, .pattern_index = taps_aw_25},
-
-        {.start_time = 144, .pattern_index = taps_big_wash},
-
-        {.start_time = 192, .pattern_index = taps_aw},
-        // {.start_time = 196, .pattern_index = taps_aw_50},
-        // {.start_time = 200, .pattern_index = taps_aw_25},
-
-        {.start_time = 108, .pattern_index = taps_a},
+        {.start_time = 0, .pattern_index = 1},
+        {.start_time = 28, .pattern_index = 2},
     };
 
     bass = {
@@ -107,7 +61,7 @@ arrangement::arrangement() {
     // TODO
     // - patterns should be a constructable object
     // - use ctx to configure the duration of the print statement
-    bar = std::views::iota(0, 224) |
+    bar = std::views::iota(0, 32) |
           std::views::transform([](int i) { return event{.start_time = double(i)}; }) |
           std::ranges::to<std::vector>();
 

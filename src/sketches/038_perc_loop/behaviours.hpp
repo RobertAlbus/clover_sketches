@@ -24,8 +24,8 @@ struct behaviours : public behaviour_base {
 
     // lol (160.000001 bpm floating point math and chord pattern: mortal enemies)
     float bpm                  = 134;
-    double duration_bars       = 224;
-    double render_repeat_count = 1;
+    double duration_bars       = 32;
+    double render_repeat_count = 2;
     int channel_count          = 2;
     float sample_rate          = 48000;
 

@@ -2,15 +2,14 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "graph/instrument/ducker.hpp"
 #include "implot.h"
 
 #include "lib/cymbal/cymbal_038.hpp"
-#include "lib/fdn/fdn8_stereo_030.hpp"
 #include "lib/logging/logger.hpp"
 #include "lib/sq/bar_grid_029.hpp"
 
 #include "graph/graph.hpp"
-#include "graph/instrument/ducker.hpp"
 #include "sequence/notes.h"
 #include "sequence/sequencers.hpp"
 #include "sequence/set_up_sequencing.hpp"
@@ -141,18 +140,6 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.duration_bars,
         grid.bars_to_samples(grid.duration_bars),
         "frsq_chord"));
-
-    frsq_pairs.emplace_back(create_sequencers(
-        std::span<fdn8_stereo_030>(&graph.chord_verb, 1),
-        [](fdn8_stereo_030& voice, const event_fdn_8_tap_tuning& data) { voice.props.taps = data.taps; },
-        [](fdn8_stereo_030& voice) {},
-        log,
-        grid,
-        patterns.chord_fdn_taps,
-        arrangement.chord_fdn_taps,
-        grid.duration_bars,
-        grid.bars_to_samples(grid.duration_bars),
-        "frsq_chord_fdn_taps"));
 
     frsq_pairs.emplace_back(create_sequencers(
         std::span<fm_037>(&graph.bass_fm, 1),
