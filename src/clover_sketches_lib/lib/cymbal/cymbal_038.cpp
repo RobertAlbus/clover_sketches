@@ -93,6 +93,7 @@ void cymbal_038::key_off() {
 
 clover_float cymbal_038::tick() {
     float amp_env = adsr_amp.tick();
+    amp_env *= amp_env;
     float cut_env = adsr_cut.tick();
 
     float hpf_freq = clover::frequency_by_octave_difference(props.hpf_f0, props.hpf_fmod_octaves * cut_env);
