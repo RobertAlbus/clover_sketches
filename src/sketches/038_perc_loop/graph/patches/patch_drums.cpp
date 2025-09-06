@@ -383,44 +383,44 @@ patch_drums_t::patch_drums_t() {
     // };
 
     hh3_props = {
-        .freqs            = {61.674118, 8207.366, 284.6565, 305.25494, 3501.4792, 6795.9097},
-        .hpf_f0           = 6860.319,
-        .hpf_fmod_octaves = 1.224,
-        .hpf_Q            = 8.654,
-        .bpf_f0           = 11345.04,
-        .bpf_Q            = 1.288,
-        .amp_adsr         = {50, 493, 0.37, 2521},
-        .cut_adsr         = {60, 124, 0, 1},
+        .freqs            = {7057.3027, 1794.6157, 1843.6337, 1914.5178, 2109.565, 2387.994},
+        .hpf_f0           = 691.44,
+        .hpf_fmod_octaves = 2.664,
+        .hpf_Q            = 2.951,
+        .bpf_f0           = 4822.48,
+        .bpf_Q            = 3.031,
+        .amp_adsr         = {50, 625, 0.28, 601},
+        .cut_adsr         = {60, 433, 0.48, 193},
     };
 
     hh3_peq_props = {
         peq_props_000{
-            .freq    = 5938.7,
-            .reso    = 0.408,
+            .freq    = 614,
+            .reso    = 6.896,
             .gain    = 13.056,
             .enabled = true,
-            .type    = filter_type::eq,
+            .type    = filter_type::hp,
         },
         peq_props_000{
-            .freq    = 5731,
+            .freq    = 2632,
             .reso    = 9.343,
-            .gain    = -24,
+            .gain    = -16.128,
             .enabled = true,
             .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 20,
-            .reso    = 0.707,
-            .gain    = 0,
+            .freq    = 3298,
+            .reso    = 2.936,
+            .gain    = 15.168,
             .enabled = true,
-            .type    = filter_type::hp,
+            .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 20,
-            .reso    = 0.707,
-            .gain    = 0,
+            .freq    = 2202,
+            .reso    = 4.209,
+            .gain    = 14.016,
             .enabled = true,
-            .type    = filter_type::hp,
+            .type    = filter_type::eq,
         },
     };
 }

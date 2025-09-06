@@ -107,27 +107,31 @@ patch_synth_t::patch_synth_t() {
     //     .res_env_octaves = 0,
     //     .filter_type     = filter_type::lp};
 
-    // chord_fdn_props = {
-    //     .stereo_spread_taps_octaves = 0.458,
-    //     .taps    = {1012.00006, 287.87997, 290.91763, 300.22708, 698.1039, 713.03784, 150.73712,
-    //     158.75778}, .fb_gain = 0.823, .lpf_cut = 1521.3751, .lpf_res = 0.707, .hpf_cut = 71.12249, .hpf_res
-    //     = 0.707,
-    // };
+    chord_fdn_props = {
+        .stereo_spread_taps_octaves = 0.458,
+        .taps    = {1012.00006, 287.87997, 290.91763, 300.22708, 698.1039, 713.03784, 150.73712, 158.75778},
+        .fb_gain = 0.823,
+        .lpf_cut = 1521.3751,
+        .lpf_res = 0.707,
+        .hpf_cut = 71.12249,
+        .hpf_res = 0.707,
+    };
+
     // walk through taps[0] = 1012, 1022, 1033, 103
 
     /*
     later:
     lerp toward these props to grow a big wash in the back 9, and pump it
     */
-    chord_fdn_props = {
-        .stereo_spread_taps_octaves = 0.458,
-        .taps                       = {32238.998, 16120, 870, 435, 217.49998, 108, 54.000004, 27},
-        .fb_gain                    = 0.847,
-        .lpf_cut                    = 4182.1816,
-        .lpf_res                    = 0.707,
-        .hpf_cut                    = 71.12249,
-        .hpf_res                    = 0.707,
-    };
+    // chord_fdn_props = {
+    //     .stereo_spread_taps_octaves = 0.458,
+    //     .taps                       = {32238.998, 16120, 870, 435, 217.49998, 108, 54.000004, 27},
+    //     .fb_gain                    = 0.847,
+    //     .lpf_cut                    = 4182.1816,
+    //     .lpf_res                    = 0.707,
+    //     .hpf_cut                    = 71.12249,
+    //     .hpf_res                    = 0.707,
+    // };
 
     std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props{
         peq_props_000{
