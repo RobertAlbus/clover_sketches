@@ -112,7 +112,7 @@ patch_drums_t::patch_drums_t() {
     // original snare props
     snare_body_resonator_props = {
         .stereo_spread_taps_octaves = 0.068,
-        .taps    = {67.29404, 105.10034, 205.93652, 10479.166, 264.70828, 114.08613, 65.30492, 57.954212},
+        .taps    = {67.29404, 105.10034, 205.93652, 1952.976, 264.70828, 114.08613, 65.30492, 57.954212},
         .fb_gain = 0.978,
         .lpf_cut = 643.6013,
         .lpf_res = 0.707,
@@ -371,45 +371,56 @@ patch_drums_t::patch_drums_t() {
         },
     };
 
+    // hh3_props = {
+    //     .freqs            = {2009.6758, 10293.28, 5536.9336, 7529.0117, 17366.127, 20748.287},
+    //     .hpf_f0           = 1554.72,
+    //     .hpf_fmod_octaves = 5.976,
+    //     .hpf_Q            = 10,
+    //     .bpf_f0           = 7220.481,
+    //     .bpf_Q            = 10,
+    //     .amp_adsr         = {1, 1740, 0.08, 6361},
+    //     .cut_adsr         = {60, 204, 0, 11111},
+    // };
+
     hh3_props = {
-        .freqs            = {2009.6758, 10293.28, 5536.9336, 7529.0117, 17366.127, 20748.287},
-        .hpf_f0           = 1554.72,
-        .hpf_fmod_octaves = 5.976,
-        .hpf_Q            = 10,
-        .bpf_f0           = 7220.481,
-        .bpf_Q            = 10,
-        .amp_adsr         = {1, 1740, 0.08, 6361},
-        .cut_adsr         = {60, 204, 0, 11111},
+        .freqs            = {61.674118, 8207.366, 284.6565, 305.25494, 3501.4792, 6795.9097},
+        .hpf_f0           = 6860.319,
+        .hpf_fmod_octaves = 1.224,
+        .hpf_Q            = 8.654,
+        .bpf_f0           = 11345.04,
+        .bpf_Q            = 1.288,
+        .amp_adsr         = {50, 493, 0.37, 2521},
+        .cut_adsr         = {60, 124, 0, 1},
     };
 
     hh3_peq_props = {
         peq_props_000{
-            .freq    = 249,
+            .freq    = 5938.7,
+            .reso    = 0.408,
+            .gain    = 13.056,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 5731,
+            .reso    = 9.343,
+            .gain    = -24,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 20,
             .reso    = 0.707,
             .gain    = 0,
             .enabled = true,
             .type    = filter_type::hp,
         },
         peq_props_000{
-            .freq    = 10762,
-            .reso    = 6.637,
-            .gain    = 16.128,
+            .freq    = 20,
+            .reso    = 0.707,
+            .gain    = 0,
             .enabled = true,
-            .type    = filter_type::eq,
-        },
-        peq_props_000{
-            .freq    = 2497,
-            .reso    = 6.633,
-            .gain    = 14.784,
-            .enabled = true,
-            .type    = filter_type::eq,
-        },
-        peq_props_000{
-            .freq    = 6493,
-            .reso    = 7.592,
-            .gain    = 15.936,
-            .enabled = true,
-            .type    = filter_type::eq,
+            .type    = filter_type::hp,
         },
     };
 }

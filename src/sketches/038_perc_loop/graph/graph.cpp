@@ -21,6 +21,8 @@ signal_graph::signal_graph(float fs, float bpm) : fs{fs}, bpm{bpm}, patch{fs, bp
     snare_body_impulse.oscs[3].waveform = clover::dsp::wave_noise;
     snare_body_impulse.oscs[4].waveform = clover::dsp::wave_noise;
     snare_body_impulse.oscs[5].waveform = clover::dsp::wave_noise;
+
+    hh3.oscs[0].waveform = clover::dsp::wave_noise;
 }
 
 std::pair<float, float> signal_graph::tick() {
