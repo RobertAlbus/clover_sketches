@@ -6,15 +6,13 @@
 
 #include "draw_adsr.hpp"
 #include "imgui-knobs.h"
+#include "lib/_atom/adsr/adsr.hpp"
 
-bool draw_adsr_037(
+bool draw_adsr_038(
     const char* id,
     const adsr_ranges_000& ranges,
-    float& a,
-    float& d,
-    float& s,
-    float& r,
-    float graphj_width        = 200.0f,
-    float graphj_height       = 100.0f,
+    adsr_values& adsr,
+    float graph_width         = 200.0f,
+    float graph_height        = 100.0f,
     float knob_size           = 0.f,
-    ImGuiKnobFlags knob_flags = 0);
+    ImGuiKnobFlags knob_flags = ImGuiKnobFlags_NoTitle);

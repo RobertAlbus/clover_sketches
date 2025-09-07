@@ -2,8 +2,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <cmath>
-
 #include "bar_grid.hpp"
 
 bar_grid::bar_grid(float fs, double bpm, double duration_bars, bool should_loop, double beats_per_bar)

@@ -72,7 +72,6 @@ void controller_snare::draw() {
     draw_fdn8_023_v2("##snare_body", graph.snare_resonator);
     ImGui::PushID("resonator");
     ImGuiKnobs::Knob("spread", &graph.snare_resonator.props.stereo_spread_taps_octaves, 0, 1);
-    ImGui::PopID();
 
     spacer();
 
@@ -111,10 +110,6 @@ void controller_ride::draw() {
 
 void controller_chord::draw() {
     ImGui::PushID(name);
-    if (ImGui::Button("get subtractive_synth patch")) {
-        ImGui::SetClipboardText(graph.chord[0].props.to_str().c_str());
-    }
-
     draw_subtractive_synth_036("##chords", graph.patch.synth.chord_props);
 
     spacer();

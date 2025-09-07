@@ -3,7 +3,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <algorithm>
-#include <cmath>
 
 #include "clover/math.hpp"
 

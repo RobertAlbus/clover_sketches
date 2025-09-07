@@ -4,8 +4,6 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include <cmath>
-
 #include "lib/cymbal/cymbal_000.hpp"
 
 struct cymbal_024 : public cymbal_000 {

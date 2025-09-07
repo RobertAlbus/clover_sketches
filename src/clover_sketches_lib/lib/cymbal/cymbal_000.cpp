@@ -20,7 +20,6 @@ using namespace dsp;
 
 std::string cymbal_props_000::to_str() {
     return std::format(
-
         R"({{
             .freqs            = {{ {}, {}, {}, {}, {}, {} }},
             .hpf_f0           = {},

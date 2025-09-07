@@ -1,4 +1,4 @@
-#include "draw_adsr_graph_037.hpp"
+#include "draw_adsr_graph_038.hpp"
 #include "imgui.h"
 
 #include <algorithm>
@@ -6,15 +6,8 @@
 #include <cmath>
 #include <ranges>
 
-void draw_adsr_graph_037(
-    const char* id,
-    const adsr_ranges_000& ranges,
-    float a,
-    float d,
-    float s,
-    float r,
-    float width,
-    float height) {
+void draw_adsr_graph_038(
+    const char* id, const adsr_ranges_000& ranges, const adsr_values& adsr, float width, float height) {
     ImGui::PushID(id);
 
     auto time_to_display = [](float time_ms, float max_ms) -> float {
@@ -29,9 +22,9 @@ void draw_adsr_graph_037(
     ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
     // apply log scaling for time values
-    float a_display = time_to_display(a, ranges.a_max);
-    float d_display = time_to_display(d, ranges.d_max);
-    float r_display = time_to_display(r, ranges.r_max);
+    float a_display = time_to_display(adsr.a, ranges.a_max);
+    float d_display = time_to_display(adsr.d, ranges.d_max);
+    float r_display = time_to_display(adsr.r, ranges.r_max);
 
     // normalize for total display width
     float total_display = a_display + d_display + 0.3f + r_display;  // 0.3f for sustain visual
@@ -44,7 +37,7 @@ void draw_adsr_graph_037(
         (a_display + d_display) / scale,
         (a_display + d_display + sus_length) / scale,
         (a_display + d_display + sus_length + r_display) / scale};
-    std::array<float, 5> y_points{0.0f, 1.0f, s / ranges.s_max, s / ranges.s_max, 0.0f};
+    std::array<float, 5> y_points{0.0f, 1.0f, adsr.s / ranges.s_max, adsr.s / ranges.s_max, 0.0f};
     for (auto& x : y_points) {
         x *= 0.9f;
     }

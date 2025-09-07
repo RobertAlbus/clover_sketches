@@ -53,7 +53,6 @@ inline constexpr std::array<float, 256> hadamard_16x16 = {
 // clang-format on
 
 inline constexpr float scale(const float x) noexcept {
-    // C++23 constexpr std::sqrt
     return 1 / std::sqrt(x);
 }
 

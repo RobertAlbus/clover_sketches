@@ -3,7 +3,6 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <numeric>
-#include <print>
 #include <ranges>
 
 #include "clover/dsp/filter.hpp"
@@ -16,15 +15,14 @@ using namespace dsp;
 
 std::string fdn8_props_000::to_str() {
     return std::format(
-        "\
-{{\n\
-    .taps     = {{{}, {}, {}, {}, {}, {}, {}, {}}}, \n\
-    .fb_gain  = {}, \n\
-    .lpf_cut  = {}, \n\
-    .lpf_res  = {}, \n\
-    .hpf_cut  = {}, \n\
-    .hpf_res  = {}, \n\
-}};",
+        R"({{
+    .taps     = {{{}, {}, {}, {}, {}, {}, {}, {}}},
+    .fb_gain  = {},
+    .lpf_cut  = {},
+    .lpf_res  = {},
+    .hpf_cut  = {},
+    .hpf_res  = {},
+}};)",
         taps[0],
         taps[1],
         taps[2],

@@ -8,7 +8,6 @@
 
 #include "fdn8_023.hpp"
 #include <concepts>
-#include <ranges>
 
 void draw_fdn8_023(const char* id, fdn8_023* fdn_L, fdn8_023* fdn_R = nullptr);
 
@@ -81,11 +80,10 @@ bool draw_fdn8_023_v2(const char* id, fdn_t& fdn) {
 
         float available_width = ImGui::GetContentRegionAvail().x;
 
-        std::array<float, 8>& taps_L = fdn.props.taps;
-        for (auto [i, tap_L] : std::views::zip(std::views::iota(0, 8), taps_L)) {
-            float tap_slider_control = (tap_L - tap_min) / tap_range;
+        for (auto& tap : fdn.props.taps) {
+            float tap_slider_control = (tap - tap_min) / tap_range;
             was_changed |= draw_tap_control(
-                tap_L,  //
+                tap,  //
                 tap_min,
                 tap_max,
                 tap_range,
