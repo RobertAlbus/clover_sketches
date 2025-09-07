@@ -48,6 +48,8 @@ void controller_kick::draw() {
     spacer();
     draw_fdn8_023_v2("##kick_fdn", graph.kick_verb);
     spacer();
+    gpeq_return.draw();
+    spacer();
     gpeq_post.draw();
 
     ImGui::PopID();

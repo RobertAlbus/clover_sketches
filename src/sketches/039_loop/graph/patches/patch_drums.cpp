@@ -67,6 +67,37 @@ patch_drums_t::patch_drums_t() {
         .hpf_res = 0.707,
     };
 
+    kick_postverb_peq_props = {
+        peq_props_000{
+            .freq    = 81,
+            .reso    = 1.284,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 38,
+            .reso    = 0.687,
+            .gain    = 3.648,
+            .enabled = false,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 1068,
+            .reso    = 0.628,
+            .gain    = 9.216,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 1377,
+            .reso    = 2,
+            .gain    = 24,
+            .enabled = false,
+            .type    = filter_type::eq,
+        },
+    };
+
     kick_peq_props = {
         peq_props_000{
             .freq    = 37,

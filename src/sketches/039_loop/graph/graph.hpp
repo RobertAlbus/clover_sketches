@@ -40,6 +40,7 @@ struct signal_graph {
     kick_drum_038 kick{fs, patch.drums.kick_drum_props};
     peq_000 kick_preverb_peq{fs, patch.drums.kick_preverb_peq_props};
     fdn8_023 kick_verb{fs, patch.drums.kick_fdn_props};
+    peq_000 kick_postverb_peq{fs, patch.drums.kick_postverb_peq_props};
     peq_000 kick_out_peq{fs, patch.drums.kick_peq_props};
 
     // --------------------------------

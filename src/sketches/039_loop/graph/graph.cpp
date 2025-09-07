@@ -60,6 +60,8 @@ std::pair<float, float> signal_graph::tick() {
     kick_wet *= kick_duck_fast_60;
     kick_wet = audio_mixer.at("kick wet").tick(kick_wet);
 
+    kick_wet = kick_postverb_peq.tick(kick_wet.to_pair());
+
     float_s kick_sum = kick_dry + kick_wet;
     kick_sum         = kick_out_peq.tick(kick_sum.to_pair());
     kick_sum         = audio_mixer.at("kick bus").tick(kick_sum);

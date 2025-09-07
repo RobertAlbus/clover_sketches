@@ -33,6 +33,7 @@ struct patch_drums_t {
     kick_props_038 kick_drum_props;
     fdn8_props_023 kick_fdn_props;
     std::array<peq_props_000, peq_000::SIZE> kick_preverb_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> kick_postverb_peq_props;
     std::array<peq_props_000, peq_000::SIZE> kick_peq_props;
 
     // --------------------------------

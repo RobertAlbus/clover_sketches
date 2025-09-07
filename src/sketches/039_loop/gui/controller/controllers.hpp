@@ -32,6 +32,7 @@ struct controller_kick : public tabbed_controller {
     using tabbed_controller::tabbed_controller;
 
     gpeq_ui_028 gpeq_send{"##kick_preverb_peq", graph.kick_preverb_peq};
+    gpeq_ui_028 gpeq_return{"##kick_postverb_peq", graph.kick_postverb_peq};
     gpeq_ui_028 gpeq_post{"##kick_out_peq", graph.kick_out_peq};
     void draw() override;
 };
