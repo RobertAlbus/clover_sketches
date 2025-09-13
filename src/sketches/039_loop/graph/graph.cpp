@@ -127,9 +127,19 @@ std::pair<float, float> signal_graph::tick() {
     //
 
     update_fm_037(patch.synth.bass_fm_props, bass_fm);
-    audio_frame bass = bass_fm.tick();
+    float_s bass = bass_fm.tick();
     bass *= kick_duck_fast_60;
-    float_s bass_out = audio_mixer.at("bass").tick(bass);
+    float_s bass_send = bass_preverb_peq.tick(bass.to_pair());
+    bass_send         = audio_mixer.at("bass send").tick(bass_send) * 2.f;
+    bass              = audio_mixer.at("bass dry").tick(bass) * 0.5f;
+
+    float_s bass_wet = bass_verb.tick(bass_send.to_pair());
+    bass_wet         = bass_postverb_peq.tick(bass_wet.to_pair());
+    bass_wet         = audio_mixer.at("bass wet").tick(bass_wet);
+
+    float_s bass_out = bass + bass_wet;
+    bass_out         = bass_peq.tick(bass_out.to_pair());
+    bass_out         = audio_mixer.at("bass bus").tick(bass_out);
 
     // ----------------
     // CHORD

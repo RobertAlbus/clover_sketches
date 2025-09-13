@@ -61,6 +61,14 @@ void controller_bass::draw() {
     draw_fm_037("##bass_fm", graph.patch.synth.bass_fm_props);
 
     spacer();
+    gpeq_send.draw();
+    spacer();
+    ImGuiKnobs::Knob("stereo spread", &graph.bass_verb.props.stereo_spread_taps_octaves, -1, 1);
+    draw_fdn8_023_v2("##bass_fdn", graph.bass_verb);
+    spacer();
+    gpeq_return.draw();
+    spacer();
+    gpeq_post.draw();
 
     ImGui::PopID();
 }

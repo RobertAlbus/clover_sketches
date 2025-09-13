@@ -39,6 +39,9 @@ struct controller_kick : public tabbed_controller {
 
 struct controller_bass : public tabbed_controller {
     using tabbed_controller::tabbed_controller;
+    gpeq_ui_028 gpeq_send{"##bass_preverb_peq", graph.bass_preverb_peq};
+    gpeq_ui_028 gpeq_return{"##bass_postverb_peq", graph.bass_postverb_peq};
+    gpeq_ui_028 gpeq_post{"##bass_out_peq", graph.bass_peq};
 
     void draw() override;
 };

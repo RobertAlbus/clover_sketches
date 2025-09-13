@@ -74,6 +74,10 @@ struct patch_synth_t {
     // --------------------------------
     // BASS
     fm_props_037 bass_fm_props;
+    fdn8_stereo_030_props bass_fdn_props;
+    std::array<peq_props_000, peq_000::SIZE> bass_preverb_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> bass_postverb_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> bass_peq_props;
 
     // --------------------------------
     // CHORD

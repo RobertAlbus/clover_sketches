@@ -108,13 +108,20 @@ std::vector<pattern_t<event_midi>> patterns::create_pattern_chord() {
 std::vector<pattern_t<event_midi>> patterns::create_pattern_bass() {
     return {
         {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
-        {.duration_bar = 1,
-         .duration_rel = 4.,
+        {.duration_bar = 0.75,
+         .duration_rel = 3.,
          .pattern =
              {
                  // clang-format off
-                 {.start_time = 0.5, .duration = 1, .note = note::G4 - 24},
-                //  {.start_time = 3,   .duration = 0.95, .note = note::G4 - 24},
+                 {.start_time = 1.5,  .duration = 0.25, .note = note::G2},
+                 {.start_time = 1.75, .duration = 0.25, .note = note::G2},
+                 {.start_time = 2.25, .duration = 0.25, .note = note::G2},
+                //  {.start_time = 3.5,  .duration = 0.25, .note = note::G2},
+
+                //  {.start_time = 4.5,  .duration = 0.25, .note = note::G2},
+                //  {.start_time = 5.75, .duration = 0.25, .note = note::G2},
+                //  {.start_time = 6.25, .duration = 0.25, .note = note::G2},
+
                  // clang-format on
              }},
     };

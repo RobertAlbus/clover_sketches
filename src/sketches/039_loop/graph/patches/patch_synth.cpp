@@ -10,48 +10,130 @@ patch_synth_t::patch_synth_t() {
     // BASS
 
     // clang-format off
-    bass_fm_props = fm_props_037
-        // {
-        //     .tunings = {0.95, 1.12, 1, 0.5, 5, 12,},
-        //     .tuning_types = {fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio},
-        //     .mod_matrix = {1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-        //     .matrix_octave_range = 5,
-        //     .amp_adsrs = {{{ 1, 12099.5, 0, 4227.828 }, { 1, 12579.479, 0, 100 }, { 100, 100, 1, 100 }, { 100, 24000, 0.004, 10659.561 }, { 14019.421, 100, 1, 100 }, { 8355.656, 100, 1, 100 }}},
-        //     .pitch_adsrs = {{{ 100, 100, 1, 100 }, { 100, 1, 1, 100 }, { 100, 100, 1, 100 }, { 100, 100, 1, 100 }, { 100, 100, 1, 100 }, { 100, 100, 1, 100 }}},
-        //     .pitch_env_mod_depths = {0, 0, 0, 0, 0, 0,},
-        //     .op_pans = {-1, 1, 0, 0, 0, 0,},
-        //     .op_output_gains = {1, 1, 0, 1, 0, 0,},
-        //     .filter_type = filter_type::lp,
-        //     .cut_adsr = { 288.988, 5091.792, 0.38400003, 100 },
-        //     .res_adsr = { 1, 1, 0.004, 1 },
-        //     .cut = 31.119287,
-        //     .cut_mod_target = 507.02576,
-        //     .res = 2.331,
-        //     .res_mod_target = 10,
-        //     .retrigger = true,
-        // };
-        /* transition to this when chord verb grows big */
-        {
-            .tunings = {0.95, 1.12, 1, 0.5, 5, 12,},
+    bass_fm_props = fm_props_037 {
+            .tunings = {0.95, 1.12, 4, 0.5, 1.52, 1.47,},
             .tuning_types = {fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio},
-            .mod_matrix = {1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+            .mod_matrix = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.3, 0.1, 0, 0, 0, 0, 0.38, 0, 0.15,},
             .matrix_octave_range = 10,
-            .amp_adsrs = {{{ 1, 23427, 0, 4227.828 }, { 1, 22755, 0, 100 }, { 100, 100, 1, 100 }, { 100, 24000, 0.004, 10659.561 }, { 1441, 100, 1, 100 }, { 1252, 100, 1, 100 }}},
-            .pitch_adsrs = {{{ 100, 100, 1, 100 }, { 100, 1, 1, 100 }, { 100, 100, 1, 100 }, { 100, 100, 1, 100 }, { 100, 100, 1, 100 }, { 100, 100, 1, 100 }}},
-            .pitch_env_mod_depths = {0, 0, 0, 0, 0, 0,},
-            .op_pans = {-1, 1, 0, 0, 0, 0,},
-            .op_output_gains = {1, 1, 0, 1, 0, 0,},
+            .amp_adsrs = {{{ 1111, 23427, 0, 1000 }, { 1111, 22755, 0, 1000 }, { 1, 2785, 0, 100 }, { 100, 1000, 1, 6721 }, { 1673, 1000, 1, 6721 }, { 1673, 1000, 1, 6721 }}},
+            .pitch_adsrs = {{{ 100, 100, 1, 100 }, { 100, 1, 1, 100 }, { 100, 100, 1, 100 }, { 100, 100, 1, 100 }, { 100, 1444, 0, 100 }, { 100, 1444, 0, 100 }}},
+            .pitch_env_mod_depths = {0, 0, 0, 0, 2, 2,},
+            .op_pans = {0, 0, 0, 0, -1, 1,},
+            .op_output_gains = {0, 0, 0, 1, 0.41, 0.45,},
             .filter_type = filter_type::lp,
-            .cut_adsr = { 8641, 5091.792, 0.38400003, 100 },
+            .cut_adsr = { 865, 1444, 0.66, 964 },
             .res_adsr = { 1, 1, 0.004, 1 },
-            .cut = 31.119287,
-            .cut_mod_target = 650.1747,
+            .cut = 117.22743,
+            .cut_mod_target = 453.97336,
             .res = 2.331,
-            .res_mod_target = 10,
+            .res_mod_target = 2.331,
             .retrigger = true,
         };
 
     // clang-format on
+
+    bass_preverb_peq_props = {
+        peq_props_000{
+            .freq    = 207,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = false,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 2813,
+            .reso    = 0.727,
+            .gain    = 24,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 20000,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = false,
+            .type    = filter_type::lp,
+        },
+        peq_props_000{
+            .freq    = 20000,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = false,
+            .type    = filter_type::lp,
+        },
+    };
+
+    bass_fdn_props = {
+        .stereo_spread_taps_octaves = 0.288,
+        .taps    = {83.14714, 66.62393, 56.258614, 64.65587, 52.506554, 72.91961, 58.531555, 53.025604},
+        .fb_gain = 0.805,
+        .lpf_cut = 13369.55,
+        .lpf_res = 0.707,
+        .hpf_cut = 34.435,
+        .hpf_res = 0.707,
+    };
+
+    bass_postverb_peq_props = {
+        peq_props_000{
+            .freq    = 423,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 155,
+            .reso    = 1.981,
+            .gain    = -24,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 1657,
+            .reso    = 1.562,
+            .gain    = 4.992,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 7160,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::lp,
+        },
+    };
+
+    bass_peq_props = {
+        peq_props_000{
+            .freq    = 44,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 188,
+            .reso    = 0.946,
+            .gain    = -5.376,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 2335,
+            .reso    = 0.269,
+            .gain    = 6.528,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 20000,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = false,
+            .type    = filter_type::lp,
+        },
+    };
 
     // --------------------------------
     // CHORD

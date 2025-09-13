@@ -79,6 +79,11 @@ struct signal_graph {
 
     fm_037 bass_fm{fs, patch.synth.bass_fm_props};
 
+    peq_000 bass_preverb_peq{fs, patch.synth.bass_preverb_peq_props};
+    fdn8_stereo_030 bass_verb{fs, patch.synth.bass_fdn_props};
+    peq_000 bass_postverb_peq{fs, patch.synth.bass_postverb_peq_props};
+    peq_000 bass_peq{fs, patch.synth.bass_peq_props};
+
     // --------------------------------
     // CHORD
 
