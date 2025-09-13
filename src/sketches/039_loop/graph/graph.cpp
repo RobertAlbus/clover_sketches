@@ -80,8 +80,7 @@ std::pair<float, float> signal_graph::tick() {
 
     // use post-drive snare body for mixing
     float_s snare_body_drive = snare_body_driver.tick(snare_body);
-    snare_body_drive *= pump_slow;
-    snare_body_drive = clamp(snare_body_drive, -0.999, 0.999);
+    snare_body_drive         = clamp(snare_body_drive, -0.999, 0.999);
 
     snare_body_drive = audio_mixer.at("snare body").tick(snare_body_drive);
     snare_body_drive = snare_body_eq.tick(snare_body_drive.to_pair());

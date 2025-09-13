@@ -142,12 +142,12 @@ patch_drums_t::patch_drums_t() {
 
     // original snare props
     snare_body_resonator_props = {
-        .stereo_spread_taps_octaves = 0.068,
-        .taps    = {4668.9956, 2148.9094, 205.93652, 191.43791, 149.18358, 114.08613, 65.30492, 57.954212},
+        .stereo_spread_taps_octaves = 0.14,
+        .taps    = {53.136215, 54.52403, 54.28738, 60.371044, 54.573303, 56.342487, 59.93622, 55.43652},
         .fb_gain = 0.978,
-        .lpf_cut = 3187.2617,
+        .lpf_cut = 2185.4946,
         .lpf_res = 0.707,
-        .hpf_cut = 167.97565,
+        .hpf_cut = 795.0293,
         .hpf_res = 0.707,
     };
 
@@ -164,8 +164,8 @@ patch_drums_t::patch_drums_t() {
     // };
 
     snare_body_driver_props = {
-        .drive_input = 1.264,
-        .drive_clip  = 4.712,
+        .drive_input = 5.472,
+        .drive_clip  = 3.04,
         .clip_thresh = 0.96,
         .trim        = 10,
     };
