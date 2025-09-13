@@ -32,7 +32,7 @@ patch_drums_t::patch_drums_t() {
             .freq    = 1046,
             .reso    = 4.608,
             .gain    = 0,
-            .enabled = true,
+            .enabled = false,
             .type    = filter_type::lp,
         },
         peq_props_000{
@@ -46,7 +46,7 @@ patch_drums_t::patch_drums_t() {
             .freq    = 49,
             .reso    = 4.528,
             .gain    = 24,
-            .enabled = true,
+            .enabled = false,
             .type    = filter_type::eq,
         },
         peq_props_000{
@@ -57,19 +57,18 @@ patch_drums_t::patch_drums_t() {
             .type    = filter_type::eq,
         },
     };
-
     kick_fdn_props = {
-        .taps    = {62.12766, 80.65981, 90.18173, 98.8457, 452.64426, 641.44763, 79.04517, 8652.805},
+        .taps    = {10368.262, 129.08423, 138.75969, 174.31581, 221.55664, 309.83853, 438.54483, 492.51968},
         .fb_gain = 0.96,
-        .lpf_cut = 8501.097,
+        .lpf_cut = 483.1446,
         .lpf_res = 0.707,
-        .hpf_cut = 26.642181,
+        .hpf_cut = 86.464615,
         .hpf_res = 0.707,
     };
 
     kick_postverb_peq_props = {
         peq_props_000{
-            .freq    = 81,
+            .freq    = 206,
             .reso    = 1.284,
             .gain    = 0,
             .enabled = true,
@@ -86,18 +85,17 @@ patch_drums_t::patch_drums_t() {
             .freq    = 1068,
             .reso    = 0.628,
             .gain    = 9.216,
-            .enabled = true,
-            .type    = filter_type::eq,
-        },
-        peq_props_000{
-            .freq    = 1377,
-            .reso    = 2,
-            .gain    = 24,
             .enabled = false,
             .type    = filter_type::eq,
         },
+        peq_props_000{
+            .freq    = 463,
+            .reso    = 0.846,
+            .gain    = 24,
+            .enabled = true,
+            .type    = filter_type::lp,
+        },
     };
-
     kick_peq_props = {
         peq_props_000{
             .freq    = 37,
@@ -109,7 +107,7 @@ patch_drums_t::patch_drums_t() {
         peq_props_000{
             .freq    = 204,
             .reso    = 1.363,
-            .gain    = -6.144,
+            .gain    = -2.304,
             .enabled = true,
             .type    = filter_type::ls,
         },
@@ -145,11 +143,11 @@ patch_drums_t::patch_drums_t() {
     // original snare props
     snare_body_resonator_props = {
         .stereo_spread_taps_octaves = 0.068,
-        .taps    = {67.29404, 105.10034, 205.93652, 1952.976, 264.70828, 114.08613, 65.30492, 57.954212},
+        .taps    = {4668.9956, 2148.9094, 205.93652, 191.43791, 149.18358, 114.08613, 65.30492, 57.954212},
         .fb_gain = 0.978,
-        .lpf_cut = 643.6013,
+        .lpf_cut = 3187.2617,
         .lpf_res = 0.707,
-        .hpf_cut = 67.91454,
+        .hpf_cut = 167.97565,
         .hpf_res = 0.707,
     };
 

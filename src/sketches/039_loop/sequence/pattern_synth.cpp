@@ -9,6 +9,17 @@
 std::vector<pattern_t<event_midi>> patterns::create_pattern_chord() {
     return {
         {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
+        {.duration_bar = 1,
+         .duration_rel = 3.,
+         .pattern =
+             {
+                 {.start_time = 1.5, .duration = 0.25, .note = note::F4},
+                 {.start_time = 1.5, .duration = 0.25, .note = note::Gs4},
+                 {.start_time = 1.75, .duration = 0.25, .note = note::F4},
+                 {.start_time = 1.75, .duration = 0.25, .note = note::Gs4},
+                 {.start_time = 2.25, .duration = 0.25, .note = note::F4},
+                 {.start_time = 2.25, .duration = 0.25, .note = note::Gs4},
+             }},
         {.duration_bar = 4,
          .duration_rel = 16.,
          .pattern =

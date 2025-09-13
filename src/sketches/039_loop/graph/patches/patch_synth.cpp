@@ -3,6 +3,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include "lib/fm/fm_037.hpp"
+#include "lib/subtractive_synth/subtractive_synth_038.hpp"
 #include "patches.hpp"
 
 patch_synth_t::patch_synth_t() {
@@ -143,7 +144,7 @@ patch_synth_t::patch_synth_t() {
         .portamento_time   = 0,
         .pitch_env_octaves = 1,
         .retrigger         = true,
-        .osc_tunings       = {0, 0, 12, 12, 0, 0},
+        .osc_tunings       = {-12.01, -19.98, -0.06, 0.04, 0, 0},
         .osc_pans          = {-1, 1, -1, 1, -1, 1},
         .osc_gains         = {1, 1, 1, 1, 0.52, 0.46},
         .waveforms =
@@ -154,15 +155,14 @@ patch_synth_t::patch_synth_t() {
              waveform_000::noise,
              waveform_000::noise},
         .pitch_adsr      = {10, 10, 0, 10},
-        .amp_adsr        = {100, 5056, 0.15, 100},
-        .cut_adsr        = {100, 2000, 0.48095232, 100},
+        .amp_adsr        = {1000, 1000, 1, 1000},
+        .cut_adsr        = {484, 2000, 0.48095232, 100},
         .res_adsr        = {10, 1000, 0, 100},
         .cut             = 500,
         .res             = 1,
         .cut_env_octaves = 2.98,
         .res_env_octaves = 0,
-        .filter_type     = filter_type::lp,
-    };
+        .filter_type     = filter_type::lp};
 
     // chord_props = {
     //     .tuning            = 0,
@@ -191,11 +191,11 @@ patch_synth_t::patch_synth_t() {
 
     chord_fdn_props = {
         .stereo_spread_taps_octaves = 0.458,
-        .taps    = {1012.00006, 287.87997, 290.91763, 300.22708, 698.1039, 713.03784, 150.73712, 158.75778},
-        .fb_gain = 0.823,
-        .lpf_cut = 1521.3751,
+        .taps    = {1012.00006, 1579.2759, 2195.0586, 3218.133, 5137.9746, 8031.835, 11532.25, 16558.967},
+        .fb_gain = 0.973,
+        .lpf_cut = 1742.7249,
         .lpf_res = 0.707,
-        .hpf_cut = 71.12249,
+        .hpf_cut = 1012.182,
         .hpf_res = 0.707,
     };
 
