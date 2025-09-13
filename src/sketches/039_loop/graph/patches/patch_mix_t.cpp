@@ -25,7 +25,6 @@ patch_mix_t::patch_mix_t() {
             {.name  = "snare impulse send",
              .props = {.gain = 1.8695652, .pan = 0, .mono = false, .mute = false}},
             {.name = "snare body", .props = {.gain = 0.04347825, .pan = 0, .mono = false, .mute = true}},
-            {.name = "snare noise", .props = {.gain = 0, .pan = 0, .mono = false, .mute = true}},
             {.spacer = true},
             {.name = "cymbal sum", .props = {.gain = 0.9130435, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},

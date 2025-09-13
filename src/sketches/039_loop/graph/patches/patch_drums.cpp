@@ -201,62 +201,6 @@ patch_drums_t::patch_drums_t() {
         },
     };
 
-    snare_noise_props = {
-        .tuning            = 0,
-        .portamento_time   = 0,
-        .pitch_env_octaves = 3,
-        .retrigger         = true,
-        .osc_tunings       = {0.2, 7.2, -27, 0, 0, 0},
-        .osc_pans          = {-0.7, 0.45, 0, 0, 0, 0},
-        .osc_gains         = {1, 1, 1, 0, 0, 0},
-        .waveforms =
-            {waveform_000::noise,
-             waveform_000::noise,
-             waveform_000::sine,
-             waveform_000::sine,
-             waveform_000::sine,
-             waveform_000::sine},
-        .pitch_adsr      = {10, 2000, 0, 1000},
-        .amp_adsr        = {10, 2222, 0, 1000},
-        .cut_adsr        = {10, 3333, 0, 1000},
-        .res_adsr        = {10, 1000, 0, 100},
-        .cut             = 100,
-        .res             = 0.6,
-        .cut_env_octaves = 10,
-        .res_env_octaves = 0,
-        .filter_type     = filter_type::lp};
-
-    snare_noise_peq_props = {
-        peq_props_000{
-            .freq    = 42,
-            .reso    = 0.9,
-            .gain    = 0,
-            .enabled = true,
-            .type    = filter_type::hp,
-        },
-        peq_props_000{
-            .freq    = 62,
-            .reso    = 2.418,
-            .gain    = 0,
-            .enabled = true,
-            .type    = filter_type::hp,
-        },
-        peq_props_000{
-            .freq    = 441,
-            .reso    = 0.985,
-            .gain    = 7.104,
-            .enabled = true,
-            .type    = filter_type::eq,
-        },
-        peq_props_000{
-            .freq    = 1368,
-            .reso    = 0.707,
-            .gain    = 0,
-            .enabled = true,
-            .type    = filter_type::lp,
-        },
-    };
-
     // --------------------------------
     // RIDE
 

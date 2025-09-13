@@ -97,9 +97,6 @@ void controller_snare::draw() {
     spacer();
     spacer();
     ImGui::Text("snare noise");
-    draw_subtractive_synth_038("##snare_noise_synth", graph.patch.drums.snare_noise_props);
-    spacer();
-    gpeq_noise.draw();
 
     ImGui::PopID();
 }
