@@ -34,24 +34,24 @@ std::string subtractive_synth_props_038::to_str() {
 
     return std::format(
         R"({{
-    .tuning = {},
-    .portamento_time = {},
-    .pitch_env_octaves = {},
-    .retrigger = {},
-    .osc_tunings = {},
-    .osc_pans = {},
-    .osc_gains = {},
-    .waveforms = {},
-    .pitch_adsr = {},
-    .amp_adsr = {},
-    .cut_adsr = {},
-    .res_adsr = {}
-    .cut = {},
-    .res = {},
-    .cut_env_octaves = {},
-    .res_env_octaves = {},
-    .filter_type = filter_type::{},
-}};)",
+        .tuning = {},
+        .portamento_time = {},
+        .pitch_env_octaves = {},
+        .retrigger = {},
+        .osc_tunings = {},
+        .osc_pans = {},
+        .osc_gains = {},
+        .waveforms = {},
+        .pitch_adsr = {},
+        .amp_adsr = {},
+        .cut_adsr = {},
+        .res_adsr = {},
+        .cut = {},
+        .res = {},
+        .cut_env_octaves = {},
+        .res_env_octaves = {},
+        .filter_type = filter_type::{}
+    }};)",
         tuning,
         portamento_time,
         pitch_env_octaves,
@@ -62,13 +62,13 @@ std::string subtractive_synth_props_038::to_str() {
         waveforms_str,
         static_cast<std::string>(pitch_adsr),
         static_cast<std::string>(amp_adsr),
+        static_cast<std::string>(cut_adsr),
+        static_cast<std::string>(res_adsr),
         cut,
         res,
         cut_env_octaves,
         res_env_octaves,
-        filter_str[int(filter_type)],
-        static_cast<std::string>(cut_adsr),
-        static_cast<std::string>(res_adsr));
+        filter_str[int(filter_type)]);
 }
 
 subtractive_synth_038::subtractive_synth_038(clover_float fs, const subtractive_synth_props_038& new_props)
