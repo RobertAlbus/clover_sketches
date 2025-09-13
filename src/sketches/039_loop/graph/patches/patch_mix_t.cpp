@@ -9,7 +9,7 @@ patch_mix_t::patch_mix_t() {
         //
 
         {
-            {.name = "main", .props = {.gain = 1.4565217, .pan = 0, .mono = true, .mute = false}},
+            {.name = "main", .props = {.gain = 1.4565217, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
             {.name = "kick bus", .props = {.gain = 0.78260875, .pan = 0, .mono = false, .mute = false}},
             {.name = "kick dry", .props = {.gain = 0.61956525, .pan = 0, .mono = false, .mute = false}},
