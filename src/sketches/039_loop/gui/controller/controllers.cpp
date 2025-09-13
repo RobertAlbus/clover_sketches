@@ -134,12 +134,12 @@ void controller_ride::draw() {
 
 void controller_chord::draw() {
     ImGui::PushID(name);
-    draw_subtractive_synth_038("##chords", graph.patch.synth.chord_props);
+    draw_subtractive_synth_038("##chords", graph.patch.synth.chord_1_props);
 
     spacer();
 
-    draw_fdn8_023_v2("fdn", graph.chord_verb);
-    ImGuiKnobs::Knob("stereo spread", &graph.chord_verb.props.stereo_spread_taps_octaves, -1, 1);
+    draw_fdn8_023_v2("fdn", graph.chord_1_verb);
+    ImGuiKnobs::Knob("stereo spread", &graph.chord_1_verb.props.stereo_spread_taps_octaves, -1, 1);
 
     spacer();
 

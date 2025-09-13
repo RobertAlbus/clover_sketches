@@ -139,7 +139,7 @@ patch_synth_t::patch_synth_t() {
     // --------------------------------
     // CHORD
 
-    chord_props = {
+    chord_1_props = {
         .tuning            = 0,
         .portamento_time   = 0,
         .pitch_env_octaves = 1,
@@ -189,7 +189,7 @@ patch_synth_t::patch_synth_t() {
     //     .res_env_octaves = 0,
     //     .filter_type     = filter_type::lp};
 
-    chord_fdn_props = {
+    chord_1_fdn_props = {
         .stereo_spread_taps_octaves = 0.458,
         .taps    = {1012.00006, 1579.2759, 2195.0586, 3218.133, 5137.9746, 8031.835, 11532.25, 16558.967},
         .fb_gain = 0.973,

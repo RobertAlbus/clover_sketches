@@ -117,7 +117,7 @@ std::vector<frsq_pair> build_frsq_pairs(
         grid.bars_to_samples(grid.duration_bars),
         "frsq_hh3"));
     frsq_pairs.emplace_back(create_sequencers(
-        std::span<subtractive_synth_038>(graph.chord),
+        std::span<subtractive_synth_038>(graph.chord_1),
         [](subtractive_synth_038& voice, const event_midi& data) { voice.key_on(data.note); },
         [](subtractive_synth_038& voice) { voice.key_off(); },
         log,

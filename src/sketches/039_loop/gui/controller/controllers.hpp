@@ -67,6 +67,6 @@ struct controller_ride : public tabbed_controller {
 struct controller_chord : public tabbed_controller {
     using tabbed_controller::tabbed_controller;
 
-    gpeq_ui_028 gpeq_send{"##chord_peq", graph.chord_peq};
+    gpeq_ui_028 gpeq_send{"##chord_peq", graph.chord_1_peq};
     void draw() override;
 };

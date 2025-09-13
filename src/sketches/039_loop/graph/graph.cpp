@@ -139,17 +139,17 @@ std::pair<float, float> signal_graph::tick() {
     // CHORD
     //
     //
-    update_subtractive_synth(patch.synth.chord_props, chord);
+    update_subtractive_synth(patch.synth.chord_1_props, chord_1);
 
     float_s chord_signal = 0;
-    for (auto& chord_voice : chord) {
+    for (auto& chord_voice : chord_1) {
         chord_signal += {chord_voice.tick()};
     }
 
     float_s chord_dry         = audio_mixer.at("chord dry").tick(chord_signal);
-    float_s chord_verb_signal = audio_mixer.at("chord verb").tick(chord_verb.tick(chord_signal.to_pair()));
+    float_s chord_verb_signal = audio_mixer.at("chord verb").tick(chord_1_verb.tick(chord_signal.to_pair()));
 
-    chord_dry = chord_peq.tick(chord_dry.to_pair());
+    chord_dry = chord_1_peq.tick(chord_dry.to_pair());
 
     float_s chord_sum = audio_mixer.at("chord bus").tick(chord_dry + chord_verb_signal);
 
