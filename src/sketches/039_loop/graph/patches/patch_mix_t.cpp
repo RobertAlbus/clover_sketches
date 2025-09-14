@@ -19,11 +19,10 @@ patch_mix_t::patch_mix_t() {
             {.name = "bass bus", .props = {.gain = 0.9021739, .pan = 0, .mono = false, .mute = false}},
             {.name = "bass dry", .props = {.gain = 1.152174, .pan = 0, .mono = false, .mute = false}},
             {.name = "bass send", .props = {.gain = 2, .pan = 0, .mono = false, .mute = false}},
-            {.name = "bass wet", .props = {.gain = 0.0869565, .pan = 0, .mono = false, .mute = false}},
+            {.name = "bass wet", .props = {.gain = 0.22826087, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
             {.name = "snare sum", .props = {.gain = 0.9456521, .pan = 0, .mono = false, .mute = false}},
-            {.name  = "snare impulse send",
-             .props = {.gain = 1.2391305, .pan = 0, .mono = false, .mute = false}},
+            {.name = "snare impulse send", .props = {.gain = 1.2391305, .pan = 0, .mono = false, .mute = false}},
             {.name = "snare body", .props = {.gain = 0.423913, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
             {.name = "cymbal sum", .props = {.gain = 0.9130435, .pan = 0, .mono = false, .mute = false}},
@@ -36,7 +35,7 @@ patch_mix_t::patch_mix_t() {
             {.spacer = true},
             {.name = "chord dry", .props = {.gain = 0.5652174, .pan = 0, .mono = false, .mute = false}},
             {.name = "chord verb", .props = {.gain = 0.7608696, .pan = 0, .mono = false, .mute = false}},
-        };
+    };
 
     main_peq_props = {
         peq_props_000{
