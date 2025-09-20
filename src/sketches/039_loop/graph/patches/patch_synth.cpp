@@ -156,68 +156,93 @@ patch_synth_t::patch_synth_t() {
              waveform_000::noise},
         .pitch_adsr      = {10, 10, 0, 10},
         .amp_adsr        = {1000, 1000, 1, 1000},
-        .cut_adsr        = {484, 2000, 0.48095232, 100},
+        .cut_adsr        = {484, 2000, 0.28, 100},
         .res_adsr        = {10, 1000, 0, 100},
-        .cut             = 500,
-        .res             = 1,
-        .cut_env_octaves = 2.98,
+        .cut             = 200,
+        .res             = 1.63,
+        .cut_env_octaves = 3.98,
         .res_env_octaves = 0,
         .filter_type     = filter_type::lp};
 
-    // chord_props = {
-    //     .tuning            = 0,
-    //     .portamento_time   = 0,
-    //     .pitch_env_octaves = 1,
-    //     .retrigger         = true,
-    //     .osc_tunings       = {0, 0, 12, 12, 0, 0},
-    //     .osc_pans          = {-1, 1, -1, 1, -1, 1},
-    //     .osc_gains         = {1, 1, 1, 1, 0.52, 0.46},
-    //     .waveforms =
-    //         {waveform_000::square,
-    //          waveform_000::square,
-    //          waveform_000::saw,
-    //          waveform_000::saw,
-    //          waveform_000::noise,
-    //          waveform_000::noise},
-    //     .pitch_adsr      = {10, 10, 0, 10},
-    //     .amp_adsr        = {100, 4000, 0, 100},
-    //     .cut_adsr        = {100, 2000, 0.48095232, 100},
-    //     .res_adsr        = {10, 1000, 0, 100},
-    //     .cut             = 500,
-    //     .res             = 1,
-    //     .cut_env_octaves = 3.08,
-    //     .res_env_octaves = 0,
-    //     .filter_type     = filter_type::lp};
-
     chord_1_fdn_props = {
         .stereo_spread_taps_octaves = 0.458,
-        .taps    = {1012.00006, 1579.2759, 2195.0586, 3218.133, 5137.9746, 8031.835, 11532.25, 16558.967},
-        .fb_gain = 0.973,
-        .lpf_cut = 1742.7249,
-        .lpf_res = 0.707,
-        .hpf_cut = 1012.182,
-        .hpf_res = 0.707,
+        .taps     = {15046.701, 1579.2759, 2195.0586, 3218.133, 5137.9746, 8031.835, 11532.25, 16558.967},
+        .fb_gain  = 0.973,
+        .lpf_cut  = 2580.1892,
+        .lpf_res  = 0.707,
+        .hpf_cut  = 633.96045,
+        .hpf_res  = 0.707,
     };
 
-    // walk through taps[0] = 1012, 1022, 1033, 103
-
-    /*
-    later:
-    lerp toward these props to grow a big wash in the back 9, and pump it
-    */
-    // chord_fdn_props = {
-    //     .stereo_spread_taps_octaves = 0.458,
-    //     .taps                       = {32238.998, 16120, 870, 435, 217.49998, 108, 54.000004, 27},
-    //     .fb_gain                    = 0.847,
-    //     .lpf_cut                    = 4182.1816,
-    //     .lpf_res                    = 0.707,
-    //     .hpf_cut                    = 71.12249,
-    //     .hpf_res                    = 0.707,
-    // };
-
-    std::array<peq_props_000, peq_000::SIZE> chord_preverb_peq_props{
+    std::array<peq_props_000, peq_000::SIZE> chord_1_peq_props{
         peq_props_000{
             .freq    = 207,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 20000,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = false,
+            .type    = filter_type::lp,
+        },
+        peq_props_000{
+            .freq    = 20000,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = false,
+            .type    = filter_type::lp,
+        },
+        peq_props_000{
+            .freq    = 20000,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = false,
+            .type    = filter_type::lp,
+        },
+    };
+
+    chord_2_props = {
+        .tuning            = 0,
+        .portamento_time   = 0,
+        .pitch_env_octaves = 1,
+        .retrigger         = true,
+        .osc_tunings       = {-12.1, -11.9, -24.06, -23.94, 0, 0},
+        .osc_pans          = {-1, 1, -1, 1, -1, 1},
+        .osc_gains         = {1, 1, 1, 1, 0.52, 0.46},
+        .waveforms =
+            {waveform_000::square,
+             waveform_000::square,
+             waveform_000::square,
+             waveform_000::square,
+             waveform_000::noise,
+             waveform_000::noise},
+        .pitch_adsr      = {10, 10, 0, 10},
+        .amp_adsr        = {1633, 1825, 0.46, 1633},
+        .cut_adsr        = {1345, 5555, 0.48095232, 3047},
+        .res_adsr        = {10, 1000, 0, 100},
+        .cut             = 2897.6,
+        .res             = 1,
+        .cut_env_octaves = 4,
+        .res_env_octaves = 0,
+        .filter_type     = filter_type::lp};
+
+    chord_2_fdn_props = {
+        .stereo_spread_taps_octaves = -0.008,
+        .taps     = {7946.8457, 7862.7524, 7862.7524, 524.73535, 530.30743, 2987.3647, 2987.3647, 37177.89},
+        .fb_gain  = 0.996,
+        .lpf_cut  = 7310.1733,
+        .lpf_res  = 0.707,
+        .hpf_cut  = 74.35174,
+        .hpf_res  = 0.707,
+    };
+
+    std::array<peq_props_000, peq_000::SIZE> chord_2_peq_props{
+        peq_props_000{
+            .freq    = 160,
             .reso    = 0.707,
             .gain    = 0,
             .enabled = true,

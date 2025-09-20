@@ -35,13 +35,13 @@ std::pair<float, float> signal_graph::tick() {
     //
 
     sc_pump.tick();
-    const float pump_fast = sc_pump.xs[0];
-    const float pump_slow = sc_pump.xs[1];
+    const float pump_fast = sc_pump.xs[0] * sc_pump.xs[0];
+    const float pump_slow = sc_pump.xs[1] * sc_pump.xs[1];
 
     const float pump_slow_30 = (pump_slow * 0.3f) + 0.7f;
 
-    const float kick_duck_fast = sc_pump.xs_kick[0];
-    const float kick_duck_slow = sc_pump.xs_kick[1];
+    const float kick_duck_fast = sc_pump.xs_kick[0] * sc_pump.xs_kick[0];
+    const float kick_duck_slow = sc_pump.xs_kick[1] * sc_pump.xs_kick[1];
 
     const float kick_duck_fast_60 = ((kick_duck_fast * 0.6f) + 0.4f);
 
@@ -140,18 +140,32 @@ std::pair<float, float> signal_graph::tick() {
     //
     //
     update_subtractive_synth(patch.synth.chord_1_props, chord_1);
-
-    float_s chord_signal = 0;
+    float_s chord_1_signal = 0;
     for (auto& chord_voice : chord_1) {
-        chord_signal += {chord_voice.tick()};
+        chord_1_signal += {chord_voice.tick()};
     }
+    float_s chord_1_dry = audio_mixer.at("chord 1 dry").tick(chord_1_signal);
+    float_s chord_1_verb_signal =
+        audio_mixer.at("chord 1 verb").tick(chord_1_verb.tick(chord_1_signal.to_pair()));
+    chord_1_dry = chord_1_peq.tick(chord_1_dry.to_pair());
 
-    float_s chord_dry         = audio_mixer.at("chord dry").tick(chord_signal);
-    float_s chord_verb_signal = audio_mixer.at("chord verb").tick(chord_1_verb.tick(chord_signal.to_pair()));
+    chord_1_signal = chord_1_dry + chord_1_verb_signal;
 
-    chord_dry = chord_1_peq.tick(chord_dry.to_pair());
+    update_subtractive_synth(patch.synth.chord_2_props, chord_2);
+    float_s chord_2_signal = 0;
+    for (auto& chord_voice : chord_2) {
+        chord_2_signal += {chord_voice.tick()};
+    }
+    float_s chord_2_dry = audio_mixer.at("chord 2 dry").tick(chord_2_signal);
+    float_s chord_2_verb_signal =
+        audio_mixer.at("chord 2 verb").tick(chord_2_verb.tick((chord_2_signal * 0.5f).to_pair()));
+    chord_2_verb_signal *= pump_slow;
 
-    float_s chord_sum = audio_mixer.at("chord bus").tick(chord_dry + chord_verb_signal);
+    chord_2_dry = chord_2_peq.tick(chord_2_dry.to_pair());
+
+    chord_2_signal = chord_2_dry + chord_2_verb_signal;
+
+    float_s chord_sum = audio_mixer.at("chord bus").tick(chord_1_signal + chord_2_signal);
 
     // ----------------
     // SUMMING

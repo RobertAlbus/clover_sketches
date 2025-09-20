@@ -47,10 +47,14 @@ arrangement::arrangement() {
         {.start_time = 0, .pattern_index = 1},
     };
 
-    chord = {
+    chord_1 = {
         //
         {.start_time = 0, .pattern_index = 1},
-        // {.start_time = 28, .pattern_index = 2},
+    };
+
+    chord_2 = {
+        //
+        {.start_time = 0, .pattern_index = 1},
     };
 
     bass = {

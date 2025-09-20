@@ -24,15 +24,16 @@ struct pattern_t {
 // - in ctor      (arrangement struct)
 
 struct patterns {
-    std::vector<pattern_t<event>> sc_pump    = create_pattern_sc_pump();
-    std::vector<pattern_t<event>> kick       = create_pattern_kick();
-    std::vector<pattern_t<event>> snare      = create_pattern_snare();
-    std::vector<pattern_t<event>> ride       = create_pattern_ride();
-    std::vector<pattern_t<event>> hh1        = create_pattern_hh1();
-    std::vector<pattern_t<event>> hh2        = create_pattern_hh2();
-    std::vector<pattern_t<event>> hh3        = create_pattern_hh3();
-    std::vector<pattern_t<event_midi>> chord = create_pattern_chord();
-    std::vector<pattern_t<event_midi>> bass  = create_pattern_bass();
+    std::vector<pattern_t<event>> sc_pump      = create_pattern_sc_pump();
+    std::vector<pattern_t<event>> kick         = create_pattern_kick();
+    std::vector<pattern_t<event>> snare        = create_pattern_snare();
+    std::vector<pattern_t<event>> ride         = create_pattern_ride();
+    std::vector<pattern_t<event>> hh1          = create_pattern_hh1();
+    std::vector<pattern_t<event>> hh2          = create_pattern_hh2();
+    std::vector<pattern_t<event>> hh3          = create_pattern_hh3();
+    std::vector<pattern_t<event_midi>> chord_1 = create_pattern_chord_1();
+    std::vector<pattern_t<event_midi>> chord_2 = create_pattern_chord_2();
+    std::vector<pattern_t<event_midi>> bass    = create_pattern_bass();
 
     std::vector<pattern_t<event>> create_pattern_sc_pump();
     std::vector<pattern_t<event>> create_pattern_kick();
@@ -41,7 +42,8 @@ struct patterns {
     std::vector<pattern_t<event>> create_pattern_hh1();
     std::vector<pattern_t<event>> create_pattern_hh2();
     std::vector<pattern_t<event>> create_pattern_hh3();
-    std::vector<pattern_t<event_midi>> create_pattern_chord();
+    std::vector<pattern_t<event_midi>> create_pattern_chord_1();
+    std::vector<pattern_t<event_midi>> create_pattern_chord_2();
     std::vector<pattern_t<event_midi>> create_pattern_bass();
 };
 
@@ -61,7 +63,8 @@ struct arrangement {
     std::vector<event_meta_sq> hh1;
     std::vector<event_meta_sq> hh2;
     std::vector<event_meta_sq> hh3;
-    std::vector<event_meta_sq> chord;
+    std::vector<event_meta_sq> chord_1;
+    std::vector<event_meta_sq> chord_2;
     std::vector<event_meta_sq> bass;
     std::vector<event> bar;
 

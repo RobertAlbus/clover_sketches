@@ -122,11 +122,23 @@ std::vector<frsq_pair> build_frsq_pairs(
         [](subtractive_synth_038& voice) { voice.key_off(); },
         log,
         grid,
-        patterns.chord,
-        arrangement.chord,
+        patterns.chord_1,
+        arrangement.chord_1,
         grid.duration_bars,
         grid.bars_to_samples(grid.duration_bars),
-        "frsq_chord"));
+        "frsq_chord_1"));
+
+    frsq_pairs.emplace_back(create_sequencers(
+        std::span<subtractive_synth_038>(graph.chord_2),
+        [](subtractive_synth_038& voice, const event_midi& data) { voice.key_on(data.note); },
+        [](subtractive_synth_038& voice) { voice.key_off(); },
+        log,
+        grid,
+        patterns.chord_2,
+        arrangement.chord_2,
+        grid.duration_bars,
+        grid.bars_to_samples(grid.duration_bars),
+        "frsq_chord_2"));
 
     frsq_pairs.emplace_back(create_sequencers(
         std::span<fm_037>(&graph.bass_fm, 1),

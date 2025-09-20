@@ -134,16 +134,36 @@ void controller_ride::draw() {
 
 void controller_chord::draw() {
     ImGui::PushID(name);
-    draw_subtractive_synth_038("##chords", graph.patch.synth.chord_1_props);
 
+    draw_subtractive_synth_038("##chord_1", graph.patch.synth.chord_1_props);
     spacer();
-
-    draw_fdn8_023_v2("fdn", graph.chord_1_verb);
+    draw_fdn8_023_v2("fdn_1", graph.chord_1_verb);
+    ImGui::PushID(1);
     ImGuiKnobs::Knob("stereo spread", &graph.chord_1_verb.props.stereo_spread_taps_octaves, -1, 1);
+    ImGui::PopID();
+    spacer();
+    gpeq_1.draw();
 
     spacer();
+    ImVec4 lighten = ImVec4(1, 1, 1, 0.1);
 
-    gpeq_send.draw();
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, lighten);
+    ImGui::BeginChild("chord_2_title");
+    ImGui::Dummy({0, 20});
+    ImGui::Text("chord 2");
+    ImGui::Dummy({0, 20});
+    ImGui::EndChild();
+    ImGui::PopStyleColor();
+    ImGui::Dummy({0, 20});
+
+    draw_subtractive_synth_038("##chord_2", graph.patch.synth.chord_2_props);
+    spacer();
+    draw_fdn8_023_v2("fdn_2", graph.chord_2_verb);
+    ImGui::PushID(2);
+    ImGuiKnobs::Knob("stereo spread ", &graph.chord_2_verb.props.stereo_spread_taps_octaves, -1, 1);
+    ImGui::PopID();
+    spacer();
+    gpeq_2.draw();
 
     ImGui::PopID();
 }

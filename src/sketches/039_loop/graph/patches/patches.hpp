@@ -81,7 +81,11 @@ struct patch_synth_t {
 
     subtractive_synth_props_038 chord_1_props;
     fdn8_stereo_030_props chord_1_fdn_props;
-    std::array<peq_props_000, peq_000::SIZE> chord_1_preverb_peq_props;
+    std::array<peq_props_000, peq_000::SIZE> chord_1_peq_props;
+
+    subtractive_synth_props_038 chord_2_props;
+    fdn8_stereo_030_props chord_2_fdn_props;
+    std::array<peq_props_000, peq_000::SIZE> chord_2_peq_props;
 };
 
 struct patch_mix_t {

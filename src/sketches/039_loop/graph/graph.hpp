@@ -93,7 +93,18 @@ struct signal_graph {
         subtractive_synth_038{fs, patch.synth.chord_1_props}};
 
     fdn8_stereo_030 chord_1_verb{fs, patch.synth.chord_1_fdn_props};
-    peq_000 chord_1_peq{fs, patch.synth.chord_1_preverb_peq_props};
+    peq_000 chord_1_peq{fs, patch.synth.chord_1_peq_props};
+
+    std::array<subtractive_synth_038, 6> chord_2{
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props}};
+
+    fdn8_stereo_030 chord_2_verb{fs, patch.synth.chord_2_fdn_props};
+    peq_000 chord_2_peq{fs, patch.synth.chord_2_peq_props};
 
     peq_000 main_eq{fs, patch.mix.main_peq_props};
 };
