@@ -166,12 +166,12 @@ patch_synth_t::patch_synth_t() {
 
     chord_1_fdn_props = {
         .stereo_spread_taps_octaves = 0.458,
-        .taps     = {15046.701, 1579.2759, 2195.0586, 3218.133, 5137.9746, 8031.835, 11532.25, 16558.967},
-        .fb_gain  = 0.973,
-        .lpf_cut  = 2580.1892,
-        .lpf_res  = 0.707,
-        .hpf_cut  = 633.96045,
-        .hpf_res  = 0.707,
+        .taps    = {15046.701, 1579.2759, 2195.0586, 3218.133, 5137.9746, 8031.835, 11532.25, 16558.967},
+        .fb_gain = 0.973,
+        .lpf_cut = 2580.1892,
+        .lpf_res = 0.707,
+        .hpf_cut = 633.96045,
+        .hpf_res = 0.707,
     };
 
     std::array<peq_props_000, peq_000::SIZE> chord_1_peq_props{
@@ -231,43 +231,43 @@ patch_synth_t::patch_synth_t() {
         .filter_type     = filter_type::lp};
 
     chord_2_fdn_props = {
-        .stereo_spread_taps_octaves = -0.008,
-        .taps     = {7946.8457, 7862.7524, 7862.7524, 524.73535, 530.30743, 2987.3647, 2987.3647, 37177.89},
-        .fb_gain  = 0.996,
-        .lpf_cut  = 7310.1733,
-        .lpf_res  = 0.707,
-        .hpf_cut  = 74.35174,
-        .hpf_res  = 0.707,
+        .stereo_spread_taps_octaves = 0.73,
+        .taps    = {19842.588, 79.8482, 107.27557, 153.89427, 189.45346, 655.1626, 1891.7266, 5714.5605},
+        .fb_gain = 0.996,
+        .lpf_cut = 1231.6014,
+        .lpf_res = 0.707,
+        .hpf_cut = 126.09753,
+        .hpf_res = 0.707,
     };
 
     std::array<peq_props_000, peq_000::SIZE> chord_2_peq_props{
         peq_props_000{
-            .freq    = 160,
-            .reso    = 0.707,
+            .freq    = 140,
+            .reso    = 1.782,
             .gain    = 0,
             .enabled = true,
             .type    = filter_type::hp,
         },
         peq_props_000{
-            .freq    = 20000,
+            .freq    = 328,
+            .reso    = 0.329,
+            .gain    = 7.68,
+            .enabled = false,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 11420,
             .reso    = 0.707,
             .gain    = 0,
-            .enabled = false,
+            .enabled = true,
             .type    = filter_type::lp,
         },
         peq_props_000{
-            .freq    = 20000,
+            .freq    = 1764,
             .reso    = 0.707,
-            .gain    = 0,
-            .enabled = false,
-            .type    = filter_type::lp,
-        },
-        peq_props_000{
-            .freq    = 20000,
-            .reso    = 0.707,
-            .gain    = 0,
-            .enabled = false,
-            .type    = filter_type::lp,
+            .gain    = -6.912,
+            .enabled = true,
+            .type    = filter_type::hs,
         },
     };
 };

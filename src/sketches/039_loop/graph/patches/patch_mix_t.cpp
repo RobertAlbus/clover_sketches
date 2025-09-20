@@ -14,15 +14,16 @@ patch_mix_t::patch_mix_t() {
             {.name = "kick bus", .props = {.gain = 0.78260875, .pan = 0, .mono = false, .mute = false}},
             {.name = "kick dry", .props = {.gain = 0.61956525, .pan = 0, .mono = false, .mute = false}},
             {.name = "kick send", .props = {.gain = 1.3586956, .pan = 0, .mono = false, .mute = false}},
-            {.name = "kick wet", .props = {.gain = 1.0869565, .pan = 0, .mono = false, .mute = false}},
+            {.name = "kick wet", .props = {.gain = 1.5978261, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
-            {.name = "bass bus", .props = {.gain = 0.9021739, .pan = 0, .mono = false, .mute = true}},
+            {.name = "bass bus", .props = {.gain = 0.9021739, .pan = 0, .mono = false, .mute = false}},
             {.name = "bass dry", .props = {.gain = 1.152174, .pan = 0, .mono = false, .mute = false}},
             {.name = "bass send", .props = {.gain = 2, .pan = 0, .mono = false, .mute = false}},
             {.name = "bass wet", .props = {.gain = 0.22826087, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
             {.name = "snare sum", .props = {.gain = 0.9456521, .pan = 0, .mono = false, .mute = false}},
-            {.name = "snare impulse send", .props = {.gain = 1.2391305, .pan = 0, .mono = false, .mute = false}},
+            {.name  = "snare impulse send",
+             .props = {.gain = 1.2391305, .pan = 0, .mono = false, .mute = false}},
             {.name = "snare body", .props = {.gain = 0.423913, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
             {.name = "cymbal sum", .props = {.gain = 0.9130435, .pan = 0, .mono = false, .mute = false}},
@@ -31,13 +32,13 @@ patch_mix_t::patch_mix_t() {
             {.name = "hh3", .props = {.gain = 0.63043475, .pan = 0.120000005, .mono = false, .mute = false}},
             {.name = "ride", .props = {.gain = 0.6630435, .pan = -0.080000006, .mono = false, .mute = false}},
             {.spacer = true},
-            {.name = "chord bus", .props = {.gain = 0.173913, .pan = 0, .mono = false, .mute = false}},
+            {.name = "chord bus", .props = {.gain = 0.29347825, .pan = 0, .mono = false, .mute = false}},
             {.spacer = true},
             {.name = "chord 1 dry", .props = {.gain = 0.5652174, .pan = 0, .mono = false, .mute = false}},
             {.name = "chord 1 verb", .props = {.gain = 0.7608696, .pan = 0, .mono = false, .mute = false}},
-            {.name = "chord 2 dry", .props = {.gain = 0.5652174, .pan = 0, .mono = false, .mute = false}},
-            {.name = "chord 2 verb", .props = {.gain = 0.5217391, .pan = 0, .mono = false, .mute = false}},
-    };
+            {.name = "chord 2 dry", .props = {.gain = 0.40217388, .pan = 0, .mono = false, .mute = false}},
+            {.name = "chord 2 verb", .props = {.gain = 2, .pan = 0, .mono = false, .mute = false}},
+        };
 
     main_peq_props = {
         peq_props_000{
