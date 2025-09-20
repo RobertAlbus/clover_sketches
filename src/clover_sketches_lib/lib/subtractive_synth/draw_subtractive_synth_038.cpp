@@ -13,10 +13,10 @@
 #include "lib/_molecule/adsr/draw_adsr_038.hpp"
 
 bool draw_subtractive_synth_038(const char* id, subtractive_synth_props_038& props) {
+    ImGui::PushID(id);
     if (ImGui::Button("get synth patch")) {
         ImGui::SetClipboardText(props.to_str().c_str());
     }
-    ImGui::PushID(id);
     bool was_changed = false;
 
     auto origin = ImGui::GetCursorScreenPos();
