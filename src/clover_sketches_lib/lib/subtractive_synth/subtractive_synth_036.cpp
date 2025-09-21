@@ -95,7 +95,7 @@ std::string subtractive_synth_props_036::to_str() {
         res_r);
 }
 
-subtractive_synth_036::subtractive_synth_036(clover_float fs, const subtractive_synth_props_036& new_props)
+subtractive_synth_036::subtractive_synth_036(float fs, const subtractive_synth_props_036& new_props)
     : fs(fs), oscs{fs, fs, fs, fs, fs, fs}, portamento(fs) {
     patch(new_props);
 }

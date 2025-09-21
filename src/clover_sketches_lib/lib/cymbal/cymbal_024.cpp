@@ -11,7 +11,7 @@
 using namespace clover;
 using namespace dsp;
 
-clover_float cymbal_024::tick() {
+float cymbal_024::tick() {
     float amp_env = adsr_amp.tick();
     float cut_env = adsr_cut.tick();
 

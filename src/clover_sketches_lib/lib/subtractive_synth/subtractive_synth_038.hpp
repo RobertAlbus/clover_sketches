@@ -55,7 +55,7 @@ struct subtractive_synth_props_038 {
 struct subtractive_synth_038 {
     static const int NUM_OSCS = 6;
 
-    clover_float fs;
+    float fs;
     subtractive_synth_props_038 props;
 
     std::array<clover::dsp::oscillator, NUM_OSCS> oscs;
@@ -70,7 +70,7 @@ struct subtractive_synth_038 {
 
     float input_mod_pitch_octaves = 0;
 
-    subtractive_synth_038(clover_float fs, const subtractive_synth_props_038& new_props);
+    subtractive_synth_038(float fs, const subtractive_synth_props_038& new_props);
 
     void note(float midi_note);
     void key_on(float midi_note);

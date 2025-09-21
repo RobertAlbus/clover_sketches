@@ -34,10 +34,10 @@ struct cymbal_props_038 {
 };
 
 struct cymbal_038 {
-    clover_float fs;
+    float fs;
     cymbal_props_038 props;
 
-    cymbal_038(clover_float fs, const cymbal_props_038& new_props);
+    cymbal_038(float fs, const cymbal_props_038& new_props);
     void patch(cymbal_props_038 new_props);
 
     void key_on();
@@ -46,7 +46,7 @@ struct cymbal_038 {
     void set_adsrs();
     void set_filters();
 
-    clover_float tick();
+    float tick();
 
     std::array<oscillator, cymbal_props_038::num_oscs> oscs;
 

@@ -71,7 +71,7 @@ std::string subtractive_synth_props_038::to_str() {
         filter_str[int(filter_type)]);
 }
 
-subtractive_synth_038::subtractive_synth_038(clover_float fs, const subtractive_synth_props_038& new_props)
+subtractive_synth_038::subtractive_synth_038(float fs, const subtractive_synth_props_038& new_props)
     : fs(fs), oscs{fs, fs, fs, fs, fs, fs}, portamento(fs) {
     patch(new_props);
 }
