@@ -15,7 +15,6 @@
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_POLICY_VERSION": "3.5",
         "CMAKE_POLICY_VERSION_MINIMUM": "3.5"
       }
     }
