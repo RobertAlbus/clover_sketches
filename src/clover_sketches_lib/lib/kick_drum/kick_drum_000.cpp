@@ -59,7 +59,7 @@ std::string kick_props_000::to_str() {
         cut_range);
 }
 
-kick_drum_000::kick_drum_000(clover_float fs, const kick_props_000& new_props) : fs(fs), kick_osc(fs) {
+kick_drum_000::kick_drum_000(float fs, const kick_props_000& new_props) : fs(fs), kick_osc(fs) {
     patch(new_props);
 }
 
@@ -87,7 +87,7 @@ void kick_drum_000::key_off() {
     adsr_amp.key_off();
 }
 
-clover_float kick_drum_000::tick() {
+float kick_drum_000::tick() {
     float osc_signal = kick_osc.tick();
     float cutoff_env = adsr_cut.tick();
     float gain_env   = adsr_amp.tick();

@@ -38,5 +38,5 @@ void channel_strip::update_pan() {
 
 std::string channel_strip::to_str() {
     return std::format(
-        "{{ .gain = {}, .pan = {}, .mono = {}, .mute = {}}};", props.gain, props.pan, props.mono, props.mute);
+        "{{.gain = {}, .pan = {}, .mono = {}, .mute = {}}};", props.gain, props.pan, props.mono, props.mute);
 }

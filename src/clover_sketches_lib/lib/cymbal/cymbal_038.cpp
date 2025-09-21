@@ -44,7 +44,7 @@ std::string cymbal_props_038::to_str() {
         static_cast<std::string>(cut_adsr));
 }
 
-cymbal_038::cymbal_038(clover_float fs, const cymbal_props_038& new_props)
+cymbal_038::cymbal_038(float fs, const cymbal_props_038& new_props)
     : fs(fs),                       //
       oscs{fs, fs, fs, fs, fs, fs}  //
 {
@@ -91,7 +91,7 @@ void cymbal_038::key_off() {
     adsr_cut.key_off();
 }
 
-clover_float cymbal_038::tick() {
+float cymbal_038::tick() {
     float amp_env = adsr_amp.tick();
     amp_env *= amp_env;
     float cut_env = adsr_cut.tick();
