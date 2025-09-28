@@ -13,12 +13,12 @@ std::vector<pattern_t<event_midi>> patterns::create_pattern_chord_1() {
          .duration_rel = 3.,
          .pattern =
              {
-                 {.start_time = 1.50, .duration = 0.25, .note = note::F4},
-                 {.start_time = 1.50, .duration = 0.25, .note = note::Gs4},
-                 {.start_time = 1.75, .duration = 0.25, .note = note::F4},
-                 {.start_time = 1.75, .duration = 0.25, .note = note::Gs4},
-                 {.start_time = 2.25, .duration = 0.25, .note = note::F4},
-                 {.start_time = 2.25, .duration = 0.25, .note = note::Gs4},
+                 {.start_time = 1.50, .duration = 0.25, .note = -24 + note::F4},
+                 {.start_time = 1.50, .duration = 0.25, .note = -24 + note::Gs4},
+                 {.start_time = 1.75, .duration = 0.25, .note = -24 + note::F4},
+                 {.start_time = 1.75, .duration = 0.25, .note = -24 + note::Gs4},
+                 {.start_time = 2.25, .duration = 0.25, .note = -24 + note::F4},
+                 {.start_time = 2.25, .duration = 0.25, .note = -24 + note::Gs4},
              }},
     };
 }

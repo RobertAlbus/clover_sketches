@@ -16,15 +16,15 @@ patch_drums_t::patch_drums_t() {
 
     kick_drum_props = {
         .trim              = 1,
-        .drive             = 5.67,
-        .amp_adsr          = {30, 6191.322, 0, 884},
+        .drive             = 10,
+        .amp_adsr          = {88.9, 7631, 0.08, 32000},
         .pitch_adsr        = {1, 2081, 0, 1000},
         .cut_adsr          = {1, 4945, 0, 1.0000596},
-        .filt_q            = 2.19,
-        .pitch_fundamental = midi_to_frequency(note::F2) / 2,
+        .filt_q            = 2,
+        .pitch_fundamental = 43.653526,
         .cut_fundamental   = 70,
         .pitch_range       = 1,
-        .cut_range         = 1.46,
+        .cut_range         = 4,
     };
 
     kick_preverb_peq_props = {
@@ -43,8 +43,8 @@ patch_drums_t::patch_drums_t() {
             .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 49,
-            .reso    = 4.528,
+            .freq    = 59,
+            .reso    = 1.463,
             .gain    = 24,
             .enabled = false,
             .type    = filter_type::eq,
@@ -58,11 +58,11 @@ patch_drums_t::patch_drums_t() {
         },
     };
     kick_fdn_props = {
-        .taps    = {10368.262, 129.08423, 138.75969, 174.31581, 221.55664, 309.83853, 438.54483, 492.51968},
+        .taps    = {16038.696, 80.65981, 75.1558, 70.7537, 67.29404, 65.30492, 61.51225, 55.70534},
         .fb_gain = 0.96,
-        .lpf_cut = 483.1446,
+        .lpf_cut = 1796.1316,
         .lpf_res = 0.707,
-        .hpf_cut = 86.464615,
+        .hpf_cut = 415.46063,
         .hpf_res = 0.707,
     };
 
@@ -142,12 +142,12 @@ patch_drums_t::patch_drums_t() {
 
     // original snare props
     snare_body_resonator_props = {
-        .stereo_spread_taps_octaves = 0.14,
-        .taps    = {53.136215, 54.52403, 54.28738, 60.371044, 54.573303, 56.342487, 59.93622, 55.43652},
-        .fb_gain = 0.978,
-        .lpf_cut = 2185.4946,
+        .stereo_spread_taps_octaves = 0.16,
+        .taps    = {316.41885, 54.52403, 54.28738, 60.371044, 54.573303, 56.342487, 59.93622, 344.1866},
+        .fb_gain = 0.92,
+        .lpf_cut = 403.10706,
         .lpf_res = 0.707,
-        .hpf_cut = 795.0293,
+        .hpf_cut = 72.14092,
         .hpf_res = 0.707,
     };
 
@@ -172,28 +172,28 @@ patch_drums_t::patch_drums_t() {
 
     snare_body_peq_props = {
         peq_props_000{
-            .freq    = 118,
-            .reso    = 0.707,
+            .freq    = 166,
+            .reso    = 1.583,
             .gain    = 0,
             .enabled = true,
             .type    = filter_type::hp,
         },
         peq_props_000{
-            .freq    = 65,
-            .reso    = 6.656,
-            .gain    = 24,
-            .enabled = false,
-            .type    = filter_type::eq,
-        },
-        peq_props_000{
-            .freq    = 653,
-            .reso    = 2.02,
-            .gain    = -4.8,
+            .freq    = 187,
+            .reso    = 3.91,
+            .gain    = 0.384,
             .enabled = true,
             .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 2182,
+            .freq    = 1109,
+            .reso    = 1.403,
+            .gain    = 20.352,
+            .enabled = false,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 5057,
             .reso    = 0.707,
             .gain    = 0,
             .enabled = true,
