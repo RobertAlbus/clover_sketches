@@ -14,7 +14,7 @@ patch_synth_t::patch_synth_t() {
     bass_fm_props = fm_props_037 {
             .tunings = {0.95, 1.12, 4, 0.5, 1.52, 1.47,},
             .tuning_types = {fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio, fm_tuning_type::ratio},
-            .mod_matrix = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.3, 0.1, 0, 0, 0, 0, 0.38, 0, 0.15,},
+            .mod_matrix = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.3, 1, 0, 0, 0, 0, 0.38, 0, 1,},
             .matrix_octave_range = 10,
             .amp_adsrs = {{{ 1111, 23427, 0, 1000 }, { 1111, 22755, 0, 1000 }, { 1, 2785, 0, 100 }, { 100, 1000, 1, 6721 }, { 1673, 1000, 1, 6721 }, { 1673, 1000, 1, 6721 }}},
             .pitch_adsrs = {{{ 100, 100, 1, 100 }, { 100, 1, 1, 100 }, { 100, 100, 1, 100 }, { 100, 100, 1, 100 }, { 100, 1444, 0, 100 }, { 100, 1444, 0, 100 }}},
@@ -166,44 +166,44 @@ patch_synth_t::patch_synth_t() {
 
     chord_1_fdn_props = {
         .stereo_spread_taps_octaves = 0.458,
-        .taps     = {1000.75696, 155.49821, 205.93652, 276.04752, 382.39215, 535.9393, 669.1728, 776.057},
-        .fb_gain  = 0.808,
-        .lpf_cut  = 4790.6606,
-        .lpf_res  = 0.707,
-        .hpf_cut  = 545.14856,
-        .hpf_res  = 0.707,
+        .taps    = {1000.75696, 155.49821, 205.93652, 276.04752, 382.39215, 535.9393, 669.1728, 776.057},
+        .fb_gain = 0.808,
+        .lpf_cut = 4790.6606,
+        .lpf_res = 0.707,
+        .hpf_cut = 545.14856,
+        .hpf_res = 0.707,
     };
 
     std::array<peq_props_000, peq_000::SIZE> chord_1_peq_props{
-    peq_props_000{
-        .freq    = 309,
-        .reso    = 0.707,
-        .gain    = 0,
-        .enabled = true,
-        .type    = filter_type::hp,
-    },
-    peq_props_000{
-        .freq    = 408,
-        .reso    = 0.707,
-        .gain    = 7.872,
-        .enabled = true,
-        .type    = filter_type::eq,
-    },
-    peq_props_000{
-        .freq    = 6727,
-        .reso    = 0.707,
-        .gain    = 17.472,
-        .enabled = true,
-        .type    = filter_type::eq,
-    },
-    peq_props_000{
-        .freq    = 3723,
-        .reso    = 0.707,
-        .gain    = 0,
-        .enabled = true,
-        .type    = filter_type::lp,
-    },
-};
+        peq_props_000{
+            .freq    = 309,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::hp,
+        },
+        peq_props_000{
+            .freq    = 408,
+            .reso    = 0.707,
+            .gain    = 7.872,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 6727,
+            .reso    = 0.707,
+            .gain    = 17.472,
+            .enabled = true,
+            .type    = filter_type::eq,
+        },
+        peq_props_000{
+            .freq    = 3723,
+            .reso    = 0.707,
+            .gain    = 0,
+            .enabled = true,
+            .type    = filter_type::lp,
+        },
+    };
 
     chord_2_props = {
         .tuning            = 0,
@@ -223,10 +223,10 @@ patch_synth_t::patch_synth_t() {
         .pitch_adsr      = {10, 10, 0, 10},
         .amp_adsr        = {1633, 1825, 0.46, 1633},
         .cut_adsr        = {1345, 5555, 0.48095232, 3047},
-        .res_adsr        = {10, 1000, 0, 100},
+        .res_adsr        = {10, 8776, 0, 100},
         .cut             = 2897.6,
-        .res             = 1,
-        .cut_env_octaves = 4,
+        .res             = 2.03,
+        .cut_env_octaves = 0.53,
         .res_env_octaves = 0,
         .filter_type     = filter_type::lp};
 

@@ -2,11 +2,8 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "clover/math.hpp"
-
 #include "lib/fdn/fdn8_stereo_030.hpp"
 #include "patches.hpp"
-#include "sequence/notes.h"
 
 patch_drums_t::patch_drums_t() {
     // --------------------------------
@@ -145,9 +142,9 @@ patch_drums_t::patch_drums_t() {
         .stereo_spread_taps_octaves = 0.16,
         .taps    = {316.41885, 54.52403, 54.28738, 60.371044, 54.573303, 56.342487, 59.93622, 344.1866},
         .fb_gain = 0.92,
-        .lpf_cut = 403.10706,
+        .lpf_cut = 857.34686,
         .lpf_res = 0.707,
-        .hpf_cut = 72.14092,
+        .hpf_cut = 346.6356,
         .hpf_res = 0.707,
     };
 
