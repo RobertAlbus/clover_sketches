@@ -35,7 +35,7 @@ struct behaviours : public behaviour_base {
 
     patterns patterns;
     arrangement arrangement;
-    signal_graph graph{fs(), bpm};
+    signal_graph graph{fs(), bpm, grid};
     view view{project_name(), sequencers, graph, logger};
 
     float fs() override;

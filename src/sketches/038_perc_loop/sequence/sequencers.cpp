@@ -31,10 +31,12 @@ void sequencers::tick() {
 }
 
 void sequencers::play() {
+    on_play(0);
     is_playing = true;
 }
 
 void sequencers::play_from_bar(double start_bar) {
+    on_play(start_bar);
     double duration_bars            = grid.duration_bars;
     double duration_bars_in_samples = grid.bars_to_samples(duration_bars);
 
@@ -55,6 +57,7 @@ void sequencers::play_from_bar(double start_bar) {
 }
 
 void sequencers::stop() {
+    on_stop();
     frsq_arrangement_print.choke_all();
     for (auto& frsq_pair : frsq_pairs) {
         frsq_pair.sq->choke_all();

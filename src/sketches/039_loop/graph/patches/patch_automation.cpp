@@ -2,9 +2,10 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "lib/env_bp/env_bp_040.hpp"
 #include "patches.hpp"
 
-patch_automation_t::patch_automation_t(float fs, float bpm) {
+patch_automation_t::patch_automation_t(float fs, float bpm, bar_grid_029& grid) {
     // --------------------------------
     // SIDECHAIN
 
@@ -23,4 +24,18 @@ patch_automation_t::patch_automation_t(float fs, float bpm) {
                 {3.8, 1},
             },  // pumping
         }};
+
+    // --------------------------------
+    // AUTOMATION
+
+    hp_env_kick_hp = {
+        .pattern =
+            {
+                {0, 300},
+                {16, 100},
+                {16, 20},
+            },
+        .duration_abs = grid.duration_samples(),
+        .duration_rel = grid.duration_bars,
+    };
 }

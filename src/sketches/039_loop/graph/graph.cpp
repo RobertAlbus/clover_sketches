@@ -10,12 +10,21 @@
 #include "lib/audio_frame/audio_frame.hpp"
 #include "lib/audio_frame/audio_frame_math.hpp"
 #include "lib/fm/fm_037_update.hpp"
+#include "lib/sq/bar_grid_029.hpp"
 #include "lib/subtractive_synth/subtractive_synth_038.hpp"
 #include "lib/subtractive_synth/subtractive_synth_038_update.hpp"
 
 #include "graph.hpp"
 
-signal_graph::signal_graph(float fs, float bpm) : fs{fs}, bpm{bpm}, patch{fs, bpm} {
+void signal_graph::on_play(double start_bar) {
+    kick_hp_env.key_on_from(start_bar);
+}
+
+void signal_graph::on_stop() {
+    kick_hp_env.key_off();
+}
+
+signal_graph::signal_graph(float fs, float bpm, bar_grid_029& grid) : fs{fs}, bpm{bpm}, patch{fs, bpm, grid} {
     snare_body_impulse.oscs[1].waveform = clover::dsp::wave_noise;
     snare_body_impulse.oscs[2].waveform = clover::dsp::wave_noise;
     snare_body_impulse.oscs[3].waveform = clover::dsp::wave_noise;
@@ -46,6 +55,14 @@ std::pair<float, float> signal_graph::tick() {
     const float kick_duck_fast_60 = ((kick_duck_fast * 0.6f) + 0.4f);
 
     // ----------------
+    // AUTOMATION
+    //
+    //
+
+    float kick_hpf_freq = kick_hp_env.tick();
+    kick_hpf.m_coeffs   = clover::dsp::hpf(fs, kick_hpf_freq, 0.707);
+
+    // ----------------
     // KICK
     //
     //
@@ -65,6 +82,8 @@ std::pair<float, float> signal_graph::tick() {
     float_s kick_sum = kick_dry + kick_wet;
     kick_sum         = kick_out_peq.tick(kick_sum.to_pair());
     kick_sum         = audio_mixer.at("kick bus").tick(kick_sum);
+
+    kick_sum = kick_hpf.tick(kick_sum.L, kick_sum.R);
 
     // ----------------
     // SNARE

@@ -4,8 +4,10 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
+#include "clover/dsp/filter.hpp"
 #include "graph/instrument/ducker.hpp"
 #include "lib/cymbal/cymbal_038.hpp"
+#include "lib/env_bp/env_bp_040.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
 #include "lib/kick_drum/kick_drum_038.hpp"
@@ -14,6 +16,7 @@
 
 #include "graph/instrument/driver.hpp"
 
+#include "lib/sq/bar_grid_029.hpp"
 #include "lib/subtractive_synth/subtractive_synth_038.hpp"
 #include "patches/patches.hpp"
 
@@ -27,7 +30,14 @@ struct signal_graph {
     std::pair<float, float> tick();
 
     float gain_master = 0.5f;
-    signal_graph(float fs, float bpm);
+    signal_graph(float fs, float bpm, bar_grid_029& grid);
+
+    void on_play(double start_bar);
+    void on_stop();
+
+    // --------------------------------
+    // AUTOMATION
+    env_bp_040 kick_hp_env{patch.automation.hp_env_kick_hp};
 
     // --------------------------------
     // SIDECHAIN
@@ -41,6 +51,7 @@ struct signal_graph {
     peq_000 kick_preverb_peq{fs, patch.drums.kick_preverb_peq_props};
     fdn8_023 kick_verb{fs, patch.drums.kick_fdn_props};
     peq_000 kick_out_peq{fs, patch.drums.kick_peq_props};
+    clover::dsp::filter_2 kick_hpf{};
 
     // --------------------------------
     // SNARE
