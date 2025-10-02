@@ -14,6 +14,7 @@
 
 #include "graph/instrument/driver.hpp"
 
+#include "lib/sq/bar_grid_029.hpp"
 #include "lib/subtractive_synth/subtractive_synth_038.hpp"
 #include "patches/patches.hpp"
 
@@ -27,7 +28,14 @@ struct signal_graph {
     std::pair<float, float> tick();
 
     float gain_master = 0.5f;
-    signal_graph(float fs, float bpm);
+    signal_graph(float fs, float bpm, bar_grid_029& grid);
+
+    void on_play(double start_bar);
+    void on_stop();
+
+    // --------------------------------
+    // AUTOMATION
+    env_bp_040 kick_hp_env{patch.automation.hp_env_kick_hp};
 
     // --------------------------------
     // SIDECHAIN
@@ -42,6 +50,7 @@ struct signal_graph {
     fdn8_023 kick_verb{fs, patch.drums.kick_fdn_props};
     peq_000 kick_postverb_peq{fs, patch.drums.kick_postverb_peq_props};
     peq_000 kick_out_peq{fs, patch.drums.kick_peq_props};
+    filter_2 kick_hpf{};
 
     // --------------------------------
     // SNARE

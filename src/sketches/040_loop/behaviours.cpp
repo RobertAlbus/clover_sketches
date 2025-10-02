@@ -157,6 +157,8 @@ std::vector<frsq_pair> build_frsq_pairs(
 
 behaviours::behaviours() {
     sequencers.set_frsq_pairs(build_frsq_pairs(graph, grid, logger, patterns, arrangement));
+    sequencers.on_play = [&](double start_bar) { graph.on_play(start_bar); };
+    sequencers.on_stop = [&]() { graph.on_stop(); };
 }
 
 float behaviours::fs() {
