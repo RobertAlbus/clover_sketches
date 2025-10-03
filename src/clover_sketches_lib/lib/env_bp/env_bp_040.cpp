@@ -52,6 +52,7 @@ void env_bp_040::key_off() {
 float env_bp_040::tick() {
     auto next_point = curr_point + 1;
     if (next_point == props.pattern.end()) {
+        increment_time();
         return curr_point->value;
     }
 
