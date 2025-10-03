@@ -3,7 +3,7 @@
 // Licensed under the GPLv3. See LICENSE for details.
 
 #include <cmath>
-#include <print>
+#include <format>
 #include <stdexcept>
 
 #include "env_bp_040.hpp"
@@ -31,7 +31,6 @@ void env_bp_040::key_on() {
 }
 
 void env_bp_040::key_on_from(double from_time_relative) {
-    std::println("key_on_from: {}", from_time_relative);
     is_playing         = true;
     from_time_relative = std::fmod(from_time_relative, props.duration_rel);
     if (from_time_relative < 0)
@@ -58,7 +57,7 @@ float env_bp_040::tick() {
 
     double next_point_start_abs = (next_point->start / props.duration_rel) * props.duration_abs;
     while (int(current_time_abs) == int(next_point_start_abs)) {
-        // handles breakpoint update or a jump due to simultaneous events
+        // handles jumps, e.g. simultaneous events
         curr_point += 1;
         next_point = curr_point + 1;
 
@@ -70,9 +69,9 @@ float env_bp_040::tick() {
         next_point_start_abs = (next_point->start / props.duration_rel) * props.duration_abs;
     }
 
-    double curr_point_start_abs = (curr_point->start / props.duration_rel) * props.duration_abs;
-
-    // curr_segment_duration_abs is never zero because of the while loop
+    // curr_segment_duration_abs is never zero because
+    // simultaneous events were processed in the while loop above
+    double curr_point_start_abs      = (curr_point->start / props.duration_rel) * props.duration_abs;
     double curr_segment_duration_abs = next_point_start_abs - curr_point_start_abs;
 
     double curr_segment_progress_abs = current_time_abs - curr_point_start_abs;
@@ -87,8 +86,8 @@ void env_bp_040::increment_time() {
     if (is_playing) {
         current_time_abs += 1;
         if (current_time_abs >= props.duration_abs) {
-            current_time_abs = std::fmod(current_time_abs, props.duration_abs);
-            curr_point       = props.pattern.begin();
+            current_time_abs -= props.duration_abs;
+            curr_point = props.pattern.begin();
         }
     }
 }
