@@ -4,10 +4,8 @@
 // Copyright (C) 2025  Rob W. Albus
 // Licensed under the GPLv3. See LICENSE for details.
 
-#include "clover/dsp/filter.hpp"
 #include "graph/instrument/ducker.hpp"
 #include "lib/cymbal/cymbal_038.hpp"
-#include "lib/env_bp/env_bp_040.hpp"
 #include "lib/fdn/fdn8_023.hpp"
 #include "lib/fdn/fdn8_stereo_030.hpp"
 #include "lib/kick_drum/kick_drum_038.hpp"
@@ -50,8 +48,9 @@ struct signal_graph {
     kick_drum_038 kick{fs, patch.drums.kick_drum_props};
     peq_000 kick_preverb_peq{fs, patch.drums.kick_preverb_peq_props};
     fdn8_023 kick_verb{fs, patch.drums.kick_fdn_props};
+    peq_000 kick_postverb_peq{fs, patch.drums.kick_postverb_peq_props};
     peq_000 kick_out_peq{fs, patch.drums.kick_peq_props};
-    clover::dsp::filter_2 kick_hpf{};
+    filter_2 kick_hpf{};
 
     // --------------------------------
     // SNARE
@@ -60,9 +59,6 @@ struct signal_graph {
     fdn8_stereo_030 snare_body_resonator{fs, patch.drums.snare_body_resonator_props};
     driver snare_body_driver{patch.drums.snare_body_driver_props};
     peq_000 snare_body_eq{fs, patch.drums.snare_body_peq_props};
-
-    subtractive_synth_038 snare_noise{fs, patch.drums.snare_noise_props};
-    peq_000 snare_noise_eq{fs, patch.drums.snare_noise_peq_props};
 
     // --------------------------------
     // RIDE
@@ -89,19 +85,35 @@ struct signal_graph {
 
     fm_037 bass_fm{fs, patch.synth.bass_fm_props};
 
+    peq_000 bass_preverb_peq{fs, patch.synth.bass_preverb_peq_props};
+    fdn8_stereo_030 bass_verb{fs, patch.synth.bass_fdn_props};
+    peq_000 bass_postverb_peq{fs, patch.synth.bass_postverb_peq_props};
+    peq_000 bass_peq{fs, patch.synth.bass_peq_props};
+
     // --------------------------------
     // CHORD
 
-    std::array<subtractive_synth_038, 6> chord{
-        subtractive_synth_038{fs, patch.synth.chord_props},
-        subtractive_synth_038{fs, patch.synth.chord_props},
-        subtractive_synth_038{fs, patch.synth.chord_props},
-        subtractive_synth_038{fs, patch.synth.chord_props},
-        subtractive_synth_038{fs, patch.synth.chord_props},
-        subtractive_synth_038{fs, patch.synth.chord_props}};
+    std::array<subtractive_synth_038, 6> chord_1{
+        subtractive_synth_038{fs, patch.synth.chord_1_props},
+        subtractive_synth_038{fs, patch.synth.chord_1_props},
+        subtractive_synth_038{fs, patch.synth.chord_1_props},
+        subtractive_synth_038{fs, patch.synth.chord_1_props},
+        subtractive_synth_038{fs, patch.synth.chord_1_props},
+        subtractive_synth_038{fs, patch.synth.chord_1_props}};
 
-    fdn8_stereo_030 chord_verb{fs, patch.synth.chord_fdn_props};
-    peq_000 chord_peq{fs, patch.synth.chord_preverb_peq_props};
+    fdn8_stereo_030 chord_1_verb{fs, patch.synth.chord_1_fdn_props};
+    peq_000 chord_1_peq{fs, patch.synth.chord_1_peq_props};
+
+    std::array<subtractive_synth_038, 6> chord_2{
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props},
+        subtractive_synth_038{fs, patch.synth.chord_2_props}};
+
+    fdn8_stereo_030 chord_2_verb{fs, patch.synth.chord_2_fdn_props};
+    peq_000 chord_2_peq{fs, patch.synth.chord_2_peq_props};
 
     peq_000 main_eq{fs, patch.mix.main_peq_props};
 };

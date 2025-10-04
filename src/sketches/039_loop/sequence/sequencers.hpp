@@ -11,6 +11,7 @@
 
 #include "sequence/event.hpp"
 #include "sequence/patterns.hpp"
+#include <functional>
 #include <memory>
 
 struct frsq_pair {
@@ -31,6 +32,8 @@ struct sequencers {
     frsq_024<log_bus_000, event> frsq_arrangement_print;
 
     std::vector<frsq_pair> frsq_pairs;
+    std::function<void(double start_bar)> on_play = [](double start_bar) {};
+    std::function<void()> on_stop                 = []() {};
 
     void tick();
 

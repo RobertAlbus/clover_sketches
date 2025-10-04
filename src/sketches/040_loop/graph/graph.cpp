@@ -60,7 +60,7 @@ std::pair<float, float> signal_graph::tick() {
     //
 
     float kick_hpf_freq = kick_hp_env.tick();
-    kick_hpf.m_coeffs   = clover::dsp::hpf(fs, kick_hpf_freq, 0.707);
+    kick_hpf.m_coeffs   = hpf(fs, kick_hpf_freq, 0.707);
 
     // ----------------
     // KICK
