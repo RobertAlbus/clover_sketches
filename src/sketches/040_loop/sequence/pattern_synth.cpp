@@ -40,19 +40,18 @@ std::vector<pattern_t<event_midi>> patterns::create_pattern_chord_2() {
 std::vector<pattern_t<event_midi>> patterns::create_pattern_bass() {
     return {
         {.duration_bar = 1, .duration_rel = 4., .pattern = {}},
-        {.duration_bar = 0.75,
-         .duration_rel = 3.,
+        {.duration_bar = 1.0,
+         .duration_rel = 4.,
          .pattern =
              {
                  // clang-format off
-                 {.start_time = 1.5,  .duration = 0.25, .note = note::G2},
-                 {.start_time = 1.75, .duration = 0.25, .note = note::G2},
-                 {.start_time = 2.25, .duration = 0.25, .note = note::G2},
-                //  {.start_time = 3.5,  .duration = 0.25, .note = note::G2},
 
-                //  {.start_time = 4.5,  .duration = 0.25, .note = note::G2},
-                //  {.start_time = 5.75, .duration = 0.25, .note = note::G2},
-                //  {.start_time = 6.25, .duration = 0.25, .note = note::G2},
+
+
+
+                {.start_time = 0.25, .duration = 0.75, .note = note::F3},
+                {.start_time = 1.00, .duration = 0.50, .note = note::Gs2},
+                {.start_time = 3.50, .duration = 0.50, .note = note::C3},
 
                  // clang-format on
              }},

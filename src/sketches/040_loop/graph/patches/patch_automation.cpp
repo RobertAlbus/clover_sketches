@@ -35,7 +35,7 @@ patch_automation_t::patch_automation_t(float fs, float bpm, bar_grid_029& grid) 
                 {16, 100},
                 {16, 20},
             },
-        .duration_abs = grid.duration_samples(),
-        .duration_rel = grid.duration_bars,
+        .duration_abs = grid.duration_samples() * 2,
+        .duration_rel = grid.duration_bars * 2,
     };
 }

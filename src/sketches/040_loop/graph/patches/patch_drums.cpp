@@ -126,6 +126,7 @@ patch_drums_t::patch_drums_t() {
 
     // --------------------------------
     // SNARE
+
     snare_body_impulse_props = {
         .freqs            = {150, 404, 1533, 1751, 13456, 17500},
         .hpf_f0           = 20,
@@ -137,7 +138,6 @@ patch_drums_t::patch_drums_t() {
         .cut_adsr         = {1, 1, 0, 1},
     };
 
-    // original snare props
     snare_body_resonator_props = {
         .stereo_spread_taps_octaves = 0.16,
         .taps    = {316.41885, 54.52403, 54.28738, 60.371044, 54.573303, 56.342487, 59.93622, 344.1866},
@@ -147,18 +147,6 @@ patch_drums_t::patch_drums_t() {
         .hpf_cut = 346.6356,
         .hpf_res = 0.707,
     };
-
-    // wacked out snare props
-    // gets right messed if you take the taps here against the kick pattern with the pads muted
-    // snare_resonator_props = {
-    //         .stereo_spread_taps_octaves = 1,
-    //         .taps    = {414.81705, 278.1, 117.17493, 27.412, 24.742, 34096.543, 4150.826, 4384.0977},
-    //         .fb_gain = 0.968,
-    //         .lpf_cut = 546.06354,
-    //         .lpf_res = 0.707,
-    //         .hpf_cut = 59.447765,
-    //         .hpf_res = 0.707,
-    // };
 
     snare_body_driver_props = {
         .drive_input = 5.472,
@@ -260,7 +248,7 @@ patch_drums_t::patch_drums_t() {
         .drive_input = 5.488,
         .drive_clip  = 8,
         .clip_thresh = 0.04,
-        .trim        = 4.96,
+        .trim        = 1.344,
     };
 
     hh1_peq_props = {
@@ -295,64 +283,53 @@ patch_drums_t::patch_drums_t() {
     };
 
     hh2_props = {
-        .freqs            = {100, 150, 175, 225, 66.6, 0},
+        .freqs            = {100, 150, 175, 225, 66.6, 5536.9336},
         .hpf_f0           = 20,
         .hpf_fmod_octaves = 5.976,
         .hpf_Q            = 2.386,
-        .bpf_f0           = 5877.6,
+        .bpf_f0           = 3479.6,
         .bpf_Q            = 4.31,
-        .amp_adsr         = {50, 1000, 0, 1},
-        .cut_adsr         = {60, 1000, 0, 1},
+        .amp_adsr         = {770, 520, 0, 1},
+        .cut_adsr         = {660, 1000, 0, 1},
     };
 
     hh2_driver_props = {
-        .drive_input = 1.264,
-        .drive_clip  = 4.712,
-        .clip_thresh = 0.96,
-        .trim        = 4.112,
+        .drive_input = 4.368,
+        .drive_clip  = 4.52,
+        .clip_thresh = 0.496,
+        .trim        = 0.1,
     };
 
     hh2_peq_props = {
         peq_props_000{
-            .freq    = 249,
+            .freq    = 1380,
             .reso    = 0.707,
             .gain    = 0,
             .enabled = true,
             .type    = filter_type::hp,
         },
         peq_props_000{
-            .freq    = 1010,
+            .freq    = 1257,
             .reso    = 6.637,
-            .gain    = 10.176,
+            .gain    = 22.656,
             .enabled = true,
             .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 1471,
+            .freq    = 5972,
             .reso    = 6.633,
-            .gain    = 15.744,
+            .gain    = 24,
             .enabled = true,
             .type    = filter_type::eq,
         },
         peq_props_000{
-            .freq    = 2324,
-            .reso    = 7.592,
-            .gain    = 15.168,
+            .freq    = 9143,
+            .reso    = 2.756,
+            .gain    = 24,
             .enabled = true,
             .type    = filter_type::eq,
         },
     };
-
-    // hh3_props = {
-    //     .freqs            = {2009.6758, 10293.28, 5536.9336, 7529.0117, 17366.127, 20748.287},
-    //     .hpf_f0           = 1554.72,
-    //     .hpf_fmod_octaves = 5.976,
-    //     .hpf_Q            = 10,
-    //     .bpf_f0           = 7220.481,
-    //     .bpf_Q            = 10,
-    //     .amp_adsr         = {1, 1740, 0.08, 6361},
-    //     .cut_adsr         = {60, 204, 0, 11111},
-    // };
 
     hh3_props = {
         .freqs            = {7057.3027, 1794.6157, 1843.6337, 1914.5178, 2109.565, 2387.994},

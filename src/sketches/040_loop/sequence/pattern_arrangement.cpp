@@ -40,7 +40,7 @@ arrangement::arrangement() {
     };
     hh2 = {
         //
-        {.start_time = 0, .pattern_index = 1},
+        {.start_time = 0, .pattern_index = 2},
     };
     hh3 = {
         //

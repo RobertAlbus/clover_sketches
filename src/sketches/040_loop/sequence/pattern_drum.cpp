@@ -116,11 +116,21 @@ std::vector<pattern_t<event>> patterns::create_pattern_hh2() {
          .pattern =
              {
                  //
-                 {.start_time = 0.002, .duration = 0.1},
-                 {.start_time = 0.252, .duration = 0.1},
-                 {.start_time = 0.502, .duration = 0.1},
-                 {.start_time = 1.002, .duration = 0.1},
-                 {.start_time = 1.502, .duration = 0.1},
+                 {.start_time = 0.00 + 0.002, .duration = 0.1},
+                 {.start_time = 0.25 + 0.002, .duration = 0.1},
+                 {.start_time = 0.50 + 0.002, .duration = 0.1},
+
+                 {.start_time = 1 + 0.00 + 0.002, .duration = 0.1},
+                 {.start_time = 1 + 0.25 + 0.002, .duration = 0.1},
+                 {.start_time = 1 + 0.50 + 0.002, .duration = 0.1},
+
+                 {.start_time = 2 + 0.00 + 0.002, .duration = 0.1},
+                 {.start_time = 2 + 0.25 + 0.002, .duration = 0.1},
+                 {.start_time = 2 + 0.50 + 0.002, .duration = 0.1},
+
+                 {.start_time = 3 + 0.00 + 0.002, .duration = 0.1},
+                 {.start_time = 3 + 0.25 + 0.002, .duration = 0.1},
+                 {.start_time = 3 + 0.50 + 0.002, .duration = 0.1},
              }},
     };
 }
